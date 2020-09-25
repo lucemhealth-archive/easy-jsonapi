@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rack/jsonapi/version'
 require 'rack/jsonapi/parser'
 
@@ -22,10 +20,11 @@ module JSONAPI
     # @param env The rack envirornment hash
     def call(env)
       # Parse Request and Initiate Request Object
-      @jsonapi_request = JSONAPI::Parser.parse_request!(env)
+      # @jsonapi_request = JSONAPI::Parser.parse_request!(env)
+      @jsonapi_request = 'this is the request'
 
       # Sets @jsonapi_request as an instance variable in the rack app
-      @app.instance_variable_get(:@app).instance_variable_set('@jsonapi_request', @jsonapi_request)
+      # @app.instance_variable_get(:@app).instance_variable_set('@jsonapi_request', @jsonapi_request)
 
       @app.call(env)
     end

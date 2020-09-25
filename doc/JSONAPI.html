@@ -79,7 +79,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/rack/jsonapi.rb<span class="defines">,<br />
-  lib/rack/jsonapi/page.rb,<br /> lib/rack/jsonapi/param.rb,<br /> lib/rack/jsonapi/header.rb,<br /> lib/rack/jsonapi/parser.rb,<br /> lib/rack/jsonapi/request.rb,<br /> lib/rack/jsonapi/version.rb,<br /> lib/rack/jsonapi/document.rb,<br /> lib/rack/jsonapi/fieldset.rb,<br /> lib/rack/jsonapi/exceptions.rb</span>
+  lib/rack/jsonapi/params.rb,<br /> lib/rack/jsonapi/parser.rb,<br /> lib/rack/jsonapi/headers.rb,<br /> lib/rack/jsonapi/request.rb,<br /> lib/rack/jsonapi/version.rb,<br /> lib/rack/jsonapi/document.rb,<br /> lib/rack/jsonapi/exceptions.rb,<br /> lib/rack/jsonapi/field_sets.rb,<br /> lib/rack/jsonapi/pagination.rb,<br /> lib/rack/jsonapi/parser/parse_headers.rb,<br /> lib/rack/jsonapi/parser/parse_document.rb,<br /> lib/rack/jsonapi/parser/parse_query_string.rb</span>
 </dd>
   </dl>
   
@@ -88,7 +88,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>This module is the top level namespace for the curatess jsonapi middleware gem</p>
+<p>Document parsing logic</p>
 
 
   </div>
@@ -96,38 +96,13 @@
 <div class="tags">
   
 
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><a href="https://app.lucidchart.com/invitations/accept/e24c2cfe-78f1-4192-8e88-6dbc4454a5ea" target="_parent" title="UML Class Diagram of Middleware">UML Class Diagram of Middleware</a></li>
-    
-  </ul>
-<p class="tag_title">Author:</p>
-<ul class="author">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'>
-<p>Joshua DeMoss</p>
-</div>
-      
-    </li>
-  
-</ul>
-
 </div><h2>Defined Under Namespace</h2>
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSONAPI/Parser.html" title="JSONAPI::Parser (module)">Parser</a></span>
-    
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSONAPI/FieldSets.html" title="JSONAPI::FieldSets (class)">FieldSets</a></span>, <span class='object_link'><a href="JSONAPI/Headers.html" title="JSONAPI::Headers (class)">Headers</a></span>, <span class='object_link'><a href="JSONAPI/Middleware.html" title="JSONAPI::Middleware (class)">Middleware</a></span>, <span class='object_link'><a href="JSONAPI/Pages.html" title="JSONAPI::Pages (class)">Pages</a></span>, <span class='object_link'><a href="JSONAPI/Params.html" title="JSONAPI::Params (class)">Params</a></span>, <span class='object_link'><a href="JSONAPI/Request.html" title="JSONAPI::Request (class)">Request</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSONAPI/Document.html" title="JSONAPI::Document (class)">Document</a></span>, <span class='object_link'><a href="JSONAPI/FieldSets.html" title="JSONAPI::FieldSets (class)">FieldSets</a></span>, <span class='object_link'><a href="JSONAPI/Headers.html" title="JSONAPI::Headers (class)">Headers</a></span>, <span class='object_link'><a href="JSONAPI/Middleware.html" title="JSONAPI::Middleware (class)">Middleware</a></span>, <span class='object_link'><a href="JSONAPI/Pagination.html" title="JSONAPI::Pagination (class)">Pagination</a></span>, <span class='object_link'><a href="JSONAPI/Params.html" title="JSONAPI::Params (class)">Params</a></span>, <span class='object_link'><a href="JSONAPI/Request.html" title="JSONAPI::Request (class)">Request</a></span>
     
   
 </p>
@@ -159,7 +134,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 24 15:36:49 2020 by
+  Generated on Fri Sep 25 10:47:20 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="../../_index.html">Index (P)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Parser.html" title="JSONAPI::Parser (module)">Parser</a></span></span>
+    <span class='title'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'>Parser</span></span>
      &raquo; 
     <span class="title">ParseQueryString</span>
   
@@ -78,7 +78,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/parser.rb</dd>
+    <dd>lib/rack/jsonapi/parser/parse_query_string.rb</dd>
   </dl>
   
 </div>
@@ -112,7 +112,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse!-class_method" title="parse! (class method)">.<strong>parse!</strong>(env)  &#x21d2; JSONAPI::Params, ... </a>
+      <a href="#parse!-class_method" title="parse! (class method)">.<strong>parse!</strong>(query_string)  &#x21d2; JSONAPI::Params, ... </a>
     
 
     
@@ -126,9 +126,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The Params, Pagination, and FieldSets objects.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -167,7 +165,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="parse!-class_method">
   
-    .<strong>parse!</strong>(env)  &#x21d2; <tt><span class='object_link'><a href="../Params.html" title="JSONAPI::Params (class)">JSONAPI::Params</a></span></tt>, ... 
+    .<strong>parse!</strong>(query_string)  &#x21d2; <tt><span class='object_link'><a href="../Params.html" title="JSONAPI::Params (class)">JSONAPI::Params</a></span></tt>, ... 
   
 
   
@@ -176,8 +174,6 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The Params, Pagination, and FieldSets objects.</p>
-
 
   </div>
 </div>
@@ -187,16 +183,16 @@
   
     <li>
       
-        <span class='name'>env</span>
+        <span class='name'>query_string</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The rack envirornment hash.</p>
+<p>The query string of the request url</p>
 </div>
       
     </li>
@@ -209,14 +205,9 @@
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Params.html" title="JSONAPI::Params (class)">JSONAPI::Params</a></span></tt>, <tt>JSONAPI::Pagination</tt>, <tt><span class='object_link'><a href="../FieldSets.html" title="JSONAPI::FieldSets (class)">JSONAPI::FieldSets</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Params.html" title="JSONAPI::Params (class)">JSONAPI::Params</a></span></tt>, <tt><span class='object_link'><a href="../Pagination.html" title="JSONAPI::Pagination (class)">JSONAPI::Pagination</a></span></tt>, <tt><span class='object_link'><a href="../FieldSets.html" title="JSONAPI::FieldSets (class)">JSONAPI::FieldSets</a></span></tt>)</span>
       
       
-      
-        &mdash;
-        <div class='inline'>
-<p>The Params, Pagination, and FieldSets objects</p>
-</div>
       
     </li>
   
@@ -228,33 +219,33 @@
       <pre class="lines">
 
 
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40</pre>
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/parse_query_string.rb', line 15</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse!'>parse!</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
-  <span class='comment'># input: ?include=author&amp;fields[articles]=title,body
-</span>  <span class='id identifier rubyid_parsed_string'>parsed_string</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id identifier rubyid_arr'>arr</span> <span class='op'>=</span> <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>QUERY_STRING</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>&amp;|=</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse!'>parse!</span><span class='lparen'>(</span><span class='id identifier rubyid_query_string'>query_string</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_parsed_string'>parsed_string</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_arr'>arr</span> <span class='op'>=</span> <span class='id identifier rubyid_query_string'>query_string</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>&amp;|=</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+  
   <span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='int'>0</span>
   <span class='kw'>while</span> <span class='id identifier rubyid_i'>i</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_arr'>arr</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
     <span class='id identifier rubyid_parsed_string'>parsed_string</span><span class='lbracket'>[</span><span class='id identifier rubyid_arr'>arr</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_arr'>arr</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span> <span class='op'>+</span> <span class='int'>1</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_i'>i</span> <span class='op'>+=</span> <span class='int'>2</span>
   <span class='kw'>end</span>
-
+  
   <span class='comment'># parsed_string == {&quot;incluce&quot; =&gt; &quot;author&quot; ... }
 </span>  <span class='id identifier rubyid_parse_helper!'>parse_helper!</span><span class='lparen'>(</span><span class='id identifier rubyid_parsed_string'>parsed_string</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -307,6 +298,19 @@
       <pre class="lines">
 
 
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
 43
 44
 45
@@ -322,53 +326,38 @@
 55
 56
 57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72</pre>
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/parse_query_string.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_helper!'>parse_helper!</span><span class='lparen'>(</span><span class='id identifier rubyid_parsed_string'>parsed_string</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_param_arr'>param_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_pag_arr'>pag_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_field_arr'>field_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-
+  
   <span class='id identifier rubyid_parsed_string'>parsed_string</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='op'>|</span>
-    <span class='comment'># Check for page[arg] and store arg in p
+    <span class='comment'># Check for page[...] and store key in p
 </span>    <span class='id identifier rubyid_p'>p</span> <span class='op'>=</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>page\[(.*)\]</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
     <span class='kw'>unless</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_pag_arr'>pag_arr</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='rbracket'>]</span>
       <span class='kw'>next</span>
     <span class='kw'>end</span>
-
-    <span class='comment'># Check for fields[arg] and store arg in f
-</span>    <span class='id identifier rubyid_f'>f</span> <span class='op'>=</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>fields\[(.*)\]</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+    
+    <span class='id identifier rubyid_f'>f</span> <span class='op'>=</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>fields\[(.*)\]</span><span class='regexp_end'>/</span></span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
     <span class='kw'>unless</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_field_arr'>field_arr</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_f'>f</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='rbracket'>]</span>
       <span class='kw'>next</span>
     <span class='kw'>end</span>
-
+    
     <span class='id identifier rubyid_param_arr'>param_arr</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
-
-  <span class='comment'># Initialize Params, Pagination, and FieldSets classes
+  
+  <span class='comment'># Create Params, Pagination, and FieldSets objects
 </span>  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Params.html" title="JSONAPI::Params (class)">Params</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Params.html#initialize-instance_method" title="JSONAPI::Params#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_param_arr'>param_arr</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_pagination'>pagination</span> <span class='op'>=</span> <span class='const'>Pagination</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_pag_arr'>pag_arr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pagination'>pagination</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Pagination.html" title="JSONAPI::Pagination (class)">Pagination</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Pagination.html#initialize-instance_method" title="JSONAPI::Pagination#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_pag_arr'>pag_arr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_field_sets'>field_sets</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../FieldSets.html" title="JSONAPI::FieldSets (class)">FieldSets</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../FieldSets.html#initialize-instance_method" title="JSONAPI::FieldSets#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_field_arr'>field_arr</span><span class='rparen'>)</span>
-
+  
   <span class='lbracket'>[</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_pagination'>pagination</span><span class='comma'>,</span> <span class='id identifier rubyid_field_sets'>field_sets</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -381,7 +370,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Sep 24 15:36:49 2020 by
+  Generated on Fri Sep 25 10:47:20 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>
