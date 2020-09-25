@@ -45,7 +45,7 @@ module JSONAPI
     end
 
     # Converts the developer's input into a lowercase symbol to be used as a hash key
-    #   for Paginations's internal hash.
+    #   for Pagination's internal hash.
     # @param dev_input [Symbol | String] Whatever the developer uses as a param key.
     # @!visibility private
     def to_hash_key(dev_in)

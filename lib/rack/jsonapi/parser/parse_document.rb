@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
-class Document
-  TOP_LEVEL_KEY = %w[data included].freeze
-  RESOURCE_IDENTIFIER_KEYS = %w[id type].freeze
+require 'rack/jsonapi/document'
+
+# Document parsing logic
+module ParseDocument
+
+  TOP_LEVEL_KEY = %w[data included meta]
+  RESOURCE_IDENTIFIER_KEYS = %w[id type]
   # If Relationships present, data must be only member (see creating resource)
-  RELATIONSHIP_KEY = 'data'.freeze
+  RELATIONSHIP_KEY = 'data'
 
   # Validate the structure of a JSONAPI request document.
   #
-  # @param [Hash] document The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
+  # @param document [Hash] The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
   # @raise [JSONAPI::Parser::InvalidDocument] if document is invalid.
   def self.parse!(document)
     ensure!(document.is_a?(Hash),
