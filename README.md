@@ -1,40 +1,120 @@
-# Curmid
+<!--
+# @markup markdown
+# @title README
+-->
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/curmid`. To experiment with that code, run `bin/console` for an interactive prompt.
+# rack-jsonapi
 
-TODO: Delete this and the text above, and describe your gem
+A ruby middleware gem that intercepts http requests, validates [JSON API](http://jsonapi.org), and instantiates standardized jsonapi objects that provide developers fast and convenient access to request attributes.
+
+## Status
+
+<!-- [![Gem Version](https://badge.fury.io/rb/jsonapi-parser.svg)](https://badge.fury.io/rb/jsonapi-parser)
+[![Build Status](https://secure.travis-ci.org/jsonapi-rb/jsonapi-parser.svg?branch=master)](http://travis-ci.org/jsonapi-rb/parser?branch=master)
+[![codecov](https://codecov.io/gh/jsonapi-rb/jsonapi-parser/branch/master/graph/badge.svg)](https://codecov.io/gh/jsonapi-rb/parser)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/jsonapi-rb/Lobby) -->
+
+## Resources
+
+<!-- * Chat: [gitter](http://gitter.im/jsonapi-rb)
+* Twitter: [@jsonapirb](http://twitter.com/jsonapirb)
+* Docs: [jsonapi-rb.org](http://jsonapi-rb.org) -->
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
 ```ruby
-gem 'curmid'
+# Gemfile
+gem 'rack-jsonapi'
 ```
 
-And then execute:
+then
 
-    $ bundle install
+```ruby
+$ bundle
+Using rack-jsonapi
+```
 
-Or install it yourself as:
+or manually via
 
-    $ gem install curmid
+```ruby
+$ gem install rack-jsonapi
+Successfully installed rack-jsonapi-version#
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### First, require the gem
 
-## Development
+```ruby
+require 'rack/jsonapi'
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+### Then use the gem as a middleware
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+#### For Sintra
 
-## Contributing
+```ruby
+# app.rb
+use JSONAPI::Middleware
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/curmid. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/curmid/blob/master/CODE_OF_CONDUCT.md).
+#### For Rails
 
+Editing `config/environments/development.rb`.
 
-## Code of Conduct
+```ruby
+# config/environments/development.rb
 
-Everyone interacting in the Curmid project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/curmid/blob/master/CODE_OF_CONDUCT.md).
+MyApp::Application.configure do
+  # Add JSONAPI::Middleware to the bottom of the middleware stack
+  config.middleware.insert_after ActionDispatch::Static, JSONAPI::Middleware
+
+  # or, if you're using better_errors:
+  config.middleware.insert_before Rack::Lock, JSONAPI::Middleware
+
+  # ...
+end
+```
+
+#### For Rack Apps
+
+```ruby
+# config.ru
+use JSONAPI::Middleware
+```
+
+### Then, use your new instance variable
+
+With the gem required and added as a middleware, your rack, sinatra, or rails application will have available a new instance variable: `@jsonapi_request`.
+
+`@jsonapi_request` references a JSONAPI::Request object and through this object, all other parts of the request can be accessed as well.
+
+Use this object to quickly access parts of the jsonapi conforming request.
+
+```ruby
+@jsonapi_request.instance_variables
+# [:@path, :@protocol, :@host, :@port, :@params, :@pagination, :@field_sets, :@headers, :@document]
+
+@jsonapi_request.headers.get(:content_type)
+# "application/vnd.api+json"
+
+@jsonapi_request.params.view_all
+# params:
+#   include = authors, comments
+#   sort = alpha
+#   filter = usa
+```
+
+See the Api Documentation for all included methods:
+
+## License
+
+rack-jsonapi is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+
+<!-- ## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rack-jsonapi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md). -->
+
+<!-- ## Code of Conduct
+
+Everyone interacting in the rack-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md). -->

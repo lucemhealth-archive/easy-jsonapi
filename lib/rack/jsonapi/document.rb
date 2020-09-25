@@ -1,13 +1,12 @@
-require 'jsonapi/exceptions'
+require 'rack/jsonapi/exceptions'
 
 module JSONAPI
   module Parser
     class Document
-
-      TOP_LEVEL_KEY = %w(data included).freeze
-      RESOURCE_IDENTIFIER_KEYS = %w(id type).freeze
+      TOP_LEVEL_KEY = %w[data included].freeze
+      RESOURCE_IDENTIFIER_KEYS = %w[id type].freeze
       # If Relationships present, data must be only member (see creating resource)
-      RELATIONSHIP_KEY = "data".freeze
+      RELATIONSHIP_KEY = 'data'.freeze
 
       # Validate the structure of a JSONAPI request document.
       #
@@ -19,7 +18,7 @@ module JSONAPI
                 'and response containing data.')
         ensure!(!(document.keys & TOP_LEVEL_KEY).empty?,
                 "A document MUST contain #{TOP_LEVEL_KEY} and only #{TOP_LEVEL_KEY} "\
-                " as a top level member.")
+                ' as a top level member.')
         ensure!(document.key?('data') || !document.key?('included'),
                 'If a document does not contain a top-level data key, the ' \
                 'included member MUST NOT be present either.')
@@ -28,7 +27,6 @@ module JSONAPI
         parse_included!(document['included']) if document.key?('included')
       end
 
-      
       # @api private
       # Parse as [] or single resource
       def self.parse_data!(data)
@@ -39,12 +37,12 @@ module JSONAPI
         elsif data.nil?
           # Do nothing
         else
-        ensure!(false,
-          'Primary data must be either nil, an object or an array.')
+          ensure!(false,
+                  'Primary data must be either nil, an object or an array.')
         end
       end
       # ______________________________________________________
-      
+
       # @api private
       def self.parse_resource!(res)
         ensure!(res.is_a?(Hash), 'A resource object must be an object.')
@@ -106,7 +104,7 @@ module JSONAPI
       # @api private
       def self.parse_included!(included)
         ensure!(included.is_a?(Array),
-              'Top level included member must be an array.')
+                'Top level included member must be an array.')
         included.each { |res| parse_resource!(res) }
       end
 

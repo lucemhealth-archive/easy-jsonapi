@@ -1,13 +1,38 @@
 PATH
   remote: .
   specs:
-    curmid (0.1.0)
+    rack-jsonapi (0.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    ast (2.4.1)
+    backport (1.1.2)
+    benchmark (0.1.0)
     diff-lcs (1.4.4)
-    rake (12.3.3)
+    e2mmap (0.1.0)
+    jaro_winkler (1.5.4)
+    maruku (0.7.3)
+    mini_portile2 (2.4.0)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    nokogiri (1.10.10)
+      mini_portile2 (~> 2.4.0)
+    parallel (1.19.2)
+    parser (2.7.1.5)
+      ast (~> 2.4.1)
+    rack (2.2.3)
+    rack-protection (2.1.0)
+      rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
+    rainbow (3.0.0)
+    rake (13.0.1)
+    redcarpet (3.5.0)
+    regexp_parser (1.8.0)
+    reverse_markdown (2.0.0)
+      nokogiri
+    rexml (3.2.4)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -21,14 +46,56 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.3)
+    rubocop (0.91.1)
+      parallel (~> 1.10)
+      parser (>= 2.7.1.1)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.7)
+      rexml
+      rubocop-ast (>= 0.4.0, < 1.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 2.0)
+    rubocop-ast (0.5.0)
+      parser (>= 2.7.1.5)
+    ruby-progressbar (1.10.1)
+    ruby2_keywords (0.0.2)
+    sinatra (2.1.0)
+      mustermann (~> 1.0)
+      rack (~> 2.2)
+      rack-protection (= 2.1.0)
+      tilt (~> 2.0)
+    solargraph (0.39.15)
+      backport (~> 1.1)
+      benchmark
+      bundler (>= 1.17.2)
+      e2mmap
+      jaro_winkler (~> 1.5)
+      maruku (~> 0.7, >= 0.7.3)
+      nokogiri (~> 1.9, >= 1.9.1)
+      parser (~> 2.3)
+      reverse_markdown (>= 1.0.5, < 3)
+      rubocop (~> 0.52)
+      thor (~> 1.0)
+      tilt (~> 2.0)
+      yard (~> 0.9, >= 0.9.24)
+    thor (1.0.1)
+    tilt (2.0.10)
+    unicode-display_width (1.7.0)
+    yard (0.9.25)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  curmid!
-  rake (~> 12.0)
-  rspec (~> 3.0)
+  rack-jsonapi!
+  rack-test (~> 1.1)
+  rake (~> 13.0)
+  redcarpet
+  rspec (~> 3.9)
+  rubocop
+  sinatra
+  solargraph
+  yard (~> 0.9.25)
 
 BUNDLED WITH
-   2.1.2
+   2.1.4
