@@ -5,10 +5,12 @@ require 'rack/jsonapi/document'
 # Document parsing logic
 module JSONAPI
   module Parser
+
+    # Document Parsing Logic
     module ParseDocument
 
-      TOP_LEVEL_KEY = %w[data included meta]
-      RESOURCE_IDENTIFIER_KEYS = %w[id type]
+      TOP_LEVEL_KEY = %w[data included meta].freeze
+      RESOURCE_IDENTIFIER_KEYS = %w[id type].freeze
       # If Relationships present, data must be only member (see creating resource)
       RELATIONSHIP_KEY = 'data'
 
@@ -67,7 +69,7 @@ module JSONAPI
       def self.parse_relationships!(rels)
         ensure!(rels.is_a?(Hash),
                 'The value of the relationships key MUST be an object')
-        rels.values.each { |rel| parse_relationship!(rel) }
+        rels.each_value { |rel| parse_relationship!(rel) }
       end
 
       # @api private
@@ -96,14 +98,14 @@ module JSONAPI
       end
 
       # @api private
-      def self.parse_resource_id!(ri)
-        ensure!(ri.is_a?(Hash),
+      def self.parse_resource_id!(res)
+        ensure!(res.is_a?(Hash),
                 'A resource identifier object must be an object')
-        ensure!(RESOURCE_IDENTIFIER_KEYS & ri.keys == RESOURCE_IDENTIFIER_KEYS,
+        ensure!(RESOURCE_IDENTIFIER_KEYS & res.keys == RESOURCE_IDENTIFIER_KEYS,
                 'A resource identifier object MUST contain ' \
                 "#{RESOURCE_IDENTIFIER_KEYS} members.")
-        ensure!(ri['id'].is_a?(String), 'Member id must be a string.')
-        ensure!(ri['type'].is_a?(String), 'Member type must be a string.')
+        ensure!(res['id'].is_a?(String), 'Member id must be a string.')
+        ensure!(res['type'].is_a?(String), 'Member type must be a string.')
       end
 
       # @api private

@@ -13,15 +13,9 @@ module JSONAPI
     
     # @return [JSONAPI::Request] the instantiated jsonapi request object
     def self.parse_request!(env)
-      # params, pagination, field_sets = ParseQueryString.parse!(env['QUERY_STRING'])
-      # headers = ParseHeaders.parse!(env)
-      # document = ParseDocument.parse!("WTF")
-      # document = ParseDocument.parse!(env.body.read)
-      params = 'params'
-      pagination = 'pag'
-      field_sets = 'field'
-      headers = 'headers'
-      document = 'document'
+      params, pagination, field_sets = ParseQueryString.parse!(env['QUERY_STRING'])
+      headers = ParseHeaders.parse!(env)
+      document = ParseDocument.parse!(env.body.read)
       Request.new(env, params, pagination, field_sets, headers, document)
     end
   end

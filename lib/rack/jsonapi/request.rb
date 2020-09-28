@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 module JSONAPI
+
+  # Contains all objects relating to a HTTP request
   class Request
     attr_accessor :path, :protocol, :host, :port, :params,
                   :pagination, :headers, :method, :document, :field_sets
