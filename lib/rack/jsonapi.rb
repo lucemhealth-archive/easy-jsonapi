@@ -22,10 +22,17 @@ module JSONAPI
     # @param env The rack envirornment hash
     def call(env)
       # # Parse Request and Initiate Request Object
-      @jsonapi_request = JSONAPI::Parser.parse_request!(env)
+      # @jsonapi_request = JSONAPI::Parser.parse_request!(env)
+      @jsonapi_request = 'this is the request'
 
       cur = @app
-      cur.instance_variable_get(:@app).instance_variable_set('@jsonapi_request', @jsonapi_request)
+      is_a_rack_app = true
+      while (is_a_rack_app)
+        cur = cur.instance_variable_get(:@app)
+        # is_a_rack_app = CHECKING IF CUR IS A MIDDLEWARE
+      end
+
+      cur.instance_variable_set('@jsonapi_request', @jsonapi_request)
 
       @app.call(env)
     end
