@@ -7,12 +7,22 @@ module JSONAPI
 
   # Contains all request or response headers
   class Headers
+    include Enumerable
+
     def initialize(headers = [])
       @headers = {}
       headers.each do |p|
         k = to_hash_key(p[0])
         @headers[k] = Header.new(p[0], p[1])
       end
+    end
+
+    # @param key [Symbol | String] The header key
+    # @param val [String] The header value.
+    # @returns [Headers] The headers object with another internal header added to it.
+    def <<(key, val)
+      k = to_hash_key(key)
+      @headers[k] = Header.new(key, val)
     end
 
     # @param key [Symbol | String] The header key
@@ -35,7 +45,7 @@ module JSONAPI
     # @return val [String] The appropriate header's value
     def get(key)
       k = to_hash_key(key)
-      @headers[k].val
+      @headers[k]
     end
 
     # @param (see #add)
@@ -49,13 +59,7 @@ module JSONAPI
     # @param dev_input [Symbol | String] Whatever the developer uses as a header key.
     # @!visibility private
     def to_hash_key(dev_in)
-      case dev_in
-      when String
-        k = dev_in.downcase.to_sym
-      when Symbol
-        k = dev_in.to_s.downcase.to_sym
-      end
-      k
+      dev_in.to_s.downcase.to_sym
     end
 
     # Allows the developer to treat the Headers class as a hash, retrieving all header keys.
@@ -78,6 +82,10 @@ module JSONAPI
       def initialize(key, val)
         @key = key
         @val = val
+      end
+
+      def to_s
+
       end
     end
   end
