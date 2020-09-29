@@ -3,7 +3,7 @@
 module JSONAPI
 
   # Makes Param class private
-  private_constant :Param
+  # private_constant :Param
 
   # Contains all request or response params
   class Params
@@ -49,7 +49,7 @@ module JSONAPI
     # @param dev_input [Symbol | String] Whatever the developer uses as a param key.
     # @!visibility private
     def to_hash_key(dev_in)
-      case type
+      case dev_in
       when String
         k = dev_in.downcase.to_sym
       when Symbol
@@ -61,7 +61,13 @@ module JSONAPI
     # Allows the developer to treat the Params class as a hash, retrieving all param keys.
     # @return [Array<String>] An array of all the param keys stored in the Params object.
     def keys
-      @params.map(&:val)
+      @params.keys
+    end
+
+    # Used to view internal data
+    # @return An array containing all the pairings.
+    def show_all
+      @params.map { |_, c| { c.key => c.val } }
     end
 
     # Models a Param's key -> value relationship

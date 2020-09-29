@@ -3,7 +3,7 @@
 module JSONAPI
 
   # Makes Page class private
-  private_constant :Page
+  # private_constant :Page
 
   # Contains all request pagination
   class Pagination
@@ -49,7 +49,7 @@ module JSONAPI
     # @param dev_input [Symbol | String] Whatever the developer uses as a param key.
     # @!visibility private
     def to_hash_key(dev_in)
-      case type
+      case dev_in
       when String
         k = dev_in.downcase.to_sym
       when Symbol
@@ -61,7 +61,13 @@ module JSONAPI
     # Allows the developer to treat the Pagination class as a hash, retrieving all param keys.
     # @return [Array<String>] An array of all the param keys stored in the Pagination object.
     def keys
-      @pagination.map(&:val)
+      @pagination.keys
+    end
+
+    # Used to view internal data
+    # @return An array containing all the pairings.
+    def show_all
+      @pagination.map { |_, c| { c.key => c.val } }
     end
 
     # Models a Page's key -> value relationship

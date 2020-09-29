@@ -13,7 +13,7 @@ group :development do
   # Testing sinatra apps
   gem 'rack-test', '~> 1.1'
 
-  # yard for docs, redcarpet for allowing ``` in markup
+  # yard for docs, redcarpet for allowing ``` in markup in the README.md
   gem 'redcarpet'
   gem 'yard', '~> 0.9.25'
 
@@ -22,7 +22,4 @@ group :development do
 
   # Lint Tool
   gem 'rubocop'
-
-  # used for test app
-  gem 'sinatra'
 end

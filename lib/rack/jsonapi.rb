@@ -21,11 +21,11 @@ module JSONAPI
 
     # @param env The rack envirornment hash
     def call(env)
-      # Parse Request and Initiate Request Object
+      # # Parse Request and Initiate Request Object
       @jsonapi_request = JSONAPI::Parser.parse_request!(env)
 
-      # Sets @jsonapi_request as an instance variable in the rack app
-      @app.instance_variable_get(:@app).instance_variable_set('@jsonapi_request', @jsonapi_request)
+      cur = @app
+      cur.instance_variable_get(:@app).instance_variable_set('@jsonapi_request', @jsonapi_request)
 
       @app.call(env)
     end

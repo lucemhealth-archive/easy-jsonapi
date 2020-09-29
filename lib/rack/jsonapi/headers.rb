@@ -3,7 +3,7 @@
 module JSONAPI
 
   # Makes the Header class private
-  private_constant :Header
+  # private_constant :Header
 
   # Contains all request or response headers
   class Headers
@@ -49,7 +49,7 @@ module JSONAPI
     # @param dev_input [Symbol | String] Whatever the developer uses as a header key.
     # @!visibility private
     def to_hash_key(dev_in)
-      case type
+      case dev_in
       when String
         k = dev_in.downcase.to_sym
       when Symbol
@@ -61,13 +61,19 @@ module JSONAPI
     # Allows the developer to treat the Headers class as a hash, retrieving all header keys.
     # @return [Array<String>] An array of all the header keys stored in the Headers object.
     def keys
-      @headers.map(&:val)
+      @headers.keys
+    end
+
+    # Used to view internal data
+    # @return An array containing all the pairings.
+    def show_all
+      @headers.map { |_, c| { c.key => c.val } }
     end
 
     # Models a Header's key -> value relationship
     # @!visibility private
     class Header
-      # attr_accessor :key, :val
+      attr_accessor :key, :val
 
       def initialize(key, val)
         @key = key

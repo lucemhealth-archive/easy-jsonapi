@@ -3,7 +3,7 @@
 module JSONAPI
 
   # Makes FieldSet class private
-  private_constant :FieldSet
+  # private_constant :FieldSet
 
   # Contains all request field_sets
   class FieldSets
@@ -49,7 +49,7 @@ module JSONAPI
     # @param dev_input [Symbol | String] Whatever the developer uses as a param key.
     # @!visibility private
     def to_hash_key(dev_in)
-      case type
+      case dev_in
       when String
         k = dev_in.downcase.to_sym
       when Symbol
@@ -61,7 +61,13 @@ module JSONAPI
     # Allows the developer to treat the FieldSets class as a hash, retrieving all param keys.
     # @return [Array<String>] An array of all the param keys stored in the FieldSets object.
     def keys
-      @field_sets.map(&:val)
+      @field_sets.keys
+    end
+
+    # Used to view internal data
+    # @return An array containing all the pairings.
+    def show_all
+      @field_sets.map { |_, c| { c.key => c.val } }
     end
 
     # Models a FieldSet's key -> value relationship

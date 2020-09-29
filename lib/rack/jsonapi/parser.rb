@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/parse/parse_headers'
+require 'rack/jsonapi/parser/parse_headers'
 require 'rack/jsonapi/parser/parse_query_string'
-require 'rack/jsonapi/parser/document'
+require 'rack/jsonapi/parser/parse_document'
 require 'rack/jsonapi/request'
 
 module JSONAPI
@@ -15,7 +15,7 @@ module JSONAPI
     def self.parse_request!(env)
       params, pagination, field_sets = ParseQueryString.parse!(env['QUERY_STRING'])
       headers = ParseHeaders.parse!(env)
-      document = ParseDocument.parse!(env.body.read)
+      document = ParseDocument.parse!(env['rack.input'].read)
       Request.new(env, params, pagination, field_sets, headers, document)
     end
   end
