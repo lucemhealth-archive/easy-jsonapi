@@ -18,16 +18,30 @@ module JSONAPI
     def initialize(app)
       @app = app
     end
-
+    
     # @param env The rack envirornment hash
     def call(env)
-      # # Parse Request and Initiate Request Object
-      @jsonapi_request = JSONAPI::Parser.parse_request!(env)
+      # Parse Request and Initiate Request Object
+      jsonapi_request = JSONAPI::Parser.parse_request!(env)
+      application = find_application_class(@app, @app)
 
-      cur = @app
-      cur.instance_variable_get(:@app).instance_variable_set('@jsonapi_request', @jsonapi_request)
+      application.send(:define_method, 'jsonapi_request') do
+        instance_variable_set('@jsonapi_request', jsonapi_request)
+        @jsonapi_request
+      end
 
       @app.call(env)
+    end
+
+    # Used to locate the rack application (sinatra or rails included) that
+    #   that call sends an instance variable too
+    # @param current The current middleware or rack app that is being referenced
+    # @param last The previous middleware referenced.
+    # @todo Raise an error if current.class == NilClass and current.class == last.class
+    def find_application_class(current, last)
+      return last.class if current.class == NilClass
+      return current.class unless current.instance_variables.include? :@app
+      find_application_class(current.instance_variable_get(:@app), current)
     end
   end
 end
