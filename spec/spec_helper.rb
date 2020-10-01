@@ -16,4 +16,7 @@ RSpec.configure do |config|
 
   # Allows all spec files to access Rack::Test
   config.include Rack::Test::Methods
+
+  # Allows you to call describe without calling RSpec.describe
+  config.expose_dsl_globally = true
 end

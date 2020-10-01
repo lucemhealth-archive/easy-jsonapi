@@ -5,7 +5,7 @@ module JSONAPI
   # Contains all objects relating to a HTTP request
   class Request
     attr_accessor :path, :protocol, :host, :port, :params, :query_string,
-                  :pagination, :headers, :method, :document, :field_sets
+                  :pagination, :method, :document, :field_sets, :headers
 
     # @param env The rack envirornment hash
     # @param params [Params] The already initialized Params class
@@ -25,5 +25,9 @@ module JSONAPI
       @headers = headers
       @document = document
     end
+
+    # def headers
+    #   @headers.each
+    # end
   end
 end
