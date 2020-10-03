@@ -33,6 +33,11 @@ module JSONAPI
       @app.call(env)
     end
 
+    def jsaonapi_request?(env)
+      m = env['HTTP_ACCEPT'].match(%r{application/vnd.*\.api\+json})
+      !m.nil?
+    end
+
     # Used to locate the rack application (sinatra or rails included) that
     #   that call sends an instance variable too
     # @param current The current middleware or rack app that is being referenced
