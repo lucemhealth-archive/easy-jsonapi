@@ -29,8 +29,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Added Gems
-  # spec.add_development_dependency 'rake', '~> 13.0'
-  # spec.add_development_dependency 'rspec', '~> 3.9'
+  spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'rspec', '~> 3.9'
+  spec.add_development_dependency 'redcarpet'
+  spec.add_development_dependency 'yard', '~> 0.9'
+  spec.add_development_dependency 'solargraph'
+  spec.add_development_dependency 'rubocop'
+
 
   spec.license = 'MIT'
 end
