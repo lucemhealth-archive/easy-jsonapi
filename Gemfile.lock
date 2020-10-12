@@ -19,6 +19,7 @@ GEM
     parallel (1.19.2)
     parser (2.7.1.5)
       ast (~> 2.4.1)
+    rack (2.2.3)
     rainbow (3.0.0)
     rake (13.0.1)
     redcarpet (3.5.0)
@@ -74,12 +75,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  rack (~> 2.2)
   rack-jsonapi!
   rake (~> 13.0)
-  redcarpet
+  redcarpet (~> 3.5)
   rspec (~> 3.9)
-  rubocop
-  solargraph
+  rubocop (= 0.92)
+  solargraph (~> 0.39)
   yard (~> 0.9)
 
 BUNDLED WITH

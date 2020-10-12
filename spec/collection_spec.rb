@@ -1,212 +1,186 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/collection'
+require 'rack/jsonapi/item'
 
 describe JSONAPI::Collection do
   
-  let(:arr_of_objs) do
-    
-  end
-
   before do
-    # arr_of_objs = [
-    #   { key: 'include', val: 'authors,comments,likes' },
-    #   { key: 'lebron', val: 'james' },
-    #   { key: 'charles', val: 'barkley' },
-    #   { key: 'michael', val: 'jordan,jackson' },
-    #   { key: 'kobe', val: 'bryant' }
-    # ]
+    obj_arr = [
+      { name: 'include', value: 'author,comments,likes' },
+      { name: 'lebron', value: 'james' },
+      { name: 'charles', value: 'barkley' },
+      { name: 'michael', value: 'jordan,jackson' },
+      { name: 'kobe', value: 'bryant' }
+    ]
 
-    # @collection = JSONAPI::Collection.new
-    # arr_of_objs.each do |obj|
-    #   cur_item = JSONAPI::Collection::Item.new(obj)
-    #   @collection.add(cur_item) { |item| item[:key] }
-    # end
-    
+    @item_arr = obj_arr.map { |i| JSONAPI::Item.new(i) }
   end
 
-  let(:c) { @collection }
+  # Indicates how to get the hash for #add method
+  let(:name) { proc { |obj| obj.name } }
 
-  let(:key) { proc { |obj| obj.key } }
+  # Our main collection to test
+  let(:c) { JSONAPI::Collection.new(@item_arr, &name) }
+
+  # empty collection
+  let(:ec) { JSONAPI::Collection.new }
   
   describe '#initialize' do
-    # let(:temp) { JSONAPI::Collection.new }
 
-    it 'should work' do
-      
-      # Item 1
-      obj = { 'articles' => 'title,body,author', 'people' => 'name' }
-      i1 = JSONAPI::Collection::Item.new(obj)
-      puts ' '
-      pp i1.instance_variables
-      pp JSONAPI::Collection::Item.instance_methods(false) 
-      pp i1.articles
-      puts ' '
-      
-      # Item 2
-      obj2 = { 'offset' => '1', 'limit' => ' 1' }
-      i2 = JSONAPI::Collection::Item.new(obj2)
-      pp i2.instance_variables
-      pp JSONAPI::Collection::Item.instance_methods(false) 
-      pp i2.limit
-      puts ' '
-      
-      # Item 1 calling a item 2 method
-      pp i1.limit
-
-      # Changing value of offset
-      i2.offset = 2
-      pp i2.offset
-      i2.coll
-
+    it 'should be empty if given no arguments' do
+      expect(ec.empty?).to eq true
     end
 
-    # it 'should be empty if given no arguments' do
-    #   expect(temp.empty?).to eq true
-    # end
+    it 'should not be empty if given an argument' do
+      expect(c.empty?).to eq false
+    end
   end
 
-  # describe '#insert' do
-  #   it 'should raise an error if the input key is already in use' do
-  #     expect(c.collection.include?(:test)).to be false
-  #     c.add(JSONAPI::Collection::Item.new(:test, 'ing'), &:key)
-  #     expect(c.collection.include?(:test)).to be true
-  #     expect { c.insert(:test, 'ing') }.to raise_error 'Item already included. Remove existing item first.'
-  #   end
-  # end
+  describe 'empty?' do
+    it 'should return true for a collection that was initialized without parameters' do
+      expect(ec.empty?).to be true
+    end
+  end
+
+  describe '#include?' do
+
+    it 'should state whether a given Item is in Collection' do
+      expect(c.include?(:include)).to be true
+      expect(c.include?(:test)).to be false
+    end
+
+    it 'should be case insensitive for checking the name' do
+      expect(ec.include?('include')).to be false
+      expect(ec.include?(:include)).to be false
+      expect(ec.include?('InClUde')).to be false
+      item = JSONAPI::Item.new({ name: 'include', value: 'all' })
+      ec.add(item, &name)
+      expect(ec.include?('include')).to be true
+      expect(ec.include?(:include)).to be true
+      expect(ec.include?('InClUde')).to be true
+    end
+  end
+
+  describe '#insert' do
+    it 'should raise an error if the input name is already in use' do
+      expect(c.collection.include?(:include)).to be true
+      expect { c.insert(:include, 'new_include') }.to raise_error 'Item already included. Remove existing item first.'
+    end
+  end
   
-  # describe '#add' do
-  #   let(:temp) { JSONAPI::Collection.new }
+  describe '#add' do
 
-  #   it 'should make #empty? return false' do
-  #     expect(temp.empty?).to be true
-  #     temp.add(JSONAPI::Collection::Item.new({test: 'ing'}), &:key)
-  #     expect(temp.empty?).to be false
-  #   end
+    it 'should make #empty? return false' do
+      expect(ec.empty?).to be true
+      item = JSONAPI::Item.new({ name: 'test', value: 'ing' })
+      ec.add(item, &name)
+      expect(ec.empty?).to be false
+    end
 
-  #   it 'should add items to the collection' do
-  #     expect(temp.empty?).to be true
-  #     temp.add(JSONAPI::Collection::Item.new('test', 'ing'), &:key)
-  #     expect(temp.collection.include?(:test)).to be true
-  #   end
-  # end
+    it 'should add items to the collection' do
+      expect(ec.empty?).to be true
+      item = JSONAPI::Item.new({ name: 'test', value: 'ing' })
+      ec.add(item, &name)
+      expect(ec.collection.include?(:test)).to be true
+    end
+  end
 
-  # describe '#each' do
+  describe '#each' do
 
-  #   context 'c should respond to enumerable methods' do
+    context 'collection should respond to enumerable methods' do
       
-  #     it 'should respond to #first' do
-  #       expect(c.respond_to?(:first)).to eq true
-  #     end
+      it 'should respond to #first' do
+        expect(c.respond_to?(:first)).to eq true
+      end
 
-  #     it 'should respond to #filter' do
-  #       expect(c.respond_to?(:filter)).to eq true
-  #     end
+      it 'should respond to #filter' do
+        expect(c.respond_to?(:filter)).to eq true
+      end
 
-  #     it 'should return an Enumerator when no block is passed' do
-  #       expect(c.each.class).to eq Enumerator
-  #     end
+      it 'should return an Enumerator when no block is passed' do
+        expect(c.each.class).to eq Enumerator
+      end
 
-  #     it 'should be iterating over Item objects' do
-  #       checker = true
-  #       c.each do |item| 
-  #         cur_class = item.class
-  #         pp cur_class
-  #         checker = ((cur_class == JSONAPI::Collection::Item) && checker)
-  #       end
-  #       expect(checker).to eq true
-  #     end
-  #   end
-  # end
+      it 'should be iterating over Item objects' do
+        checker = true
+        c.each do |item| 
+          cur_class = item.class
+          checker = ((cur_class == JSONAPI::Item) && checker)
+        end
+        expect(checker).to eq true
+      end
+    end
+  end
 
-  # # #add
+  describe '#remove' do
+    it 'should return nil if the key is not in the collection' do
+      expect(ec.include?('include')).to be false
+      expect(ec.remove('include')).to eq nil
+    end
 
-  # # #<<
+    it 'should remove items from the collection' do
+      expect(c.include?('include')).to be true
+      item = c.remove('include')
+      expect(c.include?('include')).to be false
+      expect(item.name).to eq 'include'
+      expect(item.class).to eq JSONAPI::Item
+    end
+  end
 
-  # describe '#include?' do
-  #   let(:c) { JSONAPI::Collection.new(arr_of_objs) }
-
-  #   it 'should state whether a given Item is in Collection' do
-  #     expect(c.include?(:michael)).to be true
-  #     expect(c.include?(:joe)).to be false
-  #   end
-
-  #   it 'should be case insensitive for checking the key' do
-  #     expect(c.include?('include')).to be true
-  #     expect(c.include?(:include)).to be true
-  #     expect(c.include?('InClUde')).to be true
-  #     c.remove(:include)
-  #     expect(c.include?('include')).to be false
-  #     expect(c.include?(:include)).to be false
-  #     expect(c.include?('InClUde')).to be false
-  #   end
-  # end
-
-  # # #remove
-
-  # describe '#get' do
-  #   let(:c) { JSONAPI::Collection.new(arr_of_objs) }
+  describe '#get' do
     
-  #   it 'should return vals the appropriate item object' do
-  #     item = c.get(:include)
-  #     expect(item.class).to eq JSONAPI::Collection::Item
-  #     expect(item.key.downcase).to eq 'include'
-  #   end
-
-  #   it 'should be case insensitive and work for symbol or string for "key"' do
-  #     expect(c.get(:joe)).to be nil
-  #     c.add(JSONAPI::Collection::Item.new(:joe, ['schmo']))
-  #     expect(c.get(:joe).vals).to eq ['schmo']
-  #     expect(c.get('joe').vals).to eq ['schmo']
-  #     expect(c.get('jOE').vals).to eq ['schmo']
-  #   end
-  # end
-
-  # # #update
-
-  # describe '#keys' do
-  #   let(:c) { JSONAPI::Collection.new(arr_of_objs) }
-
-  #   it 'should return a list of the names of all the Item objects stored in Collection as lower case symbols' do
-  #     expect(c.keys).to eq %i[include lebron charles michael kobe]
-  #   end
-  # end
-
-  # # #to_hash_key
-
-  # describe '#to_s' do
-  #   let(:c) { JSONAPI::Collection.new(arr_of_objs) }
-  #   to_string = 
-  #     '{' \
-  #       ":include => [\"authors\", \"comments\", \"likes\"], " \
-  #       ":lebron => [\"james\"], " \
-  #       ":charles => [\"barkley\"], " \
-  #       ":michael => [\"jordan\", \"jackson\"], " \
-  #       ":kobe => [\"bryant\"]" \
-  #     '}'
-
-  #   it "should return an array of key/vals hashes as a string representing Collection' contents" do
-  #     expect(c.to_s).to eq to_string
-  #   end
-  # end
-
-  # describe JSONAPI::Collection::Item do
-  #   let(:item) { JSONAPI::Collection::Item.new('joe', ['schmoe', 'go']) }
+    it 'should return nil if the collection does not contain the item' do
+      expect(ec.get('test')).to eq nil
+    end
     
-  #   describe '#to_s' do
-  #     it 'should return a Item key and vals as "key => vals"' do
-  #       expect(item.to_s).to eq "joe => [\"schmoe\", \"go\"]"
-  #     end
-  #   end
+    it 'should return the appropriate item' do
+      item = c.get(:include)
+      expect(item.class).to eq JSONAPI::Item
+      expect(item.name).to eq 'include'
+    end
 
-  #   describe '#add' do
-  #     it 'should be able to delete the value given the value to look for' do 
-  #       expect(item.remove('schmoe')).to eq 'schmoe'
-  #     end
+    it 'should be case insensitive and work for symbol or string' do
+      item = JSONAPI::Item.new({ name: 'test', value: 'ing' })
+      ec.add(item, &name)
+      expect(ec.get('test').value).to eq 'ing'
+      expect(ec.get(:test).value).to eq 'ing'
+      expect(ec.get('TeSt').value).to eq 'ing'
+    end
+  end
 
-  #     it 'should be able to delete the value given the index to look for' do
-  #       expect(item.remove(1)).to eq 'go'
-  #     end
-  #   end
-  # end
+  describe '#keys' do
+    it 'should return a list of the names of all the Item objects stored in Collection as lower case symbols' do
+      expect(c.keys).to eq %i[include lebron charles michael kobe]
+    end
+  end
+
+  describe '#size' do
+    it 'should return the number of items in the collection' do
+      expect(c.size).to eq 5
+    end
+  end
+
+  describe '#to_s' do
+
+    to_string = 
+      '{ ' \
+      "include => { name => 'include', value => 'author,comments,likes' }, " \
+      "lebron => { name => 'lebron', value => 'james' }, " \
+      "charles => { name => 'charles', value => 'barkley' }, " \
+      "michael => { name => 'michael', value => 'jordan,jackson' }, " \
+      "kobe => { name => 'kobe', value => 'bryant' }" \
+      ' }'
+
+    it "should return an array of name/vals hashes as a string representing Collection's contents" do
+      expect(c.to_s).to eq to_string
+    end
+  end
+
+  describe '#to_hash_key' do
+    it 'should be private' do
+      k1 = 'KEY'
+      expect { c.to_hash_key(k1) }.to raise_error NoMethodError
+    end
+  end
 end

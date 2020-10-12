@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/parser/parse_headers'
-require 'rack/jsonapi/parser/parse_query_string'
-require 'rack/jsonapi/parser/parse_document'
+require 'rack/jsonapi/parser/rack_req_params_parser'
+require 'rack/jsonapi/parser/headers_parser'
+require 'rack/jsonapi/parser/document_parser'
 require 'rack/jsonapi/request'
+
+require 'rack'
 
 module JSONAPI
 
@@ -13,13 +15,12 @@ module JSONAPI
     
     # @return [JSONAPI::Request] the instantiated jsonapi request object
     def self.parse_request!(env)
-      # params, pagination, field_sets = ParseQueryString.parse!(env['QUERY_STRING'])
-      params = "params"
-      pagination = "pagination"
-      field_sets = "field_sets"
-      headers = ParseHeaders.parse!(env)
-      document = ParseDocument.parse!(env['rack.input'].read)
-      Request.new(env, params, pagination, field_sets, headers, document)
+      req = Rack::Request.new(env)
+      param_collection = RackReqParamsParser.parse!(req.params)
+      header_collection = HeadersParser.parse!(env)
+      document = DocumentParser.parse!(req.body.read)
+      JSONAPI::Request.new(env, param_collection, header_collection, document)
     end
+  
   end
 end

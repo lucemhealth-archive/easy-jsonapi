@@ -4,7 +4,7 @@ require_relative 'lib/rack/jsonapi/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'rack-jsonapi'
-  spec.version       = JSONAPI::VERSION
+  spec.version       = JSONAPI::GEM_VERSION
   spec.authors       = ['Joshua DeMoss']
   spec.email         = ['joshua.demoss@curatess.com']
 
@@ -30,12 +30,12 @@ Gem::Specification.new do |spec|
 
   # Added Gems
   spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'rack', '~> 2.2'
   spec.add_development_dependency 'rspec', '~> 3.9'
-  spec.add_development_dependency 'redcarpet'
+  spec.add_development_dependency 'redcarpet', '~> 3.5'
   spec.add_development_dependency 'yard', '~> 0.9'
-  spec.add_development_dependency 'solargraph'
-  spec.add_development_dependency 'rubocop'
-
+  spec.add_development_dependency 'solargraph', '~> 0.39'
+  spec.add_development_dependency 'rubocop', '0.92'
 
   spec.license = 'MIT'
 end

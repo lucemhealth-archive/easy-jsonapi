@@ -1,9 +1,0 @@
-{
-  "editor.formatOnSave": true,
-  "ruby.format": "rubocop",
-  "ruby.rubocop.onSave": true,
-  "ruby.rubocop.useBundler": true,
-  "ruby.rubocop.executePath": "/Users/joshuademoss/.rvm/gems/ruby-2.7.0/bin/",
-  "solargraph.diagnostics": true,
-   "files.insertFinalNewline": true,
-}

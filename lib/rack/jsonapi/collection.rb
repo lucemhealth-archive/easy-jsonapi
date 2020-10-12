@@ -14,33 +14,41 @@ module JSONAPI
       
       return unless (arr_of_obj != []) && block_given?
       arr_of_obj.each do |obj|
-        add(obj, block)
+        add(obj, &block)
       end
     end
 
-    def add(item, &block)
-      raise 'a block must be passed to #add indicating what should be used as a key' unless block_given?
-      insert(block.call(item), item)
-    end
-
-    # Another way to call #add
-    # @param (see #add)
-    # @returns (see #add)
-    def<<(item, &block)
-      add(item, block)
-    end
-
-    # Adds an item to Collection's internal hash
-    def insert(key, value)
-      k = to_hash_key(key)
-      raise 'Item already included. Remove existing item first.' if @collection[k]
-      @collection[k] = value
-    end
+    # Collection.new([
+    #   { key: 'include', value: 'authors,comments,likes' },
+    #   { key: 'lebron', value: 'james' },
+    #   { key: 'charles', value: 'barkley' },
+    #   { key: 'michael', value: 'jordan,jackson' },
+    #   { key: 'kobe', value: 'bryant' }
+    # ]
 
     # Checks to see if the collection is empty
     # @return [TrueClass | FalseClass]
     def empty?
       @collection == {}
+    end
+
+    # Does the collection's internal hash include this key?
+    # @param key [String | Symbol] The key to search for in the hash
+    def include?(key)
+      k = to_hash_key(key)
+      @collection.include?(k)
+    end
+    
+    # Adds an item to Collection's internal hash
+    def insert(key, item)
+      k = to_hash_key(key)
+      raise 'Item already included. Remove existing item first.' if @collection[k]
+      @collection[k] = item
+    end
+
+    def add(item, &block)
+      raise 'a block must be passed to #add indicating what should be used as a key' unless block_given?
+      insert(block.call(item), item)
     end
 
     # Yield the block given on all the items in the collection
@@ -53,11 +61,11 @@ module JSONAPI
     # Remove a value from a Item's list of values.
     # @param (see #add)
     # @return [Item | nil] the deleted item object if it exists
-    def remove(key, val = nil)
+    def remove(key, value = nil)
       k = to_hash_key(key)
       return nil if @collection[k].nil?
-      return @collection.delete(k) if val.nil?
-      @collection[k].remove(val)
+      return @collection.delete(k) if value.nil?
+      @collection[k].remove(value)
     end
 
     # @param (see #remove)
@@ -73,10 +81,15 @@ module JSONAPI
       @collection.keys
     end
 
+    # @returns [Integer] The number of items in the collection
+    def size
+      @collection.size
+    end
+
     # Used to print out the Collection object with better formatting
     # return [String] The collection object contents represented as a formatted string
     def to_s
-      to_return = '{'
+      to_return = '{ '
       is_first = true
       @collection.each do |k, item|
         if is_first
@@ -86,8 +99,10 @@ module JSONAPI
           to_return += ", #{k} => #{item}"
         end
       end
-      to_return += '}'
+      to_return += ' }'
     end
+
+    private 
 
     # Converts the developer's input into a lowercase symbol to be used as a hash key
     #   for Collection's internal hash.
@@ -95,35 +110,6 @@ module JSONAPI
     # @!visibility private
     def to_hash_key(input)
       input.to_s.downcase.to_sym
-    end
-
-    private :to_hash_key
-
-
-    # Models a Item's key -> value relationship
-    class Item
-
-      
-      # obj == { 'articles' => 'title,ody,author', 'people' => 'name' }
-      def initialize(obj)
-        
-        # For each
-        obj.each do |key, val|
-          instance_variable_set("@#{key}", val) # @key = val
-          self.class.send(:define_method, key) do
-            # if !(instance_variables.include?("@#{key}")
-            #   pp "no method AHHH"
-            #   raise NoMethodError "undefined method '#{key}' for #{self.class}"
-            # end
-            instance_variable_get("@#{key}")
-          end
-
-          self.class.send(:define_method, "#{key}=") do |param|
-            instance_variable_set("@#{key}", param)
-          end
-        end
-      end
-
     end
   end
 end
