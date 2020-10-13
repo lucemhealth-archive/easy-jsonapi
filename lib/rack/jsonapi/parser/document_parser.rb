@@ -19,15 +19,6 @@ module JSONAPI
       # @param document [Hash] The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
       # @raise [JSONAPI::Parser::InvalidDocument] if document is invalid.
       def self.parse!(document)
-        ensure!(document.is_a?(Hash),
-                'A JSON object MUST be at the root of every JSON API request ' \
-                'and response containing data.')
-        ensure!(!(document.keys & TOP_LEVEL_KEY).empty?,
-                "A document MUST contain #{TOP_LEVEL_KEY} and only #{TOP_LEVEL_KEY} "\
-                ' as a top level member.')
-        ensure!(document.key?('data') || !document.key?('included'),
-                'If a document does not contain a top-level data key, the ' \
-                'included member MUST NOT be present either.')
         
         data = parse_data!(document['data'])
         # parse_included!(document['included']) if document.key?('included')
