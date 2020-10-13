@@ -9,10 +9,12 @@ module JSONAPI
     # @param data [Data] the already initialized Data class
     # @param included [Included] the already initialized Included class
     # @param meta [Meta] the already initialized Meta class
-    def initialize(data, included, meta)
+    # @param links [Links] the already initialized Links class
+    def initialize(data, included, meta, links)
       @data = data
       @included = included
       @meta = meta
+      @links = links
     end
   end
 end

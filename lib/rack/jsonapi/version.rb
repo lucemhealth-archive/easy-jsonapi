@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
 module JSONAPI
-  VERSION = '0.1.1'.freeze
+  GEM_VERSION = '0.1.1'
+  JSONAPI_SPEC_VERSION = '1.0'
 end

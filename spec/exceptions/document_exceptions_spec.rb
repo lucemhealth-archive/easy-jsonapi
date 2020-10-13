@@ -1,18 +1,31 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rack/jsonapi/exceptions'
 
-describe JSONAPI::Parser::ParseDocument, '.parse!' do
+describe JSONAPI::Exceptions::DocumentExceptions do
+
+  let(:de) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
+
+  describe '#check_for_errors' do
+
+  end
+
+
+
+
+
+  
+
   it 'succeeds on nil data' do
     payload = { 'data' => nil }
 
-    expect { JSONAPI::Parser::ParseDocument.parse!(payload) }.not_to raise_error
+    expect { JSONAPI.parse_response!(payload) }.not_to raise_error
   end
 
   it 'succeeds on empty array data' do
     payload = { 'data' => [] }
 
-    expect { JSONAPI::Parser::ParseDocument.parse!(payload) }.not_to raise_error
+    expect { JSONAPI.parse_response!(payload) }.not_to raise_error
   end
 
   it 'works' do
@@ -50,7 +63,7 @@ describe JSONAPI::Parser::ParseDocument, '.parse!' do
       'meta' => { 'count' => '13' }
     }
 
-    expect { JSONAPI::Parser::ParseDocument.parse!(payload) }.not_to raise_error
+    expect { JSONAPI.parse_response!(payload) }.not_to raise_error
   end
 
   it 'passes regardless of id/type order' do
@@ -71,7 +84,7 @@ describe JSONAPI::Parser::ParseDocument, '.parse!' do
       ]
     }
 
-    expect { JSONAPI::Parser::ParseDocument.parse!(payload) }.to_not raise_error
+    expect { JSONAPI.parse_response!(payload) }.to_not raise_error
   end
 
   it 'fails when an element is missing type or id' do
@@ -89,9 +102,10 @@ describe JSONAPI::Parser::ParseDocument, '.parse!' do
       ]
     }
 
-    expect { JSONAPI::Parser::ParseDocument.parse!(payload) }.to raise_error(
+    expect { JSONAPI.parse_response!(payload) }.to raise_error(
       JSONAPI::Parser::InvalidDocument,
       'A resource identifier object MUST contain ["id", "type"] members.'
     )
   end
+  
 end
