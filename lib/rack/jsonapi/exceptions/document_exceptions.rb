@@ -6,23 +6,26 @@ module JSONAPI
   module Exceptions
 
     # Validates that the request or response document complies with the JSONAPI specification  
-    module DocumentExceptions 
-      
+    module DocumentExceptions
+
+      TOP_LEVEL_KEYS = %w[data included meta links].freeze
+      RESOURCE_IDENTIFIER_KEYS = %w[id type].freeze
+      # If Relationships present, data must be only member (see creating resource)
+      RELATIONSHIP_KEY = 'data'
+
+
       class InvalidDocument < StandardError
       end
       
-      def self.check_compliance(document)
+      def self.check_compliance!(document)
         error_message = check_for_errors(document)
         JSONAPI::Exceptions.raise_error(InvalidDocument, error_message) unless error_message.nil?
       end
       
-      def check_for_errors(document)
+      def check_for_errors!(document)
         msg = nil
     
-        top_level_keys = %w[data included meta links]
-        resource_identifier_keys = %w[id type]
-        # If Relationships present, data must be only member (see creating resource)
-        relationship_key = 'data'
+        
         
         if document.is_a? Hash
           return 'A JSON object MUST be at the root of every JSON API request ' \
@@ -42,6 +45,10 @@ module JSONAPI
         
     
         msg
+      end
+
+      def top_level_check!(document)
+
       end
     
     end

@@ -5,7 +5,7 @@ require 'rack/jsonapi/exceptions'
 module JSONAPI
   module Exceptions
     # Validates that Headers comply with the JSONAPI specification
-    module HeaderExceptions 
+    module HeadersExceptions 
       class InvalidHeader < StandardError
       end
     end
