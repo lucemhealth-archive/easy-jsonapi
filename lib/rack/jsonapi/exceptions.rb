@@ -5,13 +5,6 @@ module JSONAPI
   # Namespace for the gem's Exceptions
   module Exceptions
 
-    # Raises an error with an error message. Used by sub modules
-    # @param error_class [StandardError] The type of error raised
-    # @param error_message [String] The message describing the error
-    def self.raise_error!(error_class, error_message)
-      raise error_class, error_message
-    end
-
     # Validates that the Query Parameters comply with the JSONAPI specification
     module ParamExceptions
     end
@@ -22,6 +15,10 @@ module JSONAPI
 
     # Validates that the request or response document complies with the JSONAPI specification  
     module DocumentExceptions
+    end
+
+    # Checking for JSONAPI naming rules compliance
+    module NamingExceptions
     end
 
   end

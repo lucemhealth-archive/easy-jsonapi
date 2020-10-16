@@ -2,6 +2,13 @@
 
 require 'rack/jsonapi/document'
 
+require 'rack/jsonapi/exceptions'
+require 'rack/jsonapi/exceptions/document_exceptions'
+
+
+# ID is only optional if it is a POST request
+# A 
+
 # Document parsing logic
 module JSONAPI
   module Parser
@@ -9,43 +16,34 @@ module JSONAPI
     # Document Parsing Logic
     module DocumentParser
 
-      TOP_LEVEL_KEY = %w[data included meta links].freeze
-      RESOURCE_IDENTIFIER_KEYS = %w[id type].freeze
-      # If Relationships present, data must be only member (see creating resource)
-      RELATIONSHIP_KEY = 'data'
-
       # Validate the structure of a JSONAPI request document.
       #
       # @param document [Hash] The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
       # @raise [JSONAPI::Parser::InvalidDocument] if document is invalid.
       def self.parse!(document)
-        
-        data = parse_data!(document['data'])
+        # If document is nil -- do something
+        JSONAPI::Exceptions::DocumentExceptions.check_compliance!(document)
+        parse_data!(document['data']) if document.key?('data') # Is data required?
+        # parse_meta!(document['meta']) if document.key?('meta')
         # parse_included!(document['included']) if document.key?('included')
-        JSONAPI::Document.new(data, included, meta, links)
+        # parse_links!(document['links']) if document.key?('links')
+
+        # JSONAPI::Document.new(data, included, meta, links)
       end
 
       # Parse as [] or single resource
       def self.parse_data!(data)
-        if data.is_a? Hash
-          parse_primary_resource!(data)
-        elsif data.nil?
-          # do nothing
-        else
-          ensure!(false,
-                  'The request MUST include a single resource object as primary data.')
-        end
+
+        # parse_resource!(data)
       end
 
-      # ______________________________________________________
-
-      # def self.parse_resource!(res)
-      #   ensure!(res.is_a?(Hash), 'A resource object must be an object.')
-      #   ensure!(res.key?('id'), 'A resource object must have an id.')
-      #   ensure!(res.key?('type'), 'A resource object must have a type.')
-      #   parse_attributes!(res['attributes']) if res.key?('attributes')
-      #   parse_relationships!(res['relationships']) if res.key?('relationships')
-      # end
+      def self.parse_resource!(res)
+        # ensure!(res.is_a?(Hash), 'A resource object must be an object.')
+        # ensure!(res.key?('id'), 'A resource object must have an id.')
+        # ensure!(res.key?('type'), 'A resource object must have a type.')
+        # parse_attributes!(res['attributes']) if res.key?('attributes')
+        # parse_relationships!(res['relationships']) if res.key?('relationships')
+      end
 
       # def self.parse_attributes!(attrs)
       #   ensure!(attrs.is_a?(Hash),

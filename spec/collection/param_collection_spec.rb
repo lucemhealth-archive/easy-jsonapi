@@ -12,7 +12,7 @@ require 'rack/jsonapi/item/param/include'
 require 'rack/jsonapi/item/param/page'
 require 'rack/jsonapi/item/param/sort'
 
-require 'rack/jsonapi/document/resource/field'
+require 'rack/jsonapi/document/data/resource/field'
 
 describe JSONAPI::Collection::ParamCollection do
   

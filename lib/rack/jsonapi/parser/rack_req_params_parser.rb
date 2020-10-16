@@ -12,8 +12,11 @@ require 'rack/jsonapi/collection'
 require 'rack/jsonapi/collection/param_collection'
 
 require 'rack/jsonapi/document'
-require 'rack/jsonapi/document/resource'
-require 'rack/jsonapi/document/resource/field'
+require 'rack/jsonapi/document/data/resource'
+require 'rack/jsonapi/document/data/resource/field'
+
+require 'rack/jsonapi/exceptions'
+require 'rack/jsonapi/exceptions/param_exceptions'
 
 
 module JSONAPI

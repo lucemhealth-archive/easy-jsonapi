@@ -3,7 +3,7 @@
 require 'rack/jsonapi/item'
 require 'rack/jsonapi/item/param'
 require 'rack/jsonapi/item/param/field'
-require 'rack/jsonapi/document/resource/field'
+require data/resource/field'
 
 describe JSONAPI::Item::Param::Field do
   let(:res_field_arr1) do

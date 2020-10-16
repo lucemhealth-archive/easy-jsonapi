@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/resource/field'
+require 'rack/jsonapi/data/resource/field'
 
 describe JSONAPI::Document::Resource::Field do
 
