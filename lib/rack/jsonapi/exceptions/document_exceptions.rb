@@ -38,8 +38,13 @@ module JSONAPI
         nil
       end
 
+      # **********************************
+      # * CHECK TOP LEVEL                *
+      # **********************************
+
       # Checks if there are any errors in the top level hash
       # @param (see *check_compliance!)
+      # @raises (see check_compliance!)
       def self.check_top_level!(document, request: false)
         ensure!(document.is_a?(Hash),
                 'A JSON object MUST be at the root of every JSON API request ' \
@@ -60,43 +65,23 @@ module JSONAPI
         end
       end
 
+      # **********************************
+      # * CHECK TOP LEVEL MEMBERS        *
+      # **********************************
+
       # Checks if any errors exist in the jsonapi document members
       # @param (see #check_compliance!)
       def self.check_members!(document, request: false, post_request: false)
-        check_links!(document[:links]) if document.key? :links
         check_data!(document[:data], request: request, post_request: post_request) if document.key? :data
-        # check_errors!(document[:errors]) if document.key? :errors
+        check_errors!(document[:errors]) if document.key? :errors
+        check_meta!(document[:meta]) if document.key? :meta
+        check_jsonapi!(document[:jsonapi]) if document.key? :jsonapi
+        check_links!(document[:links]) if document.key? :links
         # check_included!(document[:included]) if document.key? :included
-        # check_jsonapi!(document[:jsonapi]) if document.key? :jsonapi
-        # check_meta!(document[:meta]) if document.key? :meta
       end
 
-      def self.check_links!(links)
-        ensure!(links.is_a?(Hash), 'A links object must be an object')
-        ensure!((links.keys - LINKS_KEYS).empty?,
-                "The top-level links object May contain #{LINKS_KEYS}")
-        links.each_value { |link| check_link!(link) }
-        nil
-      end
+      # -- TOP LEVEL - PRIMARY DATA
 
-      def self.check_link!(link)
-        # A link MUST be either a string URL or an object with href / meta
-        case link
-        when String
-          # Do nothing
-        when Hash
-          ensure!((link.keys - LINK_KEYS).empty?,
-                  'If the link is an object, it can contain the members href or meta')
-          ensure!(link[:href].nil? || link[:href].class == String,
-                  'The member href should be a string')
-          ensure!(link[:meta].nil? || link[:meta].class == Hash,
-                  'The value of each meta member MUST be an object')
-        else
-          ensure!(false,
-                  'The value of a link must be either a string or an object')
-        end
-      end
-      
       # @param data [Hash | Array<Hash>] A resource or array or resources
       # @param (see #check_compliance!)
       def self.check_data!(data, request: false, post_request: false)
@@ -122,9 +107,6 @@ module JSONAPI
           ensure!(resource[:type],
                   'The resource object (for a post request) MUST contain at least a type member')
         end
-        ensure!((resource.keys - RESOURCE_KEYS).empty?,
-                'A resource object MAY only contain the following members: ' \
-                'type, id, attributes, relationships, links, meta')
         if resource[:id]
           ensure!(resource[:id].class == String,
                   'The value of the id member MUST be string')
@@ -141,8 +123,8 @@ module JSONAPI
       def self.check_resource_members!(resource)
         check_attributes!(resource[:attributes]) if resource.key? :attributes
         check_relationships!(resource[:relationships]) if resource.key? :relationships
-        # check_meta!(resource[:meta]) if resource.key? :meta
-        # check_links!(resource[:links]) if resource.key? :links
+        check_meta!(resource[:meta]) if resource.key? :meta
+        check_links!(resource[:links]) if resource.key? :links
       end
 
       def self.check_attributes!(attributes)
@@ -166,11 +148,18 @@ module JSONAPI
                 'A relationship object MUST contain at least one of ' \
                 "#{RELATIONSHIP_KEYS}")
         
-        check_relationship_data!(rel[:data]) if rel.key? :data
         # If relationship is a To-Many relationship, the links member may also have pagination links
         #   that traverse the pagination data
         check_relationship_links!(rel[:links]) if rel.key? :links
+        check_relationship_data!(rel[:data]) if rel.key? :data
         check_meta!(rel[:meta]) if rel.key? :meta
+      end
+
+      def self.check_relationship_links!(links)
+        ensure!(!(links.keys & RELATIONSHIP_LINK_KEYS).empty?,
+                'A relationship link must contain at least one of '\
+                "#{RELATIONSHIP_LINK_KEYS}")
+        check_links!(links)
       end
 
       def self.check_relationship_data!(data)
@@ -182,16 +171,8 @@ module JSONAPI
         when nil
           # Do nothing
         else
-          ensure!(false, 'Relationship data must be either nil, an object or ' \
-                         'an array')
+          ensure!(false, 'Relationship data must be either nil, an object or an array')
         end
-      end
-
-      def self.check_relationship_links!(links)
-        ensure!(!(links.keys & RELATIONSHIP_LINK_KEYS).empty?,
-                'A relationship link must contain at least one of '\
-                "#{RELATIONSHIP_LINK_KEYS}")
-        check_links!(links)
       end
 
       def self.check_resource_identifier!(res_id)
@@ -207,41 +188,85 @@ module JSONAPI
         check_meta!(res_id[:meta]) if res_id.key? :meta
       end
 
-      def self.check_meta!(meta)
-        ensure!(meta.is_a?(Hash), 'A meta object must be an object')
-        # Any members may be specified in a meta obj (all members will be valid json bc string is parsed by oj)
-      end
+      # -- TOP LEVEL - ERRORS
 
-      def self.check_jsonapi!(jsonapi)
-        ensure!(jsonapi.is_a?(Hash), 'A JSONAPI object must be an object')
-        unexpected_keys = jsonapi.keys - JSONAPI_OBJECT_KEYS
-        ensure!(unexpected_keys.empty?,
-                'Unexpected members for JSONAPI object: ' \
-                "#{JSONAPI_OBJECT_KEYS}")
-        if jsonapi.key?('version')
-          ensure!(jsonapi[:version].is_a?(String),
-                  "Value of JSONAPI's version member must be a string")
-        end
-        check_meta!(jsonapi[:meta]) if jsonapi.key?(:meta)
-      end
-
-      def self.check_included!(included)
-        ensure!(included.is_a?(Array),
-                'Top level included member must be an array')
-        included.each { |res| check_resource!(res) }
-      end
-
+      # @param errors [Array] The array of errors contained in the jsonapi document
+      # @raises
       def self.check_errors!(errors)
         ensure!(errors.is_a?(Array),
                 'Top level errors member must be an array')
         errors.each { |error| check_error!(error) }
       end
 
-      def self.check_error!(_error)
-        # NOTE(beauby): Do nothing for now, as errors are under-specified as of
-        #   JSONAPI 1.0
+      # @raises (see check_compliance!)
+      def self.check_error!(error)
+        ensure!(error.is_a?(Hash),
+                'Error objects must be objects')
+        check_links(error[:links]) if error.key? :links
+        check_links(error[:meta]) if error.key? :meta
       end
 
+      # -- TOP LEVEL - META
+
+      # @raises (see check_compliance!)
+      def self.check_meta!(meta)
+        ensure!(meta.is_a?(Hash), 'A meta object must be an object')
+        # Any members may be specified in a meta obj (all members will be valid json bc string is parsed by oj)
+      end
+
+      # -- TOP LEVEL - JSONAPI
+
+      # @raises (see check_compliance!)
+      def self.check_jsonapi!(jsonapi)
+        ensure!(jsonapi.is_a?(Hash), 'A JSONAPI object must be an object')
+        if jsonapi.key?(:version)
+          ensure!(jsonapi[:version].is_a?(String),
+                  "The value of JSONAPI's version member must be a string")
+        end
+        check_meta!(jsonapi[:meta]) if jsonapi.key?(:meta)
+      end
+
+      # -- TOP LEVEL - LINKS
+
+      # @raises (see check_compliance!)
+      def self.check_links!(links)
+        ensure!(links.is_a?(Hash), 'A links object must be an object')
+        links.each_value { |link| check_link!(link) }
+        nil
+      end
+
+      # @raises (see check_compliance!)
+      def self.check_link!(link)
+        # A link MUST be either a string URL or an object with href / meta
+        case link
+        when String
+          # Do nothing
+        when Hash
+          ensure!((link.keys - LINK_KEYS).empty?,
+                  'If the link is an object, it can contain the members href or meta')
+          ensure!(link[:href].nil? || link[:href].class == String,
+                  'The member href should be a string')
+          ensure!(link[:meta].nil? || link[:meta].class == Hash,
+                  'The value of each meta member MUST be an object')
+        else
+          ensure!(false,
+                  'The value of a link must be either a string or an object')
+        end
+      end
+
+      # -- TOP LEVEL - INCLUDED
+
+      # @raises (see check_compliance!)
+      def self.check_included!(included)
+        ensure!(included.is_a?(Array),
+                'Top level included member must be an array')
+        included.each { |res| check_resource!(res) }
+      end
+
+      # **********************************
+      # * CHECK MEMBER NAMES             *
+      # **********************************
+      
       # Checks all the member names in a document recursively and raises an error saying
       #   which member did not observe the jsonapi member name rules
       # @param obj The entire request document or part of the request document.
@@ -258,11 +283,16 @@ module JSONAPI
         nil
       end
 
+      # @raises (see check_compliance!)
       def self.check_name(name)
         return if JSONAPI::Exceptions::NamingExceptions.follows_member_constraints?(name)
         raise InvalidDocument, "The #{name} member did not follow member name constraints"
       end
 
+      # **********************************
+      # * GENERAL HELPER FUNCTIONS       *
+      # **********************************
+      
       # @param condition The condition to evaluate
       # @param error_message [String] The message to raise InvalidDocument with
       # @raises InvalidDocument
@@ -273,37 +303,4 @@ module JSONAPI
     end
     
   end
-end
-
-# The top-level links obj MAY contain self, related, pagination
-
-# Resource links
-#   a links obj
-#   if present, this links object MAY contain a self link that identifies the resouce
-
-# Attributes must not contain a relationships or links member
-
-# A relationships object may contain a link
-#   To-One relationship objects:
-#     If present, the relationship obj links member must contain self or related
-#   To_Many relationship objects:
-#     If present, the relationship obj links member must contain self or related OR pagination
-#     Any pagination links in a relationship obj MUST paginate the relationship data (not the related resource)
-
-# Each links member must be a link obj
-#   a link object MUST be either String URL or obj
-#     if an obj, it can only contain href or meta
-#       href is String URL
-#       meta is a meta obj
-
-# Error Links:
-# contains about - a link obj
-
-
-# ____________
-
-# top_level, resource, relationship, error
-
-def top_level_links(links)
-
 end
