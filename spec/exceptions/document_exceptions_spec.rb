@@ -3,13 +3,13 @@
 require 'rack/jsonapi/exceptions/document_exceptions'
 
 TOP_LEVEL_KEYS = %i[data errors meta].freeze
-TOP_LEVEL_LINKS_KEYS = %i[self related first prev next last].freeze
+LINKS_KEYS = %i[self related first prev next last].freeze
 LINK_KEYS = %i[href meta].freeze
-
 RESOURCE_KEYS = %i[type id attributes relationships links meta].freeze
-RESOURCE_IDENTIFIER_KEYS = %i[id type].freeze
 RELATIONSHIP_KEYS = %i[data links meta].freeze
 RELATIONSHIP_LINK_KEYS = %i[self related].freeze
+
+RESOURCE_IDENTIFIER_KEYS = %i[type id].freeze
 JSONAPI_OBJECT_KEYS = %i[version meta].freeze
 ERROR_KEYS = %i[id links status code title detail source meta].freeze
 
@@ -147,7 +147,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
 
         it 'should raise when document contains other keys' do
           expect { f({ 'my_own_key': 'nothing' }) }.to raise_error(ec, msg)
-          expect { f({'links': 'my_links' }) }.to raise_error(ec, msg)
+          expect { f({ 'links': 'my_links' }) }.to raise_error(ec, msg)
         end
       end
 
@@ -200,7 +200,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
     describe '#check_members' do
       
       # CHECKING LINKS:
-      context 'checking links' do
+      context 'when checking links' do
         
         it 'should be a hash' do
           msg = 'A links object must be an object'
@@ -208,8 +208,8 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         end
 
         it 'should only contain top level links keys' do
-          msg = "The top-level links object May contain #{TOP_LEVEL_LINKS_KEYS}"
-          links_obj1 = 
+          msg = "The top-level links object May contain #{LINKS_KEYS}"
+          links_obj_w_added_member = 
             {
               'test': 't',
               'self': 's',
@@ -219,7 +219,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               'first': 'f',
               'last': 'l'
             }
-          links_obj2 = 
+          links_obj = 
             {
               'self': 's',
               'related': 'r',
@@ -228,8 +228,8 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               'first': 'f',
               'last': 'l'
             }
-          expect { f({ data: { type: 'type', id: '123' }, links: links_obj1 }) }.to raise_error(ec, msg)
-          expect(f({ data: { type: 'type', id: '123' }, links: links_obj2 })).to be nil
+          expect { f({ data: { type: 'type', id: '123' }, links: links_obj_w_added_member }) }.to raise_error(ec, msg)
+          expect(f({ data: { type: 'type', id: '123' }, links: links_obj })).to be nil
         end
 
         it 'should only contain link objs that are string or a hash w the right members' do
@@ -268,7 +268,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       end
 
       # CHECKING PRIMARY DATA:
-      context 'checking primary data' do
+      context 'when checking primary data' do
         it 'should raise if data not a hash when it is a request' do
           msg = 'The request MUST include a single resource object as primary data'
           expect { f({ meta: { 'count': 123 } }, request: true) }.to raise_error(ec, msg)
@@ -281,7 +281,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         end
 
         # -- CHECKING RESOURCE
-        context 'checking resource' do
+        context 'when checking resource' do
           it "should raise if it is not a post request and it doesn't have an id member" do
             msg = 'Every resource object MUST contain an id member and a type member'
             expect { f({ data: { type: 'type' } }) }.to raise_error(ec, msg)
@@ -315,6 +315,144 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           it 'it should raise if the value of type does not conform to member naming rules' do
             msg = 'The values of type members MUST adhere to the same constraints as member names'
             expect { f({ data: { type: '***type***', id: '123' } }) }.to raise_error(ec, msg)
+          end
+
+          # ----Checking Attributes
+          context 'when checking attributes' do
+            it 'should raise if attributes is not a hash' do
+              msg = 'The value of the attributes key MUST be an object'
+              expect { f({ data: { type: 't', id: '123', attributes: [] } }) }.to raise_error(ec, msg)
+            end
+
+            it 'should return nil if attributes is a hash' do
+              expect(f({ data: { type: 't', id: '123', attributes: {} } })).to be nil
+            end
+          end
+
+          # ----Checking Relationships
+          context 'when checking relationships' do
+
+            it 'should raise if relationships value is not a hash' do
+              rel_not_hash = 
+                {
+                  data: {
+                    type: 't',
+                    id: '1',
+                    relationships: [
+                      author: {
+                        data: { type: 't', id: '2' }
+                      }
+                    ]
+                  }
+                }
+              msg = 'The value of the relationships key MUST be an object'
+              expect { f(rel_not_hash) }.to raise_error(ec, msg)
+            end
+            
+            it 'should raise if the value of any relationships key is not a hash' do
+              rel_key_not_hash =
+                {
+                  data: {
+                    type: 't',
+                    id: '1',
+                    relationships: {
+                      author: [
+                        data: { type: 't', id: '2' }
+                      ]
+                    }
+                  }
+                }
+              msg = 'A relationship object must be an object'
+              expect { f(rel_key_not_hash) }.to raise_error(ec, msg)
+            end
+
+            it 'should raise if a relationship does not contain one of the necessary keys' do
+              rel_missing_keys =
+                {
+                  data: {
+                    type: 't',
+                    id: '1',
+                    relationships: {
+                      author: {}
+                    }
+                  }
+                }
+              msg = 'A relationship object MUST contain at least one of ' \
+                    "#{RELATIONSHIP_KEYS}"
+              expect { f(rel_missing_keys) }.to raise_error(ec, msg)
+            end
+
+            # ------CHECKING RELATIONSHIP MEMBERS
+            context 'checking relationship members' do
+              context 'checking data' do
+                it 'should raise if data is not a hash array or nil' do
+                  msg = 'Relationship data must be either nil, an object or an array'
+                  expect { f({ data: { type: 't', id: '1', relationships: { author: { data: 'test' } } } }) }.to raise_error(ec, msg)
+                end
+
+                context 'checking resource id' do
+                  it 'should raise if resource id is not a hash' do
+                    rel_id_not_hash =
+                      {
+                        data: {
+                          type: 't',
+                          id: '1',
+                          relationships: { author: { data: ['test', 'ing'] } }
+                        }
+                      }
+                    msg = 'A resource identifier object must be an object'
+                    expect { f(rel_id_not_hash) }.to raise_error(ec, msg)
+                  end
+
+                  it 'should raise if resource id does not contain type and id members' do
+                    rel_no_id =
+                      {
+                        data: {
+                          type: 't',
+                          id: '1',
+                          relationships: { author: { data: { type: 't' } } }
+                        }
+                      }
+                    rel_no_type =
+                      {
+                        data: {
+                          type: 't',
+                          id: '1',
+                          relationships: { author: { data: { id: '1' } } }
+                        }
+                      }
+                    msg = 'A resource identifier object MUST contain type and id members'
+                    expect { f(rel_no_id) }.to raise_error(ec, msg)
+                    expect { f(rel_no_type) }.to raise_error(ec, msg)
+                  end
+
+                  it 'should raise if type or id value is not a string' do
+                    rel_id_not_string =
+                      {
+                        data: {
+                          type: 't',
+                          id: '1',
+                          relationships: { author: { data: { type: 't', id: 1 } } }
+                        }
+                      }
+                    rel_type_not_string =
+                      {
+                        data: {
+                          type: 't',
+                          id: '1',
+                          relationships: { author: { data: { type: ['t'], id: '1' } } }
+                        }
+                      }
+                    msg_id = 'Member id must be a string'
+                    msg_type = 'Member type must be a string'
+                    expect { f(rel_id_not_string) }.to raise_error(ec, msg_id)
+                    expect { f(rel_type_not_string) }.to raise_error(ec, msg_type)
+                  end
+
+                end
+              end
+            end
+
           end
         end
 

@@ -9,13 +9,13 @@ module JSONAPI
     module DocumentExceptions
 
       TOP_LEVEL_KEYS = %i[data errors meta].freeze
-      TOP_LEVEL_LINKS_KEYS = %i[self related first prev next last].freeze
+      LINKS_KEYS = %i[self related first prev next last].freeze
       LINK_KEYS = %i[href meta].freeze
-
       RESOURCE_KEYS = %i[type id attributes relationships links meta].freeze
-      RESOURCE_IDENTIFIER_KEYS = %i[id type].freeze
       RELATIONSHIP_KEYS = %i[data links meta].freeze
       RELATIONSHIP_LINK_KEYS = %i[self related].freeze
+
+      RESOURCE_IDENTIFIER_KEYS = %i[type id].freeze
       JSONAPI_OBJECT_KEYS = %i[version meta].freeze
       ERROR_KEYS = %i[id links status code title detail source meta].freeze
 
@@ -63,7 +63,7 @@ module JSONAPI
       # Checks if any errors exist in the jsonapi document members
       # @param (see #check_compliance!)
       def self.check_members!(document, request: false, post_request: false)
-        check_top_level_links!(document[:links]) if document.key? :links
+        check_links!(document[:links]) if document.key? :links
         check_data!(document[:data], request: request, post_request: post_request) if document.key? :data
         # check_errors!(document[:errors]) if document.key? :errors
         # check_included!(document[:included]) if document.key? :included
@@ -71,10 +71,10 @@ module JSONAPI
         # check_meta!(document[:meta]) if document.key? :meta
       end
 
-      def self.check_top_level_links!(links)
+      def self.check_links!(links)
         ensure!(links.is_a?(Hash), 'A links object must be an object')
-        ensure!((links.keys - TOP_LEVEL_LINKS_KEYS).empty?,
-                "The top-level links object May contain #{TOP_LEVEL_LINKS_KEYS}")
+        ensure!((links.keys - LINKS_KEYS).empty?,
+                "The top-level links object May contain #{LINKS_KEYS}")
         links.each_value { |link| check_link!(link) }
         nil
       end
@@ -140,7 +140,7 @@ module JSONAPI
 
       def self.check_resource_members!(resource)
         check_attributes!(resource[:attributes]) if resource.key? :attributes
-        # check_relationships!(resource[:relationships]) if resource.key? :relationships
+        check_relationships!(resource[:relationships]) if resource.key? :relationships
         # check_meta!(resource[:meta]) if resource.key? :meta
         # check_links!(resource[:links]) if resource.key? :links
       end
@@ -162,20 +162,24 @@ module JSONAPI
 
       def self.check_relationship!(rel)
         ensure!(rel.is_a?(Hash), 'A relationship object must be an object')
-        ensure!(!rel.keys.empty?,
+        ensure!(!(rel.keys & RELATIONSHIP_KEYS).empty?,
                 'A relationship object MUST contain at least one of ' \
                 "#{RELATIONSHIP_KEYS}")
+        
         check_relationship_data!(rel[:data]) if rel.key? :data
+        # If relationship is a To-Many relationship, the links member may also have pagination links
+        #   that traverse the pagination data
         check_relationship_links!(rel[:links]) if rel.key? :links
         check_meta!(rel[:meta]) if rel.key? :meta
       end
 
       def self.check_relationship_data!(data)
-        if data.is_a?(Hash)
+        case data
+        when Hash
           check_resource_identifier!(data)
-        elsif data.is_a?(Array)
+        when Array
           data.each { |res_id| check_resource_identifier!(res_id) }
-        elsif data.nil?
+        when nil
           # Do nothing
         else
           ensure!(false, 'Relationship data must be either nil, an object or ' \
@@ -184,16 +188,18 @@ module JSONAPI
       end
 
       def self.check_relationship_links!(links)
-        check_links!(links)
         ensure!(!(links.keys & RELATIONSHIP_LINK_KEYS).empty?,
                 'A relationship link must contain at least one of '\
                 "#{RELATIONSHIP_LINK_KEYS}")
+        check_links!(links)
       end
 
       def self.check_resource_identifier!(res_id)
         ensure!(res_id.is_a?(Hash),
                 'A resource identifier object must be an object')
-        ensure!(RESOURCE_IDENTIFIER_KEYS & res_id.keys == RESOURCE_IDENTIFIER_KEYS,
+        ensure!(res_id[:type] && res_id[:id],
+                'A resource identifier object MUST contain type and id members')
+        ensure!((res_id.keys - RESOURCE_IDENTIFIER_KEYS).empty?,
                 'A resource identifier object MUST contain ' \
                 "#{RESOURCE_IDENTIFIER_KEYS} members")
         ensure!(res_id[:id].is_a?(String), 'Member id must be a string')
@@ -203,6 +209,7 @@ module JSONAPI
 
       def self.check_meta!(meta)
         ensure!(meta.is_a?(Hash), 'A meta object must be an object')
+        # Any members may be specified in a meta obj (all members will be valid json bc string is parsed by oj)
       end
 
       def self.check_jsonapi!(jsonapi)
