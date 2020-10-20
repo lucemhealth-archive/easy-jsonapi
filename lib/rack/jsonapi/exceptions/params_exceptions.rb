@@ -8,6 +8,7 @@ module JSONAPI
     # Validates that the Query Parameters comply with the JSONAPI specification
     module ParamExceptions
       
+      # A more specific Standard Error to raise
       class InvalidParameter < StandardError
       end
 
