@@ -11,7 +11,8 @@ module JSONAPI
       # @param name [String] The string to check for member name rule compliance
       # @returns 
       def self.check_member_constraints(name)
-        return 'Member names MUST contain at least one character' if name == :''
+        name = name.to_s
+        return 'Member names MUST contain at least one character' if name == ''
         unless (name =~ /[^a-zA-Z0-9_-]/).nil?
           return 'Member names MUST contain only the allowed characters: ' \
                   "a-z, A-Z, 0-9, '-', '_'"
@@ -25,7 +26,8 @@ module JSONAPI
       # JSONAPI implementation specific query parameters follow the same constraints as member names
       #   with the additional requirement that they must also contain at least one non a-z character.
       # @param name [String] The string to check for 
-      def self.follows_additional_constraints(name)
+      def self.check_additional_constraints(name)
+        name = name.to_s
         return nil unless (name =~ /[^a-z]/).nil?
         'Implementation specific query parameters MUST scontain at least one non a-z character'
       end

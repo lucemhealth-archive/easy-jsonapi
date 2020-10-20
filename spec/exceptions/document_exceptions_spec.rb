@@ -226,10 +226,10 @@ describe JSONAPI::Exceptions::DocumentExceptions do
 
             it 'should raise if type is ever not included' do
               msg_reg = 'Every resource object MUST contain an id member and a type member'
-              expect { f({data: {} }) }.to raise_error(ec, msg_reg)
-              expect { f({data: {} }, request: true) }.to raise_error(ec, msg_reg)
+              expect { f({ data: {} }) }.to raise_error(ec, msg_reg)
+              expect { f({ data: {} }, request: true) }.to raise_error(ec, msg_reg)
               msg_post = 'The resource object (for a post request) MUST contain at least a type member'
-              expect { f({data: {} }, post_request: true) }.to raise_error(ec, msg_post)
+              expect { f({ data: {} }, post_request: true) }.to raise_error(ec, msg_post)
             end
 
             it 'should raise if the type of id or type is not string' do

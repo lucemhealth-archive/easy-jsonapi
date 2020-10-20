@@ -16,6 +16,7 @@ module JSONAPI
       RELATIONSHIP_LINK_KEYS = %i[self related].freeze
       RESOURCE_IDENTIFIER_KEYS = %i[type id].freeze
 
+      # A more specific standard error to raise when an exception is found
       class InvalidDocument < StandardError
       end
       

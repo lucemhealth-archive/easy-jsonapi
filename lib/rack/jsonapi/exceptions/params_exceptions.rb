@@ -23,7 +23,7 @@ module JSONAPI
       def self.check_implemenation_specific_names!(rack_req_params)
         impl_spec_names = rack_req_params.keys - ['include', 'fields', 'page', 'sort', 'filter']
         impl_spec_names.each do |name|
-          next if NamingExceptions.follows_member_constraints?(name) && NamingExceptions.follows_additional_constraints?(name)
+          next if NamingExceptions.check_member_constraints(name).nil? && NamingExceptions.check_additional_constraints(name).nil?
           
           raise_error!(
             'Implementation specific query parameters MUST adhere to the same constraints ' \
