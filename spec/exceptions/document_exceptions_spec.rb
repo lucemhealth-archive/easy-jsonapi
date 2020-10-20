@@ -8,10 +8,7 @@ LINK_KEYS = %i[href meta].freeze
 RESOURCE_KEYS = %i[type id attributes relationships links meta].freeze
 RELATIONSHIP_KEYS = %i[data links meta].freeze
 RELATIONSHIP_LINK_KEYS = %i[self related].freeze
-
 RESOURCE_IDENTIFIER_KEYS = %i[type id].freeze
-JSONAPI_OBJECT_KEYS = %i[version meta].freeze
-ERROR_KEYS = %i[id links status code title detail source meta].freeze
 
 describe JSONAPI::Exceptions::DocumentExceptions do
 
@@ -431,7 +428,8 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                           relationships: { author: { data: { id: '1' } } }
                         }
                       }
-                    msg = 'A resource identifier object MUST contain type and id members'
+                    msg = 'A resource identifier object MUST contain ' \
+                          "#{RESOURCE_IDENTIFIER_KEYS} members"
                     expect { f(rel_no_id) }.to raise_error(ec, msg)
                     expect { f(rel_no_type) }.to raise_error(ec, msg)
                   end
@@ -750,87 +748,100 @@ describe JSONAPI::Exceptions::DocumentExceptions do
     # **********************************
     # * CHECKING MEMBER NAMES          *
     # **********************************
-    context 'when checking member names' do
-      bad_name_doc1 = 
-        {
-          'data': 
-            {
-              'type': 'articles',
-              'id': '1',
-              'attributes': { '***title***': 'JSON API paints my bikeshed!' },
-              'links': { 'self': 'http://example.com/articles/1' },
-              'relationships': {
-                'author': {
-                  'links': {
-                    'self': 'http://example.com/articles/1/relationships/author',
-                    'related': 'http://example.com/articles/1/author'
-                  },
-                  'data': { 'type': 'people', 'id': '9' }
-                }
-              }
-            },
-          'meta': { 'count': '13' }
-        }
+    describe 'check_member_names!' do
 
-      bad_name_doc2 = 
-        {
-          'data': 
-            {
-              'type': 'articles',
-              'id': '1',
-              'attributes': { 'title': 'JSON API paints my bikeshed!' },
-              'links': { 'self': 'http://example.com/articles/1' },
-              'relationships': {
-                '***author***': {
-                  'links': {
-                    'self': 'http://example.com/articles/1/relationships/author',
-                    'related': 'http://example.com/articles/1/author'
-                  },
-                  'data': { 'type': 'people', 'id': '9' }
+      it 'should raise when given empty keys (no characters)' do
+        doc_w_empty_keys = 
+          {
+            data: { type: 't', id: '1', attributes: { '': 'empty key' } }
+          }
+        msg = "The member named '' raised: Member names MUST contain at least one character"
+        expect { f(doc_w_empty_keys) }.to raise_error(ec, msg)
+      end
+
+      it 'should raise when a member name containing any prohibitted letters' do
+        name_w_bad_letters1 = 
+          {
+            'data': 
+              {
+                'type': 'articles',
+                'id': '1',
+                'attributes': { '***title***': 'JSON API paints my bikeshed!' },
+                'links': { 'self': 'http://example.com/articles/1' },
+                'relationships': {
+                  'author': {
+                    'links': {
+                      'self': 'http://example.com/articles/1/relationships/author',
+                      'related': 'http://example.com/articles/1/author'
+                    },
+                    'data': { 'type': 'people', 'id': '9' }
+                  }
                 }
-              }
-            },
-          'meta': { 'count': '13' }
-        }
+              },
+            'meta': { 'count': '13' }
+          }
+
+        name_w_bad_letters2 = 
+          {
+            'data': 
+              {
+                'type': 'articles',
+                'id': '1',
+                'attributes': { 'title': 'JSON API paints my bikeshed!' },
+                'links': { 'self': 'http://example.com/articles/1' },
+                'relationships': {
+                  '***author***': {
+                    'links': {
+                      'self': 'http://example.com/articles/1/relationships/author',
+                      'related': 'http://example.com/articles/1/author'
+                    },
+                    'data': { 'type': 'people', 'id': '9' }
+                  }
+                }
+              },
+            'meta': { 'count': '13' }
+          }
   
-      bad_name_doc3 = 
-        {
-          'data': 
-            {
-              'type': 'articles',
-              'id': '1',
-              'attributes': { 'title': 'JSON API paints my bikeshed!' },
-              'links': { 'self': 'http://example.com/articles/1' },
-              'relationships': {
-                "author": {
-                  "links": {
-                    "self": "http://example.com/articles/1/relationships/author",
-                    "related": "http://example.com/articles/1/author"
+        name_w_bad_letters3 = 
+          {
+            'data': 
+              {
+                'type': 'articles',
+                'id': '1',
+                'attributes': { 'title': 'JSON API paints my bikeshed!' },
+                'links': { 'self': 'http://example.com/articles/1' },
+                'relationships': {
+                  "author": {
+                    "links": {
+                      "self": "http://example.com/articles/1/relationships/author",
+                      "related": "http://example.com/articles/1/author"
+                    },
+                    "data": { "type": "people", "id": "9" }
                   },
-                  "data": { "type": "people", "id": "9" }
-                },
-                "***comments***": {
-                  "links": {
-                    "self": "http://example.com/articles/1/relationships/comments",
-                    "related": "http://example.com/articles/1/comments"
-                  },
-                  "data": [
-                    { "type": "comments", "id": "5" },
-                    { "type": "comments", "id": "12" }
-                  ]
+                  "***comments***": {
+                    "links": {
+                      "self": "http://example.com/articles/1/relationships/comments",
+                      "related": "http://example.com/articles/1/comments"
+                    },
+                    "data": [
+                      { "type": "comments", "id": "5" },
+                      { "type": "comments", "id": "12" }
+                    ]
+                  }
                 }
-              }
-            },
-          'meta': { 'count': '13' }
-        }
+              },
+            'meta': { 'count': '13' }
+          }
 
-      it 'should raise with the appropriate message when a bad member name exists' do
-        msg = "The ***title*** member did not follow member name constraints"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(bad_name_doc1) }.to raise_error(ec, msg)
-        msg = "The ***author*** member did not follow member name constraints"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(bad_name_doc2) }.to raise_error(ec, msg)
-        msg = "The ***comments*** member did not follow member name constraints"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(bad_name_doc3) }.to raise_error(ec, msg)
+        msg = "The member named '***title***' raised: Member names MUST contain only the allowed " \
+              "characters: a-z, A-Z, 0-9, '-', '_'"
+        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(name_w_bad_letters1) }.to raise_error(ec, msg)
+        msg = "The member named '***author***' raised: Member names MUST contain only the allowed " \
+              "characters: a-z, A-Z, 0-9, '-', '_'"
+        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(name_w_bad_letters2) }.to raise_error(ec, msg)
+        msg = "The member named '***comments***' raised: Member names MUST contain only the allowed " \
+              "characters: a-z, A-Z, 0-9, '-', '_'"
+        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(name_w_bad_letters3) }.to raise_error(ec, msg)
       end
 
       it 'should return nil given a correct document' do
