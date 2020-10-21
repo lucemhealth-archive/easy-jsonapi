@@ -16,6 +16,8 @@ module JSONAPI
     module HeadersParser
       
       def self.parse!(env)
+        JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env)
+
         h_arr = []
         env.each_key do |k|
           if k.start_with?('HTTP_') && (k != 'HTTP_VERSION')

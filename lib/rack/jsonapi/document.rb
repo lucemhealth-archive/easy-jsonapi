@@ -14,9 +14,18 @@ module JSONAPI
     # @param links [Links] the already initialized Links class
     def initialize(data, meta, links, included)
       @data = data
-      @included = included
       @meta = meta
       @links = links
+      @included = included
+    end
+
+    def to_s
+      '{ ' \
+        "data => { #{@data} }, " \
+        "meta => { #{@meta} }, " \
+        "links => { #{@links} }, " \
+        "included => { #{@included} }" \
+      ' }'
     end
   end
 end

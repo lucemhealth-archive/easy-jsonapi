@@ -40,14 +40,24 @@ module JSONAPI
 
       # #each provided from super class
       # #remove provided from super class
-      # #get provided by super class
+      
+      def get(resource_name)
+        super("fields[#{resource_name}]")
+      end
+
       # #keys provided by super class
       # #size provided by super class
 
       def method_missing(method_name, *args, &block)
         super unless @param_types.include?(method_name.to_s)
-        new_arr = @collection.filter { |_, p| get_simple_param_name(p) == method_name }
-        JSONAPI::Collection::ParamCollection.new(new_arr)
+        selected_collection = JSONAPI::Collection::ParamCollection.new
+        @collection.each_value do |p|
+          if get_simple_param_name(p) == method_name.to_s
+            selected_collection.add(p)
+          end
+        end
+
+        selected_collection
       end
 
       def respond_to_missing?(method_name, *)

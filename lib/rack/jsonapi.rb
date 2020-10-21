@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rack/jsonapi/middleware'
+
 # This module is the top level namespace for the curatess jsonapi middleware gem
 #
 # @author Joshua DeMoss

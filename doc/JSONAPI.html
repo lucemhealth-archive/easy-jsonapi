@@ -79,7 +79,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/rack/jsonapi.rb<span class="defines">,<br />
-  lib/rack/jsonapi/params.rb,<br /> lib/rack/jsonapi/parser.rb,<br /> lib/rack/jsonapi/headers.rb,<br /> lib/rack/jsonapi/request.rb,<br /> lib/rack/jsonapi/version.rb,<br /> lib/rack/jsonapi/document.rb,<br /> lib/rack/jsonapi/exceptions.rb,<br /> lib/rack/jsonapi/field_sets.rb,<br /> lib/rack/jsonapi/pagination.rb,<br /> lib/rack/jsonapi/parser/parse_headers.rb,<br /> lib/rack/jsonapi/parser/parse_document.rb,<br /> lib/rack/jsonapi/parser/parse_query_string.rb</span>
+  lib/rack/jsonapi/item.rb,<br /> lib/rack/jsonapi/parser.rb,<br /> lib/rack/jsonapi/request.rb,<br /> lib/rack/jsonapi/version.rb,<br /> lib/rack/jsonapi/document.rb,<br /> lib/rack/jsonapi/fieldset.rb,<br /> lib/rack/jsonapi/collection.rb,<br /> lib/rack/jsonapi/exceptions.rb,<br /> lib/rack/jsonapi/item/param.rb,<br /> lib/rack/jsonapi/middleware.rb,<br /> lib/rack/jsonapi/item/header.rb,<br /> lib/rack/jsonapi/document/data.rb,<br /> lib/rack/jsonapi/document/meta.rb,<br /> lib/rack/jsonapi/document/links.rb,<br /> lib/rack/jsonapi/item/param/page.rb,<br /> lib/rack/jsonapi/item/param/sort.rb,<br /> lib/rack/jsonapi/item/param/field.rb,<br /> lib/rack/jsonapi/document/included.rb,<br /> lib/rack/jsonapi/item/param/filter.rb,<br /> lib/rack/jsonapi/item/param/include.rb,<br /> lib/rack/jsonapi/document/links/link.rb,<br /> lib/rack/jsonapi/parser/headers_parser.rb,<br /> lib/rack/jsonapi/document/data/resource.rb,<br /> lib/rack/jsonapi/parser/document_parser.rb,<br /> lib/rack/jsonapi/document/data/resource_id.rb,<br /> lib/rack/jsonapi/document/meta/meta_member.rb,<br /> lib/rack/jsonapi/collection/param_collection.rb,<br /> lib/rack/jsonapi/collection/header_collection.rb,<br /> lib/rack/jsonapi/document/data/resource/field.rb,<br /> lib/rack/jsonapi/exceptions/naming_exceptions.rb,<br /> lib/rack/jsonapi/exceptions/params_exceptions.rb,<br /> lib/rack/jsonapi/exceptions/headers_exceptions.rb,<br /> lib/rack/jsonapi/parser/rack_req_params_parser.rb,<br /> lib/rack/jsonapi/exceptions/document_exceptions.rb,<br /> lib/rack/jsonapi/document/data/resource/attributes.rb,<br /> lib/rack/jsonapi/document/data/resource/relationships.rb,<br /> lib/rack/jsonapi/document/data/resource/attributes/attribute.rb</span>
 </dd>
   </dl>
   
@@ -88,7 +88,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Document parsing logic</p>
+<p>This module is the top level namespace for the curatess jsonapi middleware gem</p>
 
 
   </div>
@@ -96,13 +96,38 @@
 <div class="tags">
   
 
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://app.lucidchart.com/invitations/accept/e24c2cfe-78f1-4192-8e88-6dbc4454a5ea" target="_parent" title="UML Class Diagram">UML Class Diagram</a></li>
+    
+  </ul>
+<p class="tag_title">Author:</p>
+<ul class="author">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'>
+<p>Joshua DeMoss</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 </div><h2>Defined Under Namespace</h2>
 <p class="children">
   
     
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="JSONAPI/Exceptions.html" title="JSONAPI::Exceptions (module)">Exceptions</a></span>
+    
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSONAPI/Document.html" title="JSONAPI::Document (class)">Document</a></span>, <span class='object_link'><a href="JSONAPI/FieldSets.html" title="JSONAPI::FieldSets (class)">FieldSets</a></span>, <span class='object_link'><a href="JSONAPI/Headers.html" title="JSONAPI::Headers (class)">Headers</a></span>, <span class='object_link'><a href="JSONAPI/Middleware.html" title="JSONAPI::Middleware (class)">Middleware</a></span>, <span class='object_link'><a href="JSONAPI/Pagination.html" title="JSONAPI::Pagination (class)">Pagination</a></span>, <span class='object_link'><a href="JSONAPI/Params.html" title="JSONAPI::Params (class)">Params</a></span>, <span class='object_link'><a href="JSONAPI/Request.html" title="JSONAPI::Request (class)">Request</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="JSONAPI/Collection.html" title="JSONAPI::Collection (class)">Collection</a></span>, <span class='object_link'><a href="JSONAPI/Document.html" title="JSONAPI::Document (class)">Document</a></span>, <span class='object_link'><a href="JSONAPI/Fieldset.html" title="JSONAPI::Fieldset (class)">Fieldset</a></span>, <span class='object_link'><a href="JSONAPI/Item.html" title="JSONAPI::Item (class)">Item</a></span>, <span class='object_link'><a href="JSONAPI/Middleware.html" title="JSONAPI::Middleware (class)">Middleware</a></span>, <span class='object_link'><a href="JSONAPI/Request.html" title="JSONAPI::Request (class)">Request</a></span>
     
   
 </p>
@@ -115,10 +140,15 @@
 
     <dl class="constants">
       
-        <dt id="VERSION-constant" class="">VERSION =
+        <dt id="GEM_VERSION-constant" class="">GEM_VERSION =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0.1.0</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0.1.1</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="JSONAPI_SPEC_VERSION-constant" class="">JSONAPI_SPEC_VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1.0</span><span class='tstring_end'>&#39;</span></span></pre></dd>
       
     </dl>
   
@@ -134,7 +164,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Sep 25 10:47:20 2020 by
+  Generated on Wed Oct 21 04:34:27 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

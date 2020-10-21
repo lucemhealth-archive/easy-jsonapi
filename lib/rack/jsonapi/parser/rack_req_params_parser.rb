@@ -36,6 +36,8 @@ module JSONAPI
         #   "josh"=>"demoss",
         #   "page"=>{"offset"=>"1", "limit"=>"1"}
         # }
+
+        JSONAPI::Exceptions::ParamExceptions.check_compliance!(rack_req_params)
           
         param_collection = JSONAPI::Collection::ParamCollection.new
         rack_req_params.each do |key, value|
@@ -48,6 +50,12 @@ module JSONAPI
         case key
         when 'include'
           param_collection.add(JSONAPI::Item::Param::Include.new(value))
+          # TODO: Fix issue with item already being included
+          # resources = value.split(',')
+          # resources.each do |res|
+          #   include_obj = JSONAPI::Item::Param::Include.new(res)
+          #   param_collection.add(include_obj)
+          # end
         when 'fields'
           parse_fields_param(value, param_collection)
         when 'page'

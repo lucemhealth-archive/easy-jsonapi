@@ -94,7 +94,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi.rb</dd>
+    <dd>lib/rack/jsonapi.rb<span class="defines">,<br />
+  lib/rack/jsonapi/middleware.rb</span>
+</dd>
   </dl>
   
 </div>
@@ -150,6 +152,76 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#configured_to_skip%3F-instance_method" title="#configured_to_skip? (instance method)">#<strong>configured_to_skip?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_app_class-instance_method" title="#find_app_class (instance method)">#<strong>find_app_class</strong>(cur, last)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Locates the rack application (sinatra or rails included) that   that call sends an instance variable too.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#includes_jsonapi_document%3F-instance_method" title="#includes_jsonapi_document? (instance method)">#<strong>includes_jsonapi_document?</strong>(env)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Determines whether there is a request body, and whether the Content-Type is jsonapi compliant.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(app)  &#x21d2; Middleware </a>
     
 
@@ -168,6 +240,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>A new instance of Middleware.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_to_rack_app-instance_method" title="#send_to_rack_app (instance method)">#<strong>send_to_rack_app</strong>(var, str_var)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Provides the rack application access to an instance variable.</p>
 </div></span>
   
 </li>
@@ -230,7 +326,7 @@
 20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/middleware.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span><span class='rparen'>)</span>
   <span class='ivar'>@app</span> <span class='op'>=</span> <span class='id identifier rubyid_app'>app</span>
@@ -299,19 +395,336 @@
 28
 29
 30
-31</pre>
+31
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/middleware.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
-  <span class='comment'># Parse Request and Initiate Request Object
-</span>  <span class='ivar'>@jsonapi_request</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_parse_request!'>parse_request!</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
 
-  <span class='comment'># Sets @jsonapi_request as an instance variable in the rack app
-</span>  <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span><span class='lparen'>(</span><span class='symbol'>:@app</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>@jsonapi_request</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@jsonapi_request</span><span class='rparen'>)</span>
+  <span class='comment'># Parse Request and Initiate Request Object if JSONAPI Request
+</span>  <span class='comment'># add a if statement to skip middleware if jsonapi document isn&#39;t included
+</span>  <span class='id identifier rubyid_jsonapi_document'>jsonapi_document</span> <span class='op'>=</span> <span class='id identifier rubyid_includes_jsonapi_document?'>includes_jsonapi_document?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_configured_to_skip?'>configured_to_skip?</span>
+    <span class='id identifier rubyid_jsonapi_request'>jsonapi_request</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_parse_request!'>parse_request!</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_jsonapi_document'>jsonapi_document</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_send_to_rack_app'>send_to_rack_app</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonapi_request'>jsonapi_request</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>jsonapi_request</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 
   <span class='ivar'>@app</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="configured_to_skip?-instance_method">
+  
+    #<strong>configured_to_skip?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/middleware.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_configured_to_skip?'>configured_to_skip?</span>
+  <span class='comment'># Add logic that scans a config file to see if the user wants to skip the middleware if a jsonapi is not included with the request
+</span>  <span class='comment'># For now assume not configured to skip
+</span>  <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="find_app_class-instance_method">
+  
+    #<strong>find_app_class</strong>(cur, last)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note todo">
+    <strong>TODO:</strong>
+    <div class='inline'>
+<p>Raise an error if current.class == NilClass and current.class == last.class</p>
+</div>
+  </div>
+
+
+<p>Locates the rack application (sinatra or rails included) that</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_that'>that</span> <span class='id identifier rubyid_call'>call</span> <span class='id identifier rubyid_sends'>sends</span> <span class='id identifier rubyid_an'>an</span> <span class='id identifier rubyid_instance'>instance</span> <span class='id identifier rubyid_variable'>variable</span> <span class='id identifier rubyid_too'>too</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>current</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current middleware or rack app that is being referenced</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>last</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The previous middleware referenced.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/middleware.rb', line 67</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_find_app_class'>find_app_class</span><span class='lparen'>(</span><span class='id identifier rubyid_cur'>cur</span><span class='comma'>,</span> <span class='id identifier rubyid_last'>last</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='kw'>if</span> <span class='id identifier rubyid_cur'>cur</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>NilClass</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_cur'>cur</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='kw'>unless</span> <span class='id identifier rubyid_cur'>cur</span><span class='period'>.</span><span class='id identifier rubyid_instance_variables'>instance_variables</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='symbol'>:@app</span>
+  <span class='id identifier rubyid_find_app_class'>find_app_class</span><span class='lparen'>(</span><span class='id identifier rubyid_cur'>cur</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span><span class='lparen'>(</span><span class='symbol'>:@app</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_cur'>cur</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="includes_jsonapi_document?-instance_method">
+  
+    #<strong>includes_jsonapi_document?</strong>(env)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Determines whether there is a request body, and whether the Content-Type is jsonapi compliant</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>env</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The rack envirornment hash</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/middleware.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_includes_jsonapi_document?'>includes_jsonapi_document?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Exceptions.html" title="JSONAPI::Exceptions (module)">Exceptions</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Exceptions/HeadersExceptions.html" title="JSONAPI::Exceptions::HeadersExceptions (module)">HeadersExceptions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_check_compliance!'><span class='object_link'><a href="Exceptions/HeadersExceptions.html#check_compliance!-class_method" title="JSONAPI::Exceptions::HeadersExceptions.check_compliance! (method)">check_compliance!</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_env'>env</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CONTENT_TYPE</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/vnd.api+json</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_to_rack_app-instance_method">
+  
+    #<strong>send_to_rack_app</strong>(var, str_var)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Provides the rack application access to an instance variable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>var</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The variable being provided</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>str_var</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the instance variable and accessor method</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/middleware.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_to_rack_app'>send_to_rack_app</span><span class='lparen'>(</span><span class='id identifier rubyid_var'>var</span><span class='comma'>,</span> <span class='id identifier rubyid_str_var'>str_var</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_application'>application</span> <span class='op'>=</span> <span class='id identifier rubyid_find_app_class'>find_app_class</span><span class='lparen'>(</span><span class='ivar'>@app</span><span class='comma'>,</span> <span class='ivar'>@app</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:define_method</span><span class='comma'>,</span> <span class='id identifier rubyid_str_var'>str_var</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_str_var'>str_var</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_var'>var</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_str_var'>str_var</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -323,7 +736,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Sep 25 10:47:20 2020 by
+  Generated on Wed Oct 21 04:34:27 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

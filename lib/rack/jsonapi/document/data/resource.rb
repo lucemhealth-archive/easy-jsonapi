@@ -17,6 +17,17 @@ module JSONAPI
           @links = members_hash[:links]
           @meta = members_hash[:meta]
         end
+
+        def to_s
+          '{ ' \
+            "type => { #{@type} }, " \
+            "id => { #{@id} }, " \
+            "attributes => { #{@attributes} }, " \
+            "relationships => { #{@relationships} }, " \
+            "links => { #{@links} }, " \
+            "meta => { #{@meta} } " \
+          '}'
+        end
       end
     end
   end
