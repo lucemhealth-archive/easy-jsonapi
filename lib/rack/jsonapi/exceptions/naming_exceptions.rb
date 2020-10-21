@@ -31,7 +31,6 @@ module JSONAPI
         return nil unless (name =~ /[^a-z]/).nil?
         'Implementation specific query parameters MUST scontain at least one non a-z character'
       end
-
     end
   end
 end
