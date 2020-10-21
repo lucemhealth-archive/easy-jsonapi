@@ -39,16 +39,16 @@ module JSONAPI
       @collection.include?(k)
     end
     
+    def add(item, &block)
+      raise 'a block must be passed to #add indicating what should be used as a key' unless block_given?
+      insert(block.call(item), item)
+    end
+
     # Adds an item to Collection's internal hash
     def insert(key, item)
       k = to_hash_key(key)
       raise 'Item already included. Remove existing item first.' if @collection[k]
       @collection[k] = item
-    end
-
-    def add(item, &block)
-      raise 'a block must be passed to #add indicating what should be used as a key' unless block_given?
-      insert(block.call(item), item)
     end
 
     # Yield the block given on all the items in the collection
@@ -102,8 +102,8 @@ module JSONAPI
       to_return += ' }'
     end
 
-    private 
-
+    private
+    
     # Converts the developer's input into a lowercase symbol to be used as a hash key
     #   for Collection's internal hash.
     # @param input [Symbol | String] Whatever the developer uses as a item key.

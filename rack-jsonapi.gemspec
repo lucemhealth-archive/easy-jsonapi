@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  # Added Gems
+  # Dev Dependencies
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rack', '~> 2.2'
   spec.add_development_dependency 'rspec', '~> 3.9'
@@ -36,6 +36,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'yard', '~> 0.9'
   spec.add_development_dependency 'solargraph', '~> 0.39'
   spec.add_development_dependency 'rubocop', '0.92'
+
+  # Dependencies
+  spec.add_dependency 'oj', '~> 3.10'
 
   spec.license = 'MIT'
 end

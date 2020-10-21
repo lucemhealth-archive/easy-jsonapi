@@ -13,7 +13,7 @@ describe JSONAPI::Middleware do
     {
       'SERVER_SOFTWARE' => 'thin 1.7.2 codename Bachmanity',
       'SERVER_NAME' => 'localhost',
-      "rack.input" => StringIO.new 
+      "rack.input" => StringIO.new,
       'rack.version' => [1, 0],
       'rack.multithread' => false,
       'rack.multiprocess' => false,

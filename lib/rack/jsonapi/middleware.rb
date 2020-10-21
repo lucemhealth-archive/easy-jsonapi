@@ -24,10 +24,19 @@ module JSONAPI
 
       # Parse Request and Initiate Request Object if JSONAPI Request
       # add a if statement to skip middleware if jsonapi document isn't included
-      jsonapi_request = JSONAPI::Parser.parse_request!(env, includes_jsonapi_document?(env))
-      send_to_rack_app(jsonapi_request, 'jsonapi_request')
+      jsonapi_document = includes_jsonapi_document?(env)
+      if document || !configured_to_skip?
+        jsonapi_request = JSONAPI::Parser.parse_request!(env, jsonapi_document)
+        send_to_rack_app(jsonapi_request, 'jsonapi_request')
+      end
 
       @app.call(env)
+    end
+
+    def configured_to_skip?
+      # Add logic that scans a config file to see if the user wants to skip the middleware if a jsonapi is not included with the request
+      # For now assume not configured to skip
+      false
     end
 
     # Determines whether there is a request body, and whether the Content-Type is jsonapi compliant

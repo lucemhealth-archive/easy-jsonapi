@@ -3,19 +3,19 @@
 require 'rack/jsonapi/item'
 require 'rack/jsonapi/item/param'
 require 'rack/jsonapi/item/param/field'
-require data/resource/field'
+require 'rack/jsonapi/document/data/resource/field'
 
 describe JSONAPI::Item::Param::Field do
   let(:res_field_arr1) do
     [
-      JSONAPI::Document::Resource::Field.new('title', nil), 
-      JSONAPI::Document::Resource::Field.new('body', nil)
+      JSONAPI::Document::Data::Resource::Field.new('title', nil), 
+      JSONAPI::Document::Data::Resource::Field.new('body', nil)
     ]
   end
 
   let(:res_field_arr2) do
     [
-      JSONAPI::Document::Resource::Field.new('name', nil)
+      JSONAPI::Document::Data::Resource::Field.new('name', nil)
     ]
   end
 
@@ -38,7 +38,7 @@ describe JSONAPI::Item::Param::Field do
       # attributes testing
       expect(f1.attributes).to eq res_field_arr1
       expect(f2.attributes).to eq res_field_arr2
-      new_res_field = JSONAPI::Document::Resource::Field.new('testing')
+      new_res_field = JSONAPI::Document::Data::Resource::Field.new('testing')
       f1.attributes = new_res_field
       expect(f1.attributes).to eq [new_res_field]
     end

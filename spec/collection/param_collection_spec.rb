@@ -33,14 +33,14 @@ describe JSONAPI::Collection::ParamCollection do
         JSONAPI::Item::Param::Field.new(
           'articles', 
           [
-            JSONAPI::Document::Resource::Field.new('title', nil), 
-            JSONAPI::Document::Resource::Field.new('body', nil)
+            JSONAPI::Document::Data::Resource::Field.new('title', nil), 
+            JSONAPI::Document::Data::Resource::Field.new('body', nil)
           ]
         ),
         JSONAPI::Item::Param::Field.new(
           'people', 
           [
-            JSONAPI::Document::Resource::Field.new('name', nil)
+            JSONAPI::Document::Data::Resource::Field.new('name', nil)
           ]
         ),
         JSONAPI::Item::Param.new('lebron', 'james'),

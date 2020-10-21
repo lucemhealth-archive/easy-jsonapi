@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/data/resource/field'
+require 'rack/jsonapi/document/data/resource/field'
 
-describe JSONAPI::Document::Resource::Field do
+describe JSONAPI::Document::Data::Resource::Field do
 
-  let(:f1) { JSONAPI::Document::Resource::Field.new('title', 'a good read') }
-  let(:f2) { JSONAPI::Document::Resource::Field.new('body') }
+  let(:f1) { JSONAPI::Document::Data::Resource::Field.new('title', 'a good read') }
+  let(:f2) { JSONAPI::Document::Data::Resource::Field.new('body') }
 
   describe '#initialize' do
     

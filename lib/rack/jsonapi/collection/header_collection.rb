@@ -40,6 +40,7 @@ module JSONAPI
         end
         to_return += '}'
       end
+      
       # def method_missing(method_name, *args, &block)
       #   # req.headers.includes == HeaderCollection.new([Include1, Include2])
       # end

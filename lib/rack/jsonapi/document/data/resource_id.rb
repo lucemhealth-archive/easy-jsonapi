@@ -1,9 +1,19 @@
-Identifies an individual resource
+# frozen_string_literal: true
 
-Must Contain:
-- type
-- id
+module JSONAPI
+  class Document
+    module Data
 
-May include:
-- meta (obj)
+      # A jsonapi resource identifier
+      class ResourceId
 
+        attr_accessor :type, :id
+
+        def initialize(type, id)
+          @type = type
+          @id = id
+        end
+      end
+    end
+  end
+end

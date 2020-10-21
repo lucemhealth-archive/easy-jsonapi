@@ -1,16 +1,23 @@
 # frozen_string_literal: true
 
-# resource object MUST contain at least the following top-level members: 
-# - type (string)
-#   - value of type must adhere to member name comstraints
-# - id (string) (unless post)
+module JSONAPI
+  class Document
+    module Data
 
-#  a resource object MAY contain any of these top-level members:
-#  - attributes (obj)
-#  - relationships (obj)
-#  - links (obj)
-#  - meta (obj)
+      # A jsonapi resource object
+      class Resource
 
-#  Fields should share the same namespace
-#  - a resource can not have an attribute and relationship with the same name, nor can it have an attribute or 
-#   relationship named type or id.
+        attr_accessor :type, :id, :attributes, :relationships, :links, :meta
+        
+        def initialize(members_hash)
+          @type = members_hash[:type]
+          @id = members_hash[:id]
+          @attributes = members_hash[:attributes]
+          @relationsips = members_hash[:relationships]
+          @links = members_hash[:links]
+          @meta = members_hash[:meta]
+        end
+      end
+    end
+  end
+end

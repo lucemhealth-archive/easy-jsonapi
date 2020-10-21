@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     rack-jsonapi (0.1.1)
+      oj (~> 3.10)
 
 GEM
   remote: https://rubygems.org/
@@ -16,6 +17,7 @@ GEM
     mini_portile2 (2.4.0)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
+    oj (3.10.15)
     parallel (1.19.2)
     parser (2.7.1.5)
       ast (~> 2.4.1)

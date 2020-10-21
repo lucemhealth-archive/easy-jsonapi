@@ -1,13 +1,44 @@
-The top-level links object MAY contain the following members:
-- self: the link that generated the current response document.
-- related: a related resource link when the primary data represents 
-  a resource relationship.
-- pagination links for the primary data. (first, last, prev, next)
-  - keys MUST either be omitted or have a nil value to indicate that a link is unavailable
+# frozen_string_literal: true
 
-Each member of a links object is a “link”. A link MUST be represented as either:
-- a string containing the link’s URL.
-- an object (Hash I think) (“link object”) which can contain the following members:
-  - href: a string containing the link’s URL.
-  - meta: a Meta object
-  
+require 'rack/jsonapi/collection'
+
+module JSONAPI
+  class Document
+    
+    # The links of a resource
+    class Links < JSONAPI::Collection
+
+      def initialize(link_arr = [])
+        super(link_arr, &:name)
+      end
+
+      # #empyt? provided by super class
+      # #include provided by super class
+
+      def add(link)
+        super(link, &:name)
+      end
+
+      # #each provided from super class
+      # #remove provided from super class
+      # #get provided by super class
+      # #keys provided by super class
+      # #size provided by super class
+
+      # #to_s provided from super class
+
+      # def method_missing(method_name, *args, &block)
+      #   # req.headers.includes == HeaderCollection.new([Include1, Include2])
+      # end
+
+      # def respond_to_missing?()
+      # end
+
+      # def<<(header)
+      #   add(header)
+      # end
+
+      # private :insert
+    end
+  end
+end

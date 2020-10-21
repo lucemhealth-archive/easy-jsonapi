@@ -1,8 +1,20 @@
 # frozen_string_literal: true
 
-# Primary data must be 
-# - Resource, ResourceId, or nil, for requests that target single resources
-# - [Resource], [ResourceId], or [], for requests that target resource collections
+require 'rack/jsonapi/document'
 
-# A logical collection of resources MUST be represented as an array, even if it 
-# only contains one item or is empty.
+module JSONAPI
+  class Document
+    
+    # The primary data for a document
+    module Data
+
+      class Resource
+      end
+
+      class ResourceId
+      end
+      
+    end
+
+  end
+end

@@ -16,7 +16,7 @@ require 'rack/jsonapi/document/data/resource'
 require 'rack/jsonapi/document/data/resource/field'
 
 require 'rack/jsonapi/exceptions'
-require 'rack/jsonapi/exceptions/param_exceptions'
+require 'rack/jsonapi/exceptions/params_exceptions'
 
 
 module JSONAPI
@@ -64,7 +64,7 @@ module JSONAPI
       def self.parse_fields_param(value, param_collection)
         value.each do |res, attributes|
           attr_arr = attributes.split(',')
-          field_arr = attr_arr.map { |a| JSONAPI::Document::Resource::Field.new(a, nil) }
+          field_arr = attr_arr.map { |a| JSONAPI::Document::Data::Resource::Field.new(a, nil) }
           temp = JSONAPI::Item::Param::Field.new(res, field_arr)
           param_collection.add(temp)
         end

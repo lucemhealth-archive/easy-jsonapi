@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/collection'
-require 'rack/jsonapi/item'
-
-
-shared_examples 'collection class' do
+shared_examples 'collection like classes' do
   describe '#initialize' do
 
     it 'should be empty if given no arguments' do
@@ -33,7 +29,7 @@ shared_examples 'collection class' do
       expect(ec.include?(:test)).to be false
       expect(ec.include?('test')).to be false
       expect(ec.include?('tESt')).to be false
-      item = item_class.new({ name: 'test', value: 'ing' })
+      item = item_class.new('test', 'ing')
       ec.add(item, &:name)
       expect(ec.include?(:test)).to be true
       expect(ec.include?('test')).to be true
@@ -52,14 +48,14 @@ shared_examples 'collection class' do
 
     it 'should make #empty? return false' do
       expect(ec.empty?).to be true
-      item = item_class.new({ name: 'test', value: 'ing' })
+      item = item_class.new('test', 'ing')
       ec.add(item, &:name)
       expect(ec.empty?).to be false
     end
 
     it 'should add items to the collection' do
       expect(ec.empty?).to be true
-      item = item_class.new({ name: 'test', value: 'ing' })
+      item = item_class.new('test', 'ing')
       ec.add(item, &:name)
       expect(ec.collection.include?(:test)).to be true
     end
@@ -120,7 +116,7 @@ shared_examples 'collection class' do
     end
 
     it 'should be case insensitive and work for symbol or string' do
-      item = item_class.new({ name: 'test', value: 'ing' })
+      item = item_class.new('test', 'ing')
       ec.add(item, &:name)
       expect(ec.get('test').value).to eq 'ing'
       expect(ec.get(:test).value).to eq 'ing'
@@ -141,7 +137,6 @@ shared_examples 'collection class' do
   end
 
   describe '#to_s' do
-
     it "should return an array of name/vals hashes as a string representing Collection's contents" do
       expect(c.to_s).to eq to_string
     end
@@ -152,39 +147,5 @@ shared_examples 'collection class' do
       k1 = 'KEY'
       expect { c.to_hash_key(k1) }.to raise_error NoMethodError
     end
-  end
-end
-
-
-describe JSONAPI::Collection do
-  it_behaves_like 'collection class' do
-    let(:item_class) { JSONAPI::Item }
-    let(:c_size) { 5 }
-    let(:keys) { %i[include lebron charles michael kobe] }
-    let(:ex_item_key) { :include }
-    let(:ex_item_value) { 'author,comments,likes' }
-
-    let(:to_string) do
-      '{ ' \
-        "include => { name => 'include', value => 'author,comments,likes' }, " \
-        "lebron => { name => 'lebron', value => 'james' }, " \
-        "charles => { name => 'charles', value => 'barkley' }, " \
-        "michael => { name => 'michael', value => 'jordan,jackson' }, " \
-        "kobe => { name => 'kobe', value => 'bryant' }" \
-      ' }'
-    end
-
-    obj_arr = [
-      { name: 'include', value: 'author,comments,likes' },
-      { name: 'lebron', value: 'james' },
-      { name: 'charles', value: 'barkley' },
-      { name: 'michael', value: 'jordan,jackson' },
-      { name: 'kobe', value: 'bryant' }
-    ]
-  
-    item_arr = obj_arr.map { |i| JSONAPI::Item.new(i) }
-    let(:c) { JSONAPI::Collection.new(item_arr, &:name) }
-    let(:ec) { JSONAPI::Collection.new }
-  
   end
 end
