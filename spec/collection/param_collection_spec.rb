@@ -21,7 +21,7 @@ describe JSONAPI::Collection::ParamCollection do
     # {
     #   "include"=>"author, comments.author",
     #   "fields"=>{"articles"=>"title,body,author", "people"=>"name"},
-    #   "josh"=>"demoss",
+    #   "josh_ua"=>"demoss",
     #   "page"=>{"offset"=>"1", "limit"=>"1"},
     #   "sort"=>"alpha",
     #   "filter"=>"special",
@@ -43,7 +43,7 @@ describe JSONAPI::Collection::ParamCollection do
             JSONAPI::Document::Data::Resource::Field.new('name', nil)
           ]
         ),
-        JSONAPI::Item::Param.new('lebron', 'james'),
+        JSONAPI::Item::Param.new('leBron', 'james'),
         JSONAPI::Item::Param::Page.new(3, 25),
         JSONAPI::Item::Param::Sort.new('alpha'),
         JSONAPI::Item::Param::Filter.new('special')
@@ -187,7 +187,7 @@ describe JSONAPI::Collection::ParamCollection do
         "include => { 'include' => 'author,comments.likes' }, " \
         "fields[articles] => { fields => { 'articles' => 'title,body' } }, " \
         "fields[people] => { fields => { 'people' => 'name' } }, " \
-        "lebron => { 'lebron' => 'james' }, " \
+        "lebron => { 'leBron' => 'james' }, " \
         "page => { page => { 'offset' => '3', 'limit' => '25' } }, " \
         "sort => { 'sort' => 'alpha' }, " \
         "filter => { 'filter' => 'special' }" \
@@ -202,7 +202,9 @@ describe JSONAPI::Collection::ParamCollection do
     
     def only_includes(param_collection, param)
       checker = true
-      param_collection.each { |p| checker = (checker && p.class == param.class) } 
+      param_collection.each do |p|
+        checker = (checker && p.class == param)  
+      end
       checker
     end
     

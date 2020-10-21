@@ -5,7 +5,6 @@ class RackApp
   
   def call(env)
     req = Rack::Request.new(env)
-    pp req.params
     status = 200
     headers = { 'Content-Type' => 'text/plain' }
     body = 
