@@ -2,20 +2,20 @@
 
 module JSONAPI
   class Item
-    class Param
-      # Used to create a unique Sort Param
-      class Sort < JSONAPI::Item::Param
+    class QueryParam
+      # Used to create a unique Sort QueryParam
+      class Sort < JSONAPI::Item::QueryParam
         
         # #name provided by super class
         # #value and #value= provided by super class
         
-        # @param value [String | Array<String>] The value of the sort parameter
+        # @query_param value [String | Array<String>] The value of the sort parameter
         def initialize(value)
           super('sort', value)
         end
 
         # Raise a runtime error if name is attempted to be reset
-        # @param [Any] Any given input.
+        # @query_param [Any] Any given input.
         def name=(_)
           raise 'Cannot set the name of a Sort object'
         end

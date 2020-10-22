@@ -10,8 +10,8 @@ module JSONAPI
       # An individual attribute in a JSON:API Meta object
       class MetaMember < JSONAPI::Item
       
-        # @param name The name of the parameter
-        # @param value The value of the parameter
+        # @query_param name The name of the parameter
+        # @query_param value The value of the parameter
         def initialize(name, value)
           super({ name: name.to_s, value: value })
         end
@@ -21,7 +21,7 @@ module JSONAPI
           @item[:name]
         end
 
-        # @param new_name [String | Symbol] The new header name
+        # @query_param new_name [String | Symbol] The new header name
         def name=(new_name)
           @item[:name] = new_name.to_s
         end
@@ -31,7 +31,7 @@ module JSONAPI
           @item[:value]
         end
 
-        # @param new_value [String | Symbol] The header value
+        # @query_param new_value [String | Symbol] The header value
         def value=(new_value)
           @item[:value] = new_value
         end
@@ -41,7 +41,7 @@ module JSONAPI
           "{ '#{name}' => '#{value}' }"
         end
 
-        # prevent Param and Subclasses from accessing Item's #method_missing
+        # prevent QueryParam and Subclasses from accessing Item's #method_missing
         private :method_missing
       end
     end

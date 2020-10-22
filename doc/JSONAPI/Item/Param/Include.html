@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: JSONAPI::Item::Param::Include
+  Class: JSONAPI::Item::QueryParam::Include
   
     &mdash; Documentation by YARD 0.9.25
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "JSONAPI::Item::Param::Include";
+  pathId = "JSONAPI::Item::QueryParam::Include";
   relpath = '../../../';
 </script>
 
@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="../../../_index.html">Index (I)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Item.html" title="JSONAPI::Item (class)">Item</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Param.html" title="JSONAPI::Item::Param (class)">Param</a></span></span>
+    <span class='title'><span class='object_link'><a href="../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Item.html" title="JSONAPI::Item (class)">Item</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Item::QueryParam (class)">QueryParam</a></span></span>
      &raquo; 
     <span class="title">Include</span>
   
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: JSONAPI::Item::Param::Include
+      <div id="content"><h1>Class: JSONAPI::Item::QueryParam::Include
   
   
   
@@ -69,16 +69,16 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="../Param.html" title="JSONAPI::Item::Param (class)">JSONAPI::Item::Param</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Item::QueryParam (class)">JSONAPI::Item::QueryParam</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next"><span class='object_link'><a href="../../Item.html" title="JSONAPI::Item (class)">JSONAPI::Item</a></span></li>
           
-            <li class="next"><span class='object_link'><a href="../Param.html" title="JSONAPI::Item::Param (class)">JSONAPI::Item::Param</a></span></li>
+            <li class="next"><span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Item::QueryParam (class)">JSONAPI::Item::QueryParam</a></span></li>
           
-            <li class="next">JSONAPI::Item::Param::Include</li>
+            <li class="next">JSONAPI::Item::QueryParam::Include</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -98,7 +98,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/item/param/include.rb<span class="defines">,<br />
+    <dd>lib/rack/jsonapi/item/query_param/include.rb<span class="defines">,<br />
   lib/rack/jsonapi.rb</span>
 </dd>
   </dl>
@@ -108,7 +108,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Used to create a unique Include Param</p>
+<p>Used to create a unique Include QueryParam</p>
 
 
   </div>
@@ -309,8 +309,8 @@
   
   
   
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Param.html" title="JSONAPI::Item::Param (class)">JSONAPI::Item::Param</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Param.html#name-instance_method" title="JSONAPI::Item::Param#name (method)">#name</a></span></p>
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Item::QueryParam (class)">JSONAPI::Item::QueryParam</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../QueryParam.html#name-instance_method" title="JSONAPI::Item::QueryParam#name (method)">#name</a></span></p>
 
   
   
@@ -328,7 +328,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(resource)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Item::Param::Include (class)">Include</a></span></tt> 
+    #<strong>initialize</strong>(resource)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Item::QueryParam::Include (class)">Include</a></span></tt> 
   
 
   
@@ -344,7 +344,7 @@
 </div>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
-<ul class="param">
+<ul class="query_param">
   
     <li>
       
@@ -377,7 +377,7 @@
 15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/param/include.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/include.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_resource'>resource</span> <span class='op'>=</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
@@ -424,7 +424,7 @@
 </div>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
-<ul class="param">
+<ul class="query_param">
   
     <li>
       
@@ -456,7 +456,7 @@
 38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/param/include.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/include.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set the name of a Include object</span><span class='tstring_end'>&#39;</span></span>
@@ -486,7 +486,7 @@
 20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/param/include.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/include.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource'>resource</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
@@ -513,7 +513,7 @@
 </div>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
-<ul class="param">
+<ul class="query_param">
   
     <li>
       
@@ -546,7 +546,7 @@
 26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/param/include.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/include.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource='>resource=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_resource'>new_resource</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_resource'>new_resource</span> <span class='op'>=</span> <span class='id identifier rubyid_new_resource'>new_resource</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_new_resource'>new_resource</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
@@ -589,7 +589,7 @@
 32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/param/include.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/include.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_str_resource'>str_resource</span> <span class='op'>=</span> <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
@@ -631,7 +631,7 @@
 43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/param/include.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/include.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Include objects do not have a value method, try #resource</span><span class='tstring_end'>&#39;</span></span>
@@ -660,7 +660,7 @@
 </div>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
-<ul class="param">
+<ul class="query_param">
   
     <li>
       
@@ -692,7 +692,7 @@
 49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/param/include.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/include.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value='>value=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set value of Include object, becausee Include does not have a value</span><span class='tstring_end'>&#39;</span></span>

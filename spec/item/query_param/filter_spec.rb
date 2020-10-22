@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/param'
-require 'rack/jsonapi/item/param/filter'
+require 'rack/jsonapi/item/query_param'
+require 'rack/jsonapi/item/query_param/filter'
 
-describe JSONAPI::Item::Param::Filter do
+describe JSONAPI::Item::QueryParam::Filter do
   
-  let(:f1) { JSONAPI::Item::Param::Filter.new('ing,ang') }
+  let(:f1) { JSONAPI::Item::QueryParam::Filter.new('ing,ang') }
 
   describe '#initialize' do
 

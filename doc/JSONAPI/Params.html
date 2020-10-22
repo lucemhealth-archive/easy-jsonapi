@@ -213,7 +213,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Allows the developer to treat the Params class as a hash, retrieving all param keys.</p>
+<p>Allows the developer to treat the Params class as a hash, retrieving all query_param keys.</p>
 </div></span>
   
 </li>
@@ -237,7 +237,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The value of the removed param&#39;s value.</p>
+<p>The value of the removed query_param&#39;s value.</p>
 </div></span>
   
 </li>
@@ -312,7 +312,7 @@
   <span class='ivar'>@params</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span>
     <span class='id identifier rubyid_k'>k</span> <span class='op'>=</span> <span class='id identifier rubyid_to_hash_key'>to_hash_key</span><span class='lparen'>(</span><span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-    <span class='ivar'>@params</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Param</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='ivar'>@params</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>QueryParam</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -344,7 +344,7 @@
 </div>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
-<ul class="param">
+<ul class="query_param">
   
     <li>
       
@@ -357,7 +357,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The param key</p>
+<p>The query_param key</p>
 </div>
       
     </li>
@@ -373,7 +373,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The param value.</p>
+<p>The query_param value.</p>
 </div>
       
     </li>
@@ -397,7 +397,7 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_k'>k</span> <span class='op'>=</span> <span class='id identifier rubyid_to_hash_key'>to_hash_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
-  <span class='ivar'>@params</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Param</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>value</span><span class='rparen'>)</span>
+  <span class='ivar'>@params</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>QueryParam</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>value</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -448,7 +448,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Allows the developer to treat the Params class as a hash, retrieving all param keys.</p>
+<p>Allows the developer to treat the Params class as a hash, retrieving all query_param keys.</p>
 
 
   </div>
@@ -467,7 +467,7 @@
       
         &mdash;
         <div class='inline'>
-<p>An array of all the param keys stored in the Params object.</p>
+<p>An array of all the query_param keys stored in the Params object.</p>
 </div>
       
     </li>
@@ -507,14 +507,14 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of the removed param&#39;s value.</p>
+<p>Returns the value of the removed query_param&#39;s value.</p>
 
 
   </div>
 </div>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
-<ul class="param">
+<ul class="query_param">
   
     <li>
       
@@ -527,7 +527,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The param key</p>
+<p>The query_param key</p>
 </div>
       
     </li>
@@ -546,7 +546,7 @@
       
         &mdash;
         <div class='inline'>
-<p>the value of the removed param&#39;s value</p>
+<p>the value of the removed query_param&#39;s value</p>
 </div>
       
     </li>
@@ -595,7 +595,7 @@
 </div>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
-<ul class="param">
+<ul class="query_param">
   
     <li>
       
@@ -608,7 +608,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The param key</p>
+<p>The query_param key</p>
 </div>
       
     </li>
@@ -624,7 +624,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The param value.</p>
+<p>The query_param value.</p>
 </div>
       
     </li>

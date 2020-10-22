@@ -28,7 +28,7 @@ module JSONAPI
     module DocumentParser
 
       # Validate the structure of a JSONAPI request document.
-      # @param document_str [String] The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
+      # @query_param document_str [String] The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
       # @raise [JSONAPI::Parser::InvalidDocument] if document is invalid.
       def self.parse!(document_str, is_post_request)
         document = Oj.load(document_str, symbol_keys: true)

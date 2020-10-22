@@ -2,20 +2,20 @@
 
 module JSONAPI
   class Item
-    class Param
-      # Used to create a unique Filter Param
-      class Filter < JSONAPI::Item::Param
+    class QueryParam
+      # Used to create a unique Filter QueryParam
+      class Filter < JSONAPI::Item::QueryParam
         
         # #name provided by super class
         # #value & #value= provided by super class
         
-        # @param value [String | Array<String>] The value of the filter parameter
+        # @query_param value [String | Array<String>] The value of the filter parameter
         def initialize(value)
           super('filter', value)
         end
 
         # Raise a runtime error if name is attempted to be reset
-        # @param [Any] Any given input.
+        # @query_param [Any] Any given input.
         def name=(_)
           raise 'Cannot set the name of a Filter object'
         end

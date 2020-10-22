@@ -121,7 +121,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   describe '#check_compliance!' do
     
     # **********************************
-    # * BASIC CHECKS                   *
+    # * BASELINE CHECKS                   *
     # **********************************
     context 'when checking basic checks' do
 
@@ -137,7 +137,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         expect { f(nil) }.to raise_error msg
       end
 
-      it 'should raise a runtime error if !request but post_request' do
+      it 'should raise if !request but post_request' do
         expect { f(response_doc, request: false, post_request: true) }.to raise_error \
           'A document cannot both belong to a post request and not belong to a request'
         expect(f(req_doc, post_request: true)).to be nil

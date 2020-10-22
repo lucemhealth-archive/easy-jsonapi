@@ -33,7 +33,7 @@ module JSONAPI
     end
 
     # Does the collection's internal hash include this key?
-    # @param key [String | Symbol] The key to search for in the hash
+    # @query_param key [String | Symbol] The key to search for in the hash
     def include?(key)
       k = to_hash_key(key)
       @collection.include?(k)
@@ -59,7 +59,7 @@ module JSONAPI
 
     # Used when treating item value as more than just a string.
     # Remove a value from a Item's list of values.
-    # @param (see #add)
+    # @query_param (see #add)
     # @return [Item | nil] the deleted item object if it exists
     def remove(key, value = nil)
       k = to_hash_key(key)
@@ -68,7 +68,7 @@ module JSONAPI
       @collection[k].remove(value)
     end
 
-    # @param (see #remove)
+    # @query_param (see #remove)
     # @return [Item | nil] The appropriate Item objet if it exists
     def get(key)
       k = to_hash_key(key)
@@ -106,7 +106,7 @@ module JSONAPI
     
     # Converts the developer's input into a lowercase symbol to be used as a hash key
     #   for Collection's internal hash.
-    # @param input [Symbol | String] Whatever the developer uses as a item key.
+    # @query_param input [Symbol | String] Whatever the developer uses as a item key.
     # @!visibility private
     def to_hash_key(input)
       input.to_s.downcase.to_sym

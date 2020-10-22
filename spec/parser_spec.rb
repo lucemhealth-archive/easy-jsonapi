@@ -10,7 +10,7 @@ describe JSONAPI::Parser do
   describe '#parse_request!' do
 
     # Alias method
-    # @param (see JSONAPI::Parser#parse_request!)
+    # @query_param (see JSONAPI::Parser#parse_request!)
     def parse_request!(env, document_included)
       JSONAPI::Parser.parse_request!(env, document_included)
     end

@@ -14,8 +14,8 @@ module JSONAPI
   module Parser
     
     # @return [JSONAPI::Request] the instantiated jsonapi request object
-    # @param env [Hash] The rack envirornment hash
-    # @param document_included [TrueClass | FalseClass] Whether or not a document
+    # @query_param env [Hash] The rack envirornment hash
+    # @query_param document_included [TrueClass | FalseClass] Whether or not a document
     #   was included with the request
     def self.parse_request!(env, document_included)
       req = Rack::Request.new(env)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document/data/resource/attributes/attribute'
-require 'collection/helper_spec'
+require 'collection/helper'
 
 describe JSONAPI::Document::Data::Resource::Attributes do
   it_behaves_like 'collection like classes' do

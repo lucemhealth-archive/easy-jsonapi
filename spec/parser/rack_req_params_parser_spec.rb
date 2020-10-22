@@ -16,10 +16,10 @@ describe JSONAPI::Parser::RackReqParamsParser do
     @param_collection = JSONAPI::Parser::RackReqParamsParser.parse!(rack_params)
   end
 
-  # The param collection when the parser is passed params
+  # The query_param collection when the parser is passed params
   let(:pc) { @param_collection }
 
-  # The param collection when the parser is passed an empty param object
+  # The query_param collection when the parser is passed an empty query_param object
   let(:epc) { JSONAPI::Parser::RackReqParamsParser.parse!({}) }
 
   describe '#parse' do
@@ -37,7 +37,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
   end
 
   describe '#init_a_param' do
-    # it 'should create 5 param objects from pc' do
+    # it 'should create 5 query_param objects from pc' do
     #   expect(pc.size).to eq 5
     # end
   end

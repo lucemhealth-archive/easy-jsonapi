@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/param'
-require 'rack/jsonapi/item/param/field'
-require 'rack/jsonapi/item/param/include'
-require 'rack/jsonapi/item/param/page'
-require 'rack/jsonapi/item/param/sort'
-require 'rack/jsonapi/item/param/filter'
+require 'rack/jsonapi/item/query_param'
+require 'rack/jsonapi/item/query_param/field'
+require 'rack/jsonapi/item/query_param/include'
+require 'rack/jsonapi/item/query_param/page'
+require 'rack/jsonapi/item/query_param/sort'
+require 'rack/jsonapi/item/query_param/filter'
 
 require 'rack/jsonapi/collection'
 require 'rack/jsonapi/collection/param_collection'
@@ -25,7 +25,7 @@ module JSONAPI
     # Used to parse the request params given from the Rack::Request object
     module RackReqParamsParser
       
-      # @param rack_req_params [Hash<String>] The parameter hash returned from Rack::Request.params
+      # @query_param rack_req_params [Hash<String>] The parameter hash returned from Rack::Request.params
       # @return [JSONAPI::ParamCollection]
       def self.parse!(rack_req_params)
         
@@ -49,23 +49,23 @@ module JSONAPI
       def self.add_the_param(key, value, param_collection)
         case key
         when 'include'
-          param_collection.add(JSONAPI::Item::Param::Include.new(value))
+          param_collection.add(JSONAPI::Item::QueryParam::Include.new(value))
           # TODO: Fix issue with item already being included
           # resources = value.split(',')
           # resources.each do |res|
-          #   include_obj = JSONAPI::Item::Param::Include.new(res)
+          #   include_obj = JSONAPI::Item::QueryParam::Include.new(res)
           #   param_collection.add(include_obj)
           # end
         when 'fields'
           parse_fields_param(value, param_collection)
         when 'page'
-          param_collection.add(JSONAPI::Item::Param::Page.new(value[:offset], value[:limit]))
+          param_collection.add(JSONAPI::Item::QueryParam::Page.new(value[:offset], value[:limit]))
         when 'sort'
-          param_collection.add(JSONAPI::Item::Param::Sort.new(value))
+          param_collection.add(JSONAPI::Item::QueryParam::Sort.new(value))
         when 'filter'
-          param_collection.add(JSONAPI::Item::Param::Filter.new(value))
+          param_collection.add(JSONAPI::Item::QueryParam::Filter.new(value))
         else
-          param_collection.add(JSONAPI::Item::Param.new(key, value))
+          param_collection.add(JSONAPI::Item::QueryParam.new(key, value))
         end
       end
 
@@ -73,7 +73,7 @@ module JSONAPI
         value.each do |res, attributes|
           attr_arr = attributes.split(',')
           field_arr = attr_arr.map { |a| JSONAPI::Document::Data::Resource::Field.new(a, nil) }
-          temp = JSONAPI::Item::Param::Field.new(res, field_arr)
+          temp = JSONAPI::Item::QueryParam::Field.new(res, field_arr)
           param_collection.add(temp)
         end
       end

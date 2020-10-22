@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document/meta/meta_member'
-require 'collection/helper_spec'
+require 'collection/helper'
 
 describe JSONAPI::Document::Meta do
   it_behaves_like 'collection like classes' do

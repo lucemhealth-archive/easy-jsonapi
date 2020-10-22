@@ -12,8 +12,8 @@ module JSONAPI
           # @returns value [String] The value of the field
           attr_accessor :name, :value
           
-          # @param name [String] The name of the field
-          # @param value [String | nil] The value of the field
+          # @query_param name [String] The name of the field
+          # @query_param value [String | nil] The value of the field
           def initialize(name, value = nil)
             @name = name
             @value = value

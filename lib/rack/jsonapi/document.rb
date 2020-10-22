@@ -8,10 +8,10 @@ module JSONAPI
 
     attr_accessor :data, :included, :meta, :links
 
-    # @param data [Data] the already initialized Data class
-    # @param included [Included] the already initialized Included class
-    # @param meta [Meta] the already initialized Meta class
-    # @param links [Links] the already initialized Links class
+    # @query_param data [Data] the already initialized Data class
+    # @query_param included [Included] the already initialized Included class
+    # @query_param meta [Meta] the already initialized Meta class
+    # @query_param links [Links] the already initialized Links class
     def initialize(data, meta, links, included)
       @data = data
       @meta = meta

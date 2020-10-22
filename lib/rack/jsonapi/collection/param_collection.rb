@@ -13,29 +13,29 @@ module JSONAPI
 
       # #empyt? provided by super class
       # #include provided by super class
-      # @param [JSONAPI::Item::Param] The param or param subclass to add.
-      def add(param)
-        return unless param.is_a? JSONAPI::Item::Param
-        # add the param type unless it is already included
-        p_name = get_simple_param_name(param)
+      # @query_param [JSONAPI::Item::QueryParam] The query_param or query_param subclass to add.
+      def add(query_param)
+        return unless query_param.is_a? JSONAPI::Item::QueryParam
+        # add the query_param type unless it is already included
+        p_name = get_simple_param_name(query_param)
         @param_types << p_name unless p_name == 'params' || @param_types.include?(p_name)
-        super(param, &:name)
+        super(query_param, &:name)
       end
 
-      # Constructs a simplified Param class name to match with method_name
+      # Constructs a simplified QueryParam class name to match with method_name
       #   in #missing_method and #add
-      def get_simple_param_name(param)
-        i = param.class.name.rindex('::')
+      def get_simple_param_name(query_param)
+        i = query_param.class.name.rindex('::')
         raise "i is nil?" if i.nil?
-        name = param.class.name[(i + 2)..]
+        name = query_param.class.name[(i + 2)..]
         name.downcase!
         "#{name}s"
       end
 
-      # Another way to add a param
+      # Another way to add a query_param
       # @oaram (see #add)
-      def <<(param)
-        add(param)
+      def <<(query_param)
+        add(query_param)
       end
 
       # #each provided from super class

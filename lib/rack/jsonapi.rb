@@ -29,7 +29,7 @@ module JSONAPI
   # An abstract Item -- contains 0 to * key-value relationships
   class Item 
     # A generic query parameter
-    class Param 
+    class QueryParam 
       # Specific Query Parameters:
       class Fieldset end
       class Filter end  

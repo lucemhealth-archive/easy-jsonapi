@@ -137,7 +137,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#<<-instance_method" title="#&lt;&lt; (instance method)">#<strong>&lt;&lt;</strong>(param)  &#x21d2; Object </a>
+      <a href="#<<-instance_method" title="#&lt;&lt; (instance method)">#<strong>&lt;&lt;</strong>(query_param)  &#x21d2; Object </a>
     
 
     
@@ -152,7 +152,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Another way to add a param.</p>
+<p>Another way to add a query_param.</p>
 </div></span>
   
 </li>
@@ -161,7 +161,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(param)  &#x21d2; Object </a>
+      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(query_param)  &#x21d2; Object </a>
     
 
     
@@ -185,7 +185,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_simple_param_name-instance_method" title="#get_simple_param_name (instance method)">#<strong>get_simple_param_name</strong>(param)  &#x21d2; Object </a>
+      <a href="#get_simple_param_name-instance_method" title="#get_simple_param_name (instance method)">#<strong>get_simple_param_name</strong>(query_param)  &#x21d2; Object </a>
     
 
     
@@ -200,7 +200,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Constructs a simplified Param class name to match with method_name   in #missing_method and #add.</p>
+<p>Constructs a simplified QueryParam class name to match with method_name   in #missing_method and #add.</p>
 </div></span>
   
 </li>
@@ -402,7 +402,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="<<-instance_method">
   
-    #<strong>&lt;&lt;</strong>(param)  &#x21d2; <tt>Object</tt> 
+    #<strong>&lt;&lt;</strong>(query_param)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -411,7 +411,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Another way to add a param</p>
+<p>Another way to add a query_param</p>
 
 
   </div>
@@ -432,8 +432,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/param_collection.rb', line 37</span>
 
-<span class='kw'>def</span> <span class='op'>&lt;&lt;</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>param</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>param</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='op'>&lt;&lt;</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>query_param</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>query_param</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -443,7 +443,7 @@
       <div class="method_details ">
   <h3 class="signature " id="add-instance_method">
   
-    #<strong>add</strong>(param)  &#x21d2; <tt>Object</tt> 
+    #<strong>add</strong>(query_param)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -459,20 +459,20 @@
 </div>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
-<ul class="param">
+<ul class="query_param">
   
     <li>
       
         <span class='name'>The</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Item/Param.html" title="JSONAPI::Item::Param (class)">JSONAPI::Item::Param</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Item/QueryParam.html" title="JSONAPI::Item::QueryParam (class)">JSONAPI::Item::QueryParam</a></span></tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>param or param subclass to add.</p>
+<p>query_param or query_param subclass to add.</p>
 </div>
       
     </li>
@@ -497,12 +497,12 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/param_collection.rb', line 17</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>param</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_param'>param</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item.html" title="JSONAPI::Item (class)">Item</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item/Param.html" title="JSONAPI::Item::Param (class)">Param</a></span></span>
-  <span class='comment'># add the param type unless it is already included
-</span>  <span class='id identifier rubyid_p_name'>p_name</span> <span class='op'>=</span> <span class='id identifier rubyid_get_simple_param_name'>get_simple_param_name</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>param</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>query_param</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_param'>query_param</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item.html" title="JSONAPI::Item (class)">Item</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item/QueryParam.html" title="JSONAPI::Item::QueryParam (class)">QueryParam</a></span></span>
+  <span class='comment'># add the query_param type unless it is already included
+</span>  <span class='id identifier rubyid_p_name'>p_name</span> <span class='op'>=</span> <span class='id identifier rubyid_get_simple_param_name'>get_simple_param_name</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>query_param</span><span class='rparen'>)</span>
   <span class='ivar'>@param_types</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_p_name'>p_name</span> <span class='kw'>unless</span> <span class='id identifier rubyid_p_name'>p_name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>params</span><span class='tstring_end'>&#39;</span></span> <span class='op'>||</span> <span class='ivar'>@param_types</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_p_name'>p_name</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>param</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>query_param</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -512,7 +512,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_simple_param_name-instance_method">
   
-    #<strong>get_simple_param_name</strong>(param)  &#x21d2; <tt>Object</tt> 
+    #<strong>get_simple_param_name</strong>(query_param)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -521,7 +521,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Constructs a simplified Param class name to match with method_name</p>
+<p>Constructs a simplified QueryParam class name to match with method_name</p>
 
 <pre class="code ruby"><code class="ruby">in #missing_method and #add
 </code></pre>
@@ -549,10 +549,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/param_collection.rb', line 27</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_simple_param_name'>get_simple_param_name</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>param</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='id identifier rubyid_param'>param</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_rindex'>rindex</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>::</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_simple_param_name'>get_simple_param_name</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>query_param</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='id identifier rubyid_param'>query_param</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_rindex'>rindex</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>::</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>i is nil?</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_param'>param</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span> <span class='op'>+</span> <span class='int'>2</span><span class='rparen'>)</span><span class='op'>..</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_param'>query_param</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='lbracket'>[</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span> <span class='op'>+</span> <span class='int'>2</span><span class='rparen'>)</span><span class='op'>..</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_downcase!'>downcase!</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>s</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>

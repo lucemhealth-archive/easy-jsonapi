@@ -1,15 +1,15 @@
 GET /articles?include=author&fields[articles]=title,body&fields[people]=name
 
 resource = JSONAPI::Resource.new('articles')
-JSONAPI::Item::Param::Include.new('author')
+JSONAPI::Item::QueryParam::Include.new('author')
 JSONAPI::Fieldset.new(
     [
-        JSONAPI::Item::Param::Field.new('articles', [
+        JSONAPI::Item::QueryParam::Field.new('articles', [
             JSONAPI::Resource::Field.new('title', nil), 
             JSONAPI::Resource::Field.new('body', nil)
         ])
     , 
-        JSONAPI::Item::Param::Field.new('people', [
+        JSONAPI::Item::QueryParam::Field.new('people', [
             JSONAPI::Resource::Field.new('name', nil)
         ])
     ]
@@ -22,7 +22,7 @@ JSONAPI::Fieldset.new(
 # @host = "https://api.curatess.io"
 # req.params.fields == ParamCollection
 
-JSONAPI::Item::Param::Field.new()
+JSONAPI::Item::QueryParam::Field.new()
 resource.attributes.add JSONAPI::Resource::Field.new('title', "my title")
 resource.attributes.add JSONAPI::Resource::Field.new('body')
 resource.route -> "https://api.curatess.io/articles/123?fields[articles]=title,body" 
@@ -40,9 +40,9 @@ JSONAPI::Resource::RelationshipCollection
 
 resource = JSONAPI::Resource.new('article')
 article_fields = []
-article_fields << JSONAPI::Item::Param::Fields.new('articles' , JSONAPI::Resource::Field.new('title', nil))
-article_fields << JSONAPI::Item::Param::Fields.new('articles', JSONAPI::Resource::Field.new('body', nil)))
-# article_fields << JSONAPI::Item::Param::Field.new('people', JSONAPI::Resource::Field.new('name', nil))) <-- added by joshua
+article_fields << JSONAPI::Item::QueryParam::Fields.new('articles' , JSONAPI::Resource::Field.new('title', nil))
+article_fields << JSONAPI::Item::QueryParam::Fields.new('articles', JSONAPI::Resource::Field.new('body', nil)))
+# article_fields << JSONAPI::Item::QueryParam::Field.new('people', JSONAPI::Resource::Field.new('name', nil))) <-- added by joshua
 article_fieldset  = JSONAPI::Fieldset.new(resource.type, article_fields)
 
 resource.attributes.add() <- make sure the ::Resource::Field resource 
@@ -55,5 +55,5 @@ JSONAPI::Fieldset.new
 
 
   #  Questions:
-  # - seems like ::Param::Field should be plural bc it refers to a collection of attributes related to a resource object
+  # - seems like ::QueryParam::Field should be plural bc it refers to a collection of attributes related to a resource object
   # - still don't know what route does tbh

@@ -21,9 +21,9 @@ module JSONAPI
       end
       
       # Checks a request document against the JSON:API spec to see if it complies
-      # @param document [Hash] The jsonapi document included with the http request
-      # @param request [TrueClass | FalseClass] Whether the document belongs to a http request
-      # @param post_request [TrueClass | FalseClass] Whether the document belongs to a post request
+      # @query_param document [Hash] The jsonapi document included with the http request
+      # @query_param request [TrueClass | FalseClass] Whether the document belongs to a http request
+      # @query_param post_request [TrueClass | FalseClass] Whether the document belongs to a post request
       # @raises InvalidDocument if any part of the spec is not observed
       def self.check_compliance!(document, request: nil, post_request: nil)
         raise "Document is nil" if document.nil?
@@ -42,7 +42,7 @@ module JSONAPI
       # **********************************
 
       # Checks if there are any errors in the top level hash
-      # @param (see *check_compliance!)
+      # @query_param (see *check_compliance!)
       # @raises (see check_compliance!)
       def self.check_top_level!(document, request: false)
         ensure!(document.is_a?(Hash),
@@ -69,7 +69,7 @@ module JSONAPI
       # **********************************
 
       # Checks if any errors exist in the jsonapi document members
-      # @param (see #check_compliance!)
+      # @query_param (see #check_compliance!)
       # @raises (see #check_compliance!)
       def self.check_members!(document, request: false, post_request: false)
         check_data!(document[:data], request: request, post_request: post_request) if document.key? :data
@@ -82,9 +82,9 @@ module JSONAPI
 
       # -- TOP LEVEL - PRIMARY DATA
 
-      # @param data [Hash | Array<Hash>] A resource or array or resources
-      # @param (see #check_compliance!)
-      # @param (see #check_compliance!)
+      # @query_param data [Hash | Array<Hash>] A resource or array or resources
+      # @query_param (see #check_compliance!)
+      # @query_param (see #check_compliance!)
       # @raises (see #check_compliance!)
       def self.check_data!(data, request: false, post_request: false)
         ensure!(data.is_a?(Hash) || !request,
@@ -100,8 +100,8 @@ module JSONAPI
         end
       end
 
-      # @param resource [Hash] The jsonapi resource object
-      # @param (see #check_compliance!)
+      # @query_param resource [Hash] The jsonapi resource object
+      # @query_param (see #check_compliance!)
       # @raises (see #check_compliance!)
       def self.check_resource!(resource, post_request: false)
         if !post_request
@@ -124,7 +124,7 @@ module JSONAPI
         check_resource_members!(resource)      
       end
 
-      # @param (see #check_resource!)
+      # @query_param (see #check_resource!)
       # @raises (see #check_compliance!)
       def self.check_resource_members!(resource)
         check_attributes!(resource[:attributes]) if resource.key? :attributes
@@ -133,7 +133,7 @@ module JSONAPI
         check_links!(resource[:links]) if resource.key? :links
       end
 
-      # @param attributes [Hash] The attributes for resource
+      # @query_param attributes [Hash] The attributes for resource
       # @raises (see #check_compliance!)
       def self.check_attributes!(attributes)
         ensure!(attributes.is_a?(Hash),
@@ -144,7 +144,7 @@ module JSONAPI
         # Member names checked separately.
       end
 
-      # @param rels [Hash] The relationships obj for resource
+      # @query_param rels [Hash] The relationships obj for resource
       # @raises (see #check_compliance!)
       def self.check_relationships!(rels)
         ensure!(rels.is_a?(Hash),
@@ -152,7 +152,7 @@ module JSONAPI
         rels.each_value { |rel| check_relationship!(rel) }
       end
 
-      # @param rel [Hash] A relationship object
+      # @query_param rel [Hash] A relationship object
       # @raises (see #check_compliance!)
       def self.check_relationship!(rel)
         ensure!(rel.is_a?(Hash), 'Each relationships member MUST be a object')
@@ -167,7 +167,7 @@ module JSONAPI
         check_meta!(rel[:meta]) if rel.key? :meta
       end
 
-      # @param links [Hash] A resources relationships relationship links
+      # @query_param links [Hash] A resources relationships relationship links
       # @raises (see #check_compliance!)
       def self.check_relationship_links!(links)
         ensure!(!(links.keys & RELATIONSHIP_LINK_KEYS).empty?,
@@ -176,7 +176,7 @@ module JSONAPI
         check_links!(links)
       end
 
-      # @param data [Hash] A resources relationships relationship data
+      # @query_param data [Hash] A resources relationships relationship data
       # @raises (see #check_compliance!)
       def self.check_relationship_data!(data)
         case data
@@ -191,7 +191,7 @@ module JSONAPI
         end
       end
 
-      # @param res_id [Hash] A resource identifier object
+      # @query_param res_id [Hash] A resource identifier object
       def self.check_resource_identifier!(res_id)
         ensure!(res_id.is_a?(Hash),
                 'A resource identifier object MUST be an object')
@@ -205,7 +205,7 @@ module JSONAPI
 
       # -- TOP LEVEL - ERRORS
 
-      # @param errors [Array] The array of errors contained in the jsonapi document
+      # @query_param errors [Array] The array of errors contained in the jsonapi document
       # @raises (see #check_compliance!)
       def self.check_errors!(errors)
         ensure!(errors.is_a?(Array),
@@ -213,7 +213,7 @@ module JSONAPI
         errors.each { |error| check_error!(error) }
       end
 
-      # @param error [Hash] The individual error object
+      # @query_param error [Hash] The individual error object
       # @raises (see check_compliance!)
       def self.check_error!(error)
         ensure!(error.is_a?(Hash),
@@ -224,7 +224,7 @@ module JSONAPI
 
       # -- TOP LEVEL - META
 
-      # @param meta [Hash] The meta object
+      # @query_param meta [Hash] The meta object
       # @raises (see check_compliance!)
       def self.check_meta!(meta)
         ensure!(meta.is_a?(Hash), 'A meta object MUST be an object')
@@ -233,7 +233,7 @@ module JSONAPI
 
       # -- TOP LEVEL - JSONAPI
 
-      # @param jsonapi [Hash] The top level jsonapi object
+      # @query_param jsonapi [Hash] The top level jsonapi object
       # @raises (see check_compliance!)
       def self.check_jsonapi!(jsonapi)
         ensure!(jsonapi.is_a?(Hash), 'A JSONAPI object MUST be an object')
@@ -246,7 +246,7 @@ module JSONAPI
 
       # -- TOP LEVEL - LINKS
 
-      # @param links [Hash] The links object
+      # @query_param links [Hash] The links object
       # @raises (see check_compliance!)
       def self.check_links!(links)
         ensure!(links.is_a?(Hash), 'A links object MUST be an object')
@@ -254,7 +254,7 @@ module JSONAPI
         nil
       end
 
-      # @param link [String | Hash] A member of the links object
+      # @query_param link [String | Hash] A member of the links object
       # @raises (see check_compliance!)
       def self.check_link!(link)
         # A link MUST be either a string URL or an object with href / meta
@@ -276,7 +276,7 @@ module JSONAPI
 
       # -- TOP LEVEL - INCLUDED
 
-      # @param included [Array] The array of included resources
+      # @query_param included [Array] The array of included resources
       # @raises (see check_compliance!)
       def self.check_included!(included)
         ensure!(included.is_a?(Array),
@@ -290,7 +290,7 @@ module JSONAPI
       
       # Checks all the member names in a document recursively and raises an error saying
       #   which member did not observe the jsonapi member name rules and which rule
-      # @param obj The entire request document or part of the request document.
+      # @query_param obj The entire request document or part of the request document.
       # @raises (see #check_compliance!)
       def self.check_member_names!(obj)
         case obj
@@ -305,7 +305,7 @@ module JSONAPI
         nil
       end
 
-      # @param name The invidual member's name that is being checked
+      # @query_param name The invidual member's name that is being checked
       # @raises (see check_compliance!)
       def self.check_name(name)
         msg = JSONAPI::Exceptions::NamingExceptions.check_member_constraints(name)
@@ -318,8 +318,8 @@ module JSONAPI
       # **********************************
       
       # Helper function to raise InvalidDocument errors
-      # @param condition The condition to evaluate
-      # @param error_message [String] The message to raise InvalidDocument with
+      # @query_param condition The condition to evaluate
+      # @query_param error_message [String] The message to raise InvalidDocument with
       # @raises InvalidDocument
       def self.ensure!(condition, error_message)
         raise InvalidDocument, error_message unless condition

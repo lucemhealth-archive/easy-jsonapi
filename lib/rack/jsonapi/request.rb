@@ -6,10 +6,10 @@ module JSONAPI
   class Request
     attr_accessor :path, :protocol, :host, :port, :query_string, :params, :headers, :document
 
-    # @param env The rack envirornment hash
-    # @param param_collection [ParamCollection] The already initialized ParamCollection class
-    # @param header_collection [HeaderCollection] The already initialized HeaderCollection class
-    # @param document [Document] The already initialized Document class
+    # @query_param env The rack envirornment hash
+    # @query_param param_collection [ParamCollection] The already initialized ParamCollection class
+    # @query_param header_collection [HeaderCollection] The already initialized HeaderCollection class
+    # @query_param document [Document] The already initialized Document class
     def initialize(env, param_collection, header_collection, document)
       @path = env['REQUEST_PATH']
       @protocol = env['REQUEST_METHOD']
