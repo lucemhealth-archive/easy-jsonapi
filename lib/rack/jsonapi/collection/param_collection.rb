@@ -41,9 +41,9 @@ module JSONAPI
       # #each provided from super class
       # #remove provided from super class
       
-      def get(resource_name)
-        super("fields[#{resource_name}]")
-      end
+      # def get(resource_name)
+      #   super(resource_name)
+      # end
 
       # #keys provided by super class
       # #size provided by super class

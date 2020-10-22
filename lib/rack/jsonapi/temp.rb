@@ -42,7 +42,7 @@ resource = JSONAPI::Resource.new('article')
 article_fields = []
 article_fields << JSONAPI::Item::Param::Fields.new('articles' , JSONAPI::Resource::Field.new('title', nil))
 article_fields << JSONAPI::Item::Param::Fields.new('articles', JSONAPI::Resource::Field.new('body', nil)))
-# article_fields << JSONAPI::Item::Param::Field.new('people', JSONAPI::Resource::Field.new('name', nil))) <-- added by josh
+# article_fields << JSONAPI::Item::Param::Field.new('people', JSONAPI::Resource::Field.new('name', nil))) <-- added by joshua
 article_fieldset  = JSONAPI::Fieldset.new(resource.type, article_fields)
 
 resource.attributes.add() <- make sure the ::Resource::Field resource 

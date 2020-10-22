@@ -33,7 +33,7 @@ module JSONAPI
         # {
         #   "include"=>"author, comments.author",
         #   "fields"=>{"articles"=>"title,body,author", "people"=>"name"},
-        #   "josh"=>"demoss",
+        #   "josh_ua"=>"demoss",
         #   "page"=>{"offset"=>"1", "limit"=>"1"}
         # }
 

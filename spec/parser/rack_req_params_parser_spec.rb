@@ -9,7 +9,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
       {
         'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
         'include' => 'author, comments.author',
-        'josh' => 'demoss',
+        'josh_ua' => 'demoss',
         'page' => { 'offset' => '1', 'limit' => '1' }
       }
     

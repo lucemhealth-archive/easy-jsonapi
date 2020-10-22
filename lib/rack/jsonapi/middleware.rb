@@ -27,7 +27,6 @@ module JSONAPI
       jsonapi_document = includes_jsonapi_document?(env)
       if jsonapi_document || !configured_to_skip?
         jsonapi_request = JSONAPI::Parser.parse_request!(env, jsonapi_document)
-        pp "jsonapi_request constructed? #{jsonapi_request.nil?}"
         send_to_rack_app(jsonapi_request, 'jsonapi_request')
       end
 
