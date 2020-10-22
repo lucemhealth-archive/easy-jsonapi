@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: JSONAPI::Item::Header
+  Class: JSONAPI::Header
   
     &mdash; Documentation by YARD 0.9.25
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "JSONAPI::Item::Header";
+  pathId = "JSONAPI::Header";
   relpath = '../../';
 </script>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: JSONAPI::Item::Header
+      <div id="content"><h1>Class: JSONAPI::Header
   
   
   
@@ -76,7 +76,7 @@
           
             <li class="next"><span class='object_link'><a href="../Item.html" title="JSONAPI::Item (class)">JSONAPI::Item</a></span></li>
           
-            <li class="next">JSONAPI::Item::Header</li>
+            <li class="next">JSONAPI::Header</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -96,7 +96,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/item/header.rb</dd>
+    <dd>lib/rack/jsonapi/header.rb</dd>
   </dl>
   
 </div>
@@ -289,7 +289,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(name, value)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Item::Header (class)">Header</a></span></tt> 
+    #<strong>initialize</strong>(name, value)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Header (class)">Header</a></span></tt> 
   
 
   
@@ -353,7 +353,7 @@
 12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/header.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='lbrace'>{</span> <span class='label'>name:</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='label'>value:</span> <span class='id identifier rubyid_value'>value</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
@@ -429,7 +429,7 @@
 17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/header.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header.rb', line 15</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
@@ -488,7 +488,7 @@
 22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/header.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_name'>new_name</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_name'>new_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -529,7 +529,7 @@
 37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/header.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{ &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; =&gt; &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; }</span><span class='tstring_end'>&quot;</span></span>
@@ -588,7 +588,7 @@
 27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/header.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
@@ -647,7 +647,7 @@
 32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/header.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value='>value=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_value'>new_value</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_value'>new_value</span>

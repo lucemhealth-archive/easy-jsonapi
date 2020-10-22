@@ -13,16 +13,16 @@ module JSONAPI
 
       # #empyt? provided by super class
       # #include provided by super class
-      # @query_param [JSONAPI::Item::QueryParam] The query_param or query_param subclass to add.
+      # @query_param [JSONAPI::Request::QueryParam] The query_param or query_param subclass to add.
       def add(query_param)
-        return unless query_param.is_a? JSONAPI::Item::QueryParam
+        return unless query_param.is_a? JSONAPI::Request::QueryParam
         # add the query_param type unless it is already included
         p_name = get_simple_param_name(query_param)
         @param_types << p_name unless p_name == 'params' || @param_types.include?(p_name)
         super(query_param, &:name)
       end
 
-      # Constructs a simplified QueryParam class name to match with method_name
+      # Constructs a simplified JSONAPI::Request::QueryParam class name to match with method_name
       #   in #missing_method and #add
       def get_simple_param_name(query_param)
         i = query_param.class.name.rindex('::')

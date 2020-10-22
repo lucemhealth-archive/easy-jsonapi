@@ -15,7 +15,7 @@ module JSONAPI
       # #include provided by super class
 
       def add(header)
-        return unless header.is_a? JSONAPI::Item::Header
+        return unless header.is_a? JSONAPI::Header
         # add the header type unless it is already included
         @header_types << header.class.name unless @header_types.include?(header.class.name) || header.class.name == 'Header'
         super(header, &:name)
@@ -28,17 +28,17 @@ module JSONAPI
       # #size provided by super class
 
       def to_s
-        to_return = '{'
+        to_return = '{ '
         is_first = true
         each do |header|
           if is_first
-            to_return += "'#{header.name}' => '#{header.value}'"
+            to_return += "#{header.to_s}"
             is_first = false
           else
-            to_return += ", '#{header.name}' => '#{header.value}'"
+            to_return += ", #{header}"
           end
         end
-        to_return += '}'
+        to_return += ' }'
       end
       
       # def method_missing(method_name, *args, &block)

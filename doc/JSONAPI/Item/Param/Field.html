@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: JSONAPI::Item::QueryParam::Field
+  Class: JSONAPI::Request::QueryParam::Field
   
     &mdash; Documentation by YARD 0.9.25
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "JSONAPI::Item::QueryParam::Field";
+  pathId = "JSONAPI::Request::QueryParam::Field";
   relpath = '../../../';
 </script>
 
@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="../../../_index.html">Index (F)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Item.html" title="JSONAPI::Item (class)">Item</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Item::QueryParam (class)">QueryParam</a></span></span>
+    <span class='title'><span class='object_link'><a href="../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Item.html" title="JSONAPI::Item (class)">Item</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../JSONAPI::Request::QueryParam.html" title="JSONAPI::Request::QueryParam (class)">JSONAPI::Request::QueryParam</a></span></span>
      &raquo; 
     <span class="title">Field</span>
   
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: JSONAPI::Item::QueryParam::Field
+      <div id="content"><h1>Class: JSONAPI::Request::QueryParam::Field
   
   
   
@@ -69,16 +69,16 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Item::QueryParam (class)">JSONAPI::Item::QueryParam</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="../JSONAPI::Request::QueryParam.html" title="JSONAPI::Request::QueryParam (class)">JSONAPI::Request::QueryParam</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next"><span class='object_link'><a href="../../Item.html" title="JSONAPI::Item (class)">JSONAPI::Item</a></span></li>
           
-            <li class="next"><span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Item::QueryParam (class)">JSONAPI::Item::QueryParam</a></span></li>
+            <li class="next"><span class='object_link'><a href="../JSONAPI::Request::QueryParam.html" title="JSONAPI::Request::QueryParam (class)">JSONAPI::Request::QueryParam</a></span></li>
           
-            <li class="next">JSONAPI::Item::QueryParam::Field</li>
+            <li class="next">JSONAPI::Request::QueryParam::Field</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -98,7 +98,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/item/query_param/field.rb</dd>
+    <dd>lib/rack/jsonapi/request/query_param/field.rb</dd>
   </dl>
   
 </div>
@@ -106,7 +106,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Used to create a unique Fieldset QueryParam</p>
+<p>Used to create a unique Fieldset JSONAPI::Request::QueryParam</p>
 
 
   </div>
@@ -349,8 +349,8 @@
   
   
   
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Item::QueryParam (class)">JSONAPI::Item::QueryParam</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../QueryParam.html#name-instance_method" title="JSONAPI::Item::QueryParam#name (method)">#name</a></span></p>
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../JSONAPI::Request::QueryParam.html" title="JSONAPI::Request::QueryParam (class)">JSONAPI::Request::QueryParam</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../JSONAPI::Request::QueryParam.html#name-instance_method" title="JSONAPI::Request::QueryParam#name (method)">#name</a></span></p>
 
   
   
@@ -368,7 +368,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(resource, res_fields_arr)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Item::QueryParam::Field (class)">Field</a></span></tt> 
+    #<strong>initialize</strong>(resource, res_fields_arr)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Request::QueryParam::Field (class)">Field</a></span></tt> 
   
 
   
@@ -434,7 +434,7 @@
 16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
@@ -483,7 +483,7 @@
 31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_attributes'>attributes</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:attributes</span><span class='rbracket'>]</span>
@@ -543,7 +543,7 @@
 37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_attributes='>attributes=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_attributes'>new_attributes</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_attributes'>new_attributes</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_new_attributes'>new_attributes</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_new_attributes'>new_attributes</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
@@ -605,7 +605,7 @@
 51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set the name of a Field object</span><span class='tstring_end'>&#39;</span></span>
@@ -635,7 +635,7 @@
 21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource'>resource</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:resource</span><span class='rbracket'>]</span>
@@ -694,7 +694,7 @@
 26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource='>resource=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_resource'>new_resource</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:resource</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_resource'>new_resource</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -725,7 +725,7 @@
 43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_str_attr'>str_attr</span> <span class='op'>=</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
@@ -767,7 +767,7 @@
 56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Field objects do not have a value method, try #resource or #attributes</span><span class='tstring_end'>&#39;</span></span>
@@ -828,7 +828,7 @@
 62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/item/query_param/field.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param/field.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value='>value=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set value of Field object, becausee Field does not have a value</span><span class='tstring_end'>&#39;</span></span>

@@ -3,7 +3,7 @@
 require 'rack/jsonapi/collection'
 require 'rack/jsonapi/collection/header_collection'
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/header'
+require 'rack/jsonapi/header'
 
 describe JSONAPI::Collection::HeaderCollection do
 
@@ -16,7 +16,7 @@ describe JSONAPI::Collection::HeaderCollection do
       { name: 'WWW-Authenticate', value: 'Basic realm="Access to the staging site", charset="UTF-8"' }
     ]
 
-    @param_arr = obj_arr.map { |obj| JSONAPI::Item::Header.new(obj[:name], obj[:value]) }
+    @param_arr = obj_arr.map { |obj| JSONAPI::Header.new(obj[:name], obj[:value]) }
   end
 
   # Our main collection to test
@@ -51,7 +51,7 @@ describe JSONAPI::Collection::HeaderCollection do
       expect(ehc.include?('new_header')).to be false
       expect(ehc.include?(:new_header)).to be false
       expect(ehc.include?('nEw_HEadEr')).to be false
-      header = JSONAPI::Item::Header.new('new_header', 'new_val')
+      header = JSONAPI::Header.new('new_header', 'new_val')
       ehc.add(header)
       expect(ehc.include?('new_header')).to be true
       expect(ehc.include?(:new_header)).to be true
@@ -69,14 +69,14 @@ describe JSONAPI::Collection::HeaderCollection do
   describe '#add' do
     it 'should make #empty? return false' do
       expect(ehc.empty?).to be true
-      item = JSONAPI::Item::Header.new('test', 'ing')
+      item = JSONAPI::Header.new('test', 'ing')
       ehc.add(item)
       expect(ehc.empty?).to be false
     end
 
     it 'should add items to the collection' do
       expect(ehc.empty?).to be true
-      header = JSONAPI::Item::Header.new('test', 'ing')
+      header = JSONAPI::Header.new('test', 'ing')
       ehc.add(header)
       expect(ehc.collection.include?(:test)).to be true
     end
@@ -102,7 +102,7 @@ describe JSONAPI::Collection::HeaderCollection do
         checker = true
         hc.each do |header| 
           cur_class = header.class
-          checker = ((cur_class == JSONAPI::Item::Header) && checker)
+          checker = ((cur_class == JSONAPI::Header) && checker)
         end
         expect(checker).to eq true
       end
@@ -120,7 +120,7 @@ describe JSONAPI::Collection::HeaderCollection do
       header = hc.remove('host')
       expect(hc.include?('host')).to be false
       expect(header.name).to eq 'Host'
-      expect(header.class).to eq JSONAPI::Item::Header
+      expect(header.class).to eq JSONAPI::Header
     end
   end
 
@@ -132,12 +132,12 @@ describe JSONAPI::Collection::HeaderCollection do
     
     it 'should return the appropriate header' do
       header = hc.get(:host)
-      expect(header.class).to eq JSONAPI::Item::Header
+      expect(header.class).to eq JSONAPI::Header
       expect(header.name).to eq 'Host'
     end
 
     it 'should be case insensitive and work for symbol or string' do
-      header = JSONAPI::Item::Header.new('test', 'ing')
+      header = JSONAPI::Header.new('test', 'ing')
       ehc.add(header)
       expect(ehc.get('test').value).to eq 'ing'
       expect(ehc.get(:test).value).to eq 'ing'
@@ -160,13 +160,13 @@ describe JSONAPI::Collection::HeaderCollection do
   describe '#to_s' do
   
     to_string = 
-      '{' \
-      "'Content-Type' => 'application/vnd.api+json', " \
-      "'Accept' => 'application/vnd.api+json, text/plain, text/html ; level=1 ; q=0.5, text/x-div; q=0.8, text/x-c, */*', " \
-      "'Host' => 'localhost:9292', " \
-      "'Connection' => 'keep-alive', " \
-      "'WWW-Authenticate' => 'Basic realm=\"Access to the staging site\", charset=\"UTF-8\"'" \
-      '}'
+      '{ ' \
+      "{ 'Content-Type' => 'application/vnd.api+json' }, " \
+      "{ 'Accept' => 'application/vnd.api+json, text/plain, text/html ; level=1 ; q=0.5, text/x-div; q=0.8, text/x-c, */*' }, " \
+      "{ 'Host' => 'localhost:9292' }, " \
+      "{ 'Connection' => 'keep-alive' }, " \
+      "{ 'WWW-Authenticate' => 'Basic realm=\"Access to the staging site\", charset=\"UTF-8\"' }" \
+      ' }'
 
     it "should return an array of name/vals hashes as a string representing Collection's contents" do
       expect(hc.to_s).to eq to_string

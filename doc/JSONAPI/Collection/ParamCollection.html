@@ -200,7 +200,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Constructs a simplified QueryParam class name to match with method_name   in #missing_method and #add.</p>
+<p>Constructs a simplified JSONAPI::Request::QueryParam class name to match with method_name   in #missing_method and #add.</p>
 </div></span>
   
 </li>
@@ -466,7 +466,7 @@
         <span class='name'>The</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Item/QueryParam.html" title="JSONAPI::Item::QueryParam (class)">JSONAPI::Item::QueryParam</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Item/JSONAPI::Request::QueryParam.html" title="JSONAPI::Request::QueryParam (class)">JSONAPI::Request::QueryParam</a></span></tt>)</span>
       
       
       
@@ -498,7 +498,7 @@
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/param_collection.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>query_param</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_param'>query_param</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item.html" title="JSONAPI::Item (class)">Item</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item/QueryParam.html" title="JSONAPI::Item::QueryParam (class)">QueryParam</a></span></span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_param'>query_param</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item.html" title="JSONAPI::Item (class)">Item</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item/JSONAPI::Request::QueryParam.html" title="JSONAPI::Request::QueryParam (class)">JSONAPI::Request::QueryParam</a></span></span>
   <span class='comment'># add the query_param type unless it is already included
 </span>  <span class='id identifier rubyid_p_name'>p_name</span> <span class='op'>=</span> <span class='id identifier rubyid_get_simple_param_name'>get_simple_param_name</span><span class='lparen'>(</span><span class='id identifier rubyid_param'>query_param</span><span class='rparen'>)</span>
   <span class='ivar'>@param_types</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_p_name'>p_name</span> <span class='kw'>unless</span> <span class='id identifier rubyid_p_name'>p_name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>params</span><span class='tstring_end'>&#39;</span></span> <span class='op'>||</span> <span class='ivar'>@param_types</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_p_name'>p_name</span><span class='rparen'>)</span>
@@ -521,7 +521,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Constructs a simplified QueryParam class name to match with method_name</p>
+<p>Constructs a simplified JSONAPI::Request::QueryParam class name to match with method_name</p>
 
 <pre class="code ruby"><code class="ruby">in #missing_method and #add
 </code></pre>

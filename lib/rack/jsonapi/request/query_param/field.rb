@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module JSONAPI
-  class Item
+  class Request
     class QueryParam
-      # Used to create a unique Fieldset QueryParam
-      class Field < JSONAPI::Item::QueryParam
+      # Used to create a unique Fieldset JSONAPI::Request::QueryParam
+      class Field < QueryParam
         
         # @query_param resource [String] The resource the JSONAPI::Resource::Fields belong to
         # @query_param res_fields [Array<JSONAPI::Resource::Field>] An array containing the only 
@@ -14,7 +14,7 @@ module JSONAPI
           unique_hash = "fields[#{resource}]"
           super(unique_hash, { resource: resource, attributes: res_fields_arr })
         end
-
+  
         # @returns [String] The name of the resource 
         def resource
           @item[:value][:resource]
@@ -41,20 +41,20 @@ module JSONAPI
           str_attr = attributes.map(&:name)
           "{ fields => { '#{resource}' => '#{str_attr.join(',')}' } }"
         end
-
+  
         # #name provided by super class
-
+  
         # Raise a runtime error if name is attempted to be reset
         # @query_param [Any] Any given input.
         def name=(_)
           raise 'Cannot set the name of a Field object'
         end
-
+  
         # Raise a runtime error if value is attempted to be accessed
         def value
           raise 'Field objects do not have a value method, try #resource or #attributes'
         end
-
+  
         # Raise a runtime error if value is attempted to be reset
         # @query_param [Any] Any given input.
         def value=(_)

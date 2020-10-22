@@ -2,11 +2,11 @@
 
 module JSONAPI
   class Item
-    # A generic name->value query parameter
-    class Header < JSONAPI::Item
+    # A generic name->value query pair
+    class NameValuePair < JSONAPI::Item
       
-      # @query_param name The name of the parameter
-      # @query_param value The value of the parameter
+      # @query_param name The name of the pair
+      # @query_param value The value of the pair
       def initialize(name, value)
         super({ name: name.to_s, value: value })
       end
@@ -31,12 +31,12 @@ module JSONAPI
         @item[:value] = new_value
       end
 
-      # Represents a parameter as a string
+      # Represents a pair as a string
       def to_s
         "{ '#{name}' => '#{value}' }"
       end
 
-      # prevent QueryParam and Subclasses from accessing Item's #method_missing
+      # prevent users and sublcasses from accessing Parent's #method_missing
       private :method_missing
     end
   end

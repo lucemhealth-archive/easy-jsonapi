@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/query_param'
+require 'rack/jsonapi/request/query_param'
 
-describe JSONAPI::Item::QueryParam do
+describe JSONAPI::Request::QueryParam do
   
-  let(:p1) { JSONAPI::Item::QueryParam.new('test', 'ing') }
+  let(:p1) { JSONAPI::Request::QueryParam.new('test', 'ing') }
 
   describe '#initialize' do
 

@@ -4,7 +4,7 @@ require 'rack/jsonapi/collection'
 require 'rack/jsonapi/collection/header_collection'
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/header'
+require 'rack/jsonapi/header'
 
 require 'rack/jsonapi/exceptions'
 require 'rack/jsonapi/exceptions/headers_exceptions'
@@ -21,9 +21,9 @@ module JSONAPI
         h_arr = []
         env.each_key do |k|
           if k.start_with?('HTTP_') && (k != 'HTTP_VERSION')
-            h_arr << JSONAPI::Item::Header.new(k[5..], env[k])
+            h_arr << JSONAPI::Header.new(k[5..], env[k])
           elsif k == 'CONTENT_TYPE'
-            h_arr << JSONAPI::Item::Header.new(k, env[k])
+            h_arr << JSONAPI::Header.new(k, env[k])
           end
         end
         JSONAPI::Collection::HeaderCollection.new(h_arr)

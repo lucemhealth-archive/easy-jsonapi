@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module JSONAPI
-  class Item
+  class Request
     class QueryParam
-      # Used to create a unique Sort QueryParam
-      class Sort < JSONAPI::Item::QueryParam
+      # Used to create a unique Sort JSONAPI::Request::QueryParam
+      class Sort < QueryParam
         
         # #name provided by super class
         # #value and #value= provided by super class
@@ -13,7 +13,7 @@ module JSONAPI
         def initialize(value)
           super('sort', value)
         end
-
+  
         # Raise a runtime error if name is attempted to be reset
         # @query_param [Any] Any given input.
         def name=(_)

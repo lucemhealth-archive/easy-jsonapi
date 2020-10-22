@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module JSONAPI
-  class Item
+  class Request
     class QueryParam
-      # Used to create a unique Filter QueryParam
-      class Filter < JSONAPI::Item::QueryParam
+      # Used to create a unique Filter JSONAPI::Request::QueryParam
+      class Filter < QueryParam
         
         # #name provided by super class
         # #value & #value= provided by super class
@@ -13,7 +13,7 @@ module JSONAPI
         def initialize(value)
           super('filter', value)
         end
-
+  
         # Raise a runtime error if name is attempted to be reset
         # @query_param [Any] Any given input.
         def name=(_)

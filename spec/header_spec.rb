@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/header'
+require 'rack/jsonapi/header'
 
-describe JSONAPI::Item::Header do
+describe JSONAPI::Header do
   
-  let(:p1) { JSONAPI::Item::Header.new('test', 'ing') }
+  let(:p1) { JSONAPI::Header.new('test', 'ing') }
 
   describe '#initialize' do
 

@@ -22,6 +22,7 @@ module JSONAPI
     #   created in the initialize
     def method_missing(method_name, *args, &block)
       return unless is_a? JSONAPI::Item
+      return unless @item.is_a? Hash
       if should_update_var?(method_name)
         @item[method_name[..-2].to_sym] = args[0]
       elsif should_get_var?(method_name)
@@ -37,6 +38,7 @@ module JSONAPI
     end
 
     def to_s
+      return @item.to_s unless @item.is_a? Hash
       tr = '{ '
       first = true
       @item.each do |k, v|

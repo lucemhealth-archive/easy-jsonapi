@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/query_param'
-require 'rack/jsonapi/item/query_param/field'
+require 'rack/jsonapi/request/query_param'
+require 'rack/jsonapi/request/query_param/field'
 require 'rack/jsonapi/document/data/resource/field'
 
-describe JSONAPI::Item::QueryParam::Field do
+describe JSONAPI::Request::QueryParam::Field do
   let(:res_field_arr1) do
     [
       JSONAPI::Document::Data::Resource::Field.new('title', nil), 
@@ -19,9 +19,9 @@ describe JSONAPI::Item::QueryParam::Field do
     ]
   end
 
-  let(:f1) { JSONAPI::Item::QueryParam::Field.new('articles', res_field_arr1) }
+  let(:f1) { JSONAPI::Request::QueryParam::Field.new('articles', res_field_arr1) }
 
-  let(:f2) { JSONAPI::Item::QueryParam::Field.new('people', res_field_arr2) }
+  let(:f2) { JSONAPI::Request::QueryParam::Field.new('people', res_field_arr2) }
 
   describe '#initialize' do
 

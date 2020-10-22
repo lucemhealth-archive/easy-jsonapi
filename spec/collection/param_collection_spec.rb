@@ -5,12 +5,12 @@ require 'rack/jsonapi/collection'
 require 'rack/jsonapi/collection/param_collection'
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/query_param'
-require 'rack/jsonapi/item/query_param/field'
-require 'rack/jsonapi/item/query_param/filter'
-require 'rack/jsonapi/item/query_param/include'
-require 'rack/jsonapi/item/query_param/page'
-require 'rack/jsonapi/item/query_param/sort'
+require 'rack/jsonapi/request/query_param'
+require 'rack/jsonapi/request/query_param/field'
+require 'rack/jsonapi/request/query_param/filter'
+require 'rack/jsonapi/request/query_param/include'
+require 'rack/jsonapi/request/query_param/page'
+require 'rack/jsonapi/request/query_param/sort'
 
 require 'rack/jsonapi/document/data/resource/field'
 
@@ -29,24 +29,24 @@ describe JSONAPI::Collection::ParamCollection do
 
     @param_arr = 
       [
-        JSONAPI::Item::QueryParam::Include.new('author,comments.likes'),
-        JSONAPI::Item::QueryParam::Field.new(
+        JSONAPI::Request::QueryParam::Include.new('author,comments.likes'),
+        JSONAPI::Request::QueryParam::Field.new(
           'articles', 
           [
             JSONAPI::Document::Data::Resource::Field.new('title', nil), 
             JSONAPI::Document::Data::Resource::Field.new('body', nil)
           ]
         ),
-        JSONAPI::Item::QueryParam::Field.new(
+        JSONAPI::Request::QueryParam::Field.new(
           'people', 
           [
             JSONAPI::Document::Data::Resource::Field.new('name', nil)
           ]
         ),
-        JSONAPI::Item::QueryParam.new('leBron', 'james'),
-        JSONAPI::Item::QueryParam::Page.new(3, 25),
-        JSONAPI::Item::QueryParam::Sort.new('alpha'),
-        JSONAPI::Item::QueryParam::Filter.new('special')
+        JSONAPI::Request::QueryParam.new('leBron', 'james'),
+        JSONAPI::Request::QueryParam::Page.new(3, 25),
+        JSONAPI::Request::QueryParam::Sort.new('alpha'),
+        JSONAPI::Request::QueryParam::Filter.new('special')
       ]
   end
 
@@ -82,7 +82,7 @@ describe JSONAPI::Collection::ParamCollection do
       expect(epc.include?('include')).to be false
       expect(epc.include?(:include)).to be false
       expect(epc.include?('InClUde')).to be false
-      query_param = JSONAPI::Item::QueryParam::Include.new('all')
+      query_param = JSONAPI::Request::QueryParam::Include.new('all')
       epc.add(query_param)
       expect(epc.include?('include')).to be true
       expect(epc.include?(:include)).to be true
@@ -93,14 +93,14 @@ describe JSONAPI::Collection::ParamCollection do
   describe '#add' do
     it 'should make #empty? return false' do
       expect(epc.empty?).to be true
-      item = JSONAPI::Item::QueryParam.new('test', 'ing')
+      item = JSONAPI::Request::QueryParam.new('test', 'ing')
       epc.add(item)
       expect(epc.empty?).to be false
     end
 
     it 'should add items to the collection' do
       expect(epc.empty?).to be true
-      query_param = JSONAPI::Item::QueryParam.new('test', 'ing')
+      query_param = JSONAPI::Request::QueryParam.new('test', 'ing')
       epc.add(query_param)
       expect(epc.collection.include?(:test)).to be true
     end
@@ -125,7 +125,7 @@ describe JSONAPI::Collection::ParamCollection do
       it 'should be iterating over Item objects' do
         checker = true
         pc.each do |query_param| 
-          checker = ((query_param.is_a? JSONAPI::Item::QueryParam) && checker)
+          checker = ((query_param.is_a? JSONAPI::Request::QueryParam) && checker)
         end
         expect(checker).to eq true
       end
@@ -143,7 +143,7 @@ describe JSONAPI::Collection::ParamCollection do
       query_param = pc.remove('include')
       expect(pc.include?('include')).to be false
       expect(query_param.name).to eq 'include'
-      expect(query_param.is_a?(JSONAPI::Item::QueryParam)).to be true
+      expect(query_param.is_a?(JSONAPI::Request::QueryParam)).to be true
     end
   end
 
@@ -155,12 +155,12 @@ describe JSONAPI::Collection::ParamCollection do
     
     it 'should return the appropriate query_param' do
       query_param = pc.get(:include)
-      expect(query_param.is_a?(JSONAPI::Item::QueryParam)).to be true
+      expect(query_param.is_a?(JSONAPI::Request::QueryParam)).to be true
       expect(query_param.name).to eq 'include'
     end
 
     it 'should be case insensitive and work for symbol or string' do
-      query_param = JSONAPI::Item::QueryParam.new('test', 'ing')
+      query_param = JSONAPI::Request::QueryParam.new('test', 'ing')
       epc.add(query_param)
       expect(epc.get('test').value).to eq ['ing']
       expect(epc.get(:test).value).to eq ['ing']
@@ -221,11 +221,11 @@ describe JSONAPI::Collection::ParamCollection do
       expect(pages.class).to eq JSONAPI::Collection::ParamCollection
       expect(sorts.class).to eq JSONAPI::Collection::ParamCollection
       
-      expect(only_includes(fields, JSONAPI::Item::QueryParam::Field)).to eq true
-      expect(only_includes(filters, JSONAPI::Item::QueryParam::Filter)).to eq true
-      expect(only_includes(includes, JSONAPI::Item::QueryParam::Include)).to eq true
-      expect(only_includes(pages, JSONAPI::Item::QueryParam::Page)).to eq true
-      expect(only_includes(sorts, JSONAPI::Item::QueryParam::Sort)).to eq true
+      expect(only_includes(fields, JSONAPI::Request::QueryParam::Field)).to eq true
+      expect(only_includes(filters, JSONAPI::Request::QueryParam::Filter)).to eq true
+      expect(only_includes(includes, JSONAPI::Request::QueryParam::Include)).to eq true
+      expect(only_includes(pages, JSONAPI::Request::QueryParam::Page)).to eq true
+      expect(only_includes(sorts, JSONAPI::Request::QueryParam::Sort)).to eq true
 
     end
   end

@@ -4,7 +4,7 @@ require 'rack/jsonapi/parser'
 require 'rack/jsonapi/parser/headers_parser'
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/header'
+require 'rack/jsonapi/header'
 
 require 'rack/jsonapi/collection'
 require 'rack/jsonapi/collection/header_collection'
