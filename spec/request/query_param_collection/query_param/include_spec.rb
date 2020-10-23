@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/request/query_param'
-require 'rack/jsonapi/request/query_param/include'
+require 'rack/jsonapi/request/query_param_collection/query_param'
+require 'rack/jsonapi/request/query_param_collection/query_param/include'
 
-describe JSONAPI::Request::QueryParam::Include do
+describe JSONAPI::Request::QueryParamCollection::QueryParam::Include do
   
-  let(:i1) { JSONAPI::Request::QueryParam::Include.new('author') }
-  let(:i2) { JSONAPI::Request::QueryParam::Include.new('comments.author') }
-  let(:i3) { JSONAPI::Request::QueryParam::Include.new(['comments', 'likes', 'users']) }
+  let(:i1) { JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('author') }
+  let(:i2) { JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('comments.author') }
+  let(:i3) { JSONAPI::Request::QueryParamCollection::QueryParam::Include.new(['comments', 'likes', 'users']) }
 
   describe '#initialize' do
 

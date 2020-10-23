@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/request/query_param'
-require 'rack/jsonapi/request/query_param/field'
-require 'rack/jsonapi/request/query_param/include'
-require 'rack/jsonapi/request/query_param/page'
-require 'rack/jsonapi/request/query_param/sort'
-require 'rack/jsonapi/request/query_param/filter'
+require 'rack/jsonapi/request/query_param_collection/query_param'
+require 'rack/jsonapi/request/query_param_collection/query_param/field'
+require 'rack/jsonapi/request/query_param_collection/query_param/include'
+require 'rack/jsonapi/request/query_param_collection/query_param/page'
+require 'rack/jsonapi/request/query_param_collection/query_param/sort'
+require 'rack/jsonapi/request/query_param_collection/query_param/filter'
 
 require 'rack/jsonapi/collection'
-require 'rack/jsonapi/collection/param_collection'
+require 'rack/jsonapi/request/query_param_collection'
 
 require 'rack/jsonapi/document'
 require 'rack/jsonapi/document/data/resource'
@@ -26,7 +26,7 @@ module JSONAPI
     module RackReqParamsParser
       
       # @query_param rack_req_params [Hash<String>] The parameter hash returned from Rack::Request.params
-      # @return [JSONAPI::ParamCollection]
+      # @return [JSONAPI::Request::QueryParamCollection]
       def self.parse!(rack_req_params)
         
         # rack::request.params:
@@ -39,42 +39,42 @@ module JSONAPI
 
         JSONAPI::Exceptions::ParamExceptions.check_compliance!(rack_req_params)
           
-        param_collection = JSONAPI::Collection::ParamCollection.new
+        query_param_collection = JSONAPI::Request::QueryParamCollection.new
         rack_req_params.each do |key, value|
-          add_the_param(key, value, param_collection)
+          add_the_param(key, value, query_param_collection)
         end
-        param_collection
+        query_param_collection
       end
 
-      def self.add_the_param(key, value, param_collection)
+      def self.add_the_param(key, value, query_param_collection)
         case key
         when 'include'
-          param_collection.add(JSONAPI::Request::QueryParam::Include.new(value))
+          query_param_collection.add(JSONAPI::Request::QueryParamCollection::QueryParam::Include.new(value))
           # TODO: Fix issue with item already being included
           # resources = value.split(',')
           # resources.each do |res|
-          #   include_obj = JSONAPI::Request::QueryParam::Include.new(res)
-          #   param_collection.add(include_obj)
+          #   include_obj = JSONAPI::Request::QueryParamCollection::QueryParam::Include.new(res)
+          #   query_param_collection.add(include_obj)
           # end
         when 'fields'
-          parse_fields_param(value, param_collection)
+          parse_fields_param(value, query_param_collection)
         when 'page'
-          param_collection.add(JSONAPI::Request::QueryParam::Page.new(value[:offset], value[:limit]))
+          query_param_collection.add(JSONAPI::Request::QueryParamCollection::QueryParam::Page.new(value[:offset], value[:limit]))
         when 'sort'
-          param_collection.add(JSONAPI::Request::QueryParam::Sort.new(value))
+          query_param_collection.add(JSONAPI::Request::QueryParamCollection::QueryParam::Sort.new(value))
         when 'filter'
-          param_collection.add(JSONAPI::Request::QueryParam::Filter.new(value))
+          query_param_collection.add(JSONAPI::Request::QueryParamCollection::QueryParam::Filter.new(value))
         else
-          param_collection.add(JSONAPI::Request::QueryParam.new(key, value))
+          query_param_collection.add(JSONAPI::Request::QueryParamCollection::QueryParam.new(key, value))
         end
       end
 
-      def self.parse_fields_param(value, param_collection)
+      def self.parse_fields_param(value, query_param_collection)
         value.each do |res, attributes|
           attr_arr = attributes.split(',')
           field_arr = attr_arr.map { |a| JSONAPI::Document::Data::Resource::Field.new(a, nil) }
-          temp = JSONAPI::Request::QueryParam::Field.new(res, field_arr)
-          param_collection.add(temp)
+          temp = JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(res, field_arr)
+          query_param_collection.add(temp)
         end
       end
     end

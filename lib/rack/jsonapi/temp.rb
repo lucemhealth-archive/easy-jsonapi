@@ -1,15 +1,15 @@
 GET /articles?include=author&fields[articles]=title,body&fields[people]=name
 
 resource = JSONAPI::Resource.new('articles')
-JSONAPI::Request::QueryParam::Include.new('author')
+JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('author')
 JSONAPI::Fieldset.new(
     [
-        JSONAPI::Request::QueryParam::Field.new('articles', [
+        JSONAPI::Request::QueryParamCollection::QueryParam::Field.new('articles', [
             JSONAPI::Resource::Field.new('title', nil), 
             JSONAPI::Resource::Field.new('body', nil)
         ])
     , 
-        JSONAPI::Request::QueryParam::Field.new('people', [
+        JSONAPI::Request::QueryParamCollection::QueryParam::Field.new('people', [
             JSONAPI::Resource::Field.new('name', nil)
         ])
     ]
@@ -20,9 +20,9 @@ JSONAPI::Fieldset.new(
 # @type = 'article'
 # @attributes.add() <-- this is where we do the check = JSONAPI::Fieldset.new()
 # @host = "https://api.curatess.io"
-# req.params.fields == ParamCollection
+# req.params.fields == QueryParamCollection
 
-JSONAPI::Request::QueryParam::Field.new()
+JSONAPI::Request::QueryParamCollection::QueryParam::Field.new()
 resource.attributes.add JSONAPI::Resource::Field.new('title', "my title")
 resource.attributes.add JSONAPI::Resource::Field.new('body')
 resource.route -> "https://api.curatess.io/articles/123?fields[articles]=title,body" 
@@ -55,5 +55,5 @@ JSONAPI::Fieldset.new
 
 
   #  Questions:
-  # - seems like ::JSONAPI::Request::QueryParam::Field should be plural bc it refers to a collection of attributes related to a resource object
+  # - seems like ::JSONAPI::Request::QueryParamCollection::QueryParam::Field should be plural bc it refers to a collection of attributes related to a resource object
   # - still don't know what route does tbh

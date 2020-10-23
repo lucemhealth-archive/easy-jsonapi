@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/request/query_param'
+require 'rack/jsonapi/request/query_param_collection/query_param'
 
 describe JSONAPI::Item do
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document/links/link'
-require 'collection/helper'
+require 'collection_subclasses_shared_tests'
 
 describe JSONAPI::Document::Links do
   it_behaves_like 'collection like classes' do

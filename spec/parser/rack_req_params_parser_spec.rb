@@ -13,25 +13,25 @@ describe JSONAPI::Parser::RackReqParamsParser do
         'page' => { 'offset' => '1', 'limit' => '1' }
       }
     
-    @param_collection = JSONAPI::Parser::RackReqParamsParser.parse!(rack_params)
+    @query_param_collection = JSONAPI::Parser::RackReqParamsParser.parse!(rack_params)
   end
 
   # The query_param collection when the parser is passed params
-  let(:pc) { @param_collection }
+  let(:pc) { @query_param_collection }
 
   # The query_param collection when the parser is passed an empty query_param object
   let(:epc) { JSONAPI::Parser::RackReqParamsParser.parse!({}) }
 
   describe '#parse' do
-    it 'should return a ParamCollection object' do
-      expect(pc.class).to eq JSONAPI::Collection::ParamCollection
+    it 'should return a QueryParamCollection object' do
+      expect(pc.class).to eq JSONAPI::Request::QueryParamCollection
     end
 
-    it 'should return an empty ParamCollection when no params given' do
+    it 'should return an empty QueryParamCollection when no params given' do
       expect(epc.empty?).to be true
     end
 
-    it 'should return a ParamCollection when params given' do
+    it 'should return a QueryParamCollection when params given' do
       expect(pc.empty?).to be false
     end
   end

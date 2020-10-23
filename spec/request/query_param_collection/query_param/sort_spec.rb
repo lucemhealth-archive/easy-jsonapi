@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/request/query_param'
-require 'rack/jsonapi/request/query_param/sort'
+require 'rack/jsonapi/request/query_param_collection/query_param'
+require 'rack/jsonapi/request/query_param_collection/query_param/sort'
 
-describe JSONAPI::Request::QueryParam::Sort do
+describe JSONAPI::Request::QueryParamCollection::QueryParam::Sort do
   
-  let(:s1) { JSONAPI::Request::QueryParam::Sort.new('ing,ang') }
+  let(:s1) { JSONAPI::Request::QueryParamCollection::QueryParam::Sort.new('ing,ang') }
 
   describe '#initialize' do
 

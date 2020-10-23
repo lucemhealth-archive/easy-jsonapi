@@ -44,7 +44,9 @@ shared_examples 'collection class' do
   describe '#insert' do
     it 'should raise an error if the input name is already in use' do
       expect(c.collection.include?(ex_item_key)).to be true
-      expect { c.insert(ex_item_key, 'new_value') }.to raise_error 'Item already included. Remove existing item first.'
+      msg = 'The hash key given already has an Item associated with it. ' \
+            'Remove existing item first.'
+      expect { c.insert(ex_item_key, 'new_value') }.to raise_error msg
     end
   end
   

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/request/query_param'
-require 'rack/jsonapi/request/query_param/page'
+require 'rack/jsonapi/request/query_param_collection/query_param'
+require 'rack/jsonapi/request/query_param_collection/query_param/page'
 
-describe JSONAPI::Request::QueryParam::Page do
+describe JSONAPI::Request::QueryParamCollection::QueryParam::Page do
   
-  let(:pg1) { JSONAPI::Request::QueryParam::Page.new(3, 25) }
+  let(:pg1) { JSONAPI::Request::QueryParamCollection::QueryParam::Page.new(3, 25) }
 
   describe '#initialize' do
 

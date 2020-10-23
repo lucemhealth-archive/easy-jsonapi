@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/request/query_param'
-require 'rack/jsonapi/request/query_param/field'
+require 'rack/jsonapi/request/query_param_collection/query_param'
+require 'rack/jsonapi/request/query_param_collection/query_param/field'
 require 'rack/jsonapi/document/data/resource/field'
 
-describe JSONAPI::Request::QueryParam::Field do
+describe JSONAPI::Request::QueryParamCollection::QueryParam::Field do
   let(:res_field_arr1) do
     [
       JSONAPI::Document::Data::Resource::Field.new('title', nil), 
@@ -19,9 +19,9 @@ describe JSONAPI::Request::QueryParam::Field do
     ]
   end
 
-  let(:f1) { JSONAPI::Request::QueryParam::Field.new('articles', res_field_arr1) }
+  let(:f1) { JSONAPI::Request::QueryParamCollection::QueryParam::Field.new('articles', res_field_arr1) }
 
-  let(:f2) { JSONAPI::Request::QueryParam::Field.new('people', res_field_arr2) }
+  let(:f2) { JSONAPI::Request::QueryParamCollection::QueryParam::Field.new('people', res_field_arr2) }
 
   describe '#initialize' do
 
@@ -44,8 +44,8 @@ describe JSONAPI::Request::QueryParam::Field do
     end
 
     it 'should have a working #to_s' do
-      expect(f1.to_s).to eq "{ fields => { 'articles' => 'title,body' } }"
-      expect(f2.to_s).to eq "{ fields => { 'people' => 'name' } }"
+      expect(f1.to_s).to eq "{ fields[articles] => { 'articles' => 'title,body' } }"
+      expect(f2.to_s).to eq "{ fields[people] => { 'people' => 'name' } }"
     end
 
     it 'should not respond to #name=, #value, or #value=' do

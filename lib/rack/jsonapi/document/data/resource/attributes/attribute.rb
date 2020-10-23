@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document/data/resource/attributes'
-require 'rack/jsonapi/item'
+require 'rack/jsonapi/item/name_value_pair'
 
 module JSONAPI
   class Document

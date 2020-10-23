@@ -47,7 +47,8 @@ module JSONAPI
     # Adds an item to Collection's internal hash
     def insert(key, item)
       k = to_hash_key(key)
-      raise 'Item already included. Remove existing item first.' if @collection[k]
+      raise 'The hash key given already has an Item associated with it. ' \
+            'Remove existing item first.' if @collection[k]
       @collection[k] = item
     end
 
@@ -57,15 +58,13 @@ module JSONAPI
       to_enum(:each)
     end
 
-    # Used when treating item value as more than just a string.
-    # Remove a value from a Item's list of values.
-    # @query_param (see #add)
+    # Remove an item from the collection
+    # @query_param (see #include)
     # @return [Item | nil] the deleted item object if it exists
-    def remove(key, value = nil)
+    def remove(key)
       k = to_hash_key(key)
       return nil if @collection[k].nil?
-      return @collection.delete(k) if value.nil?
-      @collection[k].remove(value)
+      @collection.delete(key)
     end
 
     # @query_param (see #remove)

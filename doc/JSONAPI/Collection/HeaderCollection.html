@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: JSONAPI::Collection::HeaderCollection
+  Class: JSONAPI::HeaderCollection
   
     &mdash; Documentation by YARD 0.9.25
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "JSONAPI::Collection::HeaderCollection";
+  pathId = "JSONAPI::HeaderCollection";
   relpath = '../../';
 </script>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: JSONAPI::Collection::HeaderCollection
+      <div id="content"><h1>Class: JSONAPI::HeaderCollection
   
   
   
@@ -76,7 +76,7 @@
           
             <li class="next"><span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">JSONAPI::Collection</a></span></li>
           
-            <li class="next">JSONAPI::Collection::HeaderCollection</li>
+            <li class="next">JSONAPI::HeaderCollection</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -96,7 +96,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/collection/header_collection.rb<span class="defines">,<br />
+    <dd>lib/rack/jsonapi/header_collection.rb<span class="defines">,<br />
   lib/rack/jsonapi.rb</span>
 </dd>
   </dl>
@@ -229,7 +229,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(header_arr = [])  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Collection::HeaderCollection (class)">HeaderCollection</a></span></tt> 
+    #<strong>initialize</strong>(header_arr = [])  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::HeaderCollection (class)">HeaderCollection</a></span></tt> 
   
 
   
@@ -258,7 +258,7 @@
 12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/header_collection.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header_collection.rb', line 9</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_header_arr'>header_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='ivar'>@header_types</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -310,10 +310,10 @@
 22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/header_collection.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header_collection.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_header'>header</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item.html" title="JSONAPI::Item (class)">Item</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item/Header.html" title="JSONAPI::Header (class)">Header</a></span></span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item.html" title="JSONAPI::Item (class)">Item</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item/Header.html" title="JSONAPI::HeaderCollection::Header (class)">Header</a></span></span>
   <span class='comment'># add the header type unless it is already included
 </span>  <span class='ivar'>@header_types</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='kw'>unless</span> <span class='ivar'>@header_types</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Header</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_header'>header</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
@@ -364,7 +364,7 @@
 42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/header_collection.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/header_collection.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{</span><span class='tstring_end'>&#39;</span></span>

@@ -19,12 +19,12 @@ module JSONAPI
     #   was included with the request
     def self.parse_request!(env, document_included)
       req = Rack::Request.new(env)
-      param_collection = RackReqParamsParser.parse!(req.params)
+      query_param_collection = RackReqParamsParser.parse!(req.params)
       header_collection = HeadersParser.parse!(env)
       req_body = req.body.read
       is_post_request = env['REQUEST_METHOD'] == 'POST'
       document = document_included ? DocumentParser.parse!(req_body, is_post_request) : nil
-      JSONAPI::Request.new(env, param_collection, header_collection, document)
+      JSONAPI::Request.new(env, query_param_collection, header_collection, document)
     end
   
   end

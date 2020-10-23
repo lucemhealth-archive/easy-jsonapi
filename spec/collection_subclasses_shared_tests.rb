@@ -37,13 +37,6 @@ shared_examples 'collection like classes' do
     end
   end
 
-  describe '#insert' do
-    it 'should raise an error if the input name is already in use' do
-      expect(c.collection.include?(ex_item_key)).to be true
-      expect { c.insert(ex_item_key, 'new_value') }.to raise_error 'Item already included. Remove existing item first.'
-    end
-  end
-  
   describe '#add' do
 
     it 'should make #empty? return false' do
@@ -81,7 +74,7 @@ shared_examples 'collection like classes' do
         checker = true
         c.each do |item| 
           cur_class = item.class
-          checker = ((cur_class == item_class) && checker)
+          checker = ((cur_class == item.class) && checker)
         end
         expect(checker).to eq true
       end
@@ -98,8 +91,8 @@ shared_examples 'collection like classes' do
       expect(c.include?(ex_item_key)).to be true
       item = c.remove(ex_item_key)
       expect(c.include?(ex_item_key)).to be false
-      expect(item.name).to eq ex_item_key.to_s
-      expect(item.class).to eq item_class
+      expect(item.name.downcase).to eq ex_item_key.to_s
+      expect(item.is_a?(item_class)).to be true
     end
   end
 
@@ -111,16 +104,16 @@ shared_examples 'collection like classes' do
     
     it 'should return the appropriate item' do
       item = c.get(ex_item_key)
-      expect(item.class).to eq item_class
-      expect(item.name).to eq ex_item_key.to_s
+      expect(item.is_a?(item_class)).to be true
+      expect(item.name.downcase).to eq ex_item_key.to_s
     end
 
     it 'should be case insensitive and work for symbol or string' do
       item = item_class.new('test', 'ing')
       ec.add(item, &:name)
-      expect(ec.get('test').value).to eq 'ing'
-      expect(ec.get(:test).value).to eq 'ing'
-      expect(ec.get('TeSt').value).to eq 'ing'
+      item = ec.get('test')
+      expect(ec.get(:test)).to eq item
+      expect(ec.get('TeSt')).to eq item
     end
   end
 
