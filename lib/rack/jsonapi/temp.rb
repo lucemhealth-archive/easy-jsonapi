@@ -1,4 +1,3 @@
-
 GET /articles?include=author&fields[articles]=title,body&fields[people]=name
 
 resource = JSONAPI::Resource.new('articles')
