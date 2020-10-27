@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/item/name_value_pair'
+require 'rack/jsonapi/name_value_pair'
 require 'rack/jsonapi/request'
 require 'rack/jsonapi/request/query_param_collection'
 

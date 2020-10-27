@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rack/jsonapi/item'
+
 module JSONAPI
   class Item
     # A generic name->value query pair

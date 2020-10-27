@@ -6,7 +6,6 @@ require 'rack/jsonapi/header_collection'
 require 'rack/jsonapi/item'
 require 'rack/jsonapi/header_collection/header'
 
-require 'rack/jsonapi/exceptions'
 require 'rack/jsonapi/exceptions/headers_exceptions'
 
 module JSONAPI

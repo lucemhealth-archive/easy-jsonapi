@@ -7,8 +7,9 @@ module JSONAPI
     
     include Enumerable
     
-    attr_accessor :collection
-
+    # Assume collection is empty not innitialized with an array of objects.
+    # @param arr_ob_obj [Any] The objects to be stored
+    # @block block Determines what should be used as keys when storing objects in collection's internal hash
     def initialize(arr_of_obj = [], &block)
       @collection = {}
       
@@ -47,8 +48,10 @@ module JSONAPI
     # Adds an item to Collection's internal hash
     def insert(key, item)
       k = to_hash_key(key)
-      raise 'The hash key given already has an Item associated with it. ' \
-            'Remove existing item first.' if @collection[k]
+      if @collection[k]
+        raise 'The hash key given already has an Item associated with it. ' \
+              'Remove existing item first.'
+      end
       @collection[k] = item
     end
 

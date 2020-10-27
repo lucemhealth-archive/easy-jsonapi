@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document'
+require 'rack/jsonapi/document/resource'
+require 'rack/jsonapi/document/resource_id'
 
-require 'rack/jsonapi/document/data'
-require 'rack/jsonapi/document/data/resource'
-require 'rack/jsonapi/document/data/resource_id'
+require 'rack/jsonapi/document/resource/attributes'
+require 'rack/jsonapi/document/resource/attributes/attribute'
 
-require 'rack/jsonapi/document/data/resource/attributes'
-require 'rack/jsonapi/document/data/resource/attributes/attribute'
-
-require 'rack/jsonapi/document/data/resource/relationships'
+require 'rack/jsonapi/document/resource/relationships'
 
 require 'rack/jsonapi/document/links'
 require 'rack/jsonapi/document/links/link'
@@ -22,8 +20,9 @@ require 'rack/jsonapi/document/included'
 require 'rack/jsonapi/parser'
 require 'rack/jsonapi/parser/document_parser'
 
-require 'rack/jsonapi/exceptions'
 require 'rack/jsonapi/exceptions/document_exceptions'
+
+require 'oj'
 
 describe JSONAPI::Parser::DocumentParser do 
 
@@ -61,9 +60,9 @@ describe JSONAPI::Parser::DocumentParser do
       'links' => { 'self' => 'url' }
     }
 
-  doc_str = Oj.dump(doc_hash, symbol_keys: true)
+  oj_formatted_hash = Oj.load(Oj.dump(doc_hash), symbol_keys: true)
 
-  let(:document) { JSONAPI::Parser::DocumentParser.parse!(doc_str, request: true) }
+  let(:document) { JSONAPI::Parser::DocumentParser.parse!(oj_formatted_hash, request: true) }
 
   describe '#parse!' do
     it 'should return a Document object given a valid jsonapi document' do
@@ -71,7 +70,7 @@ describe JSONAPI::Parser::DocumentParser do
     end
 
     it 'the document classes instance variables should associate w the proper class' do
-      expect(document.data.class).to eq JSONAPI::Document::Data::Resource
+      expect(document.data.class).to eq JSONAPI::Document::Resource
       expect(document.meta.class).to eq JSONAPI::Document::Meta
       expect(document.links.class).to eq JSONAPI::Document::Links
     end

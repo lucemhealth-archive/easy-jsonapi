@@ -26,6 +26,7 @@ describe JSONAPI::Parser do
           }
         }
       }
+
       req_body_str = Oj.dump(req_body_hash)
 
       env = {
@@ -54,7 +55,7 @@ describe JSONAPI::Parser do
         'REMOTE_ADDR' => '::1'
       }
       
-      expect(parse_request!(env, true).class).to eq JSONAPI::Request
+      expect(parse_request!(env, jsonapi_doc_included: true).class).to eq JSONAPI::Request
     end
 
     # it 'should initialize request with an empty document if !document_included' do

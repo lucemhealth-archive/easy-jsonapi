@@ -6,7 +6,7 @@ require 'rack/jsonapi/request/query_param_collection'
 
 require 'rack/jsonapi/request/query_param_collection/query_param/include'
 
-require 'rack/jsonapi/document/data/resource/field'
+require 'rack/jsonapi/document/resource/field'
 
 require 'collection_subclasses_shared_tests'
 
@@ -18,14 +18,14 @@ describe JSONAPI::Request::QueryParamCollection do
         JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(
           'articles', 
           [
-            JSONAPI::Document::Data::Resource::Field.new('title', nil), 
-            JSONAPI::Document::Data::Resource::Field.new('body', nil)
+            JSONAPI::Document::Resource::Field.new('title', nil), 
+            JSONAPI::Document::Resource::Field.new('body', nil)
           ]
         ),
         JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(
           'people', 
           [
-            JSONAPI::Document::Data::Resource::Field.new('name', nil)
+            JSONAPI::Document::Resource::Field.new('name', nil)
           ]
         ),
         JSONAPI::Request::QueryParamCollection::QueryParam.new('leBron', 'james'),

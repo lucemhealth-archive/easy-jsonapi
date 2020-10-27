@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/data/resource/attributes/attribute'
-require 'collection_subclasses_shared_tests'
+require 'rack/jsonapi/document/resource/attributes/attribute'
+require_relative '../collection_subclasses_shared_tests'
 
-describe JSONAPI::Document::Data::Resource::Attributes do
+describe JSONAPI::Document::Resource::Attributes do
   it_behaves_like 'collection like classes' do
-    let(:item_class) { JSONAPI::Document::Data::Resource::Attributes::Attribute }
+    let(:item_class) { JSONAPI::Document::Resource::Attributes::Attribute }
     
     obj_arr = [
       { name: 'name', value: 'john smith' },
@@ -23,10 +23,10 @@ describe JSONAPI::Document::Data::Resource::Attributes do
     end
 
     item_arr = obj_arr.map do |i|
-      JSONAPI::Document::Data::Resource::Attributes::Attribute.new(i[:name], i[:value])
+      JSONAPI::Document::Resource::Attributes::Attribute.new(i[:name], i[:value])
     end
-    let(:c) { JSONAPI::Document::Data::Resource::Attributes.new(item_arr, &:name) }
-    let(:ec) { JSONAPI::Document::Data::Resource::Attributes.new }
+    let(:c) { JSONAPI::Document::Resource::Attributes.new(item_arr, &:name) }
+    let(:ec) { JSONAPI::Document::Resource::Attributes.new }
     
   end
 end

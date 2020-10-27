@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/request/query_param_collection/query_param'
 require 'rack/jsonapi/name_value_pair_collection'
+require 'rack/jsonapi/exceptions/naming_exceptions'
 
 module JSONAPI
   class Request
@@ -17,8 +17,12 @@ module JSONAPI
       # #include provided by super class
       # @query_param [JSONAPI::Request::QueryParamCollection::QueryParam] The query_param or query_param subclass to add.
       def add(query_param)
-        return unless query_param.is_a? JSONAPI::Request::QueryParamCollection::QueryParam
-        # add the query_param type unless it is already included
+        raise 'Must add a valid QueryParam object' unless query_param.is_a? JSONAPI::Request::QueryParamCollection::QueryParam
+        # msg = JSONAPI::Exceptions::NamingExceptions.check_member_constraints(query_param.name)
+        # raise msg unless msg.nil?
+        # msg = JSONAPI::Exceptions::NamingExceptions.check_additional_constraints(query_param.name)
+        # raise msg unless msg.nil?
+
         p_name = get_simple_param_name(query_param)
         @param_types << p_name unless p_name == 'params' || @param_types.include?(p_name)
         super(query_param, &:name)
@@ -34,7 +38,7 @@ module JSONAPI
       def method_missing(method_name, *args, &block)
         super unless @param_types.include?(method_name.to_s)
         selected_collection = JSONAPI::Request::QueryParamCollection.new
-        @collection.each_value do |p|
+        each do |p|
           if get_simple_param_name(p) == method_name.to_s
             selected_collection.add(p)
           end

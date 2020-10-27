@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/collection'
+require 'rack/jsonapi/name_value_pair'
 
 module JSONAPI
   # The attributes of a resource
   class NameValuePairCollection < JSONAPI::Collection
 
-    def initialize(pair_arr = [], class_type = NameValuePairCollection)
+    # Creates an empty collection by default
+    # @param pair_arr [Array<JSONAPI::NameValuePair>] The pairs to be initialized with.
+    def initialize(pair_arr = [], class_type = JSONAPI::NameValuePair)
       @class_type = class_type 
       super(pair_arr, &:name)
     end
@@ -15,7 +18,7 @@ module JSONAPI
     # #include provided by super
 
     def add(pair)
-      return unless pair.is_a? @class_type
+      raise "Cannot add an item that is not #{@class_type}" unless pair.is_a? @class_type
       super(pair, &:name)
     end
 

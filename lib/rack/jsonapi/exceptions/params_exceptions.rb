@@ -22,10 +22,9 @@ module JSONAPI
       # Check if implementation specific query params observe the jsonapi spec
       # @query_param (see #check_compliance!)
       def self.check_implemenation_specific_names!(rack_req_params)
-        impl_spec_names = rack_req_params.keys - ['include', 'fields', 'page', 'sort', 'filter']
+        impl_spec_names = rack_req_params.keys - %w[include fields page sort filter]
         impl_spec_names.each do |name|
           next if NamingExceptions.check_member_constraints(name).nil? && NamingExceptions.check_additional_constraints(name).nil?
-          
           raise_error!(
             'Implementation specific query parameters MUST adhere to the same constraints ' \
             "as member names (a-z, A-Z, 0-9) and ('-', '_') allowed in the middle, with the " \

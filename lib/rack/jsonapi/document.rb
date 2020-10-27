@@ -19,6 +19,7 @@ module JSONAPI
       @included = included
     end
 
+    # To String
     def to_s
       '{ ' \
         "data => { #{@data} }, " \

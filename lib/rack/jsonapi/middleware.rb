@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/version'
 require 'rack/jsonapi/parser'
-
-# Only used if error checking with header exceptions
-require 'rack/jsonapi/exceptions'
-require 'rack/jsonapi/exceptions/headers_exceptions'
 
 module JSONAPI
 
@@ -22,19 +17,23 @@ module JSONAPI
     # @query_param env The rack envirornment hash
     def call(env)
 
-      # Parse Request and Initiate Request Object if JSONAPI Request
-      # add a if statement to skip middleware if jsonapi document isn't included
       jsonapi_document = includes_jsonapi_document?(env)
       if jsonapi_document || !configured_to_skip?
-        jsonapi_request = JSONAPI::Parser.parse_request!(env, jsonapi_document)
+        jsonapi_request = JSONAPI::Parser.parse_request!(env, jsonapi_doc_included: jsonapi_document)
         send_to_rack_app(jsonapi_request, 'jsonapi_request')
       end
 
       @app.call(env)
     end
 
+    private
+
+    # Reads a config file for user preferences
+
+    # Checks if a user would prefer to skip request initialization if a jsonapi document
+    #   is not included.
     def configured_to_skip?
-      # Add logic that scans a config file to see if the user wants to skip the middleware if a jsonapi is not included with the request
+      # TODO: Add logic that scans a config file to see if the user wants to skip the middleware if a jsonapi is not included with the request
       # For now assume not configured to skip
       false
     end
@@ -57,6 +56,7 @@ module JSONAPI
         instance_variable_set("@#{str_var}", var)
         instance_variable_get("@#{str_var}")
       end
+      nil
     end
   
     # Locates the rack application (sinatra or rails included) that

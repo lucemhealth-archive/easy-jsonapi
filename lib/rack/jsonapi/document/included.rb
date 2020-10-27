@@ -8,7 +8,7 @@ module JSONAPI
 
       include Enumerable
 
-      attr_accessor :included
+      attr_reader :included
 
       def initialize(res_obj_arr)
         @included = res_obj_arr

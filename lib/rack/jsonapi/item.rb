@@ -8,13 +8,12 @@ module JSONAPI
     # @returns the value of an Item
     attr_accessor :item
     
-    # Takes a hash and dynamically creates instance variables using the hash keys
+    # Able to take a hash and dynamically create instance variables using the hash keys
     #   Ex: obj == { :name => 'fields', :value => {'articles' => 'title,body,author', 'people' => 'name' }}
+    # @param obj [Any] Can be anything, but if a hash is provided, dynamic instance variable can be created
+    #   upon trying to access them.
     def initialize(obj)
       @item = obj
-      # obj.each do |key, value|
-      #   instance_variable_set("@#{key}", value) # @articles, @people
-      # end
     end
 
     # Only used if implementing Item directly.
@@ -37,6 +36,7 @@ module JSONAPI
       instance_variables.include?("@#{method_name}".to_sym) || super
     end
 
+    # A special to string method if @item is a hash.
     def to_s
       return @item.to_s unless @item.is_a? Hash
       tr = '{ '

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions'
 require 'rack/jsonapi/exceptions/params_exceptions'
 
 describe JSONAPI::Exceptions::ParamExceptions do
@@ -8,56 +7,56 @@ describe JSONAPI::Exceptions::ParamExceptions do
   # A hash that will fail
   let(:rp) do 
     {
-      "include" => "author,comments.author",
-      "fields" => { "articles" => "title,body,author", "people" => "name" },
-      "test" => "ing",
-      "page" => { "offset" => "1", "limit" => "1" }
+      'include' => 'author,comments.author',
+      'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
+      'test' => 'ing',
+      'page' => { 'offset' => '1', 'limit' => '1' }
     }
   end
 
   # A hash should pass
   let(:rpa) do 
     {
-      "include" => "author,comments.author",
-      "fields" => { "articles" => "title,body,author", "people" => "name" },
-      "testTest" => "ing",
-      "page" => { "offset" => "1", "limit" => "1" }
+      'include' => 'author,comments.author',
+      'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
+      'testTest' => 'ing',
+      'page' => { 'offset' => '1', 'limit' => '1' }
     }
   end
   
   # A hash that should pass
   let(:rpb) do 
     {
-      "include" => "author,comments.author",
-      "fields" => { "articles" => "title,body,author", "people" => "name" },
-      "test_test" => "ing",
-      "page" => { "offset" => "1", "limit" => "1" }
+      'include' => 'author,comments.author',
+      'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
+      'test_test' => 'ing',
+      'page' => { 'offset' => '1', 'limit' => '1' }
     }
   end
   
   # A hash that should pass
   let(:rpc) do 
     {
-      "include" => "author,comments.author",
-      "fields" => { "articles" => "title,body,author", "people" => "name" },
-      "test1" => "ing",
-      "page" => { "offset" => "1", "limit" => "1" }
+      'include' => 'author,comments.author',
+      'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
+      'test1' => 'ing',
+      'page' => { 'offset' => '1', 'limit' => '1' }
     }
   end
   
   # A hash that should pass
   let(:no_impl_sp_p) do 
     {
-      "include" => "author,comments.author",
-      "fields" => { "articles" => "title,body,author", "people" => "name" },
-      "page" => { "offset" => "1", "limit" => "1" }
+      'include' => 'author,comments.author',
+      'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
+      'page' => { 'offset' => '1', 'limit' => '1' }
     }
   end
   
   # A hash that should pass
   let(:only_impl_sp_p) do 
     {
-      "test1" => "ing",
+      'test1' => 'ing',
       'test2' => 'what?'
     }
   end

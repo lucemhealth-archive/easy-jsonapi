@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 shared_examples 'collection like classes' do
+
+  def init_item(name, value, item_class)
+    if item_class == JSONAPI::Item
+      item_class.new({ name: name, value: value })
+    else
+      item_class.new(name, value)
+    end
+  end
+
   describe '#initialize' do
 
     it 'should be empty if given no arguments' do
@@ -29,7 +38,7 @@ shared_examples 'collection like classes' do
       expect(ec.include?(:test)).to be false
       expect(ec.include?('test')).to be false
       expect(ec.include?('tESt')).to be false
-      item = item_class.new('test', 'ing')
+      item = init_item('test', 'ing', item_class)
       ec.add(item, &:name)
       expect(ec.include?(:test)).to be true
       expect(ec.include?('test')).to be true
@@ -41,16 +50,16 @@ shared_examples 'collection like classes' do
 
     it 'should make #empty? return false' do
       expect(ec.empty?).to be true
-      item = item_class.new('test', 'ing')
+      item = init_item('test', 'ing', item_class)
       ec.add(item, &:name)
       expect(ec.empty?).to be false
     end
 
     it 'should add items to the collection' do
       expect(ec.empty?).to be true
-      item = item_class.new('test', 'ing')
+      item = init_item('test', 'ing', item_class)
       ec.add(item, &:name)
-      expect(ec.collection.include?(:test)).to be true
+      expect(ec.include?(:test)).to be true
     end
   end
 
@@ -109,7 +118,7 @@ shared_examples 'collection like classes' do
     end
 
     it 'should be case insensitive and work for symbol or string' do
-      item = item_class.new('test', 'ing')
+      item = init_item('test', 'ing', item_class)
       ec.add(item, &:name)
       item = ec.get('test')
       expect(ec.get(:test)).to eq item

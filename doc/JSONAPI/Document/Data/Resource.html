@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: JSONAPI::Document::Data::Resource
+  Class: JSONAPI::Document::Resource
   
     &mdash; Documentation by YARD 0.9.25
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "JSONAPI::Document::Data::Resource";
+  pathId = "JSONAPI::Document::Resource";
   relpath = '../../../';
 </script>
 
@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="../../../_index.html">Index (R)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Document.html" title="JSONAPI::Document (class)">Document</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Data.html" title="JSONAPI::Document::Data (module)">Data</a></span></span>
+    <span class='title'><span class='object_link'><a href="../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Document.html" title="JSONAPI::Document (class)">Document</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Data.html" title="JSONAPI::Document (module)">Data</a></span></span>
      &raquo; 
     <span class="title">Resource</span>
   
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: JSONAPI::Document::Data::Resource
+      <div id="content"><h1>Class: JSONAPI::Document::Resource
   
   
   
@@ -74,7 +74,7 @@
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">JSONAPI::Document::Data::Resource</li>
+            <li class="next">JSONAPI::Document::Resource</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -94,8 +94,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/document/data/resource.rb<span class="defines">,<br />
-  lib/rack/jsonapi/document/data.rb,<br /> lib/rack/jsonapi/document/data/resource/field.rb,<br /> lib/rack/jsonapi/document/data/resource/attributes.rb,<br /> lib/rack/jsonapi/document/data/resource/relationships.rb,<br /> lib/rack/jsonapi/document/data/resource/attributes/attribute.rb</span>
+    <dd>lib/rack/jsonapi/document/resource.rb<span class="defines">,<br />
+  lib/rack/jsonapi/document.rb,<br /> lib/rack/jsonapi/document/resource/field.rb,<br /> lib/rack/jsonapi/document/resource/attributes.rb,<br /> lib/rack/jsonapi/document/resource/relationships.rb,<br /> lib/rack/jsonapi/document/resource/attributes/attribute.rb</span>
 </dd>
   </dl>
   
@@ -118,7 +118,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Resource/Attributes.html" title="JSONAPI::Document::Data::Resource::Attributes (class)">Attributes</a></span>, <span class='object_link'><a href="Resource/Field.html" title="JSONAPI::Document::Data::Resource::Field (class)">Field</a></span>, <span class='object_link'><a href="Resource/Relationships.html" title="JSONAPI::Document::Data::Resource::Relationships (class)">Relationships</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Resource/Attributes.html" title="JSONAPI::Document::Resource::Attributes (class)">Attributes</a></span>, <span class='object_link'><a href="Resource/Field.html" title="JSONAPI::Document::Resource::Field (class)">Field</a></span>, <span class='object_link'><a href="Resource/Relationships.html" title="JSONAPI::Document::Resource::Relationships (class)">Relationships</a></span>
     
   
 </p>
@@ -339,7 +339,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(members_hash)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Document::Data::Resource (class)">Resource</a></span></tt> 
+    #<strong>initialize</strong>(members_hash)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Document::Resource (class)">Resource</a></span></tt> 
   
 
   
@@ -372,7 +372,7 @@
 19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/data/resource.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_members_hash'>members_hash</span><span class='rparen'>)</span>
   <span class='ivar'>@type</span> <span class='op'>=</span> <span class='id identifier rubyid_members_hash'>members_hash</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
@@ -425,7 +425,7 @@
 12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/data/resource.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_attributes'>attributes</span>
   <span class='ivar'>@attributes</span>
@@ -468,7 +468,7 @@
 12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/data/resource.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_id'>id</span>
   <span class='ivar'>@id</span>
@@ -511,7 +511,7 @@
 12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/data/resource.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_links'>links</span>
   <span class='ivar'>@links</span>
@@ -554,7 +554,7 @@
 12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/data/resource.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_meta'>meta</span>
   <span class='ivar'>@meta</span>
@@ -597,7 +597,7 @@
 12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/data/resource.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_relationships'>relationships</span>
   <span class='ivar'>@relationships</span>
@@ -640,7 +640,7 @@
 12</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/data/resource.rb', line 10</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource.rb', line 10</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
   <span class='ivar'>@type</span>

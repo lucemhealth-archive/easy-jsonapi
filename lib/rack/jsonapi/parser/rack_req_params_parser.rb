@@ -12,10 +12,9 @@ require 'rack/jsonapi/collection'
 require 'rack/jsonapi/request/query_param_collection'
 
 require 'rack/jsonapi/document'
-require 'rack/jsonapi/document/data/resource'
-require 'rack/jsonapi/document/data/resource/field'
+require 'rack/jsonapi/document/resource'
+require 'rack/jsonapi/document/resource/field'
 
-require 'rack/jsonapi/exceptions'
 require 'rack/jsonapi/exceptions/params_exceptions'
 
 
@@ -29,7 +28,7 @@ module JSONAPI
       # @return [JSONAPI::Request::QueryParamCollection]
       def self.parse!(rack_req_params)
         
-        # rack::request.params:
+        # rack::request.params: (string keys)
         # {
         #   "include"=>"author, comments.author",
         #   "fields"=>{"articles"=>"title,body,author", "people"=>"name"},
@@ -72,11 +71,13 @@ module JSONAPI
       def self.parse_fields_param(value, query_param_collection)
         value.each do |res, attributes|
           attr_arr = attributes.split(',')
-          field_arr = attr_arr.map { |a| JSONAPI::Document::Data::Resource::Field.new(a, nil) }
+          field_arr = attr_arr.map { |a| JSONAPI::Document::Resource::Field.new(a, nil) }
           temp = JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(res, field_arr)
           query_param_collection.add(temp)
         end
       end
+
+      private_class_method :add_the_param, :parse_fields_param
     end
   end
 end

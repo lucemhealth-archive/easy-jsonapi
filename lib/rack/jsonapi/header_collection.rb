@@ -6,6 +6,10 @@ module JSONAPI
   # header_collection # { include: Include, sort: Sort, filter: Filter } 
   class HeaderCollection < JSONAPI::NameValuePairCollection
     
+    # Initialize as empty if a array of Header objects not passed to it.
+    # @param header_arr [JSONAPI::HeaderCollection::Header] The array of Header objects that can be used to init
+    #   a Header collection
+    # @returns JSONAPI::HeaderCollection
     def initialize(header_arr = [])
       super(header_arr, JSONAPI::HeaderCollection::Header)
     end

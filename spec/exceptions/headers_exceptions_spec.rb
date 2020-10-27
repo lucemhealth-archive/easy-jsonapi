@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions'
 require 'rack/jsonapi/exceptions/headers_exceptions'
 
 describe JSONAPI::Exceptions::HeadersExceptions do
