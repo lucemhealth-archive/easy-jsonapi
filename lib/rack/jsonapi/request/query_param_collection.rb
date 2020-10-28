@@ -18,10 +18,6 @@ module JSONAPI
       # @query_param [JSONAPI::Request::QueryParamCollection::QueryParam] The query_param or query_param subclass to add.
       def add(query_param)
         raise 'Must add a valid QueryParam object' unless query_param.is_a? JSONAPI::Request::QueryParamCollection::QueryParam
-        # msg = JSONAPI::Exceptions::NamingExceptions.check_member_constraints(query_param.name)
-        # raise msg unless msg.nil?
-        # msg = JSONAPI::Exceptions::NamingExceptions.check_additional_constraints(query_param.name)
-        # raise msg unless msg.nil?
 
         p_name = get_simple_param_name(query_param)
         @param_types << p_name unless p_name == 'params' || @param_types.include?(p_name)

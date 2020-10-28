@@ -3,6 +3,8 @@
 require 'rack/jsonapi/name_value_pair'
 require 'rack/jsonapi/request'
 require 'rack/jsonapi/request/query_param_collection'
+require 'rack/jsonapi/exceptions'
+require 'rack/jsonapi/exceptions/query_params_exceptions'
 
 module JSONAPI
   class Request
@@ -13,8 +15,11 @@ module JSONAPI
         # @query_param name The name of the parameter
         # @query_param value The value of the parameter
         def initialize(name, value)
+          if self.class == QueryParam
+            JSONAPI::Exceptions::QueryParamsExceptions.check_param_name!(name)
+          end
           value = value.split(',') if value.is_a? String
-          super(name.to_s, value)
+          super(name, value)
         end
   
         # name provided by super

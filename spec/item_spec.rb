@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/request/query_param_collection/query_param'
 
 describe JSONAPI::Item do
 
@@ -21,6 +20,13 @@ describe JSONAPI::Item do
       i.value = 'new_val'
       expect(i.name).to eq 'new_name'
       expect(i.value).to eq 'new_val'
+    end
+
+    it 'should raise if a hash is passed with strings as keys' do
+      tmp = { 'name' => 'test', 'value' => 'ing' }
+      expect { JSONAPI::Item.new(tmp) }.to raise_error "All keys must be Symbols. 'name' was String"
+      tmp = { name: 'test', 'value' => 'ing' }
+      expect { JSONAPI::Item.new(tmp) }.to raise_error "All keys must be Symbols. 'value' was String"
     end
   end
 

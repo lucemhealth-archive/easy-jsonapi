@@ -13,6 +13,9 @@ module JSONAPI
     # @param obj [Any] Can be anything, but if a hash is provided, dynamic instance variable can be created
     #   upon trying to access them.
     def initialize(obj)
+      if obj.is_a? Hash
+        ensure_keys_are_sym!(obj)
+      end
       @item = obj
     end
 
@@ -20,8 +23,8 @@ module JSONAPI
     #   dynamically creates accessor methods for instance variables
     #   created in the initialize
     def method_missing(method_name, *args, &block)
-      return unless is_a? JSONAPI::Item
-      return unless @item.is_a? Hash
+      return super unless is_a? JSONAPI::Item
+      return super unless @item.is_a? Hash
       if should_update_var?(method_name)
         @item[method_name[..-2].to_sym] = args[0]
       elsif should_get_var?(method_name)
@@ -53,6 +56,14 @@ module JSONAPI
     end
 
     private
+
+    # Ensures that hash keys are symbol (and not String) when passing a hash to item.
+    # @param obj [Any] A hash that can represent an item.
+    def ensure_keys_are_sym!(obj)
+      obj.each_key do |k|
+        raise "All keys must be Symbols. '#{k}' was #{k.class}" unless k.is_a? Symbol
+      end
+    end
     
     # Checks to see if the method name has a '=' at the end and if the 
     #   prefix before the '=' has the same name as an existing instance

@@ -15,7 +15,7 @@ require 'rack/jsonapi/document'
 require 'rack/jsonapi/document/resource'
 require 'rack/jsonapi/document/resource/field'
 
-require 'rack/jsonapi/exceptions/params_exceptions'
+require 'rack/jsonapi/exceptions/query_params_exceptions'
 
 
 module JSONAPI
@@ -36,7 +36,7 @@ module JSONAPI
         #   "page"=>{"offset"=>"1", "limit"=>"1"}
         # }
 
-        JSONAPI::Exceptions::ParamExceptions.check_compliance!(rack_req_params)
+        JSONAPI::Exceptions::QueryParamsExceptions.check_compliance!(rack_req_params)
           
         query_param_collection = JSONAPI::Request::QueryParamCollection.new
         rack_req_params.each do |key, value|
@@ -49,6 +49,7 @@ module JSONAPI
         case key
         when 'include'
           query_param_collection.add(JSONAPI::Request::QueryParamCollection::QueryParam::Include.new(value))
+          
           # TODO: Fix issue with item already being included
           # resources = value.split(',')
           # resources.each do |res|

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/parser/rack_req_params_parser'
+require 'rack/jsonapi/exceptions/query_params_exceptions'
 
 describe JSONAPI::Parser::RackReqParamsParser do
 
@@ -14,6 +15,16 @@ describe JSONAPI::Parser::RackReqParamsParser do
         'filter' => 'f',
         'sort' => 's'
       }
+
+    @rack_params_w_bad_name =
+      {
+        'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
+        'include' => 'author, comments.author',
+        'joshua' => 'demoss',
+        'page' => { 'offset' => '1', 'limit' => '1' },
+        'filter' => 'f',
+        'sort' => 's'
+      }
     
     @query_param_collection = JSONAPI::Parser::RackReqParamsParser.parse!(rack_params)
   end
@@ -23,6 +34,8 @@ describe JSONAPI::Parser::RackReqParamsParser do
 
   # The query_param collection when the parser is passed an empty query_param object
   let(:epc) { JSONAPI::Parser::RackReqParamsParser.parse!({}) }
+
+  let(:e_class) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidParameter }
 
   describe '#parse' do
     it 'should return a QueryParamCollection object' do
@@ -58,10 +71,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
     end
 
     it 'should raise InvalidParameter if given a impl specific param that does not follow naming rules' do
-      p = JSONAPI::Request::QueryParamCollection::QueryParam.new(:joshua, 'demoss')
-      pc.add(p)
-      i = pc.get(:joshua)
-      pp i.class
+      expect { JSONAPI::Parser::RackReqParamsParser.parse!(@rack_params_w_bad_name) }.to raise_error e_class
     end
   end
 end
