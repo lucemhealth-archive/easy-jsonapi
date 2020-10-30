@@ -41,19 +41,24 @@ module JSONAPI
         errors = parse_errors!(document[:errors]) if document.key?(:errors)
         jsonapi = parse_jsonapi!(document[:jsonapi]) if document.key?(:jsonapi)
         
-        doc_members_hash = {
-          data: data, meta: meta, links: links, included: included, errors: errors, jsonapi: jsonapi
-        }
+        doc_members_hash = {}
+        doc_members_hash[:data] = data unless data.nil?
+        doc_members_hash[:meta] = meta unless meta.nil?
+        doc_members_hash[:links] = links unless links.nil?
+        doc_members_hash[:included] = included unless included.nil?
+        doc_members_hash[:errors] = errors unless errors.nil?
+        doc_members_hash[:jsonapi] = jsonapi unless jsonapi.nil?
         JSONAPI::Document.new(doc_members_hash)
       end
 
       def self.parse_resources!(res_arr)
         case res_arr
         when Array
-          res_arr.each
+          res_arr.map { |res| parse_resource!(res) }
         when Hash
+          parse_resource!(res_arr)
         else
-          raise 'The top level data member must be an array of resources, or a resource'
+          raise 'The top level data member must be an array of resources or a resource'
         end
       end
 

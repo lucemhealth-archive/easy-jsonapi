@@ -26,15 +26,22 @@ module JSONAPI
       # @query_param http_method_is_post [TrueClass | FalseClass] Whether the document belongs to a post request
       # @raises InvalidDocument if any part of the spec is not observed
       def self.check_compliance!(document, is_a_request: nil, http_method_is_post: nil)
+        check_essentials!(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
+        check_members!(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
+        check_member_names!(document)
+        nil
+      end
+
+      # Checks the essentials of a jsonapi document. It is
+      #  used by #check_compliance! and JSONAPI::Document's #initialize method
+      # @param (see #check_compliance!)
+      def self.check_essentials!(document, is_a_request: nil, http_method_is_post: nil)
         raise "Document is nil" if document.nil?
         if http_method_is_post && !is_a_request && !is_a_request.nil?
           raise 'A document cannot both belong to a post request and not belong to a request'
         end
         is_a_request = true if http_method_is_post
         check_top_level!(document, is_a_request: is_a_request)
-        check_members!(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
-        check_member_names!(document)
-        nil
       end
 
       # **********************************
