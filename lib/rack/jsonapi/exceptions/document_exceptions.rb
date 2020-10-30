@@ -23,16 +23,16 @@ module JSONAPI
       # Checks a request document against the JSON:API spec to see if it complies
       # @query_param document [Hash] The jsonapi document included with the http request
       # @query_param request [TrueClass | FalseClass] Whether the document belongs to a http request
-      # @query_param post_request [TrueClass | FalseClass] Whether the document belongs to a post request
+      # @query_param http_method_is_post [TrueClass | FalseClass] Whether the document belongs to a post request
       # @raises InvalidDocument if any part of the spec is not observed
-      def self.check_compliance!(document, request: nil, post_request: nil)
+      def self.check_compliance!(document, is_a_request: nil, http_method_is_post: nil)
         raise "Document is nil" if document.nil?
-        if post_request && !request && !request.nil?
+        if http_method_is_post && !is_a_request && !is_a_request.nil?
           raise 'A document cannot both belong to a post request and not belong to a request'
         end
-        request = true if post_request
-        check_top_level!(document, request: request)
-        check_members!(document, request: request, post_request: post_request)
+        is_a_request = true if http_method_is_post
+        check_top_level!(document, is_a_request: is_a_request)
+        check_members!(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
         check_member_names!(document)
         nil
       end
@@ -44,7 +44,7 @@ module JSONAPI
       # Checks if there are any errors in the top level hash
       # @query_param (see *check_compliance!)
       # @raises (see check_compliance!)
-      def self.check_top_level!(document, request: false)
+      def self.check_top_level!(document, is_a_request: false)
         ensure!(document.is_a?(Hash),
                 'A JSON object MUST be at the root of every JSON API request ' \
                 'and response containing data')
@@ -59,7 +59,7 @@ module JSONAPI
           ensure!(!document.key?(:included),
                   'If a document does not contain a top-level data key, the included ' \
                   'member MUST NOT be present either')
-          ensure!(!request,
+          ensure!(!is_a_request,
                   'The request MUST include a single resource object as primary data')
         end
       end
@@ -71,8 +71,8 @@ module JSONAPI
       # Checks if any errors exist in the jsonapi document members
       # @query_param (see #check_compliance!)
       # @raises (see #check_compliance!)
-      def self.check_members!(document, request: false, post_request: false)
-        check_data!(document[:data], request: request, post_request: post_request) if document.key? :data
+      def self.check_members!(document, is_a_request: false, http_method_is_post: false)
+        check_data!(document[:data], is_a_request: is_a_request, http_method_is_post: http_method_is_post) if document.key? :data
         check_errors!(document[:errors]) if document.key? :errors
         check_meta!(document[:meta]) if document.key? :meta
         check_jsonapi!(document[:jsonapi]) if document.key? :jsonapi
@@ -86,12 +86,12 @@ module JSONAPI
       # @query_param (see #check_compliance!)
       # @query_param (see #check_compliance!)
       # @raises (see #check_compliance!)
-      def self.check_data!(data, request: false, post_request: false)
-        ensure!(data.is_a?(Hash) || !request,
+      def self.check_data!(data, is_a_request: false, http_method_is_post: false)
+        ensure!(data.is_a?(Hash) || !is_a_request,
                 'The request MUST include a single resource object as primary data')
         case data
         when Hash
-          check_resource!(data, post_request: post_request)
+          check_resource!(data, http_method_is_post: http_method_is_post)
         when Array
           data.each { |res| check_resource!(res) }
         else
@@ -103,8 +103,8 @@ module JSONAPI
       # @query_param resource [Hash] The jsonapi resource object
       # @query_param (see #check_compliance!)
       # @raises (see #check_compliance!)
-      def self.check_resource!(resource, post_request: false)
-        if !post_request
+      def self.check_resource!(resource, http_method_is_post: false)
+        if !http_method_is_post
           ensure!((resource[:type] && resource[:id]),
                   'Every resource object MUST contain an id member and a type member')
         else
@@ -282,6 +282,8 @@ module JSONAPI
         ensure!(included.is_a?(Array),
                 'The top level included member MUST be represented as an array of resource objects')
         included.each { |res| check_resource!(res) }
+        # Compound documents require “full linkage”, meaning that every included resource MUST be 
+        # identified by at least one resource identifier object in the same document.
       end
 
       # **********************************

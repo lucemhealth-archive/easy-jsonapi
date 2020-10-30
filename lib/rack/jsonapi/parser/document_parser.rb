@@ -30,14 +30,31 @@ module JSONAPI
       # Validate the structure of a JSONAPI request document.
       # @query_param document_str [String] The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
       # @raise [JSONAPI::Parser::InvalidDocument] if document is invalid.
-      def self.parse!(document, is_post_request)
-        JSONAPI::Exceptions::DocumentExceptions.check_compliance!(document, post_request: is_post_request)
-        data = parse_resource!(document[:data]) if document.key?(:data) # Is data required?
+      def self.parse!(document, is_a_request: nil, http_method_is_post: nil)
+        JSONAPI::Exceptions::DocumentExceptions.check_compliance!(
+          document, is_a_request: is_a_request, http_method_is_post: http_method_is_post
+        )
+        data = parse_resource!(document[:data]) if document.key?(:data)
         meta = parse_meta!(document[:meta]) if document.key?(:meta)
         links = parse_links!(document[:links]) if document.key?(:links)
         included = parse_included!(document[:included]) if document.key?(:included)
+        errors = parse_errors!(document[:errors]) if document.key?(:errors)
+        jsonapi = parse_jsonapi!(document[:jsonapi]) if document.key?(:jsonapi)
+        
+        doc_members_hash = {
+          data: data, meta: meta, links: links, included: included, errors: errors, jsonapi: jsonapi
+        }
+        JSONAPI::Document.new(doc_members_hash)
+      end
 
-        JSONAPI::Document.new(data, meta, links, included)
+      def self.parse_resources!(res_arr)
+        case res_arr
+        when Array
+          res_arr.each
+        when Hash
+        else
+          raise 'The top level data member must be an array of resources, or a resource'
+        end
       end
 
       def self.parse_resource!(res)

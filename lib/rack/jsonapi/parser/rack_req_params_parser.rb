@@ -48,14 +48,7 @@ module JSONAPI
       def self.add_the_param(key, value, query_param_collection)
         case key
         when 'include'
-          query_param_collection.add(JSONAPI::Request::QueryParamCollection::QueryParam::Include.new(value))
-          
-          # TODO: Fix issue with item already being included
-          # resources = value.split(',')
-          # resources.each do |res|
-          #   include_obj = JSONAPI::Request::QueryParamCollection::QueryParam::Include.new(res)
-          #   query_param_collection.add(include_obj)
-          # end
+          parse_include_param(value, query_param_collection)
         when 'fields'
           parse_fields_param(value, query_param_collection)
         when 'page'
@@ -69,16 +62,25 @@ module JSONAPI
         end
       end
 
-      def self.parse_fields_param(value, query_param_collection)
-        value.each do |res, attributes|
-          attr_arr = attributes.split(',')
-          field_arr = attr_arr.map { |a| JSONAPI::Document::Resource::Field.new(a, nil) }
-          temp = JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(res, field_arr)
-          query_param_collection.add(temp)
+      def self.parse_include_param(value, query_param_collection)
+        # TODO: Need to talk to Joe ab multiple QueryParams.
+        resources = value.split(', ')
+        resources.each do |res|
+          include_obj = JSONAPI::Request::QueryParamCollection::QueryParam::Include.new(res)
+          query_param_collection.add(include_obj)
         end
       end
 
-      private_class_method :add_the_param, :parse_fields_param
+      def self.parse_fields_param(value, query_param_collection)
+        value.each do |res, attributes|
+          attr_arr = attributes.split(',')
+          field_arr = attr_arr.map { |a| JSONAPI::Document::Resource::Field.new(a) }
+          param_field = JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(res, field_arr)
+          query_param_collection.add(param_field)
+        end
+      end
+
+      private_class_method :add_the_param, :parse_fields_param, :parse_include_param
     end
   end
 end

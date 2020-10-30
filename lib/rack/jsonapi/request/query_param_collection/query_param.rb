@@ -10,7 +10,7 @@ module JSONAPI
   class Request
     class QueryParamCollection
       # A generic name->value query parameter
-      class QueryParam < JSONAPI::Item::NameValuePair
+      class QueryParam < JSONAPI::NameValuePair
         
         # @query_param name The name of the parameter
         # @query_param value The value of the parameter
@@ -36,7 +36,7 @@ module JSONAPI
         # Represents a parameter as a string
         def to_s
           str_val = @item[:value].join(',') if @item[:value].is_a? Array
-          "{ '#{name}' => '#{str_val}' }"
+          "#{name} => { \"#{name}\": \"#{str_val}\" }"
         end
       end
     end

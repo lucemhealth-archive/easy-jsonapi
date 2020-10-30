@@ -34,8 +34,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.9'
   spec.add_development_dependency 'redcarpet', '~> 3.5'
   spec.add_development_dependency 'yard', '~> 0.9'
-  spec.add_development_dependency 'solargraph'
-  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'solargraph', '~> 0.39'
+  spec.add_development_dependency 'rubocop', '~> 0.92'
 
   # Dependencies
   spec.add_dependency 'oj', '~> 3.10'

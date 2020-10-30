@@ -34,21 +34,21 @@ module JSONAPI
     # #keys provided by super
     # #size provided by super
 
-    # def to_s
-    #   to_return = '{ '
-    #   is_first = true
-    #   each do |pair|
-    #     if is_first
-    #       to_return += pair.to_s
-    #       is_first = false
-    #     else
-    #       to_return += ", #{pair}"
-    #     end
-    #   end
-    #   to_return += ' }'
-    # end
+    def to_s
+      to_return = '{ '
+      is_first = true
+      each do |pair|
+        if is_first
+          to_return += pair.to_s
+          is_first = false
+        else
+          to_return += ", #{pair}"
+        end
+      end
+      to_return += ' }'
+    end
 
     # Can't make insert private
-    # private :insert
+    protected :insert
   end
 end

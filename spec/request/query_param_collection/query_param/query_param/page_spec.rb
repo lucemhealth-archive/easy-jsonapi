@@ -20,7 +20,7 @@ describe JSONAPI::Request::QueryParamCollection::QueryParam::Page do
     end
     
     it 'should have a working #to_s' do
-      expect(pg1.to_s).to eq "{ page => { 'offset' => '3', 'limit' => '25' } }"
+      expect(pg1.to_s).to eq "page => { \"offset\": \"3\", \"limit\": \"25\" }"
     end
     
     it 'should not respond to #name=, #value, or #value=' do

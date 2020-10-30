@@ -21,12 +21,12 @@ module JSONAPI
 
       def to_s
         '{ ' \
-          "type => { #{@type} }, " \
-          "id => { #{@id} }, " \
-          "attributes => { #{@attributes} }, " \
-          "relationships => { #{@relationships} }, " \
-          "links => { #{@links} }, " \
-          "meta => { #{@meta} } " \
+          "\"type\": \"#{@type}\", " \
+          "\"id\": \"#{@id}\", " \
+          "\"attributes\": #{@attributes || 'null'}, " \
+          "\"relationships\": #{@relationships || 'null'}, " \
+          "\"links\": #{@links || 'null'}, " \
+          "\"meta\": #{@meta || 'null'}" \
         '}'
       end
     end

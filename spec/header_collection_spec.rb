@@ -23,11 +23,11 @@ describe JSONAPI::HeaderCollection do
     
     let(:to_string) do
       '{ ' \
-      "content-type => { 'Content-Type' => 'application/vnd.api+json' }, " \
-      "accept => { 'Accept' => 'application/vnd.api+json, text/plain, text/html ; level=1 ; q=0.5, text/x-div; q=0.8, text/x-c, */*' }, " \
-      "host => { 'Host' => 'localhost:9292' }, " \
-      "connection => { 'Connection' => 'keep-alive' }, " \
-      "www-authenticate => { 'WWW-Authenticate' => 'Basic realm=\"Access to the staging site\", charset=\"UTF-8\"' }" \
+      "\"Content-Type\": \"application/vnd.api+json\", " \
+      "\"Accept\": \"application/vnd.api+json, text/plain, text/html ; level=1 ; q=0.5, text/x-div; q=0.8, text/x-c, */*\", " \
+      "\"Host\": \"localhost:9292\", " \
+      "\"Connection\": \"keep-alive\", " \
+      "\"WWW-Authenticate\": \"Basic realm=\"Access to the staging site\", charset=\"UTF-8\"\"" \
       ' }'
     end
 

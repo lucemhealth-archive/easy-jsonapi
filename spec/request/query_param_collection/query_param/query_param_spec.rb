@@ -19,7 +19,7 @@ describe JSONAPI::Request::QueryParamCollection::QueryParam do
     end
 
     it 'should have a working #to_s' do
-      expect(p1.to_s).to eq "{ 'te_st' => 'ing' }"
+      expect(p1.to_s).to eq "te_st => { \"te_st\": \"ing\" }"
     end
   end
 end

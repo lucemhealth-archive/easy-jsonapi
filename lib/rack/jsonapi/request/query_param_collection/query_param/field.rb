@@ -9,11 +9,11 @@ module JSONAPI
           
           # @query_param resource [String] The resource the JSONAPI::Resource::Fields belong to
           # @query_param res_fields [Array<JSONAPI::Resource::Field>] An array containing the only 
-          #   attributes of a resource to include given the resource is returned in the server response.
+          #   fields of a resource to include given the resource is returned in the server response.
           def initialize(resource, res_fields_arr)
             res_fields_arr = [res_fields_arr] unless res_fields_arr.is_a? Array
             unique_hash = "fields[#{resource}]"
-            super(unique_hash, { resource: resource, attributes: res_fields_arr })
+            super(unique_hash, { resource: resource, fields: res_fields_arr })
           end
     
           # @returns [String] The name of the resource 
@@ -27,20 +27,20 @@ module JSONAPI
           end
           
           # @returns [Array<JSONAPI::Resource::Field>] The fields to include for a resource
-          def attributes
-            @item[:value][:attributes]
+          def fields
+            @item[:value][:fields]
           end
           
           # @query_param new_resource [Array<JSONAPI::Resource::Field>] The new fields to include for a resource
-          def attributes=(new_attributes)
+          def fields=(new_attributes)
             new_attributes = [new_attributes] unless new_attributes.is_a? Array
-            @item[:value][:attributes] = new_attributes
+            @item[:value][:fields] = new_attributes
           end
           
           # @returns The Field class represented as a string
           def to_s
-            str_attr = attributes.map(&:name)
-            "{ fields[#{resource}] => { '#{resource}' => '#{str_attr.join(',')}' } }"
+            str_attr = fields.map(&:name)
+            "fields[#{resource}] => { \"#{resource}\": \"#{str_attr.join(',')}\" }"
           end
     
           # #name provided by super class
@@ -53,7 +53,7 @@ module JSONAPI
     
           # Raise a runtime error if value is attempted to be accessed
           def value
-            raise 'Field objects do not have a value method, try #resource or #attributes'
+            raise 'Field objects do not have a value method, try #resource or #fields'
           end
     
           # Raise a runtime error if value is attempted to be reset

@@ -8,14 +8,14 @@ require 'rack/jsonapi/document/resource/field'
 describe JSONAPI::Request::QueryParamCollection::QueryParam::Field do
   let(:res_field_arr1) do
     [
-      JSONAPI::Document::Resource::Field.new('title', nil), 
-      JSONAPI::Document::Resource::Field.new('body', nil)
+      JSONAPI::Document::Resource::Field.new('title'), 
+      JSONAPI::Document::Resource::Field.new('body')
     ]
   end
 
   let(:res_field_arr2) do
     [
-      JSONAPI::Document::Resource::Field.new('name', nil)
+      JSONAPI::Document::Resource::Field.new('name')
     ]
   end
 
@@ -35,23 +35,23 @@ describe JSONAPI::Request::QueryParamCollection::QueryParam::Field do
       expect(f2.resource).to eq 'not_people'
 
       
-      # attributes testing
-      expect(f1.attributes).to eq res_field_arr1
-      expect(f2.attributes).to eq res_field_arr2
+      # fields testing
+      expect(f1.fields).to eq res_field_arr1
+      expect(f2.fields).to eq res_field_arr2
       new_res_field = JSONAPI::Document::Resource::Field.new('testing')
-      f1.attributes = new_res_field
-      expect(f1.attributes).to eq [new_res_field]
+      f1.fields = new_res_field
+      expect(f1.fields).to eq [new_res_field]
     end
 
     it 'should have a working #to_s' do
-      expect(f1.to_s).to eq "{ fields[articles] => { 'articles' => 'title,body' } }"
-      expect(f2.to_s).to eq "{ fields[people] => { 'people' => 'name' } }"
+      expect(f1.to_s).to eq "fields[articles] => { \"articles\": \"title,body\" }"
+      expect(f2.to_s).to eq "fields[people] => { \"people\": \"name\" }"
     end
 
     it 'should not respond to #name=, #value, or #value=' do
       expect(f1.name).to eq 'fields[articles]'
       expect { f1.name = 'new_name' }.to raise_error 'Cannot set the name of a Field object'
-      expect { f1.value }.to raise_error 'Field objects do not have a value method, try #resource or #attributes'
+      expect { f1.value }.to raise_error 'Field objects do not have a value method, try #resource or #fields'
       expect { f1.value = 'new_value' }.to raise_error 'Cannot set value of Field object, becausee Field does not have a value'
     end
   end

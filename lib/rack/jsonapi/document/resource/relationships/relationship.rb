@@ -20,13 +20,36 @@ module JSONAPI
           end
   
           def to_s
-            '{ ' \
-              "#{@name} => { " \
-                "{ links => #{@links} }, " \
-                "{ data => #{@data} }, " \
-                "{ meta => #{@meta} }, " \
-              ' }' \
-            ' }'
+            "\"#{@name}\": { " \
+              "\"links\": #{@links || 'null'}, " \
+              "\"data\": #{data_to_s || 'null'}, " \
+              "\"meta\": #{@meta || 'null'}" \
+            ' }' \
+          end
+
+          private
+
+          def data_to_s
+            case @data
+            when Array
+              data_str = '['
+              first = true
+              @data.each do |res|
+                if first
+                  data_str += res.to_s
+                  first = false
+                else
+                  data_str += ", #{res}"
+                end
+              end
+              data_str += ']'
+            when Hash
+              data_str += @data.to_s
+            when nil
+              nil
+            else
+              raise 'The relationships data member should be a resource identifier or array or resource identifiers'
+            end
           end
 
         end

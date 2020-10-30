@@ -12,20 +12,24 @@ module JSONAPI
     # @query_param included [Included] the already initialized Included class
     # @query_param meta [Meta] the already initialized Meta class
     # @query_param links [Links] the already initialized Links class
-    def initialize(data, meta, links, included)
-      @data = data
-      @meta = meta
-      @links = links
-      @included = included
+    def initialize(document_members_hash)
+      @data = document_members_hash[:data]
+      @meta = document_members_hash[:meta]
+      @links = document_members_hash[:links]
+      @included = document_members_hash[:included]
+      @errors = document_members_hash[:errors]
+      @jsonapi = document_members_hash[:jsonapi]
     end
 
     # To String
     def to_s
       '{ ' \
-        "data => { #{@data} }, " \
-        "meta => { #{@meta} }, " \
-        "links => { #{@links} }, " \
-        "included => { #{@included} }" \
+        "\"data\": #{@data || 'null'}, " \
+        "\"meta\": #{@meta || 'null'}, " \
+        "\"links\": #{@links || 'null'}, " \
+        "\"errors\": #{@errors || 'null'}, " \
+        "\"jsonapi\": #{@jsonapi || 'null'}, " \
+        "\"included\": #{@included || 'null'}" \
       ' }'
     end
   end

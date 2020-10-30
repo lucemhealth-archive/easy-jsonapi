@@ -13,17 +13,18 @@ module JSONAPI
     
           # @query_param resource [String | Array<String>] A value given to include
           def initialize(resource)
-            resource = resource.split('.') if resource.is_a? String
-            super('include', resource)
+            resource = resource.join('.') if resource.is_a? Array 
+            resources = resource.split('.') if resource.is_a? String
+            super("include|#{resource}", resources)
           end
           
           # @returns [Array<String>] A an array of the resource 'path'
-          def resource
+          def resources
             @item[:value]
           end
     
           # @query_param new_resource [String | Array<String>] The new resource
-          def resource=(new_resource)
+          def resources=(new_resource)
             new_resource = new_resource.split('.') if new_resource.is_a? String
             @item[:value] = new_resource
           end
@@ -31,7 +32,7 @@ module JSONAPI
           # Represents a Include object as a string
           def to_s
             str_resource = @item[:value].join('.') if @item[:value].is_a? Array
-            "{ 'include' => '#{str_resource}' }"
+            "#{@item[:name]} => { \"include\": \"#{str_resource}\" }"
           end
     
           # Raise a runtime error if name is attempted to be reset
@@ -42,7 +43,7 @@ module JSONAPI
     
           # Raise a runtime error if value is attempted to be accessed
           def value
-            raise 'Include objects do not have a value method, try #resource'
+            raise 'Include objects do not have a value method, try #resources'
           end
     
           # Raise a runtime error if value is attempted to be reset

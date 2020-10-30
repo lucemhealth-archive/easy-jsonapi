@@ -11,6 +11,10 @@ module JSONAPI
         @type = type
         @id = id
       end
+
+      def to_s
+        "{ \"type\": \"#{@type}\", \"id\": \"#{@id}\" }"
+      end
     end
   end
 end

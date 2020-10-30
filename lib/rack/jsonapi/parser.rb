@@ -24,8 +24,8 @@ module JSONAPI
       header_collection = HeadersParser.parse!(env)
       
       req_body = Oj.load(req.body.read, symbol_keys: true) # stored separately because can only read 1x
-      is_post_request = env['REQUEST_METHOD'] == 'POST'
-      document = jsonapi_doc_included ? DocumentParser.parse!(req_body, is_post_request) : nil
+      http_method_is_post = env['REQUEST_METHOD'] == 'POST'
+      document = jsonapi_doc_included ? DocumentParser.parse!(req_body, http_method_is_post: http_method_is_post) : nil
       
       JSONAPI::Request.new(env, query_param_collection, header_collection, document)
     end

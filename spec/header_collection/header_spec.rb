@@ -15,7 +15,7 @@ describe JSONAPI::HeaderCollection::Header do
     end
 
     it 'should have a working #to_s' do
-      expect(p1.to_s).to eq "{ 'test' => 'ing' }"
+      expect(p1.to_s).to eq "\"test\": \"ing\""
     end
   end
 end

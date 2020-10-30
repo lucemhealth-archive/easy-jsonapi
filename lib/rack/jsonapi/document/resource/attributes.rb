@@ -1,31 +1,27 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/collection'
+require 'rack/jsonapi/name_value_pair_collection'
 
 module JSONAPI
   class Document
     class Resource
       # The attributes of a resource
-      class Attributes < JSONAPI::Collection
+      class Attributes < JSONAPI::NameValuePairCollection
   
         def initialize(attr_arr = [])
-          super(attr_arr, &:name)
+          super(attr_arr, JSONAPI::Document::Resource::Attributes::Attribute)
         end
 
-        # #empyt? provided by super class
-        # #include provided by super class
+        # #empyt? provided by super
+        # #include provided by super
+        # #add provided by super
+        # #each provided from super
+        # #remove provided from super
+        # #get provided by super
+        # #keys provided by super
+        # #size provided by super
 
-        def add(attribute)
-          super(attribute, &:name)
-        end
-
-        # #each provided from super class
-        # #remove provided from super class
-        # #get provided by super class
-        # #keys provided by super class
-        # #size provided by super class
-
-        # #to_s provided from super class
+        # to_s provided from super
       end
     end
   end

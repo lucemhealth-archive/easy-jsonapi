@@ -19,9 +19,11 @@ describe JSONAPI::Document::Links do
     let(:ex_item_value) { "http://example.com/articles" }
     
     let(:to_string) do
-      "{ self => { 'self' => 'http://example.com/articles' }, " \
-      "next => { 'next' => 'http://example.com/articles?page[offset]=2' }, " \
-      "last => { 'last' => 'http://example.com/articles?page[offset]=10' } }"
+      '{ ' \
+      "\"self\": \"http://example.com/articles\", " \
+      "\"next\": \"http://example.com/articles?page[offset]=2\", " \
+      "\"last\": \"http://example.com/articles?page[offset]=10\"" \
+      ' }'
     end
 
     item_arr = obj_arr.map do |i|

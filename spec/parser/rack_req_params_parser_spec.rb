@@ -9,7 +9,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
     rack_params = 
       {
         'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
-        'include' => 'author, comments.author',
+        'include' => 'author, comments.likes',
         'josh_ua' => 'demoss',
         'page' => { 'offset' => '1', 'limit' => '1' },
         'filter' => 'f',
@@ -19,7 +19,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
     @rack_params_w_bad_name =
       {
         'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
-        'include' => 'author, comments.author',
+        'include' => 'author, comments.likes',
         'joshua' => 'demoss',
         'page' => { 'offset' => '1', 'limit' => '1' },
         'filter' => 'f',
@@ -53,7 +53,8 @@ describe JSONAPI::Parser::RackReqParamsParser do
     it 'should include each added item' do
       expect(pc.include?(:'fields[articles]')).to be true
       expect(pc.include?(:'fields[people]')).to be true
-      expect(pc.include?(:include)).to be true
+      expect(pc.include?(:'include|author')).to be true
+      expect(pc.include?(:'include|comments.likes')).to be true
       expect(pc.include?(:josh_ua)).to be true
       expect(pc.include?(:page)).to be true
       expect(pc.include?(:filter)).to be true
@@ -63,7 +64,8 @@ describe JSONAPI::Parser::RackReqParamsParser do
     it 'should contain proper classes for each item in the param collection' do
       expect(pc.get(:'fields[articles]').class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Field
       expect(pc.get(:'fields[people]').class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Field
-      expect(pc.get(:include).class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Include
+      expect(pc.get(:'include|author').class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Include
+      expect(pc.get(:'include|comments.likes').class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Include
       expect(pc.get(:josh_ua).class).to be JSONAPI::Request::QueryParamCollection::QueryParam
       expect(pc.get(:page).class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Page
       expect(pc.get(:filter).class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Filter

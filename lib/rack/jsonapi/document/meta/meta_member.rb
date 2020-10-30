@@ -8,7 +8,7 @@ module JSONAPI
     class Meta
 
       # An individual attribute in a JSON:API Meta object
-      class MetaMember < JSONAPI::Item::NameValuePair
+      class MetaMember < JSONAPI::NameValuePair
       end
     end
   end

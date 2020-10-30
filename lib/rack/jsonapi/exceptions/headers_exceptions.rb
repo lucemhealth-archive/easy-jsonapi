@@ -22,7 +22,7 @@ module JSONAPI
       def self.check_content_type!(env)
         return if env['CONTENT_TYPE'].nil?
         return if env['CONTENT_TYPE'] == 'application/vnd.api+json'
-        return if (env['CONTENT_TYPE'] =~ %r{\Aapplication/vnd\.api\+json\s?;}).nil?
+        return if (env['CONTENT_TYPE'] =~ %r{application/vnd\.api\+json\s?;}).nil?
         
         raise_error!(
           'Clients MUST send all JSON:API data in request documents with the header ' \

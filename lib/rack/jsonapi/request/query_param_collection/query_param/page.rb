@@ -54,7 +54,7 @@ module JSONAPI
     
           # Represents the Page class in a string format
           def to_s
-            "{ page => { 'offset' => '#{offset}', 'limit' => '#{limit}' } }"
+            "page => { \"offset\": \"#{offset}\", \"limit\": \"#{limit}\" }"
           end
   
         end

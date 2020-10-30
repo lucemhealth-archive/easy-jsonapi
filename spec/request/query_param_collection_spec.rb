@@ -13,26 +13,27 @@ require 'collection_subclasses_shared_tests'
 describe JSONAPI::Request::QueryParamCollection do
 
   item_arr = 
-      [
-        JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('author,comments.likes'),
-        JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(
-          'articles', 
-          [
-            JSONAPI::Document::Resource::Field.new('title', nil), 
-            JSONAPI::Document::Resource::Field.new('body', nil)
-          ]
-        ),
-        JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(
-          'people', 
-          [
-            JSONAPI::Document::Resource::Field.new('name', nil)
-          ]
-        ),
-        JSONAPI::Request::QueryParamCollection::QueryParam.new('leBron', 'james'),
-        JSONAPI::Request::QueryParamCollection::QueryParam::Page.new(3, 25),
-        JSONAPI::Request::QueryParamCollection::QueryParam::Sort.new('alpha'),
-        JSONAPI::Request::QueryParamCollection::QueryParam::Filter.new('special')
-      ]
+    [
+      JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('author'),
+      JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('comments.likes'),
+      JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(
+        'articles', 
+        [
+          JSONAPI::Document::Resource::Field.new('title'), 
+          JSONAPI::Document::Resource::Field.new('body')
+        ]
+      ),
+      JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(
+        'people', 
+        [
+          JSONAPI::Document::Resource::Field.new('name')
+        ]
+      ),
+      JSONAPI::Request::QueryParamCollection::QueryParam.new('leBron', 'james'),
+      JSONAPI::Request::QueryParamCollection::QueryParam::Page.new(3, 25),
+      JSONAPI::Request::QueryParamCollection::QueryParam::Sort.new('alpha'),
+      JSONAPI::Request::QueryParamCollection::QueryParam::Filter.new('special')
+    ]
 
   it_behaves_like 'collection like classes' do
     
@@ -47,20 +48,21 @@ describe JSONAPI::Request::QueryParamCollection do
     # }
     
     let(:item_class) { JSONAPI::Request::QueryParamCollection::QueryParam }
-    let(:c_size) { 7 }
-    let(:keys) { %i[include fields[articles] fields[people] lebron page sort filter] }
-    let(:ex_item_key) { :include }
-    let(:ex_item_value) { 'author,comments.likes' }
+    let(:c_size) { 8 }
+    let(:keys) { %i[include|author include|comments.likes fields[articles] fields[people] lebron page sort filter] }
+    let(:ex_item_key) { :'include|author' }
+    let(:ex_item_value) { 'author' }
     
     let(:to_string) do
       '{ ' \
-        "include => { 'include' => 'author,comments.likes' }, " \
-        "fields[articles] => { fields[articles] => { 'articles' => 'title,body' } }, " \
-        "fields[people] => { fields[people] => { 'people' => 'name' } }, " \
-        "lebron => { 'leBron' => 'james' }, " \
-        "page => { page => { 'offset' => '3', 'limit' => '25' } }, " \
-        "sort => { 'sort' => 'alpha' }, " \
-        "filter => { 'filter' => 'special' }" \
+        "include|author => { \"include\": \"author\" }, " \
+        "include|comments.likes => { \"include\": \"comments.likes\" }, " \
+        "fields[articles] => { \"articles\": \"title,body\" }, " \
+        "fields[people] => { \"people\": \"name\" }, " \
+        "leBron => { \"leBron\": \"james\" }, " \
+        "page => { \"offset\": \"3\", \"limit\": \"25\" }, " \
+        "sort => { \"sort\": \"alpha\" }, " \
+        "filter => { \"filter\": \"special\" }" \
       ' }'
     end
 

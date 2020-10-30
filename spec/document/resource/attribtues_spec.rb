@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document/resource/attributes/attribute'
-require_relative '../collection_subclasses_shared_tests'
+require 'collection_subclasses_shared_tests'
 
 describe JSONAPI::Document::Resource::Attributes do
   it_behaves_like 'collection like classes' do
@@ -19,7 +19,7 @@ describe JSONAPI::Document::Resource::Attributes do
     let(:ex_item_value) { 'john smith' }
     
     let(:to_string) do
-      "{ name => { 'name' => 'john smith' }, height => { 'height' => 'six feet' }, sex => { 'sex' => 'male' } }"
+      "{ \"name\": \"john smith\", \"height\": \"six feet\", \"sex\": \"male\" }"
     end
 
     item_arr = obj_arr.map do |i|

@@ -8,7 +8,7 @@ module JSONAPI
     class Links
 
       # An individual attribute in a JSON:API Links object
-      class Link < JSONAPI::Item::NameValuePair
+      class Link < JSONAPI::NameValuePair
       end
     end
   end

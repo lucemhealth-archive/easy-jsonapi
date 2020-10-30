@@ -18,9 +18,11 @@ describe JSONAPI::Document::Meta do
     let(:ex_item_value) { "Copyright 2015 Example Corp." }
     
     let(:to_string) do
-      "{ copyright => { 'copyright' => 'Copyright 2015 Example Corp.' }, " \
-      "authors => { 'authors' => '[\"Yehuda Katz\", \"Steve Klabnik\", " \
-      "\"Dan Gebhardt\", \"Tyler Kellen\"]' } }"
+      '{ ' \
+      "\"copyright\": \"Copyright 2015 Example Corp.\", " \
+      "\"authors\": [\"Yehuda Katz\", \"Steve Klabnik\", " \
+      "\"Dan Gebhardt\", \"Tyler Kellen\"]" \
+      ' }'
     end
 
     item_arr = obj_arr.map do |i|
