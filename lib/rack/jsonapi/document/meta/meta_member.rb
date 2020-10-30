@@ -7,7 +7,7 @@ module JSONAPI
   class Document
     class Meta
 
-      # An individual attribute in a JSON:API Meta object
+      # An individual member in a JSON:API Meta object
       class MetaMember < JSONAPI::NameValuePair
       end
     end

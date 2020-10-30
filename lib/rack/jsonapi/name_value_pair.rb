@@ -6,8 +6,8 @@ module JSONAPI
   # A generic name->value query pair
   class NameValuePair < JSONAPI::Item
     
-    # @query_param name The name of the pair
-    # @query_param value The value of the pair
+    # @param name The name of the pair
+    # @param value The value of the pair
     def initialize(name, value)
       super({ name: name.to_s, value: value })
     end
@@ -17,7 +17,7 @@ module JSONAPI
       @item[:name]
     end
 
-    # @query_param new_name [String | Symbol] The new header name
+    # @param new_name [String | Symbol]  The new header name
     def name=(new_name)
       @item[:name] = new_name.to_s
     end
@@ -27,7 +27,7 @@ module JSONAPI
       @item[:value]
     end
 
-    # @query_param new_value [String | Symbol] The header value
+    # @param new_value [String | Symbol]  The header value
     def value=(new_value)
       @item[:value] = new_value
     end

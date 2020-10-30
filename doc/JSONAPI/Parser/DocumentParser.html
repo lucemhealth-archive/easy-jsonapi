@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: JSONAPI::Parser::DocumentParser
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "JSONAPI::Parser::DocumentParser";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (D)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'>Parser</span></span>
+     &raquo; 
+    <span class="title">DocumentParser</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: JSONAPI::Parser::DocumentParser
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/rack/jsonapi.rb<span class="defines">,<br />
+  lib/rack/jsonapi/parser/document_parser.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Document Parsing Logic</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse!-class_method" title="parse! (class method)">.<strong>parse!</strong>(document, is_a_request: nil, http_method_is_post: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validate the structure of a JSONAPI request document.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_attributes!-class_method" title="parse_attributes! (class method)">.<strong>parse_attributes!</strong>(attrs_obj)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_included!-class_method" title="parse_included! (class method)">.<strong>parse_included!</strong>(included_arr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_links!-class_method" title="parse_links! (class method)">.<strong>parse_links!</strong>(link_obj)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_meta!-class_method" title="parse_meta! (class method)">.<strong>parse_meta!</strong>(meta_obj)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_relationship!-class_method" title="parse_relationship! (class method)">.<strong>parse_relationship!</strong>(name, rel_obj)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_relationships!-class_method" title="parse_relationships! (class method)">.<strong>parse_relationships!</strong>(rels_obj)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_resource!-class_method" title="parse_resource! (class method)">.<strong>parse_resource!</strong>(res)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_resource_identifier!-class_method" title="parse_resource_identifier! (class method)">.<strong>parse_resource_identifier!</strong>(res_id)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_resource_identifiers!-class_method" title="parse_resource_identifiers! (class method)">.<strong>parse_resource_identifiers!</strong>(res_id_arr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_resources!-class_method" title="parse_resources! (class method)">.<strong>parse_resources!</strong>(res_arr)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="parse!-class_method">
+  
+    .<strong>parse!</strong>(document, is_a_request: nil, http_method_is_post: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Validate the structure of a JSONAPI request document.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>document</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>JSONAPI::Parser::InvalidDocument</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if document is invalid.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse!'>parse!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Exceptions.html" title="JSONAPI::Exceptions (module)">Exceptions</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Exceptions/DocumentExceptions.html" title="JSONAPI::Exceptions::DocumentExceptions (module)">DocumentExceptions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_check_compliance!'><span class='object_link'><a href="../Exceptions/DocumentExceptions.html#check_compliance!-class_method" title="JSONAPI::Exceptions::DocumentExceptions.check_compliance! (method)">check_compliance!</a></span></span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='id identifier rubyid_is_a_request'>is_a_request</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='id identifier rubyid_http_method_is_post'>http_method_is_post</span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_resource!'>parse_resource!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:data</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_meta!'>parse_meta!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='lbracket'>[</span><span class='symbol'>:meta</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:meta</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_links!'>parse_links!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='lbracket'>[</span><span class='symbol'>:links</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:links</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_included'>included</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_included!'>parse_included!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='lbracket'>[</span><span class='symbol'>:included</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:included</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_errors'>errors</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_errors!'>parse_errors!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='lbracket'>[</span><span class='symbol'>:errors</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:errors</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_jsonapi'>jsonapi</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_jsonapi!'>parse_jsonapi!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='lbracket'>[</span><span class='symbol'>:jsonapi</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:jsonapi</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_doc_members_hash'>doc_members_hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id identifier rubyid_doc_members_hash'>doc_members_hash</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>unless</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_doc_members_hash'>doc_members_hash</span><span class='lbracket'>[</span><span class='symbol'>:meta</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_meta'>meta</span> <span class='kw'>unless</span> <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_doc_members_hash'>doc_members_hash</span><span class='lbracket'>[</span><span class='symbol'>:links</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_links'>links</span> <span class='kw'>unless</span> <span class='id identifier rubyid_links'>links</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_doc_members_hash'>doc_members_hash</span><span class='lbracket'>[</span><span class='symbol'>:included</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_included'>included</span> <span class='kw'>unless</span> <span class='id identifier rubyid_included'>included</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_doc_members_hash'>doc_members_hash</span><span class='lbracket'>[</span><span class='symbol'>:errors</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_errors'>errors</span> <span class='kw'>unless</span> <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_doc_members_hash'>doc_members_hash</span><span class='lbracket'>[</span><span class='symbol'>:jsonapi</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_jsonapi'>jsonapi</span> <span class='kw'>unless</span> <span class='id identifier rubyid_jsonapi'>jsonapi</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document.html#initialize-instance_method" title="JSONAPI::Document#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_doc_members_hash'>doc_members_hash</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_attributes!-class_method">
+  
+    .<strong>parse_attributes!</strong>(attrs_obj)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_attributes!'>parse_attributes!</span><span class='lparen'>(</span><span class='id identifier rubyid_attrs_obj'>attrs_obj</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource.html" title="JSONAPI::Document::Resource (class)">Resource</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource/Attributes.html" title="JSONAPI::Document::Resource::Attributes (class)">Attributes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/Resource/Attributes.html#initialize-instance_method" title="JSONAPI::Document::Resource::Attributes#initialize (method)">new</a></span></span>
+  <span class='id identifier rubyid_attrs_obj'>attrs_obj</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_cur_attr'>cur_attr</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource.html" title="JSONAPI::Document::Resource (class)">Resource</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource/Attributes.html" title="JSONAPI::Document::Resource::Attributes (class)">Attributes</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource/Attributes/Attribute.html" title="JSONAPI::Document::Resource::Attributes::Attribute (class)">Attribute</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/Resource/Attributes/Attribute.html#initialize-instance_method" title="JSONAPI::Document::Resource::Attributes::Attribute#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_attributes'>attributes</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_cur_attr'>cur_attr</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_attributes'>attributes</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_included!-class_method">
+  
+    .<strong>parse_included!</strong>(included_arr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+148
+149
+150
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 148</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_included!'>parse_included!</span><span class='lparen'>(</span><span class='id identifier rubyid_included_arr'>included_arr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_res_arr'>res_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_included_arr'>included_arr</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_res'>res</span><span class='op'>|</span>
+    <span class='id identifier rubyid_res_arr'>res_arr</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_parse_resource!'>parse_resource!</span><span class='lparen'>(</span><span class='id identifier rubyid_res'>res</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Included.html" title="JSONAPI::Document::Included (class)">Included</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/Included.html#initialize-instance_method" title="JSONAPI::Document::Included#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_res_arr'>res_arr</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_links!-class_method">
+  
+    .<strong>parse_links!</strong>(link_obj)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112
+113
+114
+115
+116
+117</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 110</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_links!'>parse_links!</span><span class='lparen'>(</span><span class='id identifier rubyid_link_obj'>link_obj</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Links.html" title="JSONAPI::Document::Links (class)">Links</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/Links.html#initialize-instance_method" title="JSONAPI::Document::Links#initialize (method)">new</a></span></span>
+  <span class='id identifier rubyid_link_obj'>link_obj</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_cur_link'>cur_link</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Links.html" title="JSONAPI::Document::Links (class)">Links</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Links/Link.html" title="JSONAPI::Document::Links::Link (class)">Link</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../NameValuePair.html#initialize-instance_method" title="JSONAPI::NameValuePair#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_links'>links</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_cur_link'>cur_link</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_links'>links</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_meta!-class_method">
+  
+    .<strong>parse_meta!</strong>(meta_obj)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121
+122
+123
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 119</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_meta!'>parse_meta!</span><span class='lparen'>(</span><span class='id identifier rubyid_meta_obj'>meta_obj</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Meta.html" title="JSONAPI::Document::Meta (class)">Meta</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/Meta.html#initialize-instance_method" title="JSONAPI::Document::Meta#initialize (method)">new</a></span></span>
+  <span class='id identifier rubyid_meta_obj'>meta_obj</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_cur_meta_member'>cur_meta_member</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Meta.html" title="JSONAPI::Document::Meta (class)">Meta</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Meta/MetaMember.html" title="JSONAPI::Document::Meta::MetaMember (class)">MetaMember</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../NameValuePair.html#initialize-instance_method" title="JSONAPI::NameValuePair#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_cur_meta_member'>cur_meta_member</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_meta'>meta</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_relationship!-class_method">
+  
+    .<strong>parse_relationship!</strong>(name, rel_obj)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+101
+102
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 101</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_relationship!'>parse_relationship!</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_rel_obj'>rel_obj</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_links!'>parse_links!</span><span class='lparen'>(</span><span class='id identifier rubyid_rel_obj'>rel_obj</span><span class='lbracket'>[</span><span class='symbol'>:links</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_rel_obj'>rel_obj</span><span class='lbracket'>[</span><span class='symbol'>:links</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_resource_identifiers!'>parse_resource_identifiers!</span><span class='lparen'>(</span><span class='id identifier rubyid_rel_obj'>rel_obj</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_rel_obj'>rel_obj</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_meta!'>parse_meta!</span><span class='lparen'>(</span><span class='id identifier rubyid_rel_obj'>rel_obj</span><span class='lbracket'>[</span><span class='symbol'>:meta</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_rel_obj'>rel_obj</span><span class='lbracket'>[</span><span class='symbol'>:meta</span><span class='rbracket'>]</span>
+  
+  <span class='id identifier rubyid_rel_members_obj'>rel_members_obj</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>name:</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>links:</span> <span class='id identifier rubyid_links'>links</span><span class='comma'>,</span> <span class='label'>data:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>meta:</span> <span class='id identifier rubyid_meta'>meta</span> <span class='rbrace'>}</span>
+  <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource.html" title="JSONAPI::Document::Resource (class)">Resource</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource/Relationships.html" title="JSONAPI::Document::Resource::Relationships (class)">Relationships</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource/Relationships/Relationship.html" title="JSONAPI::Document::Resource::Relationships::Relationship (class)">Relationship</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/Resource/Relationships/Relationship.html#initialize-instance_method" title="JSONAPI::Document::Resource::Relationships::Relationship#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_rel_members_obj'>rel_members_obj</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_relationships!-class_method">
+  
+    .<strong>parse_relationships!</strong>(rels_obj)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94
+95
+96
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 92</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_relationships!'>parse_relationships!</span><span class='lparen'>(</span><span class='id identifier rubyid_rels_obj'>rels_obj</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_relationships'>relationships</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource.html" title="JSONAPI::Document::Resource (class)">Resource</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource/Relationships.html" title="JSONAPI::Document::Resource::Relationships (class)">Relationships</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/Resource/Relationships.html#initialize-instance_method" title="JSONAPI::Document::Resource::Relationships#initialize (method)">new</a></span></span>
+  <span class='id identifier rubyid_rels_obj'>rels_obj</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_rel'>rel</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_relationship!'>parse_relationship!</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_relationships'>relationships</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_rel'>rel</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_relationships'>relationships</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_resource!-class_method">
+  
+    .<strong>parse_resource!</strong>(res)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_resource!'>parse_resource!</span><span class='lparen'>(</span><span class='id identifier rubyid_res'>res</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_attributes!'>parse_attributes!</span><span class='lparen'>(</span><span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:attributes</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:attributes</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_relationships'>relationships</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_relationships!'>parse_relationships!</span><span class='lparen'>(</span><span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:relationships</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:relationships</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_links!'>parse_links!</span><span class='lparen'>(</span><span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:links</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:links</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_meta'>meta</span> <span class='op'>=</span> <span class='id identifier rubyid_parse_meta!'>parse_meta!</span><span class='lparen'>(</span><span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:meta</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:meta</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_res_members_hash'>res_members_hash</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='label'>type:</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>id:</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>attributes:</span> <span class='id identifier rubyid_attributes'>attributes</span><span class='comma'>,</span>
+    <span class='label'>relationships:</span> <span class='id identifier rubyid_relationships'>relationships</span><span class='comma'>,</span>
+    <span class='label'>links:</span> <span class='id identifier rubyid_links'>links</span><span class='comma'>,</span>
+    <span class='label'>meta:</span> <span class='id identifier rubyid_meta'>meta</span>
+  <span class='rbrace'>}</span>
+
+  <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/Resource.html" title="JSONAPI::Document::Resource (class)">Resource</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/Resource.html#initialize-instance_method" title="JSONAPI::Document::Resource#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_res_members_hash'>res_members_hash</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_resource_identifier!-class_method">
+  
+    .<strong>parse_resource_identifier!</strong>(res_id)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+144
+145
+146</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 144</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_resource_identifier!'>parse_resource_identifier!</span><span class='lparen'>(</span><span class='id identifier rubyid_res_id'>res_id</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document/ResourceId.html" title="JSONAPI::Document::ResourceId (class)">ResourceId</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Document/ResourceId.html#initialize-instance_method" title="JSONAPI::Document::ResourceId#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_res_id'>res_id</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_res_id'>res_id</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_resource_identifiers!-class_method">
+  
+    .<strong>parse_resource_identifiers!</strong>(res_id_arr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_resource_identifiers!'>parse_resource_identifiers!</span><span class='lparen'>(</span><span class='id identifier rubyid_res_id_arr'>res_id_arr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_res_id_objs'>res_id_objs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  
+  <span class='kw'>case</span> <span class='id identifier rubyid_res_id_arr'>res_id_arr</span>
+  <span class='kw'>when</span> <span class='const'>Array</span>
+    <span class='id identifier rubyid_res_id_arr'>res_id_arr</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_res_id'>res_id</span><span class='op'>|</span>
+      <span class='id identifier rubyid_res_id_objs'>res_id_objs</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_parse_resource_identifier!'>parse_resource_identifier!</span><span class='lparen'>(</span><span class='id identifier rubyid_res_id'>res_id</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>when</span> <span class='const'>Hash</span>
+    <span class='id identifier rubyid_res_id_objs'>res_id_objs</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_parse_resource_identifier!'>parse_resource_identifier!</span><span class='lparen'>(</span><span class='id identifier rubyid_res_id_arr'>res_id_arr</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Data member of resource relationship was not an array or hash</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_res_id_objs'>res_id_objs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_resources!-class_method">
+  
+    .<strong>parse_resources!</strong>(res_arr)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/document_parser.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_resources!'>parse_resources!</span><span class='lparen'>(</span><span class='id identifier rubyid_res_arr'>res_arr</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_res_arr'>res_arr</span>
+  <span class='kw'>when</span> <span class='const'>Array</span>
+    <span class='id identifier rubyid_res_arr'>res_arr</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_res'>res</span><span class='op'>|</span> <span class='id identifier rubyid_parse_resource!'>parse_resource!</span><span class='lparen'>(</span><span class='id identifier rubyid_res'>res</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>when</span> <span class='const'>Hash</span>
+    <span class='id identifier rubyid_parse_resource!'>parse_resource!</span><span class='lparen'>(</span><span class='id identifier rubyid_res_arr'>res_arr</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The top level data member must be an array of resources or a resource</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Fri Oct 30 14:48:28 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.7.0).
+</div>
+
+    </div>
+  </body>
+</html>

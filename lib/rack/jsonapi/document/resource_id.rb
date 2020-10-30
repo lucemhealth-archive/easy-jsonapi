@@ -6,8 +6,10 @@ module JSONAPI
     class ResourceId
 
       attr_accessor :type, :id
+      attr_reader :name
 
       def initialize(type, id)
+        @name = 'data'
         @type = type
         @id = id
       end

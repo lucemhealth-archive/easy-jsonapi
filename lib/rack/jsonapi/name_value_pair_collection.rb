@@ -48,7 +48,6 @@ module JSONAPI
       to_return += ' }'
     end
 
-    # Can't make insert private
     protected :insert
   end
 end

@@ -10,9 +10,9 @@ describe JSONAPI::Parser do
   describe '#parse_request!' do
 
     # Alias method
-    # @query_param (see JSONAPI::Parser#parse_request!)
-    def parse_request!(env, document_included)
-      JSONAPI::Parser.parse_request!(env, document_included)
+    # @param (see JSONAPI::Parser#parse_request!)
+    def parse_request!(env, jsonapi_doc_included: true)
+      JSONAPI::Parser.parse_request!(env, jsonapi_doc_included: jsonapi_doc_included)
     end
 
     it 'should return a Request object' do

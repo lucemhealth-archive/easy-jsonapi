@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
+require 'rack/jsonapi/document/resource_id'
+
 module JSONAPI
   class Document
     # A jsonapi resource object
-    class Resource
+    class Resource < JSONAPI::Document::ResourceId
 
-      attr_accessor :type, :id, :attributes, :relationships, :links, :meta
-
-      attr_reader :name
+      attr_accessor :attributes, :relationships, :links, :meta
       
       def initialize(members_hash)
-        @name = 'data'
-        @type = members_hash[:type]
-        @id = members_hash[:id]
+        super(members_hash[:type], members_hash[:id])
         @attributes = members_hash[:attributes]
         @relationships = members_hash[:relationships]
         @links = members_hash[:links]

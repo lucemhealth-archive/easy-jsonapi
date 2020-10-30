@@ -24,7 +24,7 @@ module JSONAPI
     # Used to parse the request params given from the Rack::Request object
     module RackReqParamsParser
       
-      # @query_param rack_req_params [Hash<String>] The parameter hash returned from Rack::Request.params
+      # @param rack_req_params [Hash<String>]  The parameter hash returned from Rack::Request.params
       # @return [JSONAPI::Request::QueryParamCollection]
       def self.parse!(rack_req_params)
         

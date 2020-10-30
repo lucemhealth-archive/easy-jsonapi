@@ -1,10 +1,17 @@
-May include information about its implementation
+# frozen_string_literal: true
 
-If present, the value of the jsonapi member MUST be an object (a “jsonapi object”). 
+require 'rack/jsonapi/name_value_pair_collection'
+require 'rack/jsonapi/document/jsonapi/jsonapi_member'
 
-May Contain:
-- version (string) indicates the highest level of JSONAPI supported
-- meta (obj)
+module JSONAPI
+  class Document
+    
+    # The jsonapi top level member of a JSON:API document
+    class Jsonapi < JSONAPI::NameValuePairCollection
 
-If the version member is not present, clients should assume the server 
-implements at least version 1.0 of the specification.
+      def initialize(jsonapi_member_arr = [])
+        super(jsonapi_member_arr, JSONAPI::Document::Jsonapi::JsonapiMember)
+      end
+    end
+  end
+end

@@ -9,8 +9,8 @@ module JSONAPI
       # Field is the name of an 
       class Field < JSONAPI::Item
 
-        # @query_param name [String] The name of the field
-        # @query_param type [String | nil] The type of the field
+        # @param name [String]  The name of the field
+        # @param type [String | nil] The type of the field
         def initialize(name, type: String)
           super({ name: name, type: type })
         end

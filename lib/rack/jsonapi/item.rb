@@ -5,7 +5,7 @@ module JSONAPI
   # Models a Item's key -> value relationship
   class Item
 
-    # @returns the value of an Item
+    # @return the value of an Item
     attr_accessor :item
     
     # Able to take a hash and dynamically create instance variables using the hash keys
@@ -58,7 +58,7 @@ module JSONAPI
     private
 
     # Ensures that hash keys are symbol (and not String) when passing a hash to item.
-    # @param obj [Any] A hash that can represent an item.
+    # @param obj [Any]  A hash that can represent an item.
     def ensure_keys_are_sym!(obj)
       obj.each_key do |k|
         raise "All keys must be Symbols. '#{k}' was #{k.class}" unless k.is_a? Symbol
@@ -68,14 +68,14 @@ module JSONAPI
     # Checks to see if the method name has a '=' at the end and if the 
     #   prefix before the '=' has the same name as an existing instance
     #   variable.
-    # @query_param (see #method_missing)
+    # @param (see #method_missing)
     def should_update_var?(method_name)
       method_name.to_s[-1] == '=' && @item[method_name[..-2].to_sym].nil? == false
     end
     
     # Checks to see if the method has the same name as an existing instance
     #   variable
-    # @query_param (see #method_missing)
+    # @param (see #method_missing)
     def should_get_var?(method_name)
       @item[method_name].nil? == false
     end

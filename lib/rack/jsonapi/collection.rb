@@ -8,8 +8,9 @@ module JSONAPI
     include Enumerable
     
     # Assume collection is empty not innitialized with an array of objects.
-    # @param arr_ob_obj [Any] The objects to be stored
-    # @block block Determines what should be used as keys when storing objects in collection's internal hash
+    # @param arr_of_obj [Any] The objects to be stored
+    # for block { |item| item[:name] } 
+    # @yield [item] Determines what should be used as keys when storing objects in collection's internal hash
     def initialize(arr_of_obj = [], &block)
       @collection = {}
       
@@ -34,7 +35,7 @@ module JSONAPI
     end
 
     # Does the collection's internal hash include this key?
-    # @query_param key [String | Symbol] The key to search for in the hash
+    # @param key [String | Symbol]  The key to search for in the hash
     def include?(key)
       k = to_hash_key(key)
       @collection.include?(k)
@@ -62,7 +63,7 @@ module JSONAPI
     end
 
     # Remove an item from the collection
-    # @query_param (see #include)
+    # @param (see #include)
     # @return [Item | nil] the deleted item object if it exists
     def remove(key)
       k = to_hash_key(key)
@@ -70,7 +71,7 @@ module JSONAPI
       @collection.delete(key)
     end
 
-    # @query_param (see #remove)
+    # @param (see #remove)
     # @return [Item | nil] The appropriate Item objet if it exists
     def get(key)
       k = to_hash_key(key)
@@ -83,7 +84,7 @@ module JSONAPI
       @collection.keys
     end
 
-    # @returns [Integer] The number of items in the collection
+    # @return [Integer] The number of items in the collection
     def size
       @collection.size
     end
@@ -108,7 +109,7 @@ module JSONAPI
     
     # Converts the developer's input into a lowercase symbol to be used as a hash key
     #   for Collection's internal hash.
-    # @query_param input [Symbol | String] Whatever the developer uses as a item key.
+    # @param input [Symbol | String] Whatever the developer uses as a item key.
     # @!visibility private
     def to_hash_key(input)
       input.to_s.downcase.to_sym

@@ -15,7 +15,7 @@ module JSONAPI
   
       # #empyt? provided by super class
       # #include provided by super class
-      # @query_param [JSONAPI::Request::QueryParamCollection::QueryParam] The query_param or query_param subclass to add.
+      # @param query_param [JSONAPI::Request::QueryParamCollection::QueryParam] The query_param or query_param subclass to add.
       def add(query_param)
         raise 'Must add a valid QueryParam object' unless query_param.is_a? JSONAPI::Request::QueryParamCollection::QueryParam
 

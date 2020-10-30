@@ -16,7 +16,7 @@ module JSONAPI
 
       # Checks to see if the query paramaters conform to the JSONAPI spec and raises InvalidParameter
       #   if any parts are found to be non compliant
-      # @query_param rack_req_params [Hash] The hash of the query parameters given by Rack::Request
+      # @param rack_req_params [Hash]  The hash of the query parameters given by Rack::Request
       def self.check_compliance!(rack_req_params)
         impl_spec_names = rack_req_params.keys - %w[include fields page sort filter]
         impl_spec_names.each do |name|
@@ -34,7 +34,7 @@ module JSONAPI
         )
       end
 
-      # @query_param msg [String] the message to raise InvalidParameter with.
+      # @param msg [String]  The message to raise InvalidParameter with.
       def self.raise_error!(msg)
         raise InvalidParameter, msg
       end

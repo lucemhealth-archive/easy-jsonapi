@@ -6,15 +6,14 @@ module JSONAPI
 
   # The middleware of the gem and also the contact point between the
   # the gem and the rack application using it
-  # @!Visibility private
   class Middleware
 
-    # @query_param app The Rack Application
+    # @param app The Rack Application
     def initialize(app)
       @app = app
     end
     
-    # @query_param env The rack envirornment hash
+    # @param env The rack envirornment hash
     def call(env)
 
       jsonapi_document = includes_jsonapi_document?(env)
@@ -39,16 +38,16 @@ module JSONAPI
     end
 
     # Determines whether there is a request body, and whether the Content-Type is jsonapi compliant
-    # @query_param (see #call)
-    # @returns [TrueClass | FalseClass] whether 
+    # @param (see #call)
+    # @return [TrueClass | FalseClass] whether 
     def includes_jsonapi_document?(env)
       JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env).nil?
       env['CONTENT_TYPE'] == 'application/vnd.api+json'
     end
     
     # Provides the rack application access to an instance variable
-    # @query_param var The variable being provided
-    # @query_param str_var The name of the instance variable and accessor method
+    # @param var The variable being provided
+    # @param str_var The name of the instance variable and accessor method
     def send_to_rack_app(var, str_var)
       application = find_app_class(@app, @app)
       
@@ -61,8 +60,8 @@ module JSONAPI
   
     # Locates the rack application (sinatra or rails included) that
     #   that call sends an instance variable too
-    # @query_param current The current middleware or rack app that is being referenced
-    # @query_param last The previous middleware referenced.
+    # @param cur The current middleware or rack app that is being referenced
+    # @param last The previous middleware referenced.
     # @todo Raise an error if current.class == NilClass and current.class == last.class
     def find_app_class(cur, last)
       return last.class if cur.class == NilClass

@@ -8,8 +8,8 @@ module JSONAPI
       
       # JSONAPI member names can only contain a-z, A-Z, 0-9, '-', '_', and the last two cannot be used
       #   at the start or end of a member name.
-      # @query_param name [String] The string to check for member name rule compliance
-      # @returns 
+      # @param name [String]  The string to check for member name rule compliance
+      # @return 
       def self.check_member_constraints(name)
         name = name.to_s
         return 'Member names MUST contain at least one character' if name == ''
@@ -25,7 +25,7 @@ module JSONAPI
 
       # JSONAPI implementation specific query parameters follow the same constraints as member names
       #   with the additional requirement that they must also contain at least one non a-z character.
-      # @query_param name [String] The string to check for 
+      # @param name [String]  The string to check for 
       def self.check_additional_constraints(name)
         name = name.to_s
         return nil unless (name =~ /[^a-z]/).nil?

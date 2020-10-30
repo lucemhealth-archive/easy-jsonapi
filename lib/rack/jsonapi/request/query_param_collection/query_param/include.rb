@@ -11,19 +11,19 @@ module JSONAPI
           
           # #name provided by super class
     
-          # @query_param resource [String | Array<String>] A value given to include
+          # @param resource [String | Array<String>] A value given to include
           def initialize(resource)
             resource = resource.join('.') if resource.is_a? Array 
             resources = resource.split('.') if resource.is_a? String
             super("include|#{resource}", resources)
           end
           
-          # @returns [Array<String>] A an array of the resource 'path'
+          # @return [Array<String>] A an array of the resource 'path'
           def resources
             @item[:value]
           end
     
-          # @query_param new_resource [String | Array<String>] The new resource
+          # @param new_resource [String | Array<String>] The new resource
           def resources=(new_resource)
             new_resource = new_resource.split('.') if new_resource.is_a? String
             @item[:value] = new_resource
@@ -36,7 +36,7 @@ module JSONAPI
           end
     
           # Raise a runtime error if name is attempted to be reset
-          # @query_param [Any] Any given input.
+          # @param _ [Any]  given input.
           def name=(_)
             raise 'Cannot set the name of a Include object'
           end
@@ -47,7 +47,7 @@ module JSONAPI
           end
     
           # Raise a runtime error if value is attempted to be reset
-          # @query_param [Any] Any given input.
+          # @param _ [Any]  given input.
           def value=(_)
             raise 'Cannot set value of Include object, becausee Include does not have a value'
           end

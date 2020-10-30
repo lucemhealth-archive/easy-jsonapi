@@ -10,10 +10,8 @@ module JSONAPI
 
     attr_accessor :data, :meta, :links, :included, :errors, :jsonapi
 
-    # @query_param data [Data] the already initialized Data class
-    # @query_param included [Included] the already initialized Included class
-    # @query_param meta [Meta] the already initialized Meta class
-    # @query_param links [Links] the already initialized Links class
+    # @param document_members_hash [Hash] A hash of the different possible document members
+    #   with the values being clases associated with those members
     def initialize(document_members_hash)
       JSONAPI::Exceptions::DocumentExceptions.check_essentials!(document_members_hash)
       @data = document_members_hash[:data]

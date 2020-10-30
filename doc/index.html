@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.25
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="rack-jsonapi">rack-jsonapi</h1>
+
+<p>A ruby middleware gem that intercepts http requests, validates <a href="http://jsonapi.org">JSON API</a>, and instantiates standardized jsonapi objects that provide developers fast and convenient access to request attributes.</p>
+
+<h2 id="status">Status</h2>
+
+<!-- [![Gem Version](https://badge.fury.io/rb/jsonapi-parser.svg)](https://badge.fury.io/rb/jsonapi-parser)
+[![Build Status](https://secure.travis-ci.org/jsonapi-rb/jsonapi-parser.svg?branch=master)](http://travis-ci.org/jsonapi-rb/parser?branch=master)
+[![codecov](https://codecov.io/gh/jsonapi-rb/jsonapi-parser/branch/master/graph/badge.svg)](https://codecov.io/gh/jsonapi-rb/parser)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/jsonapi-rb/Lobby) -->
+
+<h2 id="resources">Resources</h2>
+
+<!-- * Chat: [gitter](http://gitter.im/jsonapi-rb)
+* Twitter: [@jsonapirb](http://twitter.com/jsonapirb)
+* Docs: [jsonapi-rb.org](http://jsonapi-rb.org) -->
+
+<h2 id="installation">Installation</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Gemfile
+</span><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rack-jsonapi</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>then</p>
+
+<pre class="code ruby"><code class="ruby">$ bundle
+Using rack-jsonapi
+</code></pre>
+
+<p>or manually via</p>
+
+<pre class="code ruby"><code class="ruby">$ gem install rack-jsonapi
+Successfully installed rack-jsonapi-version#
+</code></pre>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="first-require-the-gem">First, require the gem</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rack/jsonapi</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<h3 id="then-use-the-gem-as-a-middleware">Then use the gem as a middleware</h3>
+
+<h4 id="for-sintra">For Sintra</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># app.rb
+</span><span class='id identifier rubyid_use'>use</span> <span class='const'><span class='object_link'><a href="JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSONAPI/Middleware.html" title="JSONAPI::Middleware (class)">Middleware</a></span></span>
+</code></pre>
+
+<h4 id="for-rails">For Rails</h4>
+
+<p>Editing <code>config/environments/development.rb</code>.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># config/environments/development.rb
+</span>
+<span class='const'>MyApp</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id identifier rubyid_configure'>configure</span> <span class='kw'>do</span>
+  <span class='comment'># Add JSONAPI::Middleware to the bottom of the middleware stack
+</span>  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_middleware'>middleware</span><span class='period'>.</span><span class='id identifier rubyid_insert_after'>insert_after</span> <span class='const'>ActionDispatch</span><span class='op'>::</span><span class='const'>Static</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSONAPI/Middleware.html" title="JSONAPI::Middleware (class)">Middleware</a></span></span>
+
+  <span class='comment'># or, if you&#39;re using better_errors:
+</span>  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_middleware'>middleware</span><span class='period'>.</span><span class='id identifier rubyid_insert_before'>insert_before</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Lock</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSONAPI/Middleware.html" title="JSONAPI::Middleware (class)">Middleware</a></span></span>
+
+  <span class='comment'># ...
+</span><span class='kw'>end</span>
+</code></pre>
+
+<h4 id="for-rack-apps">For Rack Apps</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># config.ru
+</span><span class='id identifier rubyid_use'>use</span> <span class='const'><span class='object_link'><a href="JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="JSONAPI/Middleware.html" title="JSONAPI::Middleware (class)">Middleware</a></span></span>
+</code></pre>
+
+<h3 id="then-use-your-new-instance-variable">Then, use your new instance variable</h3>
+
+<p>With the gem required and added as a middleware, your rack, sinatra, or rails application will have available a new instance variable: <code>@jsonapi_request</code>.</p>
+
+<p><code>@jsonapi_request</code> references a JSONAPI::Request object and through this object, all other parts of the request can be accessed as well.</p>
+
+<p>Use this object to quickly access parts of the jsonapi conforming request.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='ivar'>@jsonapi_request</span><span class='period'>.</span><span class='id identifier rubyid_instance_variables'>instance_variables</span>
+<span class='comment'># [:@path, :@protocol, :@host, :@port, :@params, :@pagination, :@field_sets, :@headers, :@document]
+</span>
+<span class='ivar'>@jsonapi_request</span><span class='period'>.</span><span class='id identifier rubyid_headers'>headers</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='symbol'>:content_type</span><span class='rparen'>)</span>
+<span class='comment'># &quot;application/vnd.api+json&quot;
+</span>
+<span class='ivar'>@jsonapi_request</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_view_all'>view_all</span>
+<span class='comment'># params:
+</span><span class='comment'>#   include = authors, comments
+</span><span class='comment'>#   sort = alpha
+</span><span class='comment'>#   filter = usa
+</span></code></pre>
+
+<p>See the Api Documentation for all included methods:</p>
+
+<h2 id="license">License</h2>
+
+<p>rack-jsonapi is released under the <a href="http://www.opensource.org/licenses/MIT">MIT License</a>.</p>
+
+<!-- ## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rack-jsonapi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md). -->
+
+<!-- ## Code of Conduct
+
+Everyone interacting in the rack-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md). -->
+</div></div>
+
+      <div id="footer">
+  Generated on Fri Oct 30 14:48:28 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.7.0).
+</div>
+
+    </div>
+  </body>
+</html>

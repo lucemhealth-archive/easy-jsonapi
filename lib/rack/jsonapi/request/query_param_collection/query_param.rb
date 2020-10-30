@@ -12,8 +12,8 @@ module JSONAPI
       # A generic name->value query parameter
       class QueryParam < JSONAPI::NameValuePair
         
-        # @query_param name The name of the parameter
-        # @query_param value The value of the parameter
+        # @param name The name of the parameter
+        # @param value The value of the parameter
         def initialize(name, value)
           if self.class == QueryParam
             JSONAPI::Exceptions::QueryParamsExceptions.check_param_name!(name)
@@ -27,7 +27,7 @@ module JSONAPI
         # value provided by super
     
         # Update the query_param value, turning value into an array if it was given as a string
-        # @query_param new_val [String, Array<String>] The new value of the Parameter
+        # @param new_val [String, Array<String>] The new value of the Parameter
         def value=(new_val)
           new_val = new_val.split(',') if new_val.is_a? String
           super(new_val)
