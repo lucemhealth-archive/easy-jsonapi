@@ -69,12 +69,14 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">Collection</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="../NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next"><span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">Collection</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></li>
           
             <li class="next">JSONAPI::Document::Meta</li>
           
@@ -130,11 +132,6 @@
 
 
 
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">Collection</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Collection.html#collection-instance_method" title="JSONAPI::Collection#collection (method)">#collection</a></span></p>
-
 
   
     <h2>
@@ -143,30 +140,6 @@
     </h2>
 
     <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(meta_member)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>#empyt? provided by super class #include provided by super class.</p>
-</div></span>
-  
-</li>
-
       
         <li class="public ">
   <span class="summary_signature">
@@ -206,8 +179,19 @@
   
   
   
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../NameValuePairCollection.html#<<-instance_method" title="JSONAPI::NameValuePairCollection#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#add-instance_method" title="JSONAPI::NameValuePairCollection#add (method)">#add</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#to_s-instance_method" title="JSONAPI::NameValuePairCollection#to_s (method)">#to_s</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">Collection</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Collection.html#each-instance_method" title="JSONAPI::Collection#each (method)">#each</a></span>, <span class='object_link'><a href="../Collection.html#empty%3F-instance_method" title="JSONAPI::Collection#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="../Collection.html#get-instance_method" title="JSONAPI::Collection#get (method)">#get</a></span>, <span class='object_link'><a href="../Collection.html#include%3F-instance_method" title="JSONAPI::Collection#include? (method)">#include?</a></span>, <span class='object_link'><a href="../Collection.html#insert-instance_method" title="JSONAPI::Collection#insert (method)">#insert</a></span>, <span class='object_link'><a href="../Collection.html#keys-instance_method" title="JSONAPI::Collection#keys (method)">#keys</a></span>, <span class='object_link'><a href="../Collection.html#remove-instance_method" title="JSONAPI::Collection#remove (method)">#remove</a></span>, <span class='object_link'><a href="../Collection.html#size-instance_method" title="JSONAPI::Collection#size (method)">#size</a></span>, <span class='object_link'><a href="../Collection.html#to_s-instance_method" title="JSONAPI::Collection#to_s (method)">#to_s</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../Collection.html#add-instance_method" title="JSONAPI::Collection#add (method)">#add</a></span>, <span class='object_link'><a href="../Collection.html#each-instance_method" title="JSONAPI::Collection#each (method)">#each</a></span>, <span class='object_link'><a href="../Collection.html#empty%3F-instance_method" title="JSONAPI::Collection#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="../Collection.html#get-instance_method" title="JSONAPI::Collection#get (method)">#get</a></span>, <span class='object_link'><a href="../Collection.html#include%3F-instance_method" title="JSONAPI::Collection#include? (method)">#include?</a></span>, <span class='object_link'><a href="../Collection.html#insert-instance_method" title="JSONAPI::Collection#insert (method)">#insert</a></span>, <span class='object_link'><a href="../Collection.html#keys-instance_method" title="JSONAPI::Collection#keys (method)">#keys</a></span>, <span class='object_link'><a href="../Collection.html#remove-instance_method" title="JSONAPI::Collection#remove (method)">#remove</a></span>, <span class='object_link'><a href="../Collection.html#size-instance_method" title="JSONAPI::Collection#size (method)">#size</a></span>, <span class='object_link'><a href="../Collection.html#to_s-instance_method" title="JSONAPI::Collection#to_s (method)">#to_s</a></span></p>
 
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
@@ -246,7 +230,7 @@
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/meta.rb', line 11</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_meta_arr'>meta_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_meta_arr'>meta_arr</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_meta_arr'>meta_arr</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSONAPI::Document::Meta (class)">Meta</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Meta/MetaMember.html" title="JSONAPI::Document::Meta::MetaMember (class)">MetaMember</a></span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -255,58 +239,11 @@
   
 </div>
 
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="add-instance_method">
-  
-    #<strong>add</strong>(meta_member)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>#empyt? provided by super class #include provided by super class</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-18
-19
-20</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/meta.rb', line 18</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_meta_member'>meta_member</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_meta_member'>meta_member</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
 
 </div>
 
       <div id="footer">
-  Generated on Wed Oct 21 04:34:27 2020 by
+  Generated on Fri Oct 30 14:48:28 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

@@ -69,12 +69,10 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">JSONAPI::Collection</a></span></span>
+      <span class="inheritName">Object</span>
       
         <ul class="fullTree">
           <li>Object</li>
-          
-            <li class="next"><span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">JSONAPI::Collection</a></span></li>
           
             <li class="next">JSONAPI::Collection::HeaderCollection</li>
           
@@ -96,300 +94,24 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/collection/header_collection.rb<span class="defines">,<br />
-  lib/rack/jsonapi.rb</span>
-</dd>
+    <dd>lib/rack/jsonapi.rb</dd>
   </dl>
   
 </div>
 
-<h2>Overview</h2><div class="docstring">
-  <div class="discussion">
-    
-<p>header_collection # { include: Include, sort: Sort, filter: Filter }</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
 
 
 
 
 
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">JSONAPI::Collection</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Collection.html#collection-instance_method" title="JSONAPI::Collection#collection (method)">#collection</a></span></p>
 
 
-  
-    <h2>
-      Instance Method Summary
-      <small><a href="#" class="summary_toggle">collapse</a></small>
-    </h2>
 
-    <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(header)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>#empyt? provided by super class #include provided by super class.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(header_arr = [])  &#x21d2; HeaderCollection </a>
-    
-
-    
-  </span>
-  
-  
-    <span class="note title constructor">constructor</span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of HeaderCollection.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>#each provided from super class #remove provided from super class #get provided by super class #keys provided by super class #size provided by super class.</p>
-</div></span>
-  
-</li>
-
-      
-    </ul>
-  
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Collection.html" title="JSONAPI::Collection (class)">JSONAPI::Collection</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Collection.html#each-instance_method" title="JSONAPI::Collection#each (method)">#each</a></span>, <span class='object_link'><a href="../Collection.html#empty%3F-instance_method" title="JSONAPI::Collection#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="../Collection.html#get-instance_method" title="JSONAPI::Collection#get (method)">#get</a></span>, <span class='object_link'><a href="../Collection.html#include%3F-instance_method" title="JSONAPI::Collection#include? (method)">#include?</a></span>, <span class='object_link'><a href="../Collection.html#insert-instance_method" title="JSONAPI::Collection#insert (method)">#insert</a></span>, <span class='object_link'><a href="../Collection.html#keys-instance_method" title="JSONAPI::Collection#keys (method)">#keys</a></span>, <span class='object_link'><a href="../Collection.html#remove-instance_method" title="JSONAPI::Collection#remove (method)">#remove</a></span>, <span class='object_link'><a href="../Collection.html#size-instance_method" title="JSONAPI::Collection#size (method)">#size</a></span></p>
-
-  <div id="constructor_details" class="method_details_list">
-  <h2>Constructor Details</h2>
-  
-    <div class="method_details first">
-  <h3 class="signature first" id="initialize-instance_method">
-  
-    #<strong>initialize</strong>(header_arr = [])  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Collection::HeaderCollection (class)">HeaderCollection</a></span></tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns a new instance of HeaderCollection.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-9
-10
-11
-12</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/header_collection.rb', line 9</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_header_arr'>header_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='ivar'>@header_types</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_header_arr'>header_arr</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-  
-</div>
-
-
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
-
-    
-      <div class="method_details first">
-  <h3 class="signature first" id="add-instance_method">
-  
-    #<strong>add</strong>(header)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>#empyt? provided by super class #include provided by super class</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-17
-18
-19
-20
-21
-22</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/header_collection.rb', line 17</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_header'>header</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item.html" title="JSONAPI::Item (class)">Item</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Item/Header.html" title="JSONAPI::Item::Header (class)">Header</a></span></span>
-  <span class='comment'># add the header type unless it is already included
-</span>  <span class='ivar'>@header_types</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='kw'>unless</span> <span class='ivar'>@header_types</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Header</span><span class='tstring_end'>&#39;</span></span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_header'>header</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="to_s-instance_method">
-  
-    #<strong>to_s</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>#each provided from super class #remove provided from super class #get provided by super class #keys provided by super class #size provided by super class</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/collection/header_collection.rb', line 30</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{</span><span class='tstring_end'>&#39;</span></span>
-  <span class='id identifier rubyid_is_first'>is_first</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_header'>header</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_is_first'>is_first</span>
-      <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; =&gt; &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
-      <span class='id identifier rubyid_is_first'>is_first</span> <span class='op'>=</span> <span class='kw'>false</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; =&gt; &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>}</span><span class='tstring_end'>&#39;</span></span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
 
 </div>
 
       <div id="footer">
-  Generated on Wed Oct 21 04:34:27 2020 by
+  Generated on Fri Oct 30 14:48:28 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

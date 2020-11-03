@@ -114,78 +114,86 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   end
 
   # Alias for #check_compliance!
-  def f(document, request: nil, post_request: nil)
-    JSONAPI::Exceptions::DocumentExceptions.check_compliance!(document, request: request, post_request: post_request)
+  def f(document, is_a_request: nil, http_method_is_post: nil)
+    JSONAPI::Exceptions::DocumentExceptions.check_compliance!(
+      document, is_a_request: is_a_request, http_method_is_post: http_method_is_post
+    )
   end
   
   describe '#check_compliance!' do
     
     # **********************************
-    # * BASELINE CHECKS                   *
+    # * Check Essentials               *
     # **********************************
-    context 'when checking basic checks' do
 
-      it 'should return nil if the document complies to all specs' do
-        expect(f(response_doc)).to be nil      
-        expect(f(req_doc, request: true)).to be nil      
-        expect(f(req_doc, request: true, post_request: true)).to be nil  
+    context 'when checking essentials' do
+      # **********************************
+      # * BASELINE CHECKS                *
+      # **********************************
+      context 'when checking basic checks' do
+  
+        it 'should return nil if the document complies to all specs' do
+          expect(f(response_doc)).to be nil      
+          expect(f(req_doc, is_a_request: true)).to be nil      
+          expect(f(req_doc, is_a_request: true, http_method_is_post: true)).to be nil  
+        end
+  
+        it 'should raise when document is nil' do
+          msg = 'Cannot create an empty JSON:API document. Include a required top level member.'
+          expect { f(nil, is_a_request: true) }.to raise_error(ec, msg)
+          expect { f(nil) }.to raise_error(ec, msg)
+        end
+  
+        it 'should raise if !request but http_method_is_post' do
+          msg = 'A document cannot both belong to a post request and not belong to a request'
+          expect { f(response_doc, is_a_request: false, http_method_is_post: true) }.to raise_error(ec, msg)
+          expect(f(req_doc, http_method_is_post: true)).to be nil
+        end
       end
-
-      it 'should raise when document is nil' do
-        msg = 'Document is nil'
-        expect { f(nil, request: true) }.to raise_error msg
-        expect { f(nil) }.to raise_error msg
-      end
-
-      it 'should raise if !request but post_request' do
-        expect { f(response_doc, request: false, post_request: true) }.to raise_error \
-          'A document cannot both belong to a post request and not belong to a request'
-        expect(f(req_doc, post_request: true)).to be nil
-      end
-    end
-
-    # **********************************
-    # * CHECK TOP LEVEL                *
-    # **********************************
-    describe '#check_top_level!' do
-      it 'should raise if document is not a hash' do
-        msg = 'A JSON object MUST be at the root of every JSON API request ' \
-              'and response containing data'
-        expect { f([], request: true) }.to raise_error(ec, msg)
-        expect { f([]) }.to raise_error(ec, msg)
-        expect { f(:asdj, request: true) }.to raise_error(ec, msg)
-        expect { f(:asdj) }.to raise_error(ec, msg)
-        expect { f(1234, request: true) }.to raise_error(ec, msg)
-        expect { f(1234) }.to raise_error(ec, msg)
-        expect { f('1234', request: true) }.to raise_error(ec, msg)
-        expect { f('1234') }.to raise_error(ec, msg)
-      end
-        
-      it 'should raise if a document does not contain at least one of the required keys' do
-        msg = 'A document MUST contain at least one of the following ' \
-              "top-level members: #{TOP_LEVEL_KEYS}"
-        expect { f({ 'my_own_key': 'nothing' }) }.to raise_error(ec, msg)
-        expect { f({ 'links': 'my_links' }) }.to raise_error(ec, msg)
-      end
-
-      it 'should return nil when document contains one of the top level keys' do
-        expect(f({ 'errors': [] })).to be nil
-      end
-
-      it 'should raise if errors key present with data key' do
-        msg = 'The members data and errors MUST NOT coexist in the same document'
-        expect { f({ 'data': { 'type': 'author' }, 'errors': 'error' }) }.to raise_error(ec, msg)
-      end
-
-      it 'should raise if included key present without data key' do
-        msg = 'If a document does not contain a top-level data key, the included ' \
-              'member MUST NOT be present either'
-        expect { f({ 'meta': { 'meta_info': 'm' }, 'included': 'incl_objs' }) }.to raise_error(ec, msg)
-      end
-
-      it 'should raise if no data member included and document is a request' do
-        msg = 'The request MUST include a single resource object as primary data'
-        expect { f({ 'meta': { 'meta_info': 'm' } }, request: true) }.to raise_error(ec, msg)
+  
+      # **********************************
+      # * CHECK TOP LEVEL                *
+      # **********************************
+      describe '#check_top_level!' do
+        it 'should raise if document is not a hash' do
+          msg = 'A JSON object MUST be at the root of every JSON API request ' \
+                'and response containing data'
+          expect { f([], is_a_request: true) }.to raise_error(ec, msg)
+          expect { f([]) }.to raise_error(ec, msg)
+          expect { f(:asdj, is_a_request: true) }.to raise_error(ec, msg)
+          expect { f(:asdj) }.to raise_error(ec, msg)
+          expect { f(1234, is_a_request: true) }.to raise_error(ec, msg)
+          expect { f(1234) }.to raise_error(ec, msg)
+          expect { f('1234', is_a_request: true) }.to raise_error(ec, msg)
+          expect { f('1234') }.to raise_error(ec, msg)
+        end
+          
+        it 'should raise if a document does not contain at least one of the required keys' do
+          msg = 'A document MUST contain at least one of the following ' \
+                "top-level members: #{TOP_LEVEL_KEYS}"
+          expect { f({ 'my_own_key': 'nothing' }) }.to raise_error(ec, msg)
+          expect { f({ 'links': 'my_links' }) }.to raise_error(ec, msg)
+        end
+  
+        it 'should return nil when document contains one of the top level keys' do
+          expect(f({ 'errors': [] })).to be nil
+        end
+  
+        it 'should raise if errors key present with data key' do
+          msg = 'The members data and errors MUST NOT coexist in the same document'
+          expect { f({ 'data': { 'type': 'author' }, 'errors': 'error' }) }.to raise_error(ec, msg)
+        end
+  
+        it 'should raise if included key present without data key' do
+          msg = 'If a document does not contain a top-level data key, the included ' \
+                'member MUST NOT be present either'
+          expect { f({ 'meta': { 'meta_info': 'm' }, 'included': 'incl_objs' }) }.to raise_error(ec, msg)
+        end
+  
+        it 'should raise if no data member included and document is a request' do
+          msg = 'The request MUST include a single resource object as primary data'
+          expect { f({ 'meta': { 'meta_info': 'm' } }, is_a_request: true) }.to raise_error(ec, msg)
+        end
       end
     end
 
@@ -198,7 +206,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       context 'when checking primary data' do
         it 'should raise if data not a hash when it is a request' do
           msg = 'The request MUST include a single resource object as primary data'
-          expect { f({ meta: { 'count': 123 } }, request: true) }.to raise_error(ec, msg)
+          expect { f({ meta: { 'count': 123 } }, is_a_request: true) }.to raise_error(ec, msg)
         end
 
         it 'should raise if not nil, a hash, or an array' do
@@ -221,15 +229,15 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             end
 
             it 'should return nil if id is not included, but it is a post request' do
-              expect(f({ data: { type: 'type' } }, post_request: true)).to be nil
+              expect(f({ data: { type: 'type' } }, http_method_is_post: true)).to be nil
             end
 
             it 'should raise if type is ever not included' do
               msg_reg = 'Every resource object MUST contain an id member and a type member'
               expect { f({ data: {} }) }.to raise_error(ec, msg_reg)
-              expect { f({ data: {} }, request: true) }.to raise_error(ec, msg_reg)
+              expect { f({ data: {} }, is_a_request: true) }.to raise_error(ec, msg_reg)
               msg_post = 'The resource object (for a post request) MUST contain at least a type member'
-              expect { f({ data: {} }, post_request: true) }.to raise_error(ec, msg_post)
+              expect { f({ data: {} }, http_method_is_post: true) }.to raise_error(ec, msg_post)
             end
 
             it 'should raise if the type of id or type is not string' do

@@ -82,7 +82,7 @@ DEPENDENCIES
   rake (~> 13.0)
   redcarpet (~> 3.5)
   rspec (~> 3.9)
-  rubocop (= 0.92)
+  rubocop (~> 0.92)
   solargraph (~> 0.39)
   yard (~> 0.9)
 

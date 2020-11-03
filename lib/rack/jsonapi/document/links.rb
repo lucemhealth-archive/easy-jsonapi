@@ -1,44 +1,28 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/collection'
+require 'rack/jsonapi/name_value_pair_collection'
 
 module JSONAPI
   class Document
     
     # The links of a resource
-    class Links < JSONAPI::Collection
+    class Links < JSONAPI::NameValuePairCollection
 
       def initialize(link_arr = [])
-        super(link_arr, &:name)
+        link_arr = [link_arr] unless link_arr.is_a? Array
+        super(link_arr, JSONAPI::Document::Links::Link)
       end
 
       # #empyt? provided by super class
       # #include provided by super class
-
-      def add(link)
-        super(link, &:name)
-      end
-
+      # #add provided by super
       # #each provided from super class
       # #remove provided from super class
       # #get provided by super class
       # #keys provided by super class
       # #size provided by super class
-
       # #to_s provided from super class
 
-      # def method_missing(method_name, *args, &block)
-      #   # req.headers.includes == HeaderCollection.new([Include1, Include2])
-      # end
-
-      # def respond_to_missing?()
-      # end
-
-      # def<<(header)
-      #   add(header)
-      # end
-
-      # private :insert
     end
   end
 end

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/middleware'
-
 # This module is the top level namespace for the curatess jsonapi middleware gem
 #
 # @author Joshua DeMoss
@@ -11,7 +9,7 @@ module JSONAPI
   # An abstract collection of Item objects
   class Collection
     class HeaderCollection end
-    class ParamCollection end
+    class QueryParamCollection end
   end
   
   # The body of a request that conforms to the jsonapi spec
@@ -48,7 +46,7 @@ module JSONAPI
     module DocumentParser end
     # Parses request headers and initializes HeaderCollection class
     module HeadersParser end
-    # Parses request query parameters and initializes ParamCollection class
+    # Parses request query parameters and initializes QueryParamCollection class
     module RackReqParamsParser end
   end
   

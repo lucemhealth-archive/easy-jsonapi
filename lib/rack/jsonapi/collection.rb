@@ -7,8 +7,10 @@ module JSONAPI
     
     include Enumerable
     
-    attr_accessor :collection
-
+    # Assume collection is empty not innitialized with an array of objects.
+    # @param arr_of_obj [Any] The objects to be stored
+    # for block { |item| item[:name] } 
+    # @yield [item] Determines what should be used as keys when storing objects in collection's internal hash
     def initialize(arr_of_obj = [], &block)
       @collection = {}
       
@@ -33,7 +35,7 @@ module JSONAPI
     end
 
     # Does the collection's internal hash include this key?
-    # @query_param key [String | Symbol] The key to search for in the hash
+    # @param key [String | Symbol]  The key to search for in the hash
     def include?(key)
       k = to_hash_key(key)
       @collection.include?(k)
@@ -47,7 +49,16 @@ module JSONAPI
     # Adds an item to Collection's internal hash
     def insert(key, item)
       k = to_hash_key(key)
-      raise 'Item already included. Remove existing item first.' if @collection[k]
+      if @collection[k]
+        raise 'The hash key given already has an Item associated with it. ' \
+              'Remove existing item first.'
+      end
+      @collection[k] = item
+    end
+
+    # Overwrites the item associated w a given key, or adds an association if no item is already associated.
+    def set(key, item)
+      k = to_hash_key(key)
       @collection[k] = item
     end
 
@@ -57,18 +68,16 @@ module JSONAPI
       to_enum(:each)
     end
 
-    # Used when treating item value as more than just a string.
-    # Remove a value from a Item's list of values.
-    # @query_param (see #add)
+    # Remove an item from the collection
+    # @param (see #include)
     # @return [Item | nil] the deleted item object if it exists
-    def remove(key, value = nil)
+    def remove(key)
       k = to_hash_key(key)
       return nil if @collection[k].nil?
-      return @collection.delete(k) if value.nil?
-      @collection[k].remove(value)
+      @collection.delete(key)
     end
 
-    # @query_param (see #remove)
+    # @param (see #remove)
     # @return [Item | nil] The appropriate Item objet if it exists
     def get(key)
       k = to_hash_key(key)
@@ -81,7 +90,7 @@ module JSONAPI
       @collection.keys
     end
 
-    # @returns [Integer] The number of items in the collection
+    # @return [Integer] The number of items in the collection
     def size
       @collection.size
     end
@@ -93,10 +102,10 @@ module JSONAPI
       is_first = true
       @collection.each do |k, item|
         if is_first
-          to_return += "#{k} => #{item}"
+          to_return += "\"#{k}\": #{item}"
           is_first = false
         else
-          to_return += ", #{k} => #{item}"
+          to_return += ", \"#{k}\": #{item}"
         end
       end
       to_return += ' }'
@@ -106,7 +115,7 @@ module JSONAPI
     
     # Converts the developer's input into a lowercase symbol to be used as a hash key
     #   for Collection's internal hash.
-    # @query_param input [Symbol | String] Whatever the developer uses as a item key.
+    # @param input [Symbol | String] Whatever the developer uses as a item key.
     # @!visibility private
     def to_hash_key(input)
       input.to_s.downcase.to_sym

@@ -4,10 +4,10 @@ require 'rack/jsonapi/parser'
 require 'rack/jsonapi/parser/headers_parser'
 
 require 'rack/jsonapi/item'
-require 'rack/jsonapi/item/header'
+require 'rack/jsonapi/header_collection/header'
 
 require 'rack/jsonapi/collection'
-require 'rack/jsonapi/collection/header_collection'
+require 'rack/jsonapi/header_collection'
 
 describe JSONAPI::Parser::HeadersParser do
 
@@ -43,7 +43,7 @@ describe JSONAPI::Parser::HeadersParser do
   describe '#parse!' do
     
     it 'should return a header collection' do
-      expect(hc.class).to eq JSONAPI::Collection::HeaderCollection
+      expect(hc.class).to eq JSONAPI::HeaderCollection
     end
 
     it 'should have the right header names and values' do

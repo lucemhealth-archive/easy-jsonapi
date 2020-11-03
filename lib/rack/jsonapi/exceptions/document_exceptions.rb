@@ -21,20 +21,27 @@ module JSONAPI
       end
       
       # Checks a request document against the JSON:API spec to see if it complies
-      # @query_param document [Hash] The jsonapi document included with the http request
-      # @query_param request [TrueClass | FalseClass] Whether the document belongs to a http request
-      # @query_param post_request [TrueClass | FalseClass] Whether the document belongs to a post request
-      # @raises InvalidDocument if any part of the spec is not observed
-      def self.check_compliance!(document, request: nil, post_request: nil)
-        raise "Document is nil" if document.nil?
-        if post_request && !request && !request.nil?
-          raise 'A document cannot both belong to a post request and not belong to a request'
-        end
-        request = true if post_request
-        check_top_level!(document, request: request)
-        check_members!(document, request: request, post_request: post_request)
+      # @param document [Hash]  The jsonapi document included with the http request
+      # @param is_a_request [TrueClass | FalseClass | NilClass] Whether the document belongs to a http request
+      # @param http_method_is_post [TrueClass | FalseClass | NilClass] Whether the document belongs to a post request
+      # @raise InvalidDocument if any part of the spec is not observed
+      def self.check_compliance!(document, is_a_request: nil, http_method_is_post: nil)
+        check_essentials!(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
+        check_members!(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
         check_member_names!(document)
         nil
+      end
+
+      # Checks the essentials of a jsonapi document. It is
+      #  used by #check_compliance! and JSONAPI::Document's #initialize method
+      # @param (see #check_compliance!)
+      def self.check_essentials!(document, is_a_request: nil, http_method_is_post: nil)
+        ensure!(!document.nil?,
+                'Cannot create an empty JSON:API document. Include a required top level member.')
+        ensure!(is_a_request || is_a_request.nil? || !http_method_is_post,
+                'A document cannot both belong to a post request and not belong to a request') 
+        is_a_request = true if http_method_is_post
+        check_top_level!(document, is_a_request: is_a_request)
       end
 
       # **********************************
@@ -42,9 +49,9 @@ module JSONAPI
       # **********************************
 
       # Checks if there are any errors in the top level hash
-      # @query_param (see *check_compliance!)
-      # @raises (see check_compliance!)
-      def self.check_top_level!(document, request: false)
+      # @param (see *check_compliance!)
+      # @raise (see check_compliance!)
+      def self.check_top_level!(document, is_a_request: false)
         ensure!(document.is_a?(Hash),
                 'A JSON object MUST be at the root of every JSON API request ' \
                 'and response containing data')
@@ -59,7 +66,7 @@ module JSONAPI
           ensure!(!document.key?(:included),
                   'If a document does not contain a top-level data key, the included ' \
                   'member MUST NOT be present either')
-          ensure!(!request,
+          ensure!(!is_a_request,
                   'The request MUST include a single resource object as primary data')
         end
       end
@@ -69,10 +76,10 @@ module JSONAPI
       # **********************************
 
       # Checks if any errors exist in the jsonapi document members
-      # @query_param (see #check_compliance!)
-      # @raises (see #check_compliance!)
-      def self.check_members!(document, request: false, post_request: false)
-        check_data!(document[:data], request: request, post_request: post_request) if document.key? :data
+      # @param (see #check_compliance!)
+      # @raise (see #check_compliance!)
+      def self.check_members!(document, is_a_request: false, http_method_is_post: false)
+        check_data!(document[:data], is_a_request: is_a_request, http_method_is_post: http_method_is_post) if document.key? :data
         check_errors!(document[:errors]) if document.key? :errors
         check_meta!(document[:meta]) if document.key? :meta
         check_jsonapi!(document[:jsonapi]) if document.key? :jsonapi
@@ -82,16 +89,16 @@ module JSONAPI
 
       # -- TOP LEVEL - PRIMARY DATA
 
-      # @query_param data [Hash | Array<Hash>] A resource or array or resources
-      # @query_param (see #check_compliance!)
-      # @query_param (see #check_compliance!)
-      # @raises (see #check_compliance!)
-      def self.check_data!(data, request: false, post_request: false)
-        ensure!(data.is_a?(Hash) || !request,
+      # @param data [Hash | Array<Hash>]  A resource or array or resources
+      # @param (see #check_compliance!)
+      # @param (see #check_compliance!)
+      # @raise (see #check_compliance!)
+      def self.check_data!(data, is_a_request: false, http_method_is_post: false)
+        ensure!(data.is_a?(Hash) || !is_a_request,
                 'The request MUST include a single resource object as primary data')
         case data
         when Hash
-          check_resource!(data, post_request: post_request)
+          check_resource!(data, http_method_is_post: http_method_is_post)
         when Array
           data.each { |res| check_resource!(res) }
         else
@@ -100,11 +107,11 @@ module JSONAPI
         end
       end
 
-      # @query_param resource [Hash] The jsonapi resource object
-      # @query_param (see #check_compliance!)
-      # @raises (see #check_compliance!)
-      def self.check_resource!(resource, post_request: false)
-        if !post_request
+      # @param resource [Hash]  The jsonapi resource object
+      # @param (see #check_compliance!)
+      # @raise (see #check_compliance!)
+      def self.check_resource!(resource, http_method_is_post: false)
+        if !http_method_is_post
           ensure!((resource[:type] && resource[:id]),
                   'Every resource object MUST contain an id member and a type member')
         else
@@ -124,8 +131,8 @@ module JSONAPI
         check_resource_members!(resource)      
       end
 
-      # @query_param (see #check_resource!)
-      # @raises (see #check_compliance!)
+      # @param (see #check_resource!)
+      # @raise (see #check_compliance!)
       def self.check_resource_members!(resource)
         check_attributes!(resource[:attributes]) if resource.key? :attributes
         check_relationships!(resource[:relationships]) if resource.key? :relationships
@@ -133,8 +140,8 @@ module JSONAPI
         check_links!(resource[:links]) if resource.key? :links
       end
 
-      # @query_param attributes [Hash] The attributes for resource
-      # @raises (see #check_compliance!)
+      # @param attributes [Hash]  The attributes for resource
+      # @raise (see #check_compliance!)
       def self.check_attributes!(attributes)
         ensure!(attributes.is_a?(Hash),
                 'The value of the attributes key MUST be an object')
@@ -144,16 +151,16 @@ module JSONAPI
         # Member names checked separately.
       end
 
-      # @query_param rels [Hash] The relationships obj for resource
-      # @raises (see #check_compliance!)
+      # @param rels [Hash]  The relationships obj for resource
+      # @raise (see #check_compliance!)
       def self.check_relationships!(rels)
         ensure!(rels.is_a?(Hash),
                 'The value of the relationships key MUST be an object')
         rels.each_value { |rel| check_relationship!(rel) }
       end
 
-      # @query_param rel [Hash] A relationship object
-      # @raises (see #check_compliance!)
+      # @param rel [Hash]  A relationship object
+      # @raise (see #check_compliance!)
       def self.check_relationship!(rel)
         ensure!(rel.is_a?(Hash), 'Each relationships member MUST be a object')
         ensure!(!(rel.keys & RELATIONSHIP_KEYS).empty?,
@@ -167,8 +174,8 @@ module JSONAPI
         check_meta!(rel[:meta]) if rel.key? :meta
       end
 
-      # @query_param links [Hash] A resources relationships relationship links
-      # @raises (see #check_compliance!)
+      # @param links [Hash]  A resources relationships relationship links
+      # @raise (see #check_compliance!)
       def self.check_relationship_links!(links)
         ensure!(!(links.keys & RELATIONSHIP_LINK_KEYS).empty?,
                 'A relationship link MUST contain at least one of '\
@@ -176,8 +183,8 @@ module JSONAPI
         check_links!(links)
       end
 
-      # @query_param data [Hash] A resources relationships relationship data
-      # @raises (see #check_compliance!)
+      # @param data [Hash] A resources relationships relationship data
+      # @raise (see #check_compliance!)
       def self.check_relationship_data!(data)
         case data
         when Hash
@@ -191,7 +198,7 @@ module JSONAPI
         end
       end
 
-      # @query_param res_id [Hash] A resource identifier object
+      # @param res_id [Hash] A resource identifier object
       def self.check_resource_identifier!(res_id)
         ensure!(res_id.is_a?(Hash),
                 'A resource identifier object MUST be an object')
@@ -205,16 +212,16 @@ module JSONAPI
 
       # -- TOP LEVEL - ERRORS
 
-      # @query_param errors [Array] The array of errors contained in the jsonapi document
-      # @raises (see #check_compliance!)
+      # @param errors [Array] The array of errors contained in the jsonapi document
+      # @raise (see #check_compliance!)
       def self.check_errors!(errors)
         ensure!(errors.is_a?(Array),
                 'Top level errors member MUST be an array')
         errors.each { |error| check_error!(error) }
       end
 
-      # @query_param error [Hash] The individual error object
-      # @raises (see check_compliance!)
+      # @param error [Hash] The individual error object
+      # @raise (see check_compliance!)
       def self.check_error!(error)
         ensure!(error.is_a?(Hash),
                 'Error objects MUST be objects')
@@ -224,8 +231,8 @@ module JSONAPI
 
       # -- TOP LEVEL - META
 
-      # @query_param meta [Hash] The meta object
-      # @raises (see check_compliance!)
+      # @param meta [Hash] The meta object
+      # @raise (see check_compliance!)
       def self.check_meta!(meta)
         ensure!(meta.is_a?(Hash), 'A meta object MUST be an object')
         # Any members may be specified in a meta obj (all members will be valid json bc string is parsed by oj)
@@ -233,8 +240,8 @@ module JSONAPI
 
       # -- TOP LEVEL - JSONAPI
 
-      # @query_param jsonapi [Hash] The top level jsonapi object
-      # @raises (see check_compliance!)
+      # @param jsonapi [Hash] The top level jsonapi object
+      # @raise (see check_compliance!)
       def self.check_jsonapi!(jsonapi)
         ensure!(jsonapi.is_a?(Hash), 'A JSONAPI object MUST be an object')
         if jsonapi.key?(:version)
@@ -246,16 +253,16 @@ module JSONAPI
 
       # -- TOP LEVEL - LINKS
 
-      # @query_param links [Hash] The links object
-      # @raises (see check_compliance!)
+      # @param links [Hash] The links object
+      # @raise (see check_compliance!)
       def self.check_links!(links)
         ensure!(links.is_a?(Hash), 'A links object MUST be an object')
         links.each_value { |link| check_link!(link) }
         nil
       end
 
-      # @query_param link [String | Hash] A member of the links object
-      # @raises (see check_compliance!)
+      # @param link [String | Hash] A member of the links object
+      # @raise (see check_compliance!)
       def self.check_link!(link)
         # A link MUST be either a string URL or an object with href / meta
         case link
@@ -276,12 +283,14 @@ module JSONAPI
 
       # -- TOP LEVEL - INCLUDED
 
-      # @query_param included [Array] The array of included resources
-      # @raises (see check_compliance!)
+      # @param included [Array]  The array of included resources
+      # @raise (see check_compliance!)
       def self.check_included!(included)
         ensure!(included.is_a?(Array),
                 'The top level included member MUST be represented as an array of resource objects')
         included.each { |res| check_resource!(res) }
+        # Compound documents require “full linkage”, meaning that every included resource MUST be 
+        # identified by at least one resource identifier object in the same document.
       end
 
       # **********************************
@@ -290,8 +299,8 @@ module JSONAPI
       
       # Checks all the member names in a document recursively and raises an error saying
       #   which member did not observe the jsonapi member name rules and which rule
-      # @query_param obj The entire request document or part of the request document.
-      # @raises (see #check_compliance!)
+      # @param obj The entire request document or part of the request document.
+      # @raise (see #check_compliance!)
       def self.check_member_names!(obj)
         case obj
         when Hash
@@ -305,8 +314,8 @@ module JSONAPI
         nil
       end
 
-      # @query_param name The invidual member's name that is being checked
-      # @raises (see check_compliance!)
+      # @param name The invidual member's name that is being checked
+      # @raise (see check_compliance!)
       def self.check_name(name)
         msg = JSONAPI::Exceptions::NamingExceptions.check_member_constraints(name)
         return if msg.nil?
@@ -318,9 +327,9 @@ module JSONAPI
       # **********************************
       
       # Helper function to raise InvalidDocument errors
-      # @query_param condition The condition to evaluate
-      # @query_param error_message [String] The message to raise InvalidDocument with
-      # @raises InvalidDocument
+      # @param condition The condition to evaluate
+      # @param error_message [String]  The message to raise InvalidDocument with
+      # @raise InvalidDocument
       def self.ensure!(condition, error_message)
         raise InvalidDocument, error_message unless condition
       end

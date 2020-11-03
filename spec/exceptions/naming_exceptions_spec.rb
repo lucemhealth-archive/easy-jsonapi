@@ -5,7 +5,7 @@ require 'rack/jsonapi/exceptions/naming_exceptions'
 describe JSONAPI::Exceptions::NamingExceptions do
 
   # A alias method
-  # @query_param name [String | Symbol] The member name to check
+  # @param name [String | Symbol] The member name to check
   def check_member_constraints(name)
     JSONAPI::Exceptions::NamingExceptions.check_member_constraints(name)
   end
@@ -28,7 +28,7 @@ describe JSONAPI::Exceptions::NamingExceptions do
   end
   
   # A alias method
-  # @query_param name [String | Symbol] The member name to check for additional constraints
+  # @param name [String | Symbol] The member name to check for additional constraints
   def check_additional_constraints(name)
     JSONAPI::Exceptions::NamingExceptions.check_additional_constraints(name)
   end

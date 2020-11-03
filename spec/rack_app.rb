@@ -1,17 +1,13 @@
-# frozen_string_literal: true
-
-# A simple rack app to use for testing
+# Demo Rack App to test middleware class locally.
 class RackApp
   
   def call(env)
     req = Rack::Request.new(env)
     status = 200
-    headers = { 'Content-Type' => 'text/plain' }
+    headers = { "Content-Type" => "text/plain" }
     body = 
       [
-        "
-          #{env.map { |h, v| "#{h} => #{v}" if h.start_with?('HTTP_') }}
-        "
+        'Testing'
       ]
     [status, headers, body]
   end

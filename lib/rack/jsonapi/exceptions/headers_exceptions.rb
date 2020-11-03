@@ -7,7 +7,7 @@ module JSONAPI
       class InvalidHeader < StandardError
       end
 
-      # @query_param env [Hash] The rack environment variable
+      # @param env [Hash]  The rack environment variable
       def self.check_compliance!(env)
         check_content_type!(env)
         check_accept!(env)
@@ -16,13 +16,13 @@ module JSONAPI
       # Checks the content type of the request to see if it is jsonapi.
       #   If it is jsonapi or if it is a different media type it won't raise an error.
       #   It will raise an error if it is jsonapi and includes parameters.
-      # @query_param (see #compliant?)
-      # @returns nil Returns nil if no error found
-      # @raises InvalidHeader if it is jsonapi with parameters
+      # @param (see #compliant?)
+      # @return nil Returns nil if no error found
+      # @raise InvalidHeader if it is jsonapi with parameters
       def self.check_content_type!(env)
         return if env['CONTENT_TYPE'].nil?
         return if env['CONTENT_TYPE'] == 'application/vnd.api+json'
-        return if (env['CONTENT_TYPE'] =~ %r{\Aapplication/vnd\.api\+json\s?;}).nil?
+        return if (env['CONTENT_TYPE'] =~ %r{application/vnd\.api\+json\s?;}).nil?
         
         raise_error!(
           'Clients MUST send all JSON:API data in request documents with the header ' \
@@ -32,7 +32,7 @@ module JSONAPI
 
       # Checks to see if the JSON:API media type is included in the Accept header, and if
       #   it is, whether it contains media type parameters.
-      # @query_param (see #compliant?)
+      # @param (see #compliant?)
       def self.check_accept!(env)
         jsonapi_doc_w_params = false
         accept_arr = env['HTTP_ACCEPT'].split(',')
@@ -49,7 +49,7 @@ module JSONAPI
         )
       end
 
-      # @query_param msg [String] the message to raise InvalidHeader with.
+      # @param msg [String]  The message to raise InvalidHeader with.
       def self.raise_error!(msg)
         raise InvalidHeader, msg
       end

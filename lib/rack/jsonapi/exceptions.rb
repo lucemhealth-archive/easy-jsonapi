@@ -6,7 +6,7 @@ module JSONAPI
   module Exceptions
 
     # Validates that the Query Parameters comply with the JSONAPI specification
-    module ParamExceptions
+    module QueryParamsExceptions
     end
     
     # Validates that Headers comply with the JSONAPI specification
