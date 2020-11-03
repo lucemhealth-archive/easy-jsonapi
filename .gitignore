@@ -33,3 +33,4 @@
 /.vscode/
 
 .solargraph.yml
+.DS_Store
