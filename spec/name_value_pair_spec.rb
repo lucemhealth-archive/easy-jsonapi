@@ -1,25 +1,10 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/name_value_pair'
+require 'shared_examples/name_value_pair_classes_tests'
 
 describe JSONAPI::NameValuePair do
-
-  let(:pair) { JSONAPI::NameValuePair.new(:name, 'value') }
-
-  context '#initialize' do
-    # it 'should not have any instance variables' do
-    #   # pp pair.instance_variable_get(:@item)
-    #   # pp pair.instance_variable_set(:@item, nil)
-    #   # pp pair.instance_variable_get(:@item)
-    #   expect(pair.instance_variables).to eq []
-    # end
+  it_behaves_like 'name value pair classes' do
+    let(:pair) { JSONAPI::NameValuePair.new(:name, 'value') }
   end
-
-  describe '#to_s' do
-    it 'should work' do
-      str = "\"name\": \"value\""
-      expect(pair.to_s).to eq str
-    end
-  end
-
 end

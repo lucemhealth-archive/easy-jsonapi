@@ -20,9 +20,9 @@ describe JSONAPI::Request::QueryParamCollection::QueryParam::Include do
     end
 
     it 'should have a working #to_s' do
-      expect(i1.to_s).to eq "include|author => { \"include\": \"author\" }"
-      expect(i2.to_s).to eq "include|comments.likes => { \"include\": \"comments.likes\" }"
-      expect(i3.to_s).to eq "include|comments.likes.users => { \"include\": \"comments.likes.users\" }"
+      expect(i1.to_s).to eq "{ \"include\": \"author\" }"
+      expect(i2.to_s).to eq "{ \"include\": \"comments.likes\" }"
+      expect(i3.to_s).to eq "{ \"include\": \"comments.likes.users\" }"
     end
 
     it 'should not respond to #name=, #value, or #value=' do

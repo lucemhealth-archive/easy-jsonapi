@@ -56,6 +56,12 @@ module JSONAPI
       @collection[k] = item
     end
 
+    # Overwrites the item associated w a given key, or adds an association if no item is already associated.
+    def set(key, item)
+      k = to_hash_key(key)
+      @collection[k] = item
+    end
+
     # Yield the block given on all the items in the collection
     def each
       return @collection.each { |_, item| yield(item) } if block_given?
@@ -96,10 +102,10 @@ module JSONAPI
       is_first = true
       @collection.each do |k, item|
         if is_first
-          to_return += "#{k} => #{item}"
+          to_return += "\"#{k}\": #{item}"
           is_first = false
         else
-          to_return += ", #{k} => #{item}"
+          to_return += ", \"#{k}\": #{item}"
         end
       end
       to_return += ' }'

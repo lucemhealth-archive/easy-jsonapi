@@ -12,6 +12,7 @@ module JSONAPI
       def initialize(jsonapi_member_arr = [])
         super(jsonapi_member_arr, JSONAPI::Document::Jsonapi::JsonapiMember)
       end
+
     end
   end
 end

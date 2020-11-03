@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'rack/jsonapi/request/query_param_collection/query_param'
+require 'rack/jsonapi/fieldset'
+
 module JSONAPI
   class Request
     class QueryParamCollection
@@ -12,8 +15,9 @@ module JSONAPI
           #   fields of a resource to include given the resource is returned in the server response.
           def initialize(resource, res_fields_arr)
             res_fields_arr = [res_fields_arr] unless res_fields_arr.is_a? Array
+            fieldset = JSONAPI::Fieldset.new(res_fields_arr)
             unique_hash = "fields[#{resource}]"
-            super(unique_hash, { resource: resource, fields: res_fields_arr })
+            super(unique_hash, { resource: resource, fields: fieldset })
           end
     
           # @return [String] The name of the resource 
@@ -28,19 +32,19 @@ module JSONAPI
           
           # @return [Array<JSONAPI::Resource::Field>] The fields to include for a resource
           def fields
-            @item[:value][:fields]
+            a = @item[:value][:fields]
           end
           
-          # @param new_fields [Array<JSONAPI::Resource::Field>] The new fields to include for a resource
+          # @param new_fields [Array<JSONAPI::Fieldset>] The new fieldset to include for a resource
           def fields=(new_fields)
             new_fields = [new_fields] unless new_fields.is_a? Array
-            @item[:value][:fields] = new_fields
+            fieldset = JSONAPI::Fieldset.new(new_fields)
+            @item[:value][:fields] = fieldset
           end
           
           # @return The Field class represented as a string
           def to_s
-            str_attr = fields.map(&:name)
-            "fields[#{resource}] => { \"#{resource}\": \"#{str_attr.join(',')}\" }"
+            "{ \"fields\": { \"#{resource}\": \"#{fields}\" } }"
           end
     
           # #name provided by super class

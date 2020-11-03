@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document/links/link'
-require_relative '../collection_subclasses_shared_tests'
+require 'shared_examples/collection_like_classes_tests'
 
 describe JSONAPI::Document::Links do
-  it_behaves_like 'collection like classes' do
+  it_behaves_like 'collection-like classes' do
     let(:item_class) { JSONAPI::Document::Links::Link }
     
     obj_arr = [
@@ -16,7 +16,7 @@ describe JSONAPI::Document::Links do
     let(:c_size) { 3 }
     let(:keys) { %i[self next last] }
     let(:ex_item_key) { :self }
-    let(:ex_item_value) { "http://example.com/articles" }
+    let(:ex_item) { JSONAPI::Document::Links::Link.new('self', 'http://example.com/articles') }
     
     let(:to_string) do
       '{ ' \

@@ -16,7 +16,7 @@ describe JSONAPI::Request::QueryParamCollection::QueryParam::Sort do
     end
 
     it 'should have a working #to_s' do
-      expect(s1.to_s).to eq "sort => { \"sort\": \"ing,ang\" }"
+      expect(s1.to_s).to eq "{ \"sort\": \"ing,ang\" }"
     end
 
     it 'should not respond to #name=' do

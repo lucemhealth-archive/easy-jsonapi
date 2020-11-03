@@ -9,6 +9,7 @@ module JSONAPI
     class Links < JSONAPI::NameValuePairCollection
 
       def initialize(link_arr = [])
+        link_arr = [link_arr] unless link_arr.is_a? Array
         super(link_arr, JSONAPI::Document::Links::Link)
       end
 

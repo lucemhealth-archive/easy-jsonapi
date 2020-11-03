@@ -5,7 +5,7 @@ require 'rack/jsonapi/document/resource/field'
 
 module JSONAPI
   class Document
-    class Resource
+    class Resource < JSONAPI::Document::ResourceId
       class Attributes
 
         # An individual attribute in a JSON:API Attributes object

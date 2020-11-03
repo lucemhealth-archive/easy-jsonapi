@@ -17,6 +17,10 @@ module JSONAPI
         @meta = members_hash[:meta]
       end
 
+      def name
+        "#{@type}|#{@id}"
+      end
+
       def to_s
         '{ ' \
           "\"type\": \"#{@type}\", " \

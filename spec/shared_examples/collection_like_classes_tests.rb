@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
-shared_examples 'collection like classes' do
-
-  def init_item(name, value, item_class)
-    if item_class == JSONAPI::Item
-      item_class.new({ name: name, value: value })
-    else
-      item_class.new(name, value)
-    end
-  end
+shared_examples 'collection-like classes' do
 
   describe '#initialize' do
 
@@ -31,18 +23,17 @@ shared_examples 'collection like classes' do
 
     it 'should state whether a given Item is in Collection' do
       expect(c.include?(ex_item_key)).to be true
-      expect(c.include?(:te_st)).to be false
+      expect(c.include?('not_ex_item_key')).to be false
     end
 
     it 'should be case insensitive for checking the name' do
-      expect(ec.include?(:te_st)).to be false
-      expect(ec.include?('te_st')).to be false
-      expect(ec.include?('tE_St')).to be false
-      item = init_item('te_st', 'ing', item_class)
-      ec.add(item, &:name)
-      expect(ec.include?(:te_st)).to be true
-      expect(ec.include?('te_st')).to be true
-      expect(ec.include?('tE_St')).to be true
+      expect(ec.include?(ex_item_key.to_s)).to be false
+      expect(ec.include?(ex_item_key.to_sym)).to be false
+      expect(ec.include?(ex_item_key.upcase)).to be false
+      ec.add(ex_item, &:name)
+      expect(ec.include?(ex_item_key.to_s)).to be true
+      expect(ec.include?(ex_item_key.to_sym)).to be true
+      expect(ec.include?(ex_item_key.upcase)).to be true
     end
   end
 
@@ -50,16 +41,14 @@ shared_examples 'collection like classes' do
 
     it 'should make #empty? return false' do
       expect(ec.empty?).to be true
-      item = init_item('te_st', 'ing', item_class)
-      ec.add(item, &:name)
+      ec.add(ex_item, &:name)
       expect(ec.empty?).to be false
     end
 
     it 'should add items to the collection' do
       expect(ec.empty?).to be true
-      item = init_item('te_st', 'ing', item_class)
-      ec.add(item, &:name)
-      expect(ec.include?(:te_st)).to be true
+      ec.add(ex_item, &:name)
+      expect(ec.include?(ex_item_key)).to be true
     end
   end
 
@@ -118,11 +107,10 @@ shared_examples 'collection like classes' do
     end
 
     it 'should be case insensitive and work for symbol or string' do
-      item = init_item('te_st', 'ing', item_class)
-      ec.add(item, &:name)
-      item = ec.get('te_st')
-      expect(ec.get(:te_st)).to eq item
-      expect(ec.get('Te_St')).to eq item
+      ec.add(ex_item, &:name)
+      item = ec.get(ex_item_key)
+      expect(ec.get(ex_item_key.to_s)).to eq item
+      expect(ec.get(ex_item_key.to_sym.upcase)).to eq item
     end
   end
 

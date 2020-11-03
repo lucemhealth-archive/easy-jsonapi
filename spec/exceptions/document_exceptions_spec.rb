@@ -139,14 +139,14 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         end
   
         it 'should raise when document is nil' do
-          msg = 'Document is nil'
-          expect { f(nil, is_a_request: true) }.to raise_error msg
-          expect { f(nil) }.to raise_error msg
+          msg = 'Cannot create an empty JSON:API document. Include a required top level member.'
+          expect { f(nil, is_a_request: true) }.to raise_error(ec, msg)
+          expect { f(nil) }.to raise_error(ec, msg)
         end
   
         it 'should raise if !request but http_method_is_post' do
-          expect { f(response_doc, is_a_request: false, http_method_is_post: true) }.to raise_error \
-            'A document cannot both belong to a post request and not belong to a request'
+          msg = 'A document cannot both belong to a post request and not belong to a request'
+          expect { f(response_doc, is_a_request: false, http_method_is_post: true) }.to raise_error(ec, msg)
           expect(f(req_doc, http_method_is_post: true)).to be nil
         end
       end

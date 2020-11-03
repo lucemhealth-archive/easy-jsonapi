@@ -31,8 +31,7 @@ module JSONAPI
     
           # Represents a Include object as a string
           def to_s
-            str_resource = @item[:value].join('.') if @item[:value].is_a? Array
-            "#{@item[:name]} => { \"include\": \"#{str_resource}\" }"
+            "{ \"include\": \"#{resources.join('.')}\" }"
           end
     
           # Raise a runtime error if name is attempted to be reset

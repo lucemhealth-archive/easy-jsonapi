@@ -17,7 +17,8 @@ require 'rack/jsonapi/document/links/link'
 require 'rack/jsonapi/document/meta'
 require 'rack/jsonapi/document/meta/meta_member'
 
-require 'rack/jsonapi/document/included'
+require 'rack/jsonapi/document/error'
+require 'rack/jsonapi/document/error/error_member'
 
 require 'rack/jsonapi/exceptions/document_exceptions'
 
@@ -34,21 +35,20 @@ module JSONAPI
         JSONAPI::Exceptions::DocumentExceptions.check_compliance!(
           document, is_a_request: is_a_request, http_method_is_post: http_method_is_post
         )
-        data = parse_resource!(document[:data]) if document.key?(:data)
-        meta = parse_meta!(document[:meta]) if document.key?(:meta)
-        links = parse_links!(document[:links]) if document.key?(:links)
-        included = parse_included!(document[:included]) if document.key?(:included)
-        errors = parse_errors!(document[:errors]) if document.key?(:errors)
-        jsonapi = parse_jsonapi!(document[:jsonapi]) if document.key?(:jsonapi)
-        
-        doc_members_hash = {}
-        doc_members_hash[:data] = data unless data.nil?
-        doc_members_hash[:meta] = meta unless meta.nil?
-        doc_members_hash[:links] = links unless links.nil?
-        doc_members_hash[:included] = included unless included.nil?
-        doc_members_hash[:errors] = errors unless errors.nil?
-        doc_members_hash[:jsonapi] = jsonapi unless jsonapi.nil?
+
+        doc_members_hash = parse_top_level_members!(document)
         JSONAPI::Document.new(doc_members_hash)
+      end
+
+      def self.parse_top_level_members!(document)
+        doc_members_hash = {}
+        doc_members_hash[:data] = parse_resource!(document[:data]) if document.key?(:data)
+        doc_members_hash[:meta] = parse_meta!(document[:meta]) if document.key?(:meta)
+        doc_members_hash[:links] = parse_links!(document[:links]) if document.key?(:links)
+        doc_members_hash[:included] = parse_included!(document[:included]) if document.key?(:included)
+        doc_members_hash[:errors] = parse_errors!(document[:errors]) if document.key?(:errors)
+        doc_members_hash[:jsonapi] = parse_jsonapi!(document[:jsonapi]) if document.key?(:jsonapi)
+        doc_members_hash
       end
 
       def self.parse_resources!(res_arr)
@@ -127,18 +127,17 @@ module JSONAPI
 
       def self.parse_resource_identifiers!(res_id_arr)
         res_id_objs = []
-        
         case res_id_arr
         when Array
           res_id_arr.each do |res_id|
             res_id_objs << parse_resource_identifier!(res_id)
           end
+          res_id_objs
         when Hash
-          res_id_objs << parse_resource_identifier!(res_id_arr)
+          parse_resource_identifier!(res_id_arr)
         else
           raise 'Data member of resource relationship was not an array or hash'
         end
-        res_id_objs
       end
 
       def self.parse_resource_identifier!(res_id)
@@ -150,7 +149,23 @@ module JSONAPI
         included_arr.each do |res|
           res_arr << parse_resource!(res)
         end
-        JSONAPI::Document::Included.new(res_arr)
+        res_arr
+      end
+
+      def self.parse_errors!(errs_arr)
+        errs_obj_arr = []
+        errs_arr.each do |err_hash|
+          errs_obj_arr << parse_error!(err_hash)
+        end
+        errs_obj_arr
+      end
+
+      def self.parse_error!(err_hash)
+        error = JSONAPI::Document::Error.new
+        err_hash.each do |name, value|
+          error.add(JSONAPI::Document::Error::ErrorMember.new(name, value))
+        end
+        error
       end
 
     end

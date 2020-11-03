@@ -13,6 +13,7 @@ require 'rack/jsonapi/request/query_param_collection'
 
 require 'rack/jsonapi/document'
 require 'rack/jsonapi/document/resource'
+require 'rack/jsonapi/document/resource_id'
 require 'rack/jsonapi/document/resource/field'
 
 require 'rack/jsonapi/exceptions/query_params_exceptions'

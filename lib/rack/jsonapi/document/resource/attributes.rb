@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/name_value_pair_collection'
+require 'rack/jsonapi/document/resource_id'
 
 module JSONAPI
   class Document
-    class Resource
+    class Resource < JSONAPI::Document::ResourceId
       # The attributes of a resource
       class Attributes < JSONAPI::NameValuePairCollection
   

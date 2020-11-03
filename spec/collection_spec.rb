@@ -2,28 +2,28 @@
 
 require 'rack/jsonapi/collection'
 require 'rack/jsonapi/item'
-require_relative '../spec/collection_subclasses_shared_tests'
+require 'shared_examples/collection_like_classes_tests'
 
 describe JSONAPI::Collection do
-  it_behaves_like 'collection like classes' do
+  it_behaves_like 'collection-like classes' do
     let(:item_class) { JSONAPI::Item }
     let(:c_size) { 5 }
     let(:keys) { %i[include lebron charles michael kobe] }
     let(:ex_item_key) { :include }
-    let(:ex_item_value) { 'author,comments,likes' }
+    let(:ex_item) { JSONAPI::Item.new({ name: 'include', value: 'author,comments.likes' }) }
 
     let(:to_string) do
       '{ ' \
-        "include => { name => 'include', value => 'author,comments,likes' }, " \
-        "lebron => { name => 'lebron', value => 'james' }, " \
-        "charles => { name => 'charles', value => 'barkley' }, " \
-        "michael => { name => 'michael', value => 'jordan,jackson' }, " \
-        "kobe => { name => 'kobe', value => 'bryant' }" \
+        "\"include\": { \"name\": \"include\", \"value\": \"author,comments.likes\" }, " \
+        "\"lebron\": { \"name\": \"lebron\", \"value\": \"james\" }, " \
+        "\"charles\": { \"name\": \"charles\", \"value\": \"barkley\" }, " \
+        "\"michael\": { \"name\": \"michael\", \"value\": \"jordan,jackson\" }, " \
+        "\"kobe\": { \"name\": \"kobe\", \"value\": \"bryant\" }" \
       ' }'
     end
 
     obj_arr = [
-      { name: 'include', value: 'author,comments,likes' },
+      { name: 'include', value: 'author,comments.likes' },
       { name: 'lebron', value: 'james' },
       { name: 'charles', value: 'barkley' },
       { name: 'michael', value: 'jordan,jackson' },

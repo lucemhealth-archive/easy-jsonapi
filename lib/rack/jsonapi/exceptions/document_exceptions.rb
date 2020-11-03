@@ -36,10 +36,10 @@ module JSONAPI
       #  used by #check_compliance! and JSONAPI::Document's #initialize method
       # @param (see #check_compliance!)
       def self.check_essentials!(document, is_a_request: nil, http_method_is_post: nil)
-        raise "Document is nil" if document.nil?
-        if http_method_is_post && !is_a_request && !is_a_request.nil?
-          raise 'A document cannot both belong to a post request and not belong to a request'
-        end
+        ensure!(!document.nil?,
+                'Cannot create an empty JSON:API document. Include a required top level member.')
+        ensure!(is_a_request || is_a_request.nil? || !http_method_is_post,
+                'A document cannot both belong to a post request and not belong to a request') 
         is_a_request = true if http_method_is_post
         check_top_level!(document, is_a_request: is_a_request)
       end

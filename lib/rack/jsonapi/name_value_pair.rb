@@ -12,22 +12,22 @@ module JSONAPI
       super({ name: name.to_s, value: value })
     end
 
-    # @return [String] The name of the header
+    # @return [String] The name of the name->val pair
     def name
       @item[:name]
     end
 
-    # @param new_name [String | Symbol]  The new header name
+    # @param new_name [String | Symbol]  The new name->val pair name
     def name=(new_name)
       @item[:name] = new_name.to_s
     end
 
-    # @return [String] The value of the header
+    # @return [String] The value of the name->val pair
     def value
       @item[:value]
     end
 
-    # @param new_value [String | Symbol]  The header value
+    # @param new_value [String | Symbol]  The name->val pair value
     def value=(new_value)
       @item[:value] = new_value
     end
@@ -50,13 +50,15 @@ module JSONAPI
         val_str += ']'
       when String
         val_str = "\"#{v}\""
+      when JSONAPI::NameValuePair
+        val_str = "{ #{value} }"
       else
-        raise 'NameValuePair to_s was not array or string'
+        val_str = value
       end
       "\"#{name}\": #{val_str}"
     end
 
     # prevent users and sublcasses from accessing Parent's #method_missing
-    private :method_missing
+    private :method_missing, :item, :item=
   end
 end

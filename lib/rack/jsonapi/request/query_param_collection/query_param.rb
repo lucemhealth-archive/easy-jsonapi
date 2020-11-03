@@ -36,7 +36,7 @@ module JSONAPI
         # Represents a parameter as a string
         def to_s
           str_val = @item[:value].join(',') if @item[:value].is_a? Array
-          "#{name} => { \"#{name}\": \"#{str_val}\" }"
+          "{ \"#{name}\": \"#{str_val}\" }"
         end
       end
     end

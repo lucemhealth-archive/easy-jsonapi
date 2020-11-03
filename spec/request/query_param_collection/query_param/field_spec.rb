@@ -36,16 +36,19 @@ describe JSONAPI::Request::QueryParamCollection::QueryParam::Field do
 
       
       # fields testing
-      expect(f1.fields).to eq res_field_arr1
-      expect(f2.fields).to eq res_field_arr2
+      field_set1 = JSONAPI::Fieldset.new(res_field_arr1)
+      field_set2 = JSONAPI::Fieldset.new(res_field_arr2)
+      expect(f1.fields.first.name).to eq field_set1.first.name
+      expect(f2.fields.first.name).to eq field_set2.first.name
       new_res_field = JSONAPI::Document::Resource::Field.new('testing')
       f1.fields = new_res_field
-      expect(f1.fields).to eq [new_res_field]
+      new_field_set = JSONAPI::Fieldset.new([new_res_field])
+      expect(f1.fields.first.name).to eq new_field_set.first.name
     end
 
     it 'should have a working #to_s' do
-      expect(f1.to_s).to eq "fields[articles] => { \"articles\": \"title,body\" }"
-      expect(f2.to_s).to eq "fields[people] => { \"people\": \"name\" }"
+      expect(f1.to_s).to eq "{ \"fields\": { \"articles\": \"title,body\" } }"
+      expect(f2.to_s).to eq "{ \"fields\": { \"people\": \"name\" } }"
     end
 
     it 'should not respond to #name=, #value, or #value=' do

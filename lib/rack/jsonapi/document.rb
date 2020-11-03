@@ -25,13 +25,31 @@ module JSONAPI
     # To String
     def to_s
       '{ ' \
-        "\"data\": #{@data || 'null'}, " \
+        "\"data\": #{array_to_string(@data) || 'null'}, " \
         "\"meta\": #{@meta || 'null'}, " \
         "\"links\": #{@links || 'null'}, " \
-        "\"errors\": #{@errors || 'null'}, " \
+        "\"errors\": #{array_to_string(@errors) || 'null'}, " \
         "\"jsonapi\": #{@jsonapi || 'null'}, " \
-        "\"included\": #{@included || 'null'}" \
+        "\"included\": #{array_to_string(@included) || 'null'}" \
       ' }'
+    end
+
+    private
+
+    # Returns the proper to_s for members that are an array.
+    def array_to_string(obj_arr)
+      return obj_arr unless obj_arr.is_a? Array
+      to_return = '['
+      first = true
+      obj_arr.each do |obj|
+        if first
+          to_return += obj.to_s
+          first = false
+        else
+          to_return += ", #{obj}"
+        end
+      end
+      to_return += ']'
     end
   end
 end

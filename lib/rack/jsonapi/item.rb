@@ -47,9 +47,9 @@ module JSONAPI
       @item.each do |k, v|
         if first
           first = false
-          tr += "#{k} => '#{v}', "
+          tr += "\"#{k}\": \"#{v}\", "
         else
-          tr += "#{k} => '#{v}'"
+          tr += "\"#{k}\": \"#{v}\""
         end
       end
       tr += ' }'

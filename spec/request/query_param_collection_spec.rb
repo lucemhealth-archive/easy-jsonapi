@@ -5,10 +5,14 @@ require 'rack/jsonapi/name_value_pair_collection'
 require 'rack/jsonapi/request/query_param_collection'
 
 require 'rack/jsonapi/request/query_param_collection/query_param/include'
+require 'rack/jsonapi/request/query_param_collection/query_param/field'
+require 'rack/jsonapi/request/query_param_collection/query_param/page'
+require 'rack/jsonapi/request/query_param_collection/query_param/sort'
+require 'rack/jsonapi/request/query_param_collection/query_param/filter'
 
 require 'rack/jsonapi/document/resource/field'
 
-require 'collection_subclasses_shared_tests'
+require 'shared_examples/collection_like_classes_tests'
 
 describe JSONAPI::Request::QueryParamCollection do
 
@@ -35,7 +39,7 @@ describe JSONAPI::Request::QueryParamCollection do
       JSONAPI::Request::QueryParamCollection::QueryParam::Filter.new('special')
     ]
 
-  it_behaves_like 'collection like classes' do
+  it_behaves_like 'collection-like classes' do
     
     # rack::request.params:
     # {
@@ -51,19 +55,19 @@ describe JSONAPI::Request::QueryParamCollection do
     let(:c_size) { 8 }
     let(:keys) { %i[include|author include|comments.likes fields[articles] fields[people] lebron page sort filter] }
     let(:ex_item_key) { :'include|author' }
-    let(:ex_item_value) { 'author' }
+    let(:ex_item) { JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('author') }
     
     let(:to_string) do
-      '{ ' \
-        "include|author => { \"include\": \"author\" }, " \
-        "include|comments.likes => { \"include\": \"comments.likes\" }, " \
-        "fields[articles] => { \"articles\": \"title,body\" }, " \
-        "fields[people] => { \"people\": \"name\" }, " \
-        "leBron => { \"leBron\": \"james\" }, " \
-        "page => { \"offset\": \"3\", \"limit\": \"25\" }, " \
-        "sort => { \"sort\": \"alpha\" }, " \
-        "filter => { \"filter\": \"special\" }" \
-      ' }'
+      "{ " \
+        "{ \"include\": \"author\" }, " \
+        "{ \"include\": \"comments.likes\" }, " \
+        "{ \"fields\": { \"articles\": \"title,body\" } }, " \
+        "{ \"fields\": { \"people\": \"name\" } }, " \
+        "{ \"leBron\": \"james\" }, " \
+        "{ \"page\": { \"offset\": \"3\", \"limit\": \"25\" } }, " \
+        "{ \"sort\": \"alpha\" }, " \
+        "{ \"filter\": \"special\" } " \
+        "}"
     end
 
     let(:c) { JSONAPI::Request::QueryParamCollection.new(item_arr, &:name) }

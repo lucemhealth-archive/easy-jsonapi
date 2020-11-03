@@ -16,7 +16,7 @@ describe JSONAPI::Request::QueryParamCollection::QueryParam::Filter do
     end
 
     it 'should have a working #to_s' do
-      expect(f1.to_s).to eq "filter => { \"filter\": \"ing,ang\" }"
+      expect(f1.to_s).to eq "{ \"filter\": \"ing,ang\" }"
     end
 
     it 'should not respond to #name=' do

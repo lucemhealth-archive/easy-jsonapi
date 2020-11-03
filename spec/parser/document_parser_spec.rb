@@ -15,8 +15,6 @@ require 'rack/jsonapi/document/links/link'
 require 'rack/jsonapi/document/meta'
 require 'rack/jsonapi/document/meta/meta_member'
 
-require 'rack/jsonapi/document/included'
-
 require 'rack/jsonapi/parser'
 require 'rack/jsonapi/parser/document_parser'
 

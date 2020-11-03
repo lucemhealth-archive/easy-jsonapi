@@ -2,10 +2,10 @@
 
 require 'rack/jsonapi/header_collection'
 require 'rack/jsonapi/header_collection/header'
-require 'collection_subclasses_shared_tests'
+require 'shared_examples/collection_like_classes_tests'
 
 describe JSONAPI::HeaderCollection do
-  it_behaves_like 'collection like classes' do
+  it_behaves_like 'collection-like classes' do
     let(:item_class) { JSONAPI::HeaderCollection::Header }
     
     obj_arr = [
@@ -19,7 +19,7 @@ describe JSONAPI::HeaderCollection do
     let(:c_size) { 5 }
     let(:keys) { %i[content-type accept host connection www-authenticate] }
     let(:ex_item_key) { :'content-type' }
-    let(:ex_item_value) { 'application/vnd.api+json' }
+    let(:ex_item) { JSONAPI::HeaderCollection::Header.new('content-type', 'application/vnd.api+json') }
     
     let(:to_string) do
       '{ ' \

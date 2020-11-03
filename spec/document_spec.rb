@@ -45,9 +45,11 @@ describe JSONAPI::Document do
   let(:ec) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
   
   describe '#initialize' do
-    it 'should not raise an error if passed nil as an argument' do
+    it 'should not raise Invalid Document if passed an invalid document.' do
       msg = "A document MUST contain at least one of the following top-level members: [:data, :errors, :meta]"
       expect { JSONAPI::Document.new({}) }.to raise_error(ec, msg)
+      msg = 'Cannot create an empty JSON:API document. Include a required top level member.'
+      expect { JSONAPI::Document.new(nil) }.to raise_error msg
     end
 
     it 'should provide nil for instance variables that are not present' do
@@ -57,7 +59,9 @@ describe JSONAPI::Document do
     end
 
     it 'should have the appropriate classes associated with each instance variable' do
-      # expect()
+      expect(d.data.class).to eq JSONAPI::Document::Resource
+      expect(d.meta.class).to eq JSONAPI::Document::Meta
+      expect(d.links.class).to eq JSONAPI::Document::Links
     end
   end
 
