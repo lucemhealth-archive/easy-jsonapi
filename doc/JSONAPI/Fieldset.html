@@ -69,12 +69,14 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="Collection.html" title="JSONAPI::Collection (class)">Collection</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next"><span class='object_link'><a href="Collection.html" title="JSONAPI::Collection (class)">Collection</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></li>
           
             <li class="next">JSONAPI::Fieldset</li>
           
@@ -153,6 +155,30 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Represent a fieldset as an array of fields def to_s   to_return = &#39;[&#39;   is_first = true   each do |field|     if is_first       to_return <tt>= field.to_s       is_first = false     else       to_return </tt>= “, #field”     end   end   to_return += &#39;]&#39; end.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -165,8 +191,19 @@
   
   
   
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="NameValuePairCollection.html#<<-instance_method" title="JSONAPI::NameValuePairCollection#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="NameValuePairCollection.html#add-instance_method" title="JSONAPI::NameValuePairCollection#add (method)">#add</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Collection.html" title="JSONAPI::Collection (class)">Collection</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Collection.html#add-instance_method" title="JSONAPI::Collection#add (method)">#add</a></span>, <span class='object_link'><a href="Collection.html#each-instance_method" title="JSONAPI::Collection#each (method)">#each</a></span>, <span class='object_link'><a href="Collection.html#empty%3F-instance_method" title="JSONAPI::Collection#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="Collection.html#get-instance_method" title="JSONAPI::Collection#get (method)">#get</a></span>, <span class='object_link'><a href="Collection.html#include%3F-instance_method" title="JSONAPI::Collection#include? (method)">#include?</a></span>, <span class='object_link'><a href="Collection.html#insert-instance_method" title="JSONAPI::Collection#insert (method)">#insert</a></span>, <span class='object_link'><a href="Collection.html#keys-instance_method" title="JSONAPI::Collection#keys (method)">#keys</a></span>, <span class='object_link'><a href="Collection.html#remove-instance_method" title="JSONAPI::Collection#remove (method)">#remove</a></span>, <span class='object_link'><a href="Collection.html#size-instance_method" title="JSONAPI::Collection#size (method)">#size</a></span>, <span class='object_link'><a href="Collection.html#to_s-instance_method" title="JSONAPI::Collection#to_s (method)">#to_s</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Collection.html#add-instance_method" title="JSONAPI::Collection#add (method)">#add</a></span>, <span class='object_link'><a href="Collection.html#each-instance_method" title="JSONAPI::Collection#each (method)">#each</a></span>, <span class='object_link'><a href="Collection.html#empty%3F-instance_method" title="JSONAPI::Collection#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="Collection.html#get-instance_method" title="JSONAPI::Collection#get (method)">#get</a></span>, <span class='object_link'><a href="Collection.html#include%3F-instance_method" title="JSONAPI::Collection#include? (method)">#include?</a></span>, <span class='object_link'><a href="Collection.html#insert-instance_method" title="JSONAPI::Collection#insert (method)">#insert</a></span>, <span class='object_link'><a href="Collection.html#keys-instance_method" title="JSONAPI::Collection#keys (method)">#keys</a></span>, <span class='object_link'><a href="Collection.html#remove-instance_method" title="JSONAPI::Collection#remove (method)">#remove</a></span>, <span class='object_link'><a href="Collection.html#set-instance_method" title="JSONAPI::Collection#set (method)">#set</a></span>, <span class='object_link'><a href="Collection.html#size-instance_method" title="JSONAPI::Collection#size (method)">#size</a></span></p>
 
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
@@ -227,7 +264,7 @@
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/fieldset.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_res_field_arr'>res_field_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_res_field_arr'>res_field_arr</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_res_field_arr'>res_field_arr</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Document/Resource.html" title="JSONAPI::Document::Resource (class)">Resource</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Document/Resource/Field.html" title="JSONAPI::Document::Resource::Field (class)">Field</a></span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -237,10 +274,74 @@
 </div>
 
 
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="to_s-instance_method">
+  
+    #<strong>to_s</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Represent a fieldset as an array of fields def to_s</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>[</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_is_first'>is_first</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_field'>field</span><span class='op'>|</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_is_first'>is_first</span>
+    <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_is_first'>is_first</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field'>field</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+<span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>]</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>end</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/fieldset.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_field_str_arr'>field_str_arr</span> <span class='op'>=</span> <span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_field_str_arr'>field_str_arr</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>,</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 30 14:48:28 2020 by
+  Generated on Tue Nov  3 20:37:01 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

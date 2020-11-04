@@ -1151,10 +1151,10 @@
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_essentials!'>check_essentials!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Document is nil</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_http_method_is_post'>http_method_is_post</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_is_a_request'>is_a_request</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_is_a_request'>is_a_request</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A document cannot both belong to a post request and not belong to a request</span><span class='tstring_end'>&#39;</span></span>
-  <span class='kw'>end</span>
+  <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span><span class='comma'>,</span>
+          <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot create an empty JSON:API document. Include a required top level member.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_is_a_request'>is_a_request</span> <span class='op'>||</span> <span class='id identifier rubyid_is_a_request'>is_a_request</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_http_method_is_post'>http_method_is_post</span><span class='comma'>,</span>
+          <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A document cannot both belong to a post request and not belong to a request</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> 
   <span class='id identifier rubyid_is_a_request'>is_a_request</span> <span class='op'>=</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_http_method_is_post'>http_method_is_post</span>
   <span class='id identifier rubyid_check_top_level!'>check_top_level!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='id identifier rubyid_is_a_request'>is_a_request</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -2489,7 +2489,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 30 14:48:28 2020 by
+  Generated on Tue Nov  3 20:37:01 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

@@ -446,19 +446,21 @@
       <pre class="lines">
 
 
-13
-14
-15
 16
-17</pre>
+17
+18
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
+  <span class='id identifier rubyid_fieldset'>fieldset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../../Fieldset.html" title="JSONAPI::Fieldset (class)">Fieldset</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../../Fieldset.html#initialize-instance_method" title="JSONAPI::Fieldset#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_unique_hash'>unique_hash</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fields[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_resource'>resource</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_unique_hash'>unique_hash</span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='label'>resource:</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='label'>fields:</span> <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_unique_hash'>unique_hash</span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='label'>resource:</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='label'>fields:</span> <span class='id identifier rubyid_fieldset'>fieldset</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -526,15 +528,15 @@
       <pre class="lines">
 
 
-30
-31
-32</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fields'>fields</span>
-  <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -565,13 +567,13 @@
         <span class='name'>new_fields</span>
       
       
-        <span class='type'>(<tt>Array&lt;JSONAPI::Resource::Field&gt;</tt>)</span>
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="../../../Fieldset.html" title="JSONAPI::Fieldset (class)">JSONAPI::Fieldset</a></span>&gt;</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The new fields to include for a resource</p>
+<p>The new fieldset to include for a resource</p>
 </div>
       
     </li>
@@ -585,17 +587,19 @@
       <pre class="lines">
 
 
-35
-36
-37
-38</pre>
+39
+40
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fields='>fields=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_fields'>new_fields</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_fields'>new_fields</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_new_fields'>new_fields</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_new_fields'>new_fields</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
-  <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_fields'>new_fields</span>
+  <span class='id identifier rubyid_fieldset'>fieldset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../../Fieldset.html" title="JSONAPI::Fieldset (class)">Fieldset</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../../Fieldset.html#initialize-instance_method" title="JSONAPI::Fieldset#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_new_fields'>new_fields</span><span class='rparen'>)</span>
+  <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_fieldset'>fieldset</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -648,12 +652,12 @@
       <pre class="lines">
 
 
-50
-51
-52</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set the name of a Field object</span><span class='tstring_end'>&#39;</span></span>
@@ -707,12 +711,12 @@
       <pre class="lines">
 
 
-20
-21
-22</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource'>resource</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:resource</span><span class='rbracket'>]</span>
@@ -766,12 +770,12 @@
       <pre class="lines">
 
 
-25
-26
-27</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource='>resource=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_resource'>new_resource</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:resource</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_resource'>new_resource</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -825,17 +829,15 @@
       <pre class="lines">
 
 
-41
-42
-43
-44</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='id identifier rubyid_str_attr'>str_attr</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fields[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_resource'>resource</span><span class='embexpr_end'>}</span><span class='tstring_content'>] =&gt; { \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_resource'>resource</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;: \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_str_attr'>str_attr</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>,</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; }</span><span class='tstring_end'>&quot;</span></span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{ \&quot;fields\&quot;: { \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_resource'>resource</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;: \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; } }</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -868,12 +870,12 @@
       <pre class="lines">
 
 
-55
-56
-57</pre>
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Field objects do not have a value method, try #resource or #fields</span><span class='tstring_end'>&#39;</span></span>
@@ -929,12 +931,12 @@
       <pre class="lines">
 
 
-61
-62
-63</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value='>value=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set value of Field object, becausee Field does not have a value</span><span class='tstring_end'>&#39;</span></span>
@@ -949,7 +951,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 30 14:48:29 2020 by
+  Generated on Tue Nov  3 20:37:02 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

@@ -114,7 +114,7 @@
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Document/Jsonapi/JsonapiMember.html" title="JSONAPI::Document::Jsonapi::JsonapiMember (class)">Document::Jsonapi::JsonapiMember</a></span>, <span class='object_link'><a href="Document/Links/Link.html" title="JSONAPI::Document::Links::Link (class)">Document::Links::Link</a></span>, <span class='object_link'><a href="Document/Meta/MetaMember.html" title="JSONAPI::Document::Meta::MetaMember (class)">Document::Meta::MetaMember</a></span>, <span class='object_link'><a href="HeaderCollection/Header.html" title="JSONAPI::HeaderCollection::Header (class)">HeaderCollection::Header</a></span>, <span class='object_link'><a href="Request/QueryParamCollection/QueryParam.html" title="JSONAPI::Request::QueryParamCollection::QueryParam (class)">Request::QueryParamCollection::QueryParam</a></span></p>
+  <p class="children"><span class='object_link'><a href="Document/Error/ErrorMember.html" title="JSONAPI::Document::Error::ErrorMember (class)">Document::Error::ErrorMember</a></span>, <span class='object_link'><a href="Document/Jsonapi/JsonapiMember.html" title="JSONAPI::Document::Jsonapi::JsonapiMember (class)">Document::Jsonapi::JsonapiMember</a></span>, <span class='object_link'><a href="Document/Links/Link.html" title="JSONAPI::Document::Links::Link (class)">Document::Links::Link</a></span>, <span class='object_link'><a href="Document/Meta/MetaMember.html" title="JSONAPI::Document::Meta::MetaMember (class)">Document::Meta::MetaMember</a></span>, <span class='object_link'><a href="HeaderCollection/Header.html" title="JSONAPI::HeaderCollection::Header (class)">HeaderCollection::Header</a></span>, <span class='object_link'><a href="Request/QueryParamCollection/QueryParam.html" title="JSONAPI::Request::QueryParamCollection::QueryParam (class)">Request::QueryParamCollection::QueryParam</a></span></p>
 </div>
 
 
@@ -180,7 +180,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The name of the header.</p>
+<p>The name of the name-&gt;val pair.</p>
 </div></span>
   
 </li>
@@ -250,7 +250,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The value of the header.</p>
+<p>The value of the name-&gt;val pair.</p>
 </div></span>
   
 </li>
@@ -401,7 +401,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The name of the header.</p>
+<p>Returns The name of the name-&gt;val pair.</p>
 
 
   </div>
@@ -420,7 +420,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The name of the header</p>
+<p>The name of the name-&gt;val pair</p>
 </div>
       
     </li>
@@ -478,7 +478,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The new header name</p>
+<p>The new name-&gt;val pair name</p>
 </div>
       
     </li>
@@ -554,7 +554,9 @@
 54
 55
 56
-57</pre>
+57
+58
+59</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 36</span>
@@ -576,8 +578,10 @@
     <span class='id identifier rubyid_val_str'>val_str</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>]</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>when</span> <span class='const'>String</span>
     <span class='id identifier rubyid_val_str'>val_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSONAPI::NameValuePair (class)">NameValuePair</a></span></span>
+    <span class='id identifier rubyid_val_str'>val_str</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{ </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='embexpr_end'>}</span><span class='tstring_content'> }</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>NameValuePair to_s was not array or string</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_val_str'>val_str</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
   <span class='kw'>end</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_val_str'>val_str</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
@@ -598,7 +602,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The value of the header.</p>
+<p>Returns The value of the name-&gt;val pair.</p>
 
 
   </div>
@@ -617,7 +621,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The value of the header</p>
+<p>The value of the name-&gt;val pair</p>
 </div>
       
     </li>
@@ -675,7 +679,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The header value</p>
+<p>The name-&gt;val pair value</p>
 </div>
       
     </li>
@@ -709,7 +713,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 30 14:48:28 2020 by
+  Generated on Tue Nov  3 20:37:02 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>
