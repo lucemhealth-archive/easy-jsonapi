@@ -99,17 +99,14 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi.rb<span class="defines">,<br />
-  lib/rack/jsonapi/collection.rb</span>
-</dd>
+    <dd>lib/rack/jsonapi/collection.rb</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Models a collection of items</p>
+    <p>Models a collection of items</p>
 
 
   </div>
@@ -121,16 +118,6 @@
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></p>
 </div>
-<h2>Defined Under Namespace</h2>
-<p class="children">
-  
-    
-  
-    
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Collection/HeaderCollection.html" title="JSONAPI::Collection::HeaderCollection (class)">HeaderCollection</a></span>, <span class='object_link'><a href="Collection/QueryParamCollection.html" title="JSONAPI::Collection::QueryParamCollection (class)">QueryParamCollection</a></span>
-    
-  
-</p>
 
 
 
@@ -185,8 +172,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Yield the block given on all the items in the collection.</p>
+    <span class="summary_desc"><div class='inline'><p>Yield the block given on all the items in the collection.</p>
 </div></span>
   
 </li>
@@ -209,8 +195,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Checks to see if the collection is empty.</p>
+    <span class="summary_desc"><div class='inline'><p>Checks to see if the collection is empty.</p>
 </div></span>
   
 </li>
@@ -233,8 +218,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The appropriate Item objet if it exists.</p>
+    <span class="summary_desc"><div class='inline'><p>The appropriate Item objet if it exists.</p>
 </div></span>
   
 </li>
@@ -257,8 +241,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Does the collection&#39;s internal hash include this key?.</p>
+    <span class="summary_desc"><div class='inline'><p>Does the collection&#39;s internal hash include this key?.</p>
 </div></span>
   
 </li>
@@ -283,8 +266,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Assume collection is empty not innitialized with an array of objects.</p>
+    <span class="summary_desc"><div class='inline'><p>Assume collection is empty not innitialized with an array of objects.</p>
 </div></span>
   
 </li>
@@ -307,8 +289,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Adds an item to Collection&#39;s internal hash.</p>
+    <span class="summary_desc"><div class='inline'><p>Adds an item to Collection&#39;s internal hash.</p>
 </div></span>
   
 </li>
@@ -331,8 +312,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Allows the developer to treat the Collection class as a hash, retrieving all keys mapped to Items.</p>
+    <span class="summary_desc"><div class='inline'><p>Allows the developer to treat the Collection class as a hash, retrieving all keys mapped to Items.</p>
 </div></span>
   
 </li>
@@ -355,8 +335,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Remove an item from the collection.</p>
+    <span class="summary_desc"><div class='inline'><p>Remove an item from the collection.</p>
 </div></span>
   
 </li>
@@ -379,8 +358,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Overwrites the item associated w a given key, or adds an association if no item is already associated.</p>
+    <span class="summary_desc"><div class='inline'><p>Overwrites the item associated w a given key, or adds an association if no item is already associated.</p>
 </div></span>
   
 </li>
@@ -403,8 +381,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The number of items in the collection.</p>
+    <span class="summary_desc"><div class='inline'><p>The number of items in the collection.</p>
 </div></span>
   
 </li>
@@ -427,8 +404,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Used to print out the Collection object with better formatting return [String] The collection object contents represented as a formatted string.</p>
+    <span class="summary_desc"><div class='inline'><p>Used to print out the Collection object with better formatting return [String] The collection object contents represented as a formatted string.</p>
 </div></span>
   
 </li>
@@ -452,8 +428,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Assume collection is empty not innitialized with an array of objects. for block { |item| <a href=":name">item</a> }</p>
+    <p>Assume collection is empty not innitialized with an array of objects.
+for block { |item| item[:name] }</p>
 
 
   </div>
@@ -474,8 +450,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The objects to be stored</p>
+        <div class='inline'><p>The objects to be stored</p>
 </div>
       
     </li>
@@ -493,8 +468,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Determines what should be used as keys when storing objects in collection&#39;s internal hash</p>
+        <div class='inline'><p>Determines what should be used as keys when storing objects in collection&#39;s internal hash</p>
 </div>
       
     </li>
@@ -582,8 +556,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Yield the block given on all the items in the collection</p>
+    <p>Yield the block given on all the items in the collection</p>
 
 
   </div>
@@ -625,8 +598,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Checks to see if the collection is empty</p>
+    <p>Checks to see if the collection is empty</p>
 
 
   </div>
@@ -679,8 +651,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns The appropriate Item objet if it exists.</p>
+    <p>Returns The appropriate Item objet if it exists.</p>
 
 
   </div>
@@ -698,8 +669,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The appropriate Item objet if it exists</p>
+        <div class='inline'><p>The appropriate Item objet if it exists</p>
 </div>
       
     </li>
@@ -740,8 +710,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Does the collection&#39;s internal hash include this key?</p>
+    <p>Does the collection&#39;s internal hash include this key?</p>
 
 
   </div>
@@ -760,8 +729,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The key to search for in the hash</p>
+        <div class='inline'><p>The key to search for in the hash</p>
 </div>
       
     </li>
@@ -816,8 +784,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Adds an item to Collection&#39;s internal hash</p>
+    <p>Adds an item to Collection&#39;s internal hash</p>
 
 
   </div>
@@ -867,8 +834,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Allows the developer to treat the Collection class as a hash, retrieving all keys mapped to Items.</p>
+    <p>Allows the developer to treat the Collection class as a hash, retrieving all keys mapped to Items.</p>
 
 
   </div>
@@ -886,8 +852,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>An array of all the item keys stored in the Collection object.</p>
+        <div class='inline'><p>An array of all the item keys stored in the Collection object.</p>
 </div>
       
     </li>
@@ -926,8 +891,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Remove an item from the collection</p>
+    <p>Remove an item from the collection</p>
 
 
   </div>
@@ -945,8 +909,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the deleted item object if it exists</p>
+        <div class='inline'><p>the deleted item object if it exists</p>
 </div>
       
     </li>
@@ -989,8 +952,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Overwrites the item associated w a given key, or adds an association if no item is already associated.</p>
+    <p>Overwrites the item associated w a given key, or adds an association if no item is already associated.</p>
 
 
   </div>
@@ -1032,8 +994,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns The number of items in the collection.</p>
+    <p>Returns The number of items in the collection.</p>
 
 
   </div>
@@ -1051,8 +1012,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The number of items in the collection</p>
+        <div class='inline'><p>The number of items in the collection</p>
 </div>
       
     </li>
@@ -1091,8 +1051,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Used to print out the Collection object with better formatting return [String] The collection object contents represented as a formatted string</p>
+    <p>Used to print out the Collection object with better formatting
+return [String] The collection object contents represented as a formatted string</p>
 
 
   </div>
@@ -1146,7 +1106,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  3 20:37:01 2020 by
+  Generated on Tue Nov  3 21:30:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

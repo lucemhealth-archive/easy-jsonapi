@@ -94,17 +94,14 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi.rb<span class="defines">,<br />
-  lib/rack/jsonapi/item.rb</span>
-</dd>
+    <dd>lib/rack/jsonapi/item.rb</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Models a Item&#39;s key -&gt; value relationship</p>
+    <p>Models a Item&#39;s key -&gt; value relationship</p>
 
 
   </div>
@@ -116,16 +113,6 @@
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="Document/Resource/Field.html" title="JSONAPI::Document::Resource::Field (class)">Document::Resource::Field</a></span>, <span class='object_link'><a href="NameValuePair.html" title="JSONAPI::NameValuePair (class)">NameValuePair</a></span></p>
 </div>
-<h2>Defined Under Namespace</h2>
-<p class="children">
-  
-    
-  
-    
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Item/QueryParam.html" title="JSONAPI::Item::QueryParam (class)">QueryParam</a></span>
-    
-  
-</p>
 
 
 
@@ -153,8 +140,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The value of an Item.</p>
+    <span class="summary_desc"><div class='inline'><p>The value of an Item.</p>
 </div></span>
   
 </li>
@@ -192,8 +178,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Able to take a hash and dynamically create instance variables using the hash keys   Ex: obj == { :name =&gt; &#39;fields&#39;, :value =&gt; =&gt; &#39;title,body,author&#39;, &#39;people&#39; =&gt; &#39;name&#39; }.</p>
+    <span class="summary_desc"><div class='inline'><p>Able to take a hash and dynamically create instance variables using the hash keys   Ex: obj == { :name =&gt; &#39;fields&#39;, :value =&gt; =&gt; &#39;title,body,author&#39;, &#39;people&#39; =&gt; &#39;name&#39; }.</p>
 </div></span>
   
 </li>
@@ -216,8 +201,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Only used if implementing Item directly.</p>
+    <span class="summary_desc"><div class='inline'><p>Only used if implementing Item directly.</p>
 </div></span>
   
 </li>
@@ -240,8 +224,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Needed when using #method_missing.</p>
+    <span class="summary_desc"><div class='inline'><p>Needed when using #method_missing.</p>
 </div></span>
   
 </li>
@@ -264,8 +247,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A special to string method if @item is a hash.</p>
+    <span class="summary_desc"><div class='inline'><p>A special to string method if @item is a hash.</p>
 </div></span>
   
 </li>
@@ -288,11 +270,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Able to take a hash and dynamically create instance variables using the hash keys</p>
-
-<pre class="code ruby"><code class="ruby">Ex: obj == { :name =&gt; &#39;fields&#39;, :value =&gt; {&#39;articles&#39; =&gt; &#39;title,body,author&#39;, &#39;people&#39; =&gt; &#39;name&#39; }}
-</code></pre>
+    <p>Able to take a hash and dynamically create instance variables using the hash keys
+  Ex: obj == { :name =&gt; &#39;fields&#39;, :value =&gt; =&gt; &#39;title,body,author&#39;, &#39;people&#39; =&gt; &#39;name&#39; }</p>
 
 
   </div>
@@ -311,8 +290,8 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Can be anything, but if a hash is provided, dynamic instance variable can be created upon trying to access them.</p>
+        <div class='inline'><p>Can be anything, but if a hash is provided, dynamic instance variable can be created
+upon trying to access them.</p>
 </div>
       
     </li>
@@ -366,12 +345,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Only used if implementing Item directly.</p>
-
-<pre class="code ruby"><code class="ruby">dynamically creates accessor methods for instance variables
-created in the initialize
-</code></pre>
+    <p>Only used if implementing Item directly.
+  dynamically creates accessor methods for instance variables
+  created in the initialize</p>
 
 
   </div>
@@ -434,8 +410,7 @@ created in the initialize
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of an Item.</p>
+    <p>Returns the value of an Item.</p>
 
 
   </div>
@@ -453,8 +428,7 @@ created in the initialize
       
       
         
-        <div class='inline'>
-<p>the value of an Item</p>
+        <div class='inline'><p>the value of an Item</p>
 </div>
       
     </li>
@@ -500,8 +474,7 @@ created in the initialize
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Needed when using #method_missing</p>
+    <p>Needed when using #method_missing</p>
 
 
   </div>
@@ -554,8 +527,7 @@ created in the initialize
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>A special to string method if @item is a hash.</p>
+    <p>A special to string method if @item is a hash.</p>
 
 
   </div>
@@ -611,7 +583,7 @@ created in the initialize
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  3 20:37:01 2020 by
+  Generated on Tue Nov  3 21:30:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

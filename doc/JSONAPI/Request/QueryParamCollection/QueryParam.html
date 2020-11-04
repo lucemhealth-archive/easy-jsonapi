@@ -107,8 +107,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>A generic name-&gt;value query parameter</p>
+    <p>A generic name-&gt;value query parameter</p>
 
 
   </div>
@@ -169,8 +168,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of QueryParam.</p>
+    <span class="summary_desc"><div class='inline'><p>A new instance of QueryParam.</p>
 </div></span>
   
 </li>
@@ -193,8 +191,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Represents a parameter as a string.</p>
+    <span class="summary_desc"><div class='inline'><p>Represents a parameter as a string.</p>
 </div></span>
   
 </li>
@@ -217,8 +214,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Update the query_param value, turning value into an array if it was given as a string.</p>
+    <span class="summary_desc"><div class='inline'><p>Update the query_param value, turning value into an array if it was given as a string.</p>
 </div></span>
   
 </li>
@@ -255,7 +251,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(name, value)  &#x21d2; <tt><span class='object_link'><a href="../../Item/QueryParam.html" title="JSONAPI::Item::QueryParam (class)">QueryParam</a></span></tt> 
+    #<strong>initialize</strong>(name, value)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Request::QueryParamCollection::QueryParam (class)">QueryParam</a></span></tt> 
   
 
   
@@ -263,8 +259,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of QueryParam.</p>
+    <p>Returns a new instance of QueryParam.</p>
 
 
   </div>
@@ -283,8 +278,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The name of the parameter</p>
+        <div class='inline'><p>The name of the parameter</p>
 </div>
       
     </li>
@@ -299,8 +293,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The value of the parameter</p>
+        <div class='inline'><p>The value of the parameter</p>
 </div>
       
     </li>
@@ -326,7 +319,7 @@
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../../Item/QueryParam.html" title="JSONAPI::Item::QueryParam (class)">QueryParam</a></span></span>
+  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="" title="JSONAPI::Request::QueryParamCollection::QueryParam (class)">QueryParam</a></span></span>
     <span class='const'><span class='object_link'><a href="../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Exceptions.html" title="JSONAPI::Exceptions (module)">Exceptions</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Exceptions/QueryParamsExceptions.html" title="JSONAPI::Exceptions::QueryParamsExceptions (module)">QueryParamsExceptions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_check_param_name!'><span class='object_link'><a href="../../Exceptions/QueryParamsExceptions.html#check_param_name!-class_method" title="JSONAPI::Exceptions::QueryParamsExceptions.check_param_name! (method)">check_param_name!</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>,</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
@@ -365,8 +358,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Represents a parameter as a string</p>
+    <p>Represents a parameter as a string</p>
 
 
   </div>
@@ -408,8 +400,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Update the query_param value, turning value into an array if it was given as a string</p>
+    <p>Update the query_param value, turning value into an array if it was given as a string</p>
 
 
   </div>
@@ -428,8 +419,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The new value of the Parameter</p>
+        <div class='inline'><p>The new value of the Parameter</p>
 </div>
       
     </li>
@@ -465,7 +455,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  3 20:37:02 2020 by
+  Generated on Tue Nov  3 21:30:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>
