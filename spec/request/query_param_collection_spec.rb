@@ -20,7 +20,7 @@ describe JSONAPI::Request::QueryParamCollection do
     [
       JSONAPI::Request::QueryParamCollection::IncludeParam.new('author'),
       JSONAPI::Request::QueryParamCollection::IncludeParam.new('comments.likes'),
-      JSONAPI::Request::QueryParamCollection::FieldParam.new(
+      JSONAPI::Request::QueryParamCollection::FieldsParam.new(
         'articles', 
         [
           JSONAPI::Document::Resource::Field.new('title'), 
@@ -28,7 +28,7 @@ describe JSONAPI::Request::QueryParamCollection do
           JSONAPI::Document::Resource::Field.new('author')
         ]
       ),
-      JSONAPI::Request::QueryParamCollection::FieldParam.new(
+      JSONAPI::Request::QueryParamCollection::FieldsParam.new(
         'people', 
         [
           JSONAPI::Document::Resource::Field.new('name')
@@ -92,7 +92,7 @@ describe JSONAPI::Request::QueryParamCollection do
       expect(pages.class).to eq JSONAPI::Request::QueryParamCollection
       expect(sorts.class).to eq JSONAPI::Request::QueryParamCollection
       
-      expect(only_includes(fields, JSONAPI::Request::QueryParamCollection::FieldParam)).to eq true
+      expect(only_includes(fields, JSONAPI::Request::QueryParamCollection::FieldsParam)).to eq true
       expect(only_includes(filters, JSONAPI::Request::QueryParamCollection::Filter)).to eq true
       expect(only_includes(includes, JSONAPI::Request::QueryParamCollection::Include)).to eq true
       expect(only_includes(pages, JSONAPI::Request::QueryParamCollection::Page)).to eq true

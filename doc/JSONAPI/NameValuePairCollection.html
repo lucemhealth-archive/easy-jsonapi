@@ -6,7 +6,7 @@
 <title>
   Class: JSONAPI::NameValuePairCollection
   
-    &mdash; YARD 0.9.25 Documentation
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
@@ -103,7 +103,8 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>The attributes of a resource</p>
+    
+<p>Collection of Items that all have names and values.</p>
 
 
   </div>
@@ -113,7 +114,7 @@
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Document/Error.html" title="JSONAPI::Document::Error (class)">Document::Error</a></span>, <span class='object_link'><a href="Document/Jsonapi.html" title="JSONAPI::Document::Jsonapi (class)">Document::Jsonapi</a></span>, <span class='object_link'><a href="Document/Links.html" title="JSONAPI::Document::Links (class)">Document::Links</a></span>, <span class='object_link'><a href="Document/Meta.html" title="JSONAPI::Document::Meta (class)">Document::Meta</a></span>, <span class='object_link'><a href="Document/Resource/Attributes.html" title="JSONAPI::Document::Resource::Attributes (class)">Document::Resource::Attributes</a></span>, <span class='object_link'><a href="Document/Resource/Relationships.html" title="JSONAPI::Document::Resource::Relationships (class)">Document::Resource::Relationships</a></span>, <span class='object_link'><a href="Fieldset.html" title="JSONAPI::Fieldset (class)">Fieldset</a></span>, <span class='object_link'><a href="HeaderCollection.html" title="JSONAPI::HeaderCollection (class)">HeaderCollection</a></span>, <span class='object_link'><a href="Request/QueryParamCollection.html" title="JSONAPI::Request::QueryParamCollection (class)">Request::QueryParamCollection</a></span></p>
+  <p class="children"><span class='object_link'><a href="Document/Error.html" title="JSONAPI::Document::Error (class)">Document::Error</a></span>, <span class='object_link'><a href="Document/Jsonapi.html" title="JSONAPI::Document::Jsonapi (class)">Document::Jsonapi</a></span>, <span class='object_link'><a href="Document/Links.html" title="JSONAPI::Document::Links (class)">Document::Links</a></span>, <span class='object_link'><a href="Document/Meta.html" title="JSONAPI::Document::Meta (class)">Document::Meta</a></span>, <span class='object_link'><a href="Document/Resource/Attributes.html" title="JSONAPI::Document::Resource::Attributes (class)">Document::Resource::Attributes</a></span>, <span class='object_link'><a href="Document/Resource/Relationships.html" title="JSONAPI::Document::Resource::Relationships (class)">Document::Resource::Relationships</a></span>, <span class='object_link'><a href="HeaderCollection.html" title="JSONAPI::HeaderCollection (class)">HeaderCollection</a></span>, <span class='object_link'><a href="Request/QueryParamCollection.html" title="JSONAPI::Request::QueryParamCollection (class)">Request::QueryParamCollection</a></span></p>
 </div>
 
 
@@ -147,7 +148,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Another way to add a query_param.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Another way to add a query_param.</p>
 </div></span>
   
 </li>
@@ -170,7 +172,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><h1 id="empyt-provided-by-super-include-provided-by-super">empyt? provided by super #include provided by super.</h1>
+    <span class="summary_desc"><div class='inline'>
+<p>#empyt? provided by super #include provided by super.</p>
 </div></span>
   
 </li>
@@ -195,7 +198,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates an empty collection by default.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Creates an empty collection by default.</p>
 </div></span>
   
 </li>
@@ -218,7 +222,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><h1 id="each-provided-from-super-remove-provided-from-super-get-provided-by-super-keys-provided-by-super-size-provided-by-super">each provided from super #remove provided from super #get provided by super #keys provided by super #size provided by super.</h1>
+    <span class="summary_desc"><div class='inline'>
+<p>#each provided from super #remove provided from super #get provided by super #keys provided by super #size provided by super.</p>
 </div></span>
   
 </li>
@@ -253,7 +258,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Creates an empty collection by default</p>
+    
+<p>Creates an empty collection by default</p>
 
 
   </div>
@@ -274,7 +280,8 @@
       
       
         &mdash;
-        <div class='inline'><p>The pairs to be initialized with.</p>
+        <div class='inline'>
+<p>The pairs to be initialized with.</p>
 </div>
       
     </li>
@@ -288,17 +295,15 @@
       <pre class="lines">
 
 
-12
-13
 14
-15</pre>
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_pair_arr'>pair_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_class_type'>class_type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NameValuePair.html" title="JSONAPI::NameValuePair (class)">NameValuePair</a></span></span><span class='rparen'>)</span>
-  <span class='ivar'>@class_type</span> <span class='op'>=</span> <span class='id identifier rubyid_class_type'>class_type</span> 
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_pair_arr'>pair_arr</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_pair_arr'>pair_arr</span><span class='comma'>,</span> <span class='id identifier rubyid_class_type'>class_type</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -323,7 +328,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Another way to add a query_param</p>
+    
+<p>Another way to add a query_param</p>
 
 
   </div>
@@ -363,9 +369,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <h1 id="empyt-provided-by-super">empyt? provided by super</h1>
-
-<h1 id="include-provided-by-super">include provided by super</h1>
+    
+<p>#empyt? provided by super #include provided by super</p>
 
 
   </div>
@@ -379,16 +384,14 @@
       <pre class="lines">
 
 
-20
 21
 22
 23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_pair'>pair</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot add an item that is not </span><span class='embexpr_beg'>#{</span><span class='ivar'>@class_type</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_pair'>pair</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='ivar'>@class_type</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_pair'>pair</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -407,15 +410,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <h1 id="each-provided-from-super">each provided from super</h1>
-
-<h1 id="remove-provided-from-super">remove provided from super</h1>
-
-<h1 id="get-provided-by-super">get provided by super</h1>
-
-<h1 id="keys-provided-by-super">keys provided by super</h1>
-
-<h1 id="size-provided-by-super">size provided by super</h1>
+    
+<p>#each provided from super #remove provided from super #get provided by super #keys provided by super #size provided by super</p>
 
 
   </div>
@@ -431,33 +427,13 @@
 
 37
 38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49</pre>
+39</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{ </span><span class='tstring_end'>&#39;</span></span>
-  <span class='id identifier rubyid_is_first'>is_first</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pair'>pair</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_is_first'>is_first</span>
-      <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='id identifier rubyid_pair'>pair</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-      <span class='id identifier rubyid_is_first'>is_first</span> <span class='op'>=</span> <span class='kw'>false</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pair'>pair</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id identifier rubyid_to_return'>to_return</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> }</span><span class='tstring_end'>&#39;</span></span>
+  <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Utility.html" title="JSONAPI::Utility (module)">Utility</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_string_collection'><span class='object_link'><a href="Utility.html#to_string_collection-class_method" title="JSONAPI::Utility.to_string_collection (method)">to_string_collection</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>pre_string:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{ </span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>post_string:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> }</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -469,7 +445,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov  6 15:35:11 2020 by
+  Generated on Mon Nov 16 13:32:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

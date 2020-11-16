@@ -63,7 +63,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
     end
 
     it 'should contain proper classes for each item in the param collection' do
-      expect(pc.get(:'fields').class).to be JSONAPI::Request::QueryParamCollection::FieldParam
+      expect(pc.get(:'fields').class).to be JSONAPI::Request::QueryParamCollection::FieldsParam
       expect(pc.get(:'include').class).to be JSONAPI::Request::QueryParamCollection::IncludeParam
       expect(pc.get(:josh_ua).class).to be JSONAPI::Request::QueryParamCollection::QueryParam
       expect(pc.get(:page).class).to be JSONAPI::Request::QueryParamCollection::PageParam

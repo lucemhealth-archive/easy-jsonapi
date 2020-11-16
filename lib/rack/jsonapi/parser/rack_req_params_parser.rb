@@ -5,11 +5,16 @@ require 'rack/jsonapi/exceptions/query_params_exceptions'
 require 'rack/jsonapi/request/query_param_collection'
 
 require 'rack/jsonapi/request/query_param_collection/query_param'
+
 require 'rack/jsonapi/request/query_param_collection/filter_param'
+require 'rack/jsonapi/request/query_param_collection/filter_param/filter'
+
 require 'rack/jsonapi/request/query_param_collection/include_param'
 require 'rack/jsonapi/request/query_param_collection/page_param'
 require 'rack/jsonapi/request/query_param_collection/sort_param'
-require 'rack/jsonapi/request/query_param_collection/filter_param'
+
+require 'rack/jsonapi/request/query_param_collection/fields_param'
+require 'rack/jsonapi/request/query_param_collection/fields_param/fieldset'
 
 require 'rack/jsonapi/document/resource/field'
 
@@ -25,11 +30,12 @@ module JSONAPI
         
         # rack::request.params: (string keys)
         # {
-        #   "include"=>"author,comments.author",
-        #   "fields"=>{"articles"=>"title,body,author", "people"=>"name"},
-        #   "josh_ua"=>"demoss,simpson",
-        #   "page"=>{"offset"=>"1", "limit"=>"1"},
-        #   "filter"=>{"comments"=>"(author/age > 21)", "users"=>"(age < 15)"}
+        #   'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
+        #   'include' => 'author,comments-likers,comments.users',
+        #   'josh_ua' => 'demoss,simpson',
+        #   'page' => { 'offset' => '5', 'limit' => '20' },
+        #   'filter' => { 'comments' => '(author/age > 21)', 'users' => '(age < 15)' },
+        #   'sort' => 'age,title'
         # }
 
         query_param_collection = JSONAPI::Request::QueryParamCollection.new
@@ -40,7 +46,7 @@ module JSONAPI
       end
 
       def self.add_the_param(name, value, query_param_collection)
-        case key
+        case name
         when 'include'
           query_param_collection.add(parse_include_param(value))
         when 'fields'
@@ -66,7 +72,7 @@ module JSONAPI
         value.each do |res_type, res_field_str|
           res_field_str_arr = res_field_str.split(',')
           res_field_arr = res_field_str_arr.map { |res_field| JSONAPI::Document::Resource::Field.new(res_field) }
-          fieldsets << JSONAPI::Request::QueryParamCollection::FieldParam::Fieldset.new(res_type, res_field_arr)
+          fieldsets << JSONAPI::Request::QueryParamCollection::FieldsParam::Fieldset.new(res_type, res_field_arr)
         end
         JSONAPI::Request::QueryParamCollection::FieldsParam.new(fieldsets)
       end
@@ -77,11 +83,14 @@ module JSONAPI
       end
 
       def self.parse_page_param(value)
-        JSONAPI::Request::QueryParamCollection::PageParam.new(value[:offset], value[:limit])
+        JSONAPI::Request::QueryParamCollection::PageParam.new(offset: value[:offset], limit: value[:limit])
       end
 
       def self.parse_filter_param(value)
-        filter_arr = value.split(',').map { |filter| JSONAPI::Request::QueryParamCollection::FilterParam::Filter.new(filter) }
+        
+        filter_arr = value.map do |res_name, filter|
+          JSONAPI::Request::QueryParamCollection::FilterParam::Filter.new(res_name, filter)
+        end
         JSONAPI::Request::QueryParamCollection::FilterParam.new(filter_arr)
       end
 

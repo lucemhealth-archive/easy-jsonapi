@@ -6,7 +6,7 @@
 <title>
   Class: JSONAPI::NameValuePair
   
-    &mdash; YARD 0.9.25 Documentation
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
@@ -103,7 +103,8 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>A generic name-&gt;value query pair</p>
+    
+<p>A generic name-&gt;value query pair</p>
 
 
   </div>
@@ -154,7 +155,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of NameValuePair.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of NameValuePair.</p>
 </div></span>
   
 </li>
@@ -177,7 +179,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The name of the name-&gt;val pair.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the name-&gt;val pair.</p>
 </div></span>
   
 </li>
@@ -186,7 +189,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(new_name)  &#x21d2; Object </a>
+      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(_)  &#x21d2; Object </a>
     
 
     
@@ -222,7 +225,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Represents a pair as a string.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>Represents a pair as a string.</p>
 </div></span>
   
 </li>
@@ -245,7 +249,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The value of the name-&gt;val pair.</p>
+    <span class="summary_desc"><div class='inline'>
+<p>The value of the name-&gt;val pair.</p>
 </div></span>
   
 </li>
@@ -301,7 +306,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of NameValuePair.</p>
+    
+<p>Returns a new instance of NameValuePair.</p>
 
 
   </div>
@@ -320,7 +326,8 @@
       
       
         &mdash;
-        <div class='inline'><p>The name of the pair</p>
+        <div class='inline'>
+<p>The name of the pair</p>
 </div>
       
     </li>
@@ -335,7 +342,8 @@
       
       
         &mdash;
-        <div class='inline'><p>The value of the pair</p>
+        <div class='inline'>
+<p>The value of the pair</p>
 </div>
       
     </li>
@@ -392,7 +400,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns The name of the name-&gt;val pair.</p>
+    
+<p>Returns The name of the name-&gt;val pair.</p>
 
 
   </div>
@@ -410,7 +419,8 @@
       
       
         &mdash;
-        <div class='inline'><p>The name of the name-&gt;val pair</p>
+        <div class='inline'>
+<p>The name of the name-&gt;val pair</p>
 </div>
       
     </li>
@@ -441,7 +451,7 @@
       <div class="method_details ">
   <h3 class="signature " id="name=-instance_method">
   
-    #<strong>name=</strong>(new_name)  &#x21d2; <tt>Object</tt> 
+    #<strong>name=</strong>(_)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -454,26 +464,25 @@
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
   
     <li>
       
-        <span class='name'>new_name</span>
       
-      
-        <span class='type'>(<tt>String | Symbol</tt>)</span>
+        <span class='type'></span>
       
       
       
-        &mdash;
-        <div class='inline'><p>The new name-&gt;val pair name</p>
+        
+        <div class='inline'>
+<p>RunTimeError You shouldn&#39;t be able to update the name of a NameValuePair</p>
 </div>
       
     </li>
   
 </ul>
-
 
 </div><table class="source_code">
   <tr>
@@ -481,15 +490,15 @@
       <pre class="lines">
 
 
-21
 22
-23</pre>
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 22</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_name'>new_name</span><span class='rparen'>)</span>
-  <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_name'>new_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot change the name of NameValuePair Objects</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -507,7 +516,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Represents a pair as a string</p>
+    
+<p>Represents a pair as a string</p>
 
 
   </div>
@@ -521,7 +531,6 @@
       <pre class="lines">
 
 
-36
 37
 38
 39
@@ -544,10 +553,11 @@
 56
 57
 58
-59</pre>
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
@@ -589,7 +599,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns The value of the name-&gt;val pair.</p>
+    
+<p>Returns The value of the name-&gt;val pair.</p>
 
 
   </div>
@@ -607,7 +618,8 @@
       
       
         &mdash;
-        <div class='inline'><p>The value of the name-&gt;val pair</p>
+        <div class='inline'>
+<p>The value of the name-&gt;val pair</p>
 </div>
       
     </li>
@@ -620,12 +632,12 @@
       <pre class="lines">
 
 
-26
 27
-28</pre>
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
@@ -664,7 +676,8 @@
       
       
         &mdash;
-        <div class='inline'><p>The name-&gt;val pair value</p>
+        <div class='inline'>
+<p>The name-&gt;val pair value</p>
 </div>
       
     </li>
@@ -678,12 +691,12 @@
       <pre class="lines">
 
 
-31
 32
-33</pre>
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value='>value=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_value'>new_value</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_value'>new_value</span>
@@ -698,7 +711,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov  6 15:35:11 2020 by
+  Generated on Mon Nov 16 13:32:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

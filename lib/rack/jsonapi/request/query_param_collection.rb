@@ -8,8 +8,8 @@ module JSONAPI
     class QueryParamCollection < JSONAPI::NameValuePairCollection
 
       def initialize(param_arr = [])
-        @included_param_names = []
-        super(param_arr, JSONAPI::Request::QueryParamCollection::QueryParam)
+        @param_names = []
+        super(param_arr, item_type: JSONAPI::Request::QueryParamCollection::QueryParam)
       end
   
       # #empyt? provided by super class
@@ -18,7 +18,7 @@ module JSONAPI
       # @param query_param [JSONAPI::Request::QueryParamCollection::QueryParam] The query_param or query_param subclass to add.
       def add(query_param)
         p_name = query_param.name
-        @param_names << p_name unless @param_types.include?(p_name)
+        @param_names << p_name unless @param_names.include?(p_name)
         super(query_param)
       end
   
@@ -38,14 +38,14 @@ module JSONAPI
       # @param args If any arguments were passed to the method called
       # @param block If a block was passed to the method called
       def method_missing(method_name, *args, &block)
-        super unless @param_types.include?(method_name.to_s)
+        super unless @param_names.include?(method_name.to_s)
         get(method_name)
       end
   
       # Whether or not method missing should be called.
       # TODO: look into why this works lol
       def respond_to_missing?(method_name, *)
-        @param_types.include?(method_name) || super
+        @param_names.include?(method_name) || super
       end
 
     end

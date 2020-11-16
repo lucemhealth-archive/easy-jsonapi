@@ -11,8 +11,8 @@ module JSONAPI
     # @param arr_of_obj [Object] The objects to be stored
     # for block { |item| item[:name] } 
     # @yield [item] Determines what should be used as keys when storing objects in collection's internal hash
-    def initialize(arr_of_obj = [], class_type: Object, &block)
-      @class_type = class_type
+    def initialize(arr_of_obj = [], item_type: Object, &block)
+      @item_type = item_type
       @collection = {}
       
       return unless (arr_of_obj != []) && block_given?
@@ -47,7 +47,7 @@ module JSONAPI
     # @param item [Object]
     def add(item, &block)
       raise 'a block must be passed to #add indicating what should be used as a key' unless block_given?
-      raise "Cannot add an item that is not #{@class_type}" unless item.is_a? @class_type
+      raise "Cannot add an item that is not #{@item_type}" unless item.is_a? @item_type
       insert(block.call(item), item)
     end
 

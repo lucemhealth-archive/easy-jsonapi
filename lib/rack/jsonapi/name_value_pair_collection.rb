@@ -11,8 +11,8 @@ module JSONAPI
 
     # Creates an empty collection by default
     # @param pair_arr [Array<JSONAPI::NameValuePair>] The pairs to be initialized with.
-    def initialize(pair_arr = [], class_type = JSONAPI::NameValuePair)
-      super(pair_arr, class_type, &:name)
+    def initialize(pair_arr = [], item_type: JSONAPI::NameValuePair)
+      super(pair_arr, item_type: item_type, &:name)
     end
 
     # #empyt? provided by super
