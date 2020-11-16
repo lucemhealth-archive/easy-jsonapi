@@ -20,7 +20,7 @@ module JSONAPI
     # @raise RunTimeError You shouldn't be able to update the name of a
     #   NameValuePair
     def name=(_)
-      raise 'Cannot update the name of a Name Value Pair'
+      raise 'Cannot change the name of NameValuePair Objects'
     end
 
     # @return [String] The value of the name->val pair

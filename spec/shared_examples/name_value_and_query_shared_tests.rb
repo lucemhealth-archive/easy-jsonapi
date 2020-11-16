@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-shared_examples 'name value pair classes' do
+shared_examples 'name value and query shared tests' do
   context '#initialize' do
     it 'should inherit methods and variables of the super class' do
       expect(pair.is_a?(JSONAPI::Item)).to be true

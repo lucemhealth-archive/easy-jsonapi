@@ -4,7 +4,7 @@ require 'rack/jsonapi/request/query_param_collection/fields_param'
 require 'rack/jsonapi/request/query_param_collection/fields_param/fieldset'
 require 'rack/jsonapi/document/resource/field'
 
-require 'shared_examples/name_value_pair_classes_tests'
+require 'shared_examples/query_param_tests'
 
 describe JSONAPI::Request::QueryParamCollection::FieldsParam do
 
@@ -29,13 +29,12 @@ describe JSONAPI::Request::QueryParamCollection::FieldsParam do
   let(:fieldset3) { JSONAPI::Request::QueryParamCollection::FieldsParam::Fieldset.new('comments', res_field) }
 
 
-  it_behaves_like 'name value pair classes' do
+  it_behaves_like 'query param tests' do
     let(:pair) { JSONAPI::Request::QueryParamCollection::FieldsParam.new([fieldset1, fieldset2]) }
     let(:name) { 'fields' }
     let(:value) { [fieldset1, fieldset2] }
     let(:new_value_input) { fieldset3 }
     let(:new_value) { [fieldset3] }
     let(:to_str_orig) { 'fields[articles]=title,body&fields[people]=name' }
-    let(:name_error_msg) { 'Cannot change the name of a QueryParam class' }
   end
 end

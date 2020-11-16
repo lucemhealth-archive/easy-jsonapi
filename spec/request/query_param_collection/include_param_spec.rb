@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/request/query_param_collection/include_param'
-require 'shared_examples/name_value_pair_classes_tests'
+require 'shared_examples/query_param_tests'
 
 describe JSONAPI::Request::QueryParamCollection::IncludeParam do
   
@@ -90,7 +90,7 @@ describe JSONAPI::Request::QueryParamCollection::IncludeParam do
   end
 
 
-  it_behaves_like 'name value pair classes' do
+  it_behaves_like 'query param tests' do
     let(:pair) { i1 }
     let(:name) { 'include' }
     let(:value) { value1 }
@@ -99,6 +99,5 @@ describe JSONAPI::Request::QueryParamCollection::IncludeParam do
     to_string = 'include=author,comments-likers.children,comments-author-children,' \
                 'sources-publisher.ceo-children'
     let(:to_str_orig) { to_string }
-    let(:name_error_msg) { 'Cannot change the name of a QueryParam class' }
   end
 end

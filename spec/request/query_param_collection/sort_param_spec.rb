@@ -2,11 +2,11 @@
 
 require 'rack/jsonapi/request/query_param_collection/sort_param'
 require 'rack/jsonapi/document/resource/field'
-require 'shared_examples/name_value_pair_classes_tests'
+require 'shared_examples/query_param_tests'
 
 describe JSONAPI::Request::QueryParamCollection::SortParam do
   
-  it_behaves_like 'name value pair classes' do
+  it_behaves_like 'query param tests' do
     res_field1 = JSONAPI::Document::Resource::Field.new('age')
     res_field2 = JSONAPI::Document::Resource::Field.new('title')
     
@@ -18,6 +18,5 @@ describe JSONAPI::Request::QueryParamCollection::SortParam do
     let(:new_value_input) { [res_field3] }
     let(:new_value) { [res_field3] }
     let(:to_str_orig) { 'sort=age,title' }
-    let(:name_error_msg) { 'Cannot change the name of a QueryParam class' }
   end
 end

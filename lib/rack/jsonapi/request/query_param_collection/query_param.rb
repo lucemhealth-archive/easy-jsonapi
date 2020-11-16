@@ -35,7 +35,7 @@ module JSONAPI
         end
 
         def name=(_)
-          raise 'Cannot change the name of a QueryParam class'
+          raise 'Cannot change the name of QueryParam Objects'
         end
       end
     end

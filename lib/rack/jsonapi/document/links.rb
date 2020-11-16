@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/name_value_pair_collection'
-require 'rack/jsonapi/exceptions/document_exceptions/building_exceptions'
 
 module JSONAPI
   class Document

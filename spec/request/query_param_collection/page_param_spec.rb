@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/request/query_param_collection/page_param'
-require 'shared_examples/name_value_pair_classes_tests'
+require 'shared_examples/name_value_pair_tests'
 
 describe JSONAPI::Request::QueryParamCollection::PageParam do
   
@@ -18,7 +18,7 @@ describe JSONAPI::Request::QueryParamCollection::PageParam do
   end
 
   it 'should raise when calling #name=, #value, or #value=' do
-    error_msg = 'Cannot change the name of a QueryParam class'
+    error_msg = 'Cannot change the name of QueryParam Objects'
     expect { p.name = 'new_name' }.to raise_error error_msg
     
     error_msg = 'PageParam does not provide a #value method, try #offset or #limit instead'
