@@ -71,7 +71,7 @@ module JSONAPI
           if i_arr.length == 1
             add_member(loc_in_h, res_name, included: true)
           else
-            add_member(loc_in_h, res_name, included: res_included?(loc_in_h, i_arr))
+            add_member(loc_in_h, res_name, included: res_included?(i_arr))
             store_include(loc_in_h[res_name][:relationships], i_arr[2..])
           end
         end

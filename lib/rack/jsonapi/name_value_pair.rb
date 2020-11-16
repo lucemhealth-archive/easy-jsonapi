@@ -17,9 +17,10 @@ module JSONAPI
       @item[:name]
     end
 
-    # @param new_name [String | Symbol]  The new name->val pair name
-    def name=(new_name)
-      @item[:name] = new_name.to_s
+    # @raise RunTimeError You shouldn't be able to update the name of a
+    #   NameValuePair
+    def name=(_)
+      raise 'Cannot update the name of a Name Value Pair'
     end
 
     # @return [String] The value of the name->val pair

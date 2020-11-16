@@ -18,5 +18,6 @@ describe JSONAPI::Request::QueryParamCollection::FilterParam do
     let(:new_value_input) { new_filter }
     let(:new_value) { [new_filter] }
     let(:to_str_orig) { 'filter[comments]=(date == today)&filter[users]=(age < 15)' }
+    let(:name_error_msg) { 'Cannot change the name of a QueryParam class' }
   end
 end

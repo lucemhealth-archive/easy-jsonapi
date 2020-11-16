@@ -14,9 +14,8 @@ shared_examples 'name value pair classes' do
     end
 
     it 'should be able to update name and value' do
-      pair.name = new_value_input
       pair.value = new_value
-      expect(pair.name).to eq new_value_input
+      expect { pair.name = 'new_name' }.to raise_error name_error_msg
       expect(pair.value).to eq new_value
     end
   end

@@ -1,43 +1,19 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/request/query_param_collection/include_param'
+require 'shared_examples/name_value_pair_classes_tests'
 
 describe JSONAPI::Request::QueryParamCollection::IncludeParam do
   
-  include_str_arr1 = ['author', 'comments-likers', 'comments.author']
-  let(:i1) { JSONAPI::Request::QueryParamCollection::IncludeParam.new(include_str_arr1) }
-  
-  include_str_arr2 = [
+  include_str_arr1 = [
     'author',
     'comments-likers.children',
     'comments-author-children',
     'sources-publisher.ceo-children'
   ]
-  let(:i2) { JSONAPI::Request::QueryParamCollection::IncludeParam.new(include_str_arr2) }
+  let(:i1) { JSONAPI::Request::QueryParamCollection::IncludeParam.new(include_str_arr1) }
 
   let(:value1) do
-    {
-      author: {
-        included: true,
-        relationships: {}
-      },
-      comments: {
-        included: true,
-        relationships: {
-          likers: {
-            included: true,
-            relationships: {}
-          },
-          author: {
-            included: true,
-            relationships: {}
-          }
-        }
-      }
-    }
-  end
-
-  let(:value2) do
     {
       author: {
         included: true,
@@ -88,25 +64,41 @@ describe JSONAPI::Request::QueryParamCollection::IncludeParam do
     }
   end
 
-  it 'should have appropriate accessor methods' do
-    expect(i1.name).to eq 'include'
-    expect(i2.name).to eq 'include'
-    
-    expect(i1.value).to eq value1
-    expect(i2.value).to eq value2
-    
-    i1.value = {}
-    i2.value = value1
-    
-    expect(i1.value).to eq({})
-    expect(i2.value).to eq(value1)
+  include_str_arr2 = ['author', 'comments-likers', 'comments.author']
+  let(:i2) { JSONAPI::Request::QueryParamCollection::IncludeParam.new(include_str_arr2) }
+  
+  let(:value2) do
+    {
+      author: {
+        included: true,
+        relationships: {}
+      },
+      comments: {
+        included: true,
+        relationships: {
+          likers: {
+            included: true,
+            relationships: {}
+          },
+          author: {
+            included: true,
+            relationships: {}
+          }
+        }
+      }
+    }
   end
 
-  it 'should have an intuitive #to_s method' do
-    expect(i1.to_s).to eq 'include=author,comments.likers,comments.author'
-    
+
+  it_behaves_like 'name value pair classes' do
+    let(:pair) { i1 }
+    let(:name) { 'include' }
+    let(:value) { value1 }
+    let(:new_value_input) { value2 }
+    let(:new_value) { value2 }
     to_string = 'include=author,comments-likers.children,comments-author-children,' \
                 'sources-publisher.ceo-children'
-    expect(i2.to_s).to eq to_string
+    let(:to_str_orig) { to_string }
+    let(:name_error_msg) { 'Cannot change the name of a QueryParam class' }
   end
 end

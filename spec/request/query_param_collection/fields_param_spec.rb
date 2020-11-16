@@ -36,5 +36,6 @@ describe JSONAPI::Request::QueryParamCollection::FieldsParam do
     let(:new_value_input) { fieldset3 }
     let(:new_value) { [fieldset3] }
     let(:to_str_orig) { 'fields[articles]=title,body&fields[people]=name' }
+    let(:name_error_msg) { 'Cannot change the name of a QueryParam class' }
   end
 end

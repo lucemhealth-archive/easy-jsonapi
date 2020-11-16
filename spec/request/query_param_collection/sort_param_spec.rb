@@ -18,5 +18,6 @@ describe JSONAPI::Request::QueryParamCollection::SortParam do
     let(:new_value_input) { [res_field3] }
     let(:new_value) { [res_field3] }
     let(:to_str_orig) { 'sort=age,title' }
+    let(:name_error_msg) { 'Cannot change the name of a QueryParam class' }
   end
 end
