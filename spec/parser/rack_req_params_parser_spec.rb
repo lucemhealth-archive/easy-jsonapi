@@ -16,9 +16,6 @@ describe JSONAPI::Parser::RackReqParamsParser do
         'sort' => 'age,title'
       }
 
-      {
-      }
-
     @rack_params_w_bad_name =
       {
         'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
