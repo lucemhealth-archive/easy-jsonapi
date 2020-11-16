@@ -5,7 +5,7 @@ require 'rack/jsonapi/document/resource_id'
 
 module JSONAPI
   class Document
-    class Resource < JSONAPI::Document::ResourceId
+    class Resource
       # The attributes of a resource
       class Attributes < JSONAPI::NameValuePairCollection
   

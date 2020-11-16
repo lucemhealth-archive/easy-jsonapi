@@ -54,8 +54,7 @@ describe JSONAPI::Document::Resource::Relationships do
             "\"self\": \"http://example.com/articles/1/relationships/author\", " \
             "\"related\": \"http://example.com/articles/1/author\"" \
           ' }, ' \
-          "\"data\": { \"type\": \"people\", \"id\": \"9\" }, " \
-          "\"meta\": null" \
+          "\"data\": { \"type\": \"people\", \"id\": \"9\" }" \
         ' }, ' \
         "\"comments\": { " \
           "\"links\": { " \
@@ -65,8 +64,7 @@ describe JSONAPI::Document::Resource::Relationships do
           "\"data\": [" \
             "{ \"type\": \"comments\", \"id\": \"5\" }, " \
             "{ \"type\": \"comments\", \"id\": \"12\" }" \
-          '], ' \
-          "\"meta\": null" \
+          ']' \
         ' }' \
       ' }'
     end

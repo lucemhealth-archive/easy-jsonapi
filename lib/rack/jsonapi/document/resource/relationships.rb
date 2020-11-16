@@ -7,7 +7,7 @@ require 'rack/jsonapi/name_value_pair_collection'
 
 module JSONAPI
   class Document
-    class Resource < JSONAPI::Document::ResourceId
+    class Resource
       # A JSONAPI resource's relationships
       class Relationships < JSONAPI::NameValuePairCollection
         def initialize(rels_obj_arr = [])

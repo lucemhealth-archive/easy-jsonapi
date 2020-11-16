@@ -1,44 +1,53 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions/document_exceptions'
+require 'rack/jsonapi/exceptions/document_exceptions/building_exceptions'
 
 module JSONAPI
 
   # Contains all objects relating to a JSONAPI Document
-  # @todo Add Response side of the document as well
   class Document
 
-    attr_accessor :data, :meta, :links, :included, :errors, :jsonapi
+    attr_reader :data, :meta, :links, :included, :errors, :jsonapi
 
-    # @param document_members_hash [Hash] A hash of the different possible document members
+    # @param document [Hash] A hash of the different possible document members
     #   with the values being clases associated with those members
-    def initialize(document_members_hash)
-      JSONAPI::Exceptions::DocumentExceptions.check_essentials!(document_members_hash)
-      @data = document_members_hash[:data]
-      @meta = document_members_hash[:meta]
-      @links = document_members_hash[:links]
-      @included = document_members_hash[:included]
-      @errors = document_members_hash[:errors]
-      @jsonapi = document_members_hash[:jsonapi]
+    def initialize(document = {})
+      @data = document[:data]
+      @meta = document[:meta]
+      @links = document[:links] # software generated?
+      @included = document[:included]
+      @errors = document[:errors]
+      @jsonapi = document[:jsonapi] # online documentation
     end
 
     # To String
     def to_s
       '{ ' \
-        "\"data\": #{array_to_string(@data) || 'null'}, " \
-        "\"meta\": #{@meta || 'null'}, " \
-        "\"links\": #{@links || 'null'}, " \
-        "\"errors\": #{array_to_string(@errors) || 'null'}, " \
-        "\"jsonapi\": #{@jsonapi || 'null'}, " \
-        "\"included\": #{array_to_string(@included) || 'null'}" \
+        "#{member_to_s('data', @data, first_member: true)}" \
+        "#{member_to_s('meta', @meta)}" \
+        "#{member_to_s('links', @links)}" \
+        "#{member_to_s('included', @included)}" \
+        "#{member_to_s('errors', @errors)}" \
+        "#{member_to_s('jsonapi', @jsonapi)}" \
       ' }'
     end
 
+    # To Hash
+
     private
 
+    def member_to_s(str_name, member, first_member: false)
+      return '' if member.nil?
+      if first_member
+        "\"#{str_name}\": #{array_to_s(member)}"
+      else
+        ", \"#{str_name}\": #{array_to_s(member)}"
+      end
+    end
+
     # Returns the proper to_s for members that are an array.
-    def array_to_string(obj_arr)
-      return obj_arr unless obj_arr.is_a? Array
+    def array_to_s(obj_arr)
+      return obj_arr.to_s unless obj_arr.is_a? Array
       to_return = '['
       first = true
       obj_arr.each do |obj|
@@ -51,5 +60,6 @@ module JSONAPI
       end
       to_return += ']'
     end
+
   end
 end

@@ -8,10 +8,11 @@ module JSONAPI
     include Enumerable
     
     # Assume collection is empty not innitialized with an array of objects.
-    # @param arr_of_obj [Any] The objects to be stored
+    # @param arr_of_obj [Object] The objects to be stored
     # for block { |item| item[:name] } 
     # @yield [item] Determines what should be used as keys when storing objects in collection's internal hash
-    def initialize(arr_of_obj = [], &block)
+    def initialize(arr_of_obj = [], class_type: Object, &block)
+      @class_type = class_type
       @collection = {}
       
       return unless (arr_of_obj != []) && block_given?
@@ -41,8 +42,12 @@ module JSONAPI
       @collection.include?(k)
     end
     
+    # Add an item to the collection, giving a block to indicate how the
+    #   collection should create a hash key for the item.
+    # @param item [Object]
     def add(item, &block)
       raise 'a block must be passed to #add indicating what should be used as a key' unless block_given?
+      raise "Cannot add an item that is not #{@class_type}" unless item.is_a? @class_type
       insert(block.call(item), item)
     end
 

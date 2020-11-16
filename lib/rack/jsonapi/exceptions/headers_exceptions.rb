@@ -4,6 +4,8 @@ module JSONAPI
   module Exceptions
     # Validates that Headers comply with the JSONAPI specification
     module HeadersExceptions 
+      
+      # A more specific standard error to raise when an exception is found
       class InvalidHeader < StandardError
       end
 
@@ -20,9 +22,9 @@ module JSONAPI
       # @return nil Returns nil if no error found
       # @raise InvalidHeader if it is jsonapi with parameters
       def self.check_content_type!(env)
-        return if env['CONTENT_TYPE'].nil?
-        return if env['CONTENT_TYPE'] == 'application/vnd.api+json'
-        return if (env['CONTENT_TYPE'] =~ %r{application/vnd\.api\+json\s?;}).nil?
+        return if env['CONTENT_TYPE'].nil? # no request body
+        return if env['CONTENT_TYPE'] == 'application/vnd.api+json' # jsonapi
+        return if (env['CONTENT_TYPE'] =~ %r{application/vnd\.api\+json\s?;}).nil? # no jsonapi w params
         
         raise_error!(
           'Clients MUST send all JSON:API data in request documents with the header ' \

@@ -6,7 +6,7 @@
 <title>
   Module: JSONAPI::Exceptions::DocumentExceptions
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; YARD 0.9.25 Documentation
   
 </title>
 
@@ -114,38 +114,109 @@
 
     <dl class="constants">
       
-        <dt id="TOP_LEVEL_KEYS-constant" class="">TOP_LEVEL_KEYS =
-          
+        <dt id="REQUIRED_TOP_LEVEL_KEYS-constant" class="">REQUIRED_TOP_LEVEL_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>A jsonapi document MUST contain at least one of the following top-level members</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>data</span><span class='words_sep'> </span><span class='tstring_content'>errors</span><span class='words_sep'> </span><span class='tstring_content'>meta</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="LINKS_KEYS-constant" class="">LINKS_KEYS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Top level links objects MAY contain the following members</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>self</span><span class='words_sep'> </span><span class='tstring_content'>related</span><span class='words_sep'> </span><span class='tstring_content'>first</span><span class='words_sep'> </span><span class='tstring_content'>prev</span><span class='words_sep'> </span><span class='tstring_content'>next</span><span class='words_sep'> </span><span class='tstring_content'>last</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="LINK_KEYS-constant" class="">LINK_KEYS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Each member of a links object is a “link”. A link MUST be represented as either:</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>href</span><span class='words_sep'> </span><span class='tstring_content'>meta</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="RESOURCE_KEYS-constant" class="">RESOURCE_KEYS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>A resource object MUST contain at least id and type (unless a post resource)
+  In addition, a resource object MAY contain these top-level members.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>type</span><span class='words_sep'> </span><span class='tstring_content'>id</span><span class='words_sep'> </span><span class='tstring_content'>attributes</span><span class='words_sep'> </span><span class='tstring_content'>relationships</span><span class='words_sep'> </span><span class='tstring_content'>links</span><span class='words_sep'> </span><span class='tstring_content'>meta</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="RELATIONSHIP_KEYS-constant" class="">RELATIONSHIP_KEYS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>A relationships object MUST contain one of the following:</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>data</span><span class='words_sep'> </span><span class='tstring_content'>links</span><span class='words_sep'> </span><span class='tstring_content'>meta</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
-        <dt id="RELATIONSHIP_LINK_KEYS-constant" class="">RELATIONSHIP_LINK_KEYS =
-          
+        <dt id="TO_ONE_RELATIONSHIP_LINK_KEYS-constant" class="">TO_ONE_RELATIONSHIP_LINK_KEYS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>A relationship that is to-one must conatin at least one of the following.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>self</span><span class='words_sep'> </span><span class='tstring_content'>related</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="RESOURCE_IDENTIFIER_KEYS-constant" class="">RESOURCE_IDENTIFIER_KEYS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Every resource object MUST contain an id member and a type member.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>type</span><span class='words_sep'> </span><span class='tstring_content'>id</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
@@ -539,7 +610,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>TODO: If TO-ONE relationship only self and related TODO: If TO-MANY relationship -- self, related, pagination.</p>
+</div></span>
   
 </li>
 
@@ -627,7 +699,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Checks whether the resource members conform to the spec.</p>
+</div></span>
   
 </li>
 
@@ -730,17 +803,17 @@
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151
-152</pre>
+160
+161
+162
+163
+164
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_attributes!'>check_attributes!</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -850,15 +923,15 @@
       <pre class="lines">
 
 
-28
-29
-30
-31
-32
-33</pre>
+42
+43
+44
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_compliance!'>check_compliance!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_check_essentials!'>check_essentials!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='id identifier rubyid_is_a_request'>is_a_request</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='id identifier rubyid_http_method_is_post'>http_method_is_post</span><span class='rparen'>)</span>
@@ -914,22 +987,22 @@
       <pre class="lines">
 
 
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108</pre>
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_data!'>check_data!</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_is_a_request'>is_a_request</span><span class='comma'>,</span>
@@ -1009,15 +1082,15 @@
       <pre class="lines">
 
 
-225
-226
-227
-228
-229
-230</pre>
+242
+243
+244
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 242</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_error!'>check_error!</span><span class='lparen'>(</span><span class='id identifier rubyid_error'>error</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_error'>error</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -1073,14 +1146,14 @@
       <pre class="lines">
 
 
-217
-218
-219
-220
-221</pre>
+234
+235
+236
+237
+238</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 234</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_errors!'>check_errors!</span><span class='lparen'>(</span><span class='id identifier rubyid_errors'>errors</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -1118,17 +1191,17 @@
       <pre class="lines">
 
 
-38
-39
-40
-41
-42
-43
-44
-45</pre>
+52
+53
+54
+55
+56
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_essentials!'>check_essentials!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span><span class='comma'>,</span>
@@ -1203,16 +1276,16 @@
       <pre class="lines">
 
 
-288
-289
-290
-291
-292
-293
-294</pre>
+305
+306
+307
+308
+309
+310
+311</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 288</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 305</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_included!'>check_included!</span><span class='lparen'>(</span><span class='id identifier rubyid_included'>included</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_included'>included</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -1286,17 +1359,17 @@
       <pre class="lines">
 
 
-245
-246
-247
-248
-249
-250
-251
-252</pre>
+262
+263
+264
+265
+266
+267
+268
+269</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 262</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_jsonapi!'>check_jsonapi!</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonapi'>jsonapi</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonapi'>jsonapi</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A JSONAPI object MUST be an object</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -1371,26 +1444,26 @@
       <pre class="lines">
 
 
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282</pre>
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 266</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 283</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_link!'>check_link!</span><span class='lparen'>(</span><span class='id identifier rubyid_link'>link</span><span class='rparen'>)</span>
   <span class='comment'># A link MUST be either a string URL or an object with href / meta
@@ -1474,14 +1547,14 @@
       <pre class="lines">
 
 
-258
-259
-260
-261
-262</pre>
+275
+276
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 258</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 275</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_links!'>check_links!</span><span class='lparen'>(</span><span class='id identifier rubyid_links'>links</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_links'>links</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A links object MUST be an object</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -1538,21 +1611,21 @@
       <pre class="lines">
 
 
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315</pre>
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 321</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_member_names!'>check_member_names!</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_obj'>obj</span>
@@ -1596,17 +1669,17 @@
       <pre class="lines">
 
 
-81
-82
-83
-84
-85
-86
-87
-88</pre>
+95
+96
+97
+98
+99
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_members!'>check_members!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_check_data!'>check_data!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='id identifier rubyid_is_a_request'>is_a_request</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='id identifier rubyid_http_method_is_post'>http_method_is_post</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='symbol'>:data</span>
@@ -1681,13 +1754,13 @@
       <pre class="lines">
 
 
-236
-237
-238
-239</pre>
+253
+254
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 253</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_meta!'>check_meta!</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A meta object MUST be an object</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -1758,14 +1831,14 @@
       <pre class="lines">
 
 
-319
-320
-321
-322
-323</pre>
+336
+337
+338
+339
+340</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 319</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 336</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_name'>check_name</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Exceptions.html" title="JSONAPI::Exceptions (module)">Exceptions</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NamingExceptions.html" title="JSONAPI::Exceptions::NamingExceptions (module)">NamingExceptions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_check_member_constraints'><span class='object_link'><a href="NamingExceptions.html#check_member_constraints-class_method" title="JSONAPI::Exceptions::NamingExceptions.check_member_constraints (method)">check_member_constraints</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -1820,21 +1893,21 @@
       <pre class="lines">
 
 
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175</pre>
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_relationship!'>check_relationship!</span><span class='lparen'>(</span><span class='id identifier rubyid_rel'>rel</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_rel'>rel</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Each relationships member MUST be a object</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -1896,21 +1969,21 @@
       <pre class="lines">
 
 
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199</pre>
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_relationship_data!'>check_relationship_data!</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_data'>data</span>
@@ -1940,7 +2013,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
+    <p>TODO: If TO-ONE relationship only self and related
+TODO: If TO-MANY relationship -- self, related, pagination</p>
+
 
   </div>
 </div>
@@ -1972,20 +2047,20 @@
       <pre class="lines">
 
 
-179
-180
-181
-182
-183
-184</pre>
+196
+197
+198
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 196</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_relationship_links!'>check_relationship_links!</span><span class='lparen'>(</span><span class='id identifier rubyid_links'>links</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='op'>!</span><span class='lparen'>(</span><span class='id identifier rubyid_links'>links</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span> <span class='op'>&amp;</span> <span class='const'><span class='object_link'><a href="#RELATIONSHIP_LINK_KEYS-constant" title="JSONAPI::Exceptions::DocumentExceptions::RELATIONSHIP_LINK_KEYS (constant)">RELATIONSHIP_LINK_KEYS</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='comma'>,</span>
+  <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='op'>!</span><span class='lparen'>(</span><span class='id identifier rubyid_links'>links</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span> <span class='op'>&amp;</span> <span class='const'><span class='object_link'><a href="#TO_ONE_RELATIONSHIP_LINK_KEYS-constant" title="JSONAPI::Exceptions::DocumentExceptions::TO_ONE_RELATIONSHIP_LINK_KEYS (constant)">TO_ONE_RELATIONSHIP_LINK_KEYS</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='comma'>,</span>
           <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A relationship link MUST contain at least one of </span><span class='tstring_end'>&#39;</span></span>\
-          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#RELATIONSHIP_LINK_KEYS-constant" title="JSONAPI::Exceptions::DocumentExceptions::RELATIONSHIP_LINK_KEYS (constant)">RELATIONSHIP_LINK_KEYS</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TO_ONE_RELATIONSHIP_LINK_KEYS-constant" title="JSONAPI::Exceptions::DocumentExceptions::TO_ONE_RELATIONSHIP_LINK_KEYS (constant)">TO_ONE_RELATIONSHIP_LINK_KEYS</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_check_links!'>check_links!</span><span class='lparen'>(</span><span class='id identifier rubyid_links'>links</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2036,14 +2111,14 @@
       <pre class="lines">
 
 
-156
-157
-158
-159
-160</pre>
+171
+172
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_relationships!'>check_relationships!</span><span class='lparen'>(</span><span class='id identifier rubyid_rels'>rels</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_rels'>rels</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -2098,29 +2173,29 @@
       <pre class="lines">
 
 
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
 127
 128
 129
 130
 131
-132</pre>
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_resource!'>check_resource!</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='label'>http_method_is_post:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_http_method_is_post'>http_method_is_post</span>
@@ -2190,19 +2265,19 @@
       <pre class="lines">
 
 
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211</pre>
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 202</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 219</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_resource_identifier!'>check_resource_identifier!</span><span class='lparen'>(</span><span class='id identifier rubyid_res_id'>res_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_res_id'>res_id</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -2228,21 +2303,31 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Checks whether the resource members conform to the spec</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-136
-137
-138
-139
-140
-141</pre>
+151
+152
+153
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_resource_members!'>check_resource_members!</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_check_attributes!'>check_attributes!</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='lbracket'>[</span><span class='symbol'>:attributes</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_resource'>resource</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='symbol'>:attributes</span>
@@ -2297,36 +2382,36 @@
       <pre class="lines">
 
 
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
 68
 69
 70
 71
-72</pre>
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_check_top_level!'>check_top_level!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='comma'>,</span> <span class='label'>is_a_request:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span><span class='comma'>,</span>
           <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A JSON object MUST be at the root of every JSON API request </span><span class='tstring_end'>&#39;</span></span> \
           <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>and response containing data</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='op'>!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span> <span class='op'>&amp;</span> <span class='const'><span class='object_link'><a href="#TOP_LEVEL_KEYS-constant" title="JSONAPI::Exceptions::DocumentExceptions::TOP_LEVEL_KEYS (constant)">TOP_LEVEL_KEYS</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='comma'>,</span> 
+  <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='op'>!</span><span class='lparen'>(</span><span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span> <span class='op'>&amp;</span> <span class='const'><span class='object_link'><a href="#REQUIRED_TOP_LEVEL_KEYS-constant" title="JSONAPI::Exceptions::DocumentExceptions::REQUIRED_TOP_LEVEL_KEYS (constant)">REQUIRED_TOP_LEVEL_KEYS</a></span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='comma'>,</span> 
           <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>A document MUST contain at least one of the following </span><span class='tstring_end'>&#39;</span></span> \
-          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>top-level members: </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TOP_LEVEL_KEYS-constant" title="JSONAPI::Exceptions::DocumentExceptions::TOP_LEVEL_KEYS (constant)">TOP_LEVEL_KEYS</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>top-level members: </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#REQUIRED_TOP_LEVEL_KEYS-constant" title="JSONAPI::Exceptions::DocumentExceptions::REQUIRED_TOP_LEVEL_KEYS (constant)">REQUIRED_TOP_LEVEL_KEYS</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   
   <span class='kw'>if</span> <span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='symbol'>:data</span>
     <span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_document'>document</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:errors</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -2420,12 +2505,12 @@
       <pre class="lines">
 
 
-333
-334
-335</pre>
+350
+351
+352</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 333</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/exceptions/document_exceptions.rb', line 350</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ensure!'>ensure!</span><span class='lparen'>(</span><span class='id identifier rubyid_condition'>condition</span><span class='comma'>,</span> <span class='id identifier rubyid_error_message'>error_message</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DocumentExceptions/InvalidDocument.html" title="JSONAPI::Exceptions::DocumentExceptions::InvalidDocument (class)">InvalidDocument</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_error_message'>error_message</span> <span class='kw'>unless</span> <span class='id identifier rubyid_condition'>condition</span>
@@ -2440,7 +2525,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  3 21:46:26 2020 by
+  Generated on Fri Nov  6 15:35:10 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

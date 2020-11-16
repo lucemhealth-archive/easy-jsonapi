@@ -60,7 +60,7 @@ describe JSONAPI::Parser::DocumentParser do
 
   oj_formatted_hash = Oj.load(Oj.dump(doc_hash), symbol_keys: true)
 
-  let(:document) { JSONAPI::Parser::DocumentParser.parse!(oj_formatted_hash, is_a_request: true) }
+  let(:document) { JSONAPI::Parser::DocumentParser.parse!(oj_formatted_hash) }
 
   describe '#parse!' do
     it 'should return a Document object given a valid jsonapi document' do

@@ -10,7 +10,7 @@ module JSONAPI
     
     # Able to take a hash and dynamically create instance variables using the hash keys
     #   Ex: obj == { :name => 'fields', :value => {'articles' => 'title,body,author', 'people' => 'name' }}
-    # @param obj [Any] Can be anything, but if a hash is provided, dynamic instance variable can be created
+    # @param obj [Object] Can be anything, but if a hash is provided, dynamic instance variable can be created
     #   upon trying to access them.
     def initialize(obj)
       if obj.is_a? Hash
@@ -58,7 +58,7 @@ module JSONAPI
     private
 
     # Ensures that hash keys are symbol (and not String) when passing a hash to item.
-    # @param obj [Any]  A hash that can represent an item.
+    # @param obj [Object]  A hash that can represent an item.
     def ensure_keys_are_sym!(obj)
       obj.each_key do |k|
         raise "All keys must be Symbols. '#{k}' was #{k.class}" unless k.is_a? Symbol

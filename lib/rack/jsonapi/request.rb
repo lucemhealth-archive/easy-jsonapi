@@ -4,7 +4,7 @@ module JSONAPI
 
   # Contains all objects relating to a HTTP request
   class Request
-    attr_accessor :path, :protocol, :host, :port, :query_string, :params, :headers, :document
+    attr_accessor :path, :protocol, :host, :port, :query_string, :params, :headers, :body
 
     # @param env The rack envirornment hash
     # @param query_param_collection [QueryParamCollection]  The already initialized QueryParamCollection class
@@ -21,7 +21,7 @@ module JSONAPI
       # parsed objects
       @params = query_param_collection
       @headers = header_collection
-      @document = document
+      @body = document
     end
 
   end

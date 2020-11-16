@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions/naming_exceptions'
+require 'rack/jsonapi/exceptions'
 
 module JSONAPI
   module Exceptions
@@ -12,6 +13,7 @@ module JSONAPI
       class InvalidParameter < StandardError
       end
 
+      # The jsonapi specific query parameters.
       SPECIAL_QUERY_PARAMS = %i[include fields page sort filter].freeze
 
       # Checks to see if the query paramaters conform to the JSONAPI spec and raises InvalidParameter
@@ -25,7 +27,12 @@ module JSONAPI
         nil
       end
 
+      # Checks an implementation specific param name to see if it complies to the spec.
       def self.check_param_name!(name)
+        if JSONAPI::Exceptions::QueryParamsExceptions::SPECIAL_QUERY_PARAMS.include?(name.to_sym)
+          raise 'Cannot create an implmementation specific query param with the same name as special query param.'
+        end
+        
         return if NamingExceptions.check_member_constraints(name).nil? && NamingExceptions.check_additional_constraints(name).nil?
         raise_error!(
           'Implementation specific query parameters MUST adhere to the same constraints ' \

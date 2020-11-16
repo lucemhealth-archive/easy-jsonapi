@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+require 'rack/jsonapi/exceptions/document_exceptions'
+require 'rack/jsonapi/exceptions/headers_exceptions'
+require 'rack/jsonapi/exceptions/naming_exceptions'
+require 'rack/jsonapi/exceptions/query_params_exceptions'
+
 module JSONAPI
   
   # Namespace for the gem's Exceptions

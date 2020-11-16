@@ -9,21 +9,21 @@ shared_examples 'name value pair classes' do
 
   context 'testing accessor methods' do
     it 'should be able to retrieve name and value' do
-      expect(pair.name).to eq 'name'
-      expect(pair.value).to eq 'value'
+      expect(pair.name).to eq name
+      expect(pair.value).to eq value
     end
 
     it 'should be able to update name and value' do
-      pair.name = 'new_name'
-      pair.value = 'new_value'
-      expect(pair.name).to eq 'new_name'
-      expect(pair.value).to eq 'new_value'
+      pair.name = new_value_input
+      pair.value = new_value
+      expect(pair.name).to eq new_value_input
+      expect(pair.value).to eq new_value
     end
   end
 
   context 'checking scope' do
     it 'should not be able to access parent private methods' do
-      expect { pair.ensure_keys_ar_sym!({ name: 'name' }) }.to raise_error NoMethodError
+      expect { pair.ensure_keys_are_sym!({ name: name }) }.to raise_error NoMethodError
       expect { pair.should_update_var?(:name) }.to raise_error NoMethodError
       expect { pair.should_get_var?(:name) }.to raise_error NoMethodError
     end
@@ -37,8 +37,7 @@ shared_examples 'name value pair classes' do
   
   describe '#to_s' do
     it 'should work' do
-      str = "\"name\": \"value\""
-      expect(pair.to_s).to eq str
+      expect(pair.to_s).to eq to_str_orig
     end
   end
 end

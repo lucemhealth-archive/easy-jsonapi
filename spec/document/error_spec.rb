@@ -15,7 +15,7 @@ describe JSONAPI::Document::Error do
     meta_member_obj = JSONAPI::Document::Meta::MetaMember.new('count', '1')
     meta_obj = JSONAPI::Document::Meta.new([meta_member_obj])
 
-    link_obj = JSONAPI::Document::Links::Link.new('for_more_info', 'url')
+    link_obj = JSONAPI::Document::Links::Link.new('related', 'url')
     links_obj = JSONAPI::Document::Links.new([link_obj])
     
     error_member_arr = [
@@ -38,7 +38,7 @@ describe JSONAPI::Document::Error do
         "\"status\": \"422\", " \
         "\"title\": \"Invalid Attribute\", " \
         "\"meta\": { \"count\": \"1\" }, " \
-        "\"links\": { \"for_more_info\": \"url\" } " \
+        "\"links\": { \"related\": \"url\" } " \
       '}'
     end
 

@@ -4,9 +4,9 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: JSONAPI::Request::QueryParamCollection::QueryParam::Page
+  Class: JSONAPI::Request::QueryParamCollection::Page
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; YARD 0.9.25 Documentation
   
 </title>
 
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "JSONAPI::Request::QueryParamCollection::QueryParam::Page";
+  pathId = "JSONAPI::Request::QueryParamCollection::Page";
   relpath = '../../../../';
 </script>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: JSONAPI::Request::QueryParamCollection::QueryParam::Page
+      <div id="content"><h1>Class: JSONAPI::Request::QueryParamCollection::Page
   
   
   
@@ -80,7 +80,7 @@
           
             <li class="next"><span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Request::QueryParamCollection::QueryParam (class)">JSONAPI::Request::QueryParamCollection::QueryParam</a></span></li>
           
-            <li class="next">JSONAPI::Request::QueryParamCollection::QueryParam::Page</li>
+            <li class="next">JSONAPI::Request::QueryParamCollection::Page</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -100,7 +100,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/request/query_param_collection/query_param/page.rb</dd>
+    <dd>lib/rack/jsonapi/request/query_param_collection/page_param.rb</dd>
   </dl>
   
 </div>
@@ -379,7 +379,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(offset, limit)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Request::QueryParamCollection::QueryParam::Page (class)">Page</a></span></tt> 
+    #<strong>initialize</strong>(offset, limit)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Request::QueryParamCollection::Page (class)">Page</a></span></tt> 
   
 
   
@@ -440,7 +440,7 @@
 14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_limit'>limit</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>page</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='label'>offset:</span> <span class='id identifier rubyid_offset'>offset</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='comma'>,</span> <span class='label'>limit:</span> <span class='id identifier rubyid_limit'>limit</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
@@ -514,7 +514,7 @@
 48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_limit'>limit</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:limit</span><span class='rbracket'>]</span>
@@ -572,7 +572,7 @@
 53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_limit='>limit=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_limit'>new_limit</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:limit</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_limit'>new_limit</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
@@ -607,7 +607,7 @@
         <span class='name'>_</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Object</tt>)</span>
       
       
       
@@ -631,7 +631,7 @@
 22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set the name of a Page object</span><span class='tstring_end'>&#39;</span></span>
@@ -688,7 +688,7 @@
 38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_offset'>offset</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:offset</span><span class='rbracket'>]</span>
@@ -746,7 +746,7 @@
 43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_offset='>offset=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_offset'>new_offset</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:offset</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_offset'>new_offset</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
@@ -786,10 +786,10 @@
 58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{ \&quot;page\&quot;: { \&quot;offset\&quot;: \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_offset'>offset</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;, \&quot;limit\&quot;: \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_limit'>limit</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; } }</span><span class='tstring_end'>&quot;</span></span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>page[offset]=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_offset'>offset</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;page[limit]=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_limit'>limit</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -826,7 +826,7 @@
 27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Page objects do not have a value method, try #offset or #limit</span><span class='tstring_end'>&#39;</span></span>
@@ -861,7 +861,7 @@
         <span class='name'>_</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Object</tt>)</span>
       
       
       
@@ -885,7 +885,7 @@
 33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/page.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/page_param.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value='>value=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set value of Page object, becausee Page does not have a value</span><span class='tstring_end'>&#39;</span></span>
@@ -900,7 +900,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  3 21:46:27 2020 by
+  Generated on Fri Nov  6 15:35:11 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

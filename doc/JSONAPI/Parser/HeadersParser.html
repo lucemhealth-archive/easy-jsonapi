@@ -6,7 +6,7 @@
 <title>
   Module: JSONAPI::Parser::HeadersParser
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; YARD 0.9.25 Documentation
   
 </title>
 
@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="../../_index.html">Index (H)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'>Parser</span></span>
+    <span class='title'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Parser.html" title="JSONAPI::Parser (module)">Parser</a></span></span>
      &raquo; 
     <span class="title">HeadersParser</span>
   
@@ -111,7 +111,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse!-class_method" title="parse! (class method)">.<strong>parse!</strong>(env)  &#x21d2; Object </a>
+      <a href="#parse!-class_method" title="parse! (class method)">.<strong>parse!</strong>(env)  &#x21d2; JSONAPI::HeaderCollection </a>
     
 
     
@@ -125,7 +125,8 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>The collection of parsed header objects.</p>
+</div></span>
   
 </li>
 
@@ -142,20 +143,64 @@
       <div class="method_details first">
   <h3 class="signature first" id="parse!-class_method">
   
-    .<strong>parse!</strong>(env)  &#x21d2; <tt>Object</tt> 
+    .<strong>parse!</strong>(env)  &#x21d2; <tt><span class='object_link'><a href="../HeaderCollection.html" title="JSONAPI::HeaderCollection (class)">JSONAPI::HeaderCollection</a></span></tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns The collection of parsed header objects.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>env</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The rack envirornment hash</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../HeaderCollection.html" title="JSONAPI::HeaderCollection (class)">JSONAPI::HeaderCollection</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The collection of parsed header objects</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-17
-18
 19
 20
 21
@@ -166,10 +211,12 @@
 26
 27
 28
-29</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/headers_parser.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser/headers_parser.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse!'>parse!</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Exceptions.html" title="JSONAPI::Exceptions (module)">Exceptions</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Exceptions/HeadersExceptions.html" title="JSONAPI::Exceptions::HeadersExceptions (module)">HeadersExceptions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_check_compliance!'><span class='object_link'><a href="../Exceptions/HeadersExceptions.html#check_compliance!-class_method" title="JSONAPI::Exceptions::HeadersExceptions.check_compliance! (method)">check_compliance!</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
@@ -194,7 +241,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  3 21:46:26 2020 by
+  Generated on Fri Nov  6 15:35:10 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

@@ -1,15 +1,15 @@
 # GET /articles?include=author&fields[articles]=title,body&fields[people]=name
 
 # resource = JSONAPI::Resource.new('articles')
-# JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('author')
+# JSONAPI::Request::QueryParamCollection::IncludeParam.new('author')
 # JSONAPI::Fieldset.new(
 #     [
-#         JSONAPI::Request::QueryParamCollection::QueryParam::Field.new('articles', [
+#         JSONAPI::Request::QueryParamCollection::FieldParam.new('articles', [
 #             JSONAPI::Resource::Field.new('title', nil), 
 #             JSONAPI::Resource::Field.new('body', nil)
 #         ])
 #     , 
-#         JSONAPI::Request::QueryParamCollection::QueryParam::Field.new('people', [
+#         JSONAPI::Request::QueryParamCollection::FieldParam.new('people', [
 #             JSONAPI::Resource::Field.new('name', nil)
 #         ])
 #     ]
@@ -22,7 +22,7 @@
 # # @host = "https://api.curatess.io"
 # # req.params.fields == QueryParamCollection
 
-# JSONAPI::Request::QueryParamCollection::QueryParam::Field.new()
+# JSONAPI::Request::QueryParamCollection::FieldParam.new()
 # resource.attributes.add JSONAPI::Resource::Field.new('title', "my title")
 # resource.attributes.add JSONAPI::Resource::Field.new('body')
 # resource.route -> "https://api.curatess.io/articles/123?fields[articles]=title,body" 
@@ -42,7 +42,7 @@
 # article_fields = []
 # article_fields << QueryParam::Fields.new('articles' , JSONAPI::Resource::Field.new('title', nil))
 # article_fields << QueryParam::Fields.new('articles', JSONAPI::Resource::Field.new('body', nil)))
-# # article_fields << QueryParam::Field.new('people', JSONAPI::Resource::Field.new('name', nil))) <-- added by joshua
+# # article_fields << ::FieldParam.new('people', JSONAPI::Resource::Field.new('name', nil))) <-- added by joshua
 # article_fieldset  = JSONAPI::Fieldset.new(resource.type, article_fields)
 
 # resource.attributes.add() <- make sure the ::Resource::Field resource 

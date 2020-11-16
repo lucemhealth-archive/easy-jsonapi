@@ -7,7 +7,7 @@ require 'rack/jsonapi/document/resource_id'
 
 module JSONAPI
   class Document
-    class Resource < JSONAPI::Document::ResourceId
+    class Resource
       class Relationships < JSONAPI::NameValuePairCollection
         # The relationships of a resource
         class Relationship
@@ -16,47 +16,55 @@ module JSONAPI
           attr_reader :name
     
           def initialize(rels_member_obj)
+            # add a relationship, and type
+            # need to know one or many
+            # object
             @name = rels_member_obj[:name].to_s
             @links = rels_member_obj[:links]
             @data = rels_member_obj[:data]
             @meta = rels_member_obj[:meta]
           end
   
+          # @return [String] A JSON parseable representation of a relationship
           def to_s
-            # '{ ' \
             "\"#{@name}\": { " \
-              "\"links\": #{@links || 'null'}, " \
-              "\"data\": #{data_to_s || 'null'}, " \
-              "\"meta\": #{@meta || 'null'}" \
+              "#{member_to_s('links', @links, first_member: true)}" \
+              "#{member_to_s('data', @data)}" \
+              "#{member_to_s('meta', @meta)}" \
             ' }' \
-            # ' }' \
           end
 
           private
 
-          def data_to_s
-            case @data
-            when Array
-              data_str = '['
-              first = true
-              @data.each do |res|
-                if first
-                  data_str += res.to_s
-                  first = false
-                else
-                  data_str += ", #{res}"
-                end
-              end
-              data_str += ']'
-            when JSONAPI::Document::ResourceId
-              @data.to_s
-            when nil
-              nil
+          # @param str_name [String] The name of the member to stringify
+          # @param member One of the relationship's members
+          # @param first_member [TrueClass | FalseClass] Whether the current
+          #   member is the first member to stringify
+          def member_to_s(str_name, member, first_member: false)
+            return '' if member.nil?
+            if first_member
+              "\"#{str_name}\": #{array_to_s(member)}"
             else
-              raise 'The relationships data member should be a resource identifier or array or resource identifiers'
+              ", \"#{str_name}\": #{array_to_s(member)}"
             end
           end
 
+          # Returns the proper to_s for members regardless of 
+          #   whether they are stored as an array or member object
+          def array_to_s(obj_arr)
+            return obj_arr.to_s unless obj_arr.is_a? Array
+            to_return = '['
+            first = true
+            obj_arr.each do |obj|
+              if first
+                to_return += obj.to_s
+                first = false
+              else
+                to_return += ", #{obj}"
+              end
+            end
+            to_return += ']'
+          end
         end
       end
     end

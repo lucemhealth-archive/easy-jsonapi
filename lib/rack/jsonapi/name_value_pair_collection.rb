@@ -2,23 +2,23 @@
 
 require 'rack/jsonapi/collection'
 require 'rack/jsonapi/name_value_pair'
+require 'rack/jsonapi/utility'
 
 module JSONAPI
-  # The attributes of a resource
+  
+  # Collection of Items that all have names and values.
   class NameValuePairCollection < JSONAPI::Collection
 
     # Creates an empty collection by default
     # @param pair_arr [Array<JSONAPI::NameValuePair>] The pairs to be initialized with.
     def initialize(pair_arr = [], class_type = JSONAPI::NameValuePair)
-      @class_type = class_type 
-      super(pair_arr, &:name)
+      super(pair_arr, class_type, &:name)
     end
 
     # #empyt? provided by super
     # #include provided by super
 
     def add(pair)
-      raise "Cannot add an item that is not #{@class_type}" unless pair.is_a? @class_type
       super(pair, &:name)
     end
 
@@ -35,17 +35,7 @@ module JSONAPI
     # #size provided by super
 
     def to_s
-      to_return = '{ '
-      is_first = true
-      each do |pair|
-        if is_first
-          to_return += pair.to_s
-          is_first = false
-        else
-          to_return += ", #{pair}"
-        end
-      end
-      to_return += ' }'
+      JSONAPI::Utility.to_string_collection(self, pre_string: '{ ', post_string: ' }')
     end
 
     protected :insert

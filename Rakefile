@@ -16,6 +16,6 @@ end
 
 YARD::Rake::YardocTask.new(:document) do |t|
   t.files = ['lib/**/*.rb'] # optional
-  t.options = ['--any', '--extra', '--opts', '--reload', '--markup=markdown'] # optional
+  t.options = ['--title', "YARD #{YARD::VERSION} Documentation", '--markup=markdown'] # optional
   t.stats_options = ['--list-undoc'] # optional
 end

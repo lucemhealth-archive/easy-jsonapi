@@ -2,6 +2,12 @@
 
 shared_examples 'collection-like classes' do
 
+  class ItemThatRaisesError
+    def initialize(name)
+      @name = name
+    end
+  end
+
   describe '#initialize' do
 
     it 'should be empty if given no arguments' do
@@ -15,6 +21,7 @@ shared_examples 'collection-like classes' do
 
   describe 'empty?' do
     it 'should return true for a collection that was initialized without parameters' do
+      expect(c.empty?).to be false
       expect(ec.empty?).to be true
     end
   end
@@ -49,6 +56,12 @@ shared_examples 'collection-like classes' do
       expect(ec.empty?).to be true
       ec.add(ex_item, &:name)
       expect(ec.include?(ex_item_key)).to be true
+    end
+
+    it 'should raise if adding an item different than specified type' do
+      bad_item = ItemThatRaisesError.new('bad_item')
+      error_msg = "Cannot add an item that is not #{item_class}"
+      expect { ec.add(bad_item, &:name) }.to raise_error error_msg
     end
   end
 

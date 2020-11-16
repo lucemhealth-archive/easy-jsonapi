@@ -4,9 +4,9 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: JSONAPI::Request::QueryParamCollection::QueryParam::Field
+  Class: JSONAPI::Request::QueryParamCollection::FieldParam
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; YARD 0.9.25 Documentation
   
 </title>
 
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "JSONAPI::Request::QueryParamCollection::QueryParam::Field";
+  pathId = "JSONAPI::Request::QueryParamCollection::FieldParam";
   relpath = '../../../../';
 </script>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: JSONAPI::Request::QueryParamCollection::QueryParam::Field
+      <div id="content"><h1>Class: JSONAPI::Request::QueryParamCollection::FieldParam
   
   
   
@@ -80,7 +80,7 @@
           
             <li class="next"><span class='object_link'><a href="../QueryParam.html" title="JSONAPI::Request::QueryParamCollection::QueryParam (class)">JSONAPI::Request::QueryParamCollection::QueryParam</a></span></li>
           
-            <li class="next">JSONAPI::Request::QueryParamCollection::QueryParam::Field</li>
+            <li class="next">JSONAPI::Request::QueryParamCollection::FieldParam</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -100,7 +100,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/rack/jsonapi/request/query_param_collection/query_param/field.rb</dd>
+    <dd>lib/rack/jsonapi/request/query_param_collection/filter_params.rb</dd>
   </dl>
   
 </div>
@@ -379,7 +379,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(resource, res_fields_arr)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Request::QueryParamCollection::QueryParam::Field (class)">Field</a></span></tt> 
+    #<strong>initialize</strong>(resource, res_fields_arr)  &#x21d2; <tt><span class='object_link'><a href="" title="JSONAPI::Request::QueryParamCollection::FieldParam (class)">Field</a></span></tt> 
   
 
   
@@ -444,11 +444,11 @@ fields of a resource to include given the resource is returned in the server res
 21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
-  <span class='id identifier rubyid_fieldset'>fieldset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../../Fieldset.html" title="JSONAPI::Fieldset (class)">Fieldset</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../../Fieldset.html#initialize-instance_method" title="JSONAPI::Fieldset#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_fieldset'>fieldset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../../filter_param.html" title="JSONAPI::Fieldset (class)">Fieldset</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../../filter_param.html#initialize-instance_method" title="JSONAPI::Fieldset#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_res_fields_arr'>res_fields_arr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_unique_hash'>unique_hash</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fields[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_resource'>resource</span><span class='embexpr_end'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_unique_hash'>unique_hash</span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='label'>resource:</span> <span class='id identifier rubyid_resource'>resource</span><span class='comma'>,</span> <span class='label'>fields:</span> <span class='id identifier rubyid_fieldset'>fieldset</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -521,10 +521,10 @@ fields of a resource to include given the resource is returned in the server res
 36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fields'>fields</span>
-  <span class='id identifier rubyid_a'>a</span> <span class='op'>=</span> <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span>
+  <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -555,7 +555,7 @@ fields of a resource to include given the resource is returned in the server res
         <span class='name'>new_fields</span>
       
       
-        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="../../../Fieldset.html" title="JSONAPI::Fieldset (class)">JSONAPI::Fieldset</a></span>&gt;</tt>)</span>
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="../../../filter_param.html" title="JSONAPI::Fieldset (class)">JSONAPI::Fieldset</a></span>&gt;</tt>)</span>
       
       
       
@@ -581,11 +581,11 @@ fields of a resource to include given the resource is returned in the server res
 43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fields='>fields=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_fields'>new_fields</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_fields'>new_fields</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_new_fields'>new_fields</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_new_fields'>new_fields</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
-  <span class='id identifier rubyid_fieldset'>fieldset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../../Fieldset.html" title="JSONAPI::Fieldset (class)">Fieldset</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../../Fieldset.html#initialize-instance_method" title="JSONAPI::Fieldset#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_new_fields'>new_fields</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_fieldset'>fieldset</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../../filter_param.html" title="JSONAPI::Fieldset (class)">Fieldset</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../../filter_param.html#initialize-instance_method" title="JSONAPI::Fieldset#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_new_fields'>new_fields</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_fieldset'>fieldset</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -618,7 +618,7 @@ fields of a resource to include given the resource is returned in the server res
         <span class='name'>_</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Object</tt>)</span>
       
       
       
@@ -642,7 +642,7 @@ fields of a resource to include given the resource is returned in the server res
 56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set the name of a Field object</span><span class='tstring_end'>&#39;</span></span>
@@ -699,7 +699,7 @@ fields of a resource to include given the resource is returned in the server res
 26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource'>resource</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:resource</span><span class='rbracket'>]</span>
@@ -757,7 +757,7 @@ fields of a resource to include given the resource is returned in the server res
 31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resource='>resource=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_resource'>new_resource</span><span class='rparen'>)</span>
   <span class='ivar'>@item</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:resource</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_resource'>new_resource</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -814,10 +814,10 @@ fields of a resource to include given the resource is returned in the server res
 48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>{ \&quot;fields\&quot;: { \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_resource'>resource</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;: \&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot; } }</span><span class='tstring_end'>&quot;</span></span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fields[</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_resource'>resource</span><span class='embexpr_end'>}</span><span class='tstring_content'>]=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -854,7 +854,7 @@ fields of a resource to include given the resource is returned in the server res
 61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Field objects do not have a value method, try #resource or #fields</span><span class='tstring_end'>&#39;</span></span>
@@ -889,7 +889,7 @@ fields of a resource to include given the resource is returned in the server res
         <span class='name'>_</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Object</tt>)</span>
       
       
       
@@ -913,7 +913,7 @@ fields of a resource to include given the resource is returned in the server res
 67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/query_param/field.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection/filter_params.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_value='>value=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot set value of Field object, becausee Field does not have a value</span><span class='tstring_end'>&#39;</span></span>
@@ -928,7 +928,7 @@ fields of a resource to include given the resource is returned in the server res
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  3 21:46:27 2020 by
+  Generated on Fri Nov  6 15:35:11 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

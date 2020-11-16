@@ -11,7 +11,7 @@ describe JSONAPI::Collection do
     let(:keys) { %i[include lebron charles michael kobe] }
     let(:ex_item_key) { :include }
     let(:ex_item) { JSONAPI::Item.new({ name: 'include', value: 'author,comments.likes' }) }
-
+    
     let(:to_string) do
       '{ ' \
         "\"include\": { \"name\": \"include\", \"value\": \"author,comments.likes\" }, " \
@@ -31,8 +31,8 @@ describe JSONAPI::Collection do
     ]
   
     item_arr = obj_arr.map { |i| JSONAPI::Item.new(i) }
-    let(:c) { JSONAPI::Collection.new(item_arr, &:name) }
-    let(:ec) { JSONAPI::Collection.new }
+    let(:c) { JSONAPI::Collection.new(item_arr, class_type: item_class, &:name) }
+    let(:ec) { JSONAPI::Collection.new(class_type: item_class) }
   
   end
 end

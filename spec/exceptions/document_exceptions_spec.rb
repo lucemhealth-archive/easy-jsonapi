@@ -139,7 +139,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         end
   
         it 'should raise when document is nil' do
-          msg = 'Cannot create an empty JSON:API document. Include a required top level member.'
+          msg = 'A document cannot be nil'
           expect { f(nil, is_a_request: true) }.to raise_error(ec, msg)
           expect { f(nil) }.to raise_error(ec, msg)
         end

@@ -14,6 +14,8 @@ module JSONAPI
     # Header parsing logic
     module HeadersParser
       
+      # @param env [Hash] The rack envirornment hash
+      # @return [JSONAPI::HeaderCollection] The collection of parsed header objects
       def self.parse!(env)
         JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env)
 

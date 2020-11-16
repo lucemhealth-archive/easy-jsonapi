@@ -62,14 +62,14 @@ describe JSONAPI::Parser::RackReqParamsParser do
     end
 
     it 'should contain proper classes for each item in the param collection' do
-      expect(pc.get(:'fields[articles]').class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Field
-      expect(pc.get(:'fields[people]').class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Field
-      expect(pc.get(:'include|author').class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Include
-      expect(pc.get(:'include|comments.likes').class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Include
+      expect(pc.get(:'fields[articles]').class).to be JSONAPI::Request::QueryParamCollection::FieldParam
+      expect(pc.get(:'fields[people]').class).to be JSONAPI::Request::QueryParamCollection::FieldParam
+      expect(pc.get(:'include|author').class).to be JSONAPI::Request::QueryParamCollection::Include
+      expect(pc.get(:'include|comments.likes').class).to be JSONAPI::Request::QueryParamCollection::Include
       expect(pc.get(:josh_ua).class).to be JSONAPI::Request::QueryParamCollection::QueryParam
-      expect(pc.get(:page).class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Page
-      expect(pc.get(:filter).class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Filter
-      expect(pc.get(:sort).class).to be JSONAPI::Request::QueryParamCollection::QueryParam::Sort
+      expect(pc.get(:page).class).to be JSONAPI::Request::QueryParamCollection::Page
+      expect(pc.get(:filter).class).to be JSONAPI::Request::QueryParamCollection::Filter
+      expect(pc.get(:sort).class).to be JSONAPI::Request::QueryParamCollection::Sort
     end
 
     it 'should raise InvalidParameter if given a impl specific param that does not follow naming rules' do

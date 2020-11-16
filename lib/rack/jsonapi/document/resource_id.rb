@@ -14,6 +14,7 @@ module JSONAPI
         @id = id
       end
 
+      # Represents ResourceId as a JSON parsable string
       def to_s
         "{ \"type\": \"#{@type}\", \"id\": \"#{@id}\" }"
       end

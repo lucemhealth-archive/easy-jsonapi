@@ -4,11 +4,11 @@ require 'rack/jsonapi/collection'
 require 'rack/jsonapi/name_value_pair_collection'
 require 'rack/jsonapi/request/query_param_collection'
 
-require 'rack/jsonapi/request/query_param_collection/query_param/include'
-require 'rack/jsonapi/request/query_param_collection/query_param/field'
-require 'rack/jsonapi/request/query_param_collection/query_param/page'
-require 'rack/jsonapi/request/query_param_collection/query_param/sort'
-require 'rack/jsonapi/request/query_param_collection/query_param/filter'
+require 'rack/jsonapi/request/query_param_collection/include_param'
+require 'rack/jsonapi/request/query_param_collection/filter_params'
+require 'rack/jsonapi/request/query_param_collection/page_param'
+require 'rack/jsonapi/request/query_param_collection/sort_param'
+require 'rack/jsonapi/request/query_param_collection/filter_param'
 
 require 'rack/jsonapi/document/resource/field'
 
@@ -18,25 +18,26 @@ describe JSONAPI::Request::QueryParamCollection do
 
   item_arr = 
     [
-      JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('author'),
-      JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('comments.likes'),
-      JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(
+      JSONAPI::Request::QueryParamCollection::IncludeParam.new('author'),
+      JSONAPI::Request::QueryParamCollection::IncludeParam.new('comments.likes'),
+      JSONAPI::Request::QueryParamCollection::FieldParam.new(
         'articles', 
         [
           JSONAPI::Document::Resource::Field.new('title'), 
-          JSONAPI::Document::Resource::Field.new('body')
+          JSONAPI::Document::Resource::Field.new('body'),
+          JSONAPI::Document::Resource::Field.new('author')
         ]
       ),
-      JSONAPI::Request::QueryParamCollection::QueryParam::Field.new(
+      JSONAPI::Request::QueryParamCollection::FieldParam.new(
         'people', 
         [
           JSONAPI::Document::Resource::Field.new('name')
         ]
       ),
       JSONAPI::Request::QueryParamCollection::QueryParam.new('leBron', 'james'),
-      JSONAPI::Request::QueryParamCollection::QueryParam::Page.new(3, 25),
-      JSONAPI::Request::QueryParamCollection::QueryParam::Sort.new('alpha'),
-      JSONAPI::Request::QueryParamCollection::QueryParam::Filter.new('special')
+      JSONAPI::Request::QueryParamCollection::PageParam.new(3, 25),
+      JSONAPI::Request::QueryParamCollection::SortParam.new('alpha'),
+      JSONAPI::Request::QueryParamCollection::FilterParam.new('special')
     ]
 
   it_behaves_like 'collection-like classes' do
@@ -45,8 +46,8 @@ describe JSONAPI::Request::QueryParamCollection do
     # {
     #   "include"=>"author, comments.author",
     #   "fields"=>{"articles"=>"title,body,author", "people"=>"name"},
-    #   "josh_ua"=>"demoss",
-    #   "page"=>{"offset"=>"1", "limit"=>"1"},
+    #   "leBron"=>"james",
+    #   "page"=>{"offset"=>"3", "limit"=>"25"},
     #   "sort"=>"alpha",
     #   "filter"=>"special",
     # }
@@ -55,24 +56,15 @@ describe JSONAPI::Request::QueryParamCollection do
     let(:c_size) { 8 }
     let(:keys) { %i[include|author include|comments.likes fields[articles] fields[people] lebron page sort filter] }
     let(:ex_item_key) { :'include|author' }
-    let(:ex_item) { JSONAPI::Request::QueryParamCollection::QueryParam::Include.new('author') }
+    let(:ex_item) { JSONAPI::Request::QueryParamCollection::IncludeParam.new('author') }
     
     let(:to_string) do
-      "{ " \
-        "{ \"include\": \"author\" }, " \
-        "{ \"include\": \"comments.likes\" }, " \
-        "{ \"fields\": { \"articles\": \"title,body\" } }, " \
-        "{ \"fields\": { \"people\": \"name\" } }, " \
-        "{ \"leBron\": \"james\" }, " \
-        "{ \"page\": { \"offset\": \"3\", \"limit\": \"25\" } }, " \
-        "{ \"sort\": \"alpha\" }, " \
-        "{ \"filter\": \"special\" } " \
-        "}"
+      "include=author,comments.likes&fields[articles]=title,body,author&fields[people]=name&leBron=james&page[offset]=3&page[limit]=25&sort=alpha&filter=special"
     end
 
     let(:c) { JSONAPI::Request::QueryParamCollection.new(item_arr, &:name) }
     let(:ec) { JSONAPI::Request::QueryParamCollection.new }
-    
+
   end
 
   describe '#method_missing' do
@@ -100,11 +92,11 @@ describe JSONAPI::Request::QueryParamCollection do
       expect(pages.class).to eq JSONAPI::Request::QueryParamCollection
       expect(sorts.class).to eq JSONAPI::Request::QueryParamCollection
       
-      expect(only_includes(fields, JSONAPI::Request::QueryParamCollection::QueryParam::Field)).to eq true
-      expect(only_includes(filters, JSONAPI::Request::QueryParamCollection::QueryParam::Filter)).to eq true
-      expect(only_includes(includes, JSONAPI::Request::QueryParamCollection::QueryParam::Include)).to eq true
-      expect(only_includes(pages, JSONAPI::Request::QueryParamCollection::QueryParam::Page)).to eq true
-      expect(only_includes(sorts, JSONAPI::Request::QueryParamCollection::QueryParam::Sort)).to eq true
+      expect(only_includes(fields, JSONAPI::Request::QueryParamCollection::FieldParam)).to eq true
+      expect(only_includes(filters, JSONAPI::Request::QueryParamCollection::Filter)).to eq true
+      expect(only_includes(includes, JSONAPI::Request::QueryParamCollection::Include)).to eq true
+      expect(only_includes(pages, JSONAPI::Request::QueryParamCollection::Page)).to eq true
+      expect(only_includes(sorts, JSONAPI::Request::QueryParamCollection::Sort)).to eq true
 
     end
   end

@@ -5,7 +5,7 @@ require 'rack/jsonapi/document/resource/field'
 
 module JSONAPI
   class Document
-    class Resource < JSONAPI::Document::ResourceId
+    class Resource
       class Attributes
 
         # An individual attribute in a JSON:API Attributes object
@@ -18,6 +18,7 @@ module JSONAPI
             super(name, type: type)
           end
 
+          # JSON key - value notation
           def to_s
             "\"#{name}\": \"#{@value}\""
           end

@@ -8,12 +8,26 @@ module JSONAPI
     # Validates that the request or response document complies with the JSONAPI specification  
     module DocumentExceptions
 
-      TOP_LEVEL_KEYS = %i[data errors meta].freeze
+      # A jsonapi document MUST contain at least one of the following top-level members
+      REQUIRED_TOP_LEVEL_KEYS = %i[data errors meta].freeze
+      
+      # Top level links objects MAY contain the following members
       LINKS_KEYS = %i[self related first prev next last].freeze
+
+      # Each member of a links object is a link. A link MUST be represented as either
       LINK_KEYS = %i[href meta].freeze
+
+      # A resource object MUST contain at least id and type (unless a post resource)
+      #   In addition, a resource object MAY contain these top-level members.
       RESOURCE_KEYS = %i[type id attributes relationships links meta].freeze
+
+      # A relationships object MUST contain one of the following:
       RELATIONSHIP_KEYS = %i[data links meta].freeze
-      RELATIONSHIP_LINK_KEYS = %i[self related].freeze
+
+      # A relationship that is to-one must conatin at least one of the following.
+      TO_ONE_RELATIONSHIP_LINK_KEYS = %i[self related].freeze
+
+      # Every resource object MUST contain an id member and a type member.
       RESOURCE_IDENTIFIER_KEYS = %i[type id].freeze
 
       # A more specific standard error to raise when an exception is found
@@ -26,6 +40,7 @@ module JSONAPI
       # @param http_method_is_post [TrueClass | FalseClass | NilClass] Whether the document belongs to a post request
       # @raise InvalidDocument if any part of the spec is not observed
       def self.check_compliance!(document, is_a_request: nil, http_method_is_post: nil)
+        ensure!(!document.nil?, 'A document cannot be nil')
         check_essentials!(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
         check_members!(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
         check_member_names!(document)
@@ -36,8 +51,9 @@ module JSONAPI
       #  used by #check_compliance! and JSONAPI::Document's #initialize method
       # @param (see #check_compliance!)
       def self.check_essentials!(document, is_a_request: nil, http_method_is_post: nil)
-        ensure!(!document.nil?,
-                'Cannot create an empty JSON:API document. Include a required top level member.')
+        ensure!(document.is_a?(Hash),
+                'A JSON object MUST be at the root of every JSON API request ' \
+                'and response containing data')  
         ensure!(is_a_request || is_a_request.nil? || !http_method_is_post,
                 'A document cannot both belong to a post request and not belong to a request') 
         is_a_request = true if http_method_is_post
@@ -52,12 +68,9 @@ module JSONAPI
       # @param (see *check_compliance!)
       # @raise (see check_compliance!)
       def self.check_top_level!(document, is_a_request: false)
-        ensure!(document.is_a?(Hash),
-                'A JSON object MUST be at the root of every JSON API request ' \
-                'and response containing data')
-        ensure!(!(document.keys & TOP_LEVEL_KEYS).empty?, 
+        ensure!(!(document.keys & REQUIRED_TOP_LEVEL_KEYS).empty?, 
                 'A document MUST contain at least one of the following ' \
-                "top-level members: #{TOP_LEVEL_KEYS}")
+                "top-level members: #{REQUIRED_TOP_LEVEL_KEYS}")
         
         if document.key? :data
           ensure!(!document.key?(:errors),
@@ -131,6 +144,7 @@ module JSONAPI
         check_resource_members!(resource)      
       end
 
+      # Checks whether the resource members conform to the spec
       # @param (see #check_resource!)
       # @raise (see #check_compliance!)
       def self.check_resource_members!(resource)
@@ -176,10 +190,12 @@ module JSONAPI
 
       # @param links [Hash]  A resources relationships relationship links
       # @raise (see #check_compliance!)
+      # TODO: If TO-ONE relationship only self and related
+      # TODO: If TO-MANY relationship -- self, related, pagination
       def self.check_relationship_links!(links)
-        ensure!(!(links.keys & RELATIONSHIP_LINK_KEYS).empty?,
+        ensure!(!(links.keys & TO_ONE_RELATIONSHIP_LINK_KEYS).empty?,
                 'A relationship link MUST contain at least one of '\
-                "#{RELATIONSHIP_LINK_KEYS}")
+                "#{TO_ONE_RELATIONSHIP_LINK_KEYS}")
         check_links!(links)
       end
 
