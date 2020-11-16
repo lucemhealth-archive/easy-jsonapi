@@ -9,21 +9,24 @@ describe JSONAPI::Parser::RackReqParamsParser do
     rack_params = 
       {
         'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
-        'include' => 'author, comments.likes',
-        'josh_ua' => 'demoss',
-        'page' => { 'offset' => '1', 'limit' => '1' },
-        'filter' => 'f',
-        'sort' => 's'
+        'include' => 'author,comments-likers,comments.users',
+        'josh_ua' => 'demoss,simpson',
+        'page' => { 'offset' => '5', 'limit' => '20' },
+        'filter' => { 'comments' => '(author/age > 21)', 'users' => '(age < 15)' },
+        'sort' => 'age,title'
+      }
+
+      {
       }
 
     @rack_params_w_bad_name =
       {
         'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
-        'include' => 'author, comments.likes',
-        'joshua' => 'demoss',
-        'page' => { 'offset' => '1', 'limit' => '1' },
-        'filter' => 'f',
-        'sort' => 's'
+        'include' => 'author,comments-likers,comments.users',
+        'joshua' => 'demoss,simpson',
+        'page' => { 'offset' => '5', 'limit' => '20' },
+        'filter' => { 'comments' => '(author/age > 21)', 'users' => '(age < 15)' },
+        'sort' => 'age,title'
       }
     
     @query_param_collection = JSONAPI::Parser::RackReqParamsParser.parse!(rack_params)
@@ -51,10 +54,8 @@ describe JSONAPI::Parser::RackReqParamsParser do
     end
 
     it 'should include each added item' do
-      expect(pc.include?(:'fields[articles]')).to be true
-      expect(pc.include?(:'fields[people]')).to be true
-      expect(pc.include?(:'include|author')).to be true
-      expect(pc.include?(:'include|comments.likes')).to be true
+      expect(pc.include?(:'fields')).to be true
+      expect(pc.include?(:include)).to be true
       expect(pc.include?(:josh_ua)).to be true
       expect(pc.include?(:page)).to be true
       expect(pc.include?(:filter)).to be true
@@ -62,14 +63,12 @@ describe JSONAPI::Parser::RackReqParamsParser do
     end
 
     it 'should contain proper classes for each item in the param collection' do
-      expect(pc.get(:'fields[articles]').class).to be JSONAPI::Request::QueryParamCollection::FieldParam
-      expect(pc.get(:'fields[people]').class).to be JSONAPI::Request::QueryParamCollection::FieldParam
-      expect(pc.get(:'include|author').class).to be JSONAPI::Request::QueryParamCollection::Include
-      expect(pc.get(:'include|comments.likes').class).to be JSONAPI::Request::QueryParamCollection::Include
+      expect(pc.get(:'fields').class).to be JSONAPI::Request::QueryParamCollection::FieldParam
+      expect(pc.get(:'include').class).to be JSONAPI::Request::QueryParamCollection::IncludeParam
       expect(pc.get(:josh_ua).class).to be JSONAPI::Request::QueryParamCollection::QueryParam
-      expect(pc.get(:page).class).to be JSONAPI::Request::QueryParamCollection::Page
-      expect(pc.get(:filter).class).to be JSONAPI::Request::QueryParamCollection::Filter
-      expect(pc.get(:sort).class).to be JSONAPI::Request::QueryParamCollection::Sort
+      expect(pc.get(:page).class).to be JSONAPI::Request::QueryParamCollection::PageParam
+      expect(pc.get(:filter).class).to be JSONAPI::Request::QueryParamCollection::FilterParam
+      expect(pc.get(:sort).class).to be JSONAPI::Request::QueryParamCollection::SortParam
     end
 
     it 'should raise InvalidParameter if given a impl specific param that does not follow naming rules' do

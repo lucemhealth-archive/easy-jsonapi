@@ -5,7 +5,7 @@ require 'rack/jsonapi/exceptions/query_params_exceptions'
 require 'rack/jsonapi/request/query_param_collection'
 
 require 'rack/jsonapi/request/query_param_collection/query_param'
-require 'rack/jsonapi/request/query_param_collection/filter_params'
+require 'rack/jsonapi/request/query_param_collection/filter_param'
 require 'rack/jsonapi/request/query_param_collection/include_param'
 require 'rack/jsonapi/request/query_param_collection/page_param'
 require 'rack/jsonapi/request/query_param_collection/sort_param'

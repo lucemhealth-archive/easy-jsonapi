@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions/document_exceptions/building_exceptions'
-
 module JSONAPI
 
   # Contains all objects relating to a JSONAPI Document
