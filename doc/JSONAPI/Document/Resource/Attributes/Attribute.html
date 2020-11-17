@@ -6,7 +6,7 @@
 <title>
   Class: JSONAPI::Document::Resource::Attributes::Attribute
   
-    &mdash; Documentation by YARD 0.9.25
+    &mdash; YARD 0.9.25 Documentation
   
 </title>
 
@@ -69,14 +69,14 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="../Field.html" title="JSONAPI::Document::Resource::Field (class)">Field</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="../Field.html" title="JSONAPI::Field (class)">Field</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next"><span class='object_link'><a href="../../../Item.html" title="JSONAPI::Item (class)">Item</a></span></li>
           
-            <li class="next"><span class='object_link'><a href="../Field.html" title="JSONAPI::Document::Resource::Field (class)">Field</a></span></li>
+            <li class="next"><span class='object_link'><a href="../Field.html" title="JSONAPI::Field (class)">Field</a></span></li>
           
             <li class="next">JSONAPI::Document::Resource::Attributes::Attribute</li>
           
@@ -105,8 +105,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>An individual attribute in a JSON:API Attributes object</p>
+    <p>An individual attribute in a JSON:API Attributes object</p>
 
 
   </div>
@@ -141,8 +140,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute value.</p>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute value.</p>
 </div></span>
   
 </li>
@@ -185,9 +183,30 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Attribute.</p>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Attribute.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(_)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -209,8 +228,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>JSON key - value notation.</p>
+    <span class="summary_desc"><div class='inline'><p>JSON key - value notation.</p>
 </div></span>
   
 </li>
@@ -228,8 +246,8 @@
   
   
   
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Field.html" title="JSONAPI::Document::Resource::Field (class)">Field</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Field.html#name-instance_method" title="JSONAPI::Document::Resource::Field#name (method)">#name</a></span>, <span class='object_link'><a href="../Field.html#name=-instance_method" title="JSONAPI::Document::Resource::Field#name= (method)">#name=</a></span>, <span class='object_link'><a href="../Field.html#type-instance_method" title="JSONAPI::Document::Resource::Field#type (method)">#type</a></span>, <span class='object_link'><a href="../Field.html#type=-instance_method" title="JSONAPI::Document::Resource::Field#type= (method)">#type=</a></span></p>
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Field.html" title="JSONAPI::Field (class)">Field</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Field.html#name-instance_method" title="JSONAPI::Field#name (method)">#name</a></span>, <span class='object_link'><a href="../Field.html#type-instance_method" title="JSONAPI::Field#type (method)">#type</a></span>, <span class='object_link'><a href="../Field.html#type=-instance_method" title="JSONAPI::Field#type= (method)">#type=</a></span></p>
 
   
   
@@ -255,8 +273,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Attribute.</p>
+    <p>Returns a new instance of Attribute.</p>
 
 
   </div>
@@ -315,8 +332,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the value of attribute value.</p>
+    <p>Returns the value of attribute value.</p>
 
 
   </div>
@@ -353,9 +369,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="to_s-instance_method">
+  <h3 class="signature first" id="name=-instance_method">
   
-    #<strong>to_s</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>name=</strong>(_)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -364,13 +380,28 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>JSON key - value notation</p>
-
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>RuntimeError An attribute name is not updatable.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -385,6 +416,46 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource/attributes/attribute.rb', line 22</span>
 
+<span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot change the name of an Attribute</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_s-instance_method">
+  
+    #<strong>to_s</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>JSON key - value notation</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/resource/attributes/attribute.rb', line 27</span>
+
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;: \&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@value</span><span class='embexpr_end'>}</span><span class='tstring_content'>\&quot;</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
@@ -398,7 +469,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov 16 13:32:06 2020 by
+  Generated on Tue Nov 17 12:11:45 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

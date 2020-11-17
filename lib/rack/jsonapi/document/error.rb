@@ -9,7 +9,7 @@ module JSONAPI
     class Error < JSONAPI::NameValuePairCollection
 
       def initialize(err_members = [])
-        super(err_members, JSONAPI::Document::Error::ErrorMember)
+        super(err_members, item_type: JSONAPI::Document::Error::ErrorMember)
       end
 
       # collection methods provided by super

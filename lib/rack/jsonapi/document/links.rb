@@ -10,7 +10,7 @@ module JSONAPI
 
       def initialize(link_arr = [])
         link_arr = [link_arr] unless link_arr.is_a? Array
-        super(link_arr, JSONAPI::Document::Links::Link)
+        super(link_arr, item_type: JSONAPI::Document::Links::Link)
       end
 
       # #empyt? provided by super class

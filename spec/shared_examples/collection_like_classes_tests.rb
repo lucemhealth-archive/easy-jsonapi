@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-shared_examples 'collection-like classes' do
+class ItemThatRaisesError
 
-  class ItemThatRaisesError
-    def initialize(name)
-      @name = name
-    end
+  attr_accessor :name
+
+  def initialize(name)
+    @name = name
   end
+end
+
+shared_examples 'collection-like classes' do
 
   describe '#initialize' do
 

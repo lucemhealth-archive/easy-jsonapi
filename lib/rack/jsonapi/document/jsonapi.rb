@@ -10,7 +10,7 @@ module JSONAPI
     class Jsonapi < JSONAPI::NameValuePairCollection
 
       def initialize(jsonapi_member_arr = [])
-        super(jsonapi_member_arr, JSONAPI::Document::Jsonapi::JsonapiMember)
+        super(jsonapi_member_arr, item_type: JSONAPI::Document::Jsonapi::JsonapiMember)
       end
 
     end

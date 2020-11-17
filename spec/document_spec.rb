@@ -56,16 +56,6 @@ describe JSONAPI::Document do
   let(:ec) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
 
   describe '#initialize' do
-    it 'should not raise Invalid Document if passed an invalid document.' do
-      msg = 'A document MUST be initialized with a hash containing ' \
-            "at least one of the following keys: [:data, :errors, :meta, " \
-            ":jsonapi, :links, :included]"
-      expect { JSONAPI::Document.new(nil) }.to raise_error msg
-      expect { JSONAPI::Document.new({}) }.to raise_error(ec, msg)
-      msg = 'Unless otherwise noted, objects defined by this specification ' \
-            'MUST NOT contain any additional members - ADDITIONAL MEMBERS FOUND: [:extra]'
-      expect { JSONAPI::Document.new({ data: nil, extra: nil }) }.to raise_error msg
-    end
 
     it 'should provide nil for instance variables that are not present' do
       expect(d.errors).to eq nil
@@ -88,8 +78,4 @@ describe JSONAPI::Document do
       expect(JSON.parse(doc.to_s, symbolize_names: true)).to eq doc_hash
     end
   end
-
-
-
-  
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/name_value_pair_collection'
+require 'rack/jsonapi/utility'
 
 module JSONAPI
   class Request
@@ -30,7 +31,7 @@ module JSONAPI
       # #size provided by super
 
       def to_s
-        JOSNAPI::Utility.to_string_collection(self, delimiter: '&')
+        JSONAPI::Utility.to_string_collection(self, delimiter: '&')
       end
   
       # Gets the QueryParam class whose name matches the method_name called

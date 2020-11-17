@@ -52,20 +52,20 @@ describe JSONAPI::Parser::RackReqParamsParser do
 
     it 'should include each added item' do
       expect(pc.include?(:'fields')).to be true
-      expect(pc.include?(:include)).to be true
+      expect(pc.include?(:includes)).to be true
       expect(pc.include?(:josh_ua)).to be true
       expect(pc.include?(:page)).to be true
-      expect(pc.include?(:filter)).to be true
-      expect(pc.include?(:sort)).to be true
+      expect(pc.include?(:filters)).to be true
+      expect(pc.include?(:sorts)).to be true
     end
 
     it 'should contain proper classes for each item in the param collection' do
-      expect(pc.get(:'fields').class).to be JSONAPI::Request::QueryParamCollection::FieldsParam
-      expect(pc.get(:'include').class).to be JSONAPI::Request::QueryParamCollection::IncludeParam
+      expect(pc.get(:fields).class).to be JSONAPI::Request::QueryParamCollection::FieldsParam
+      expect(pc.get(:includes).class).to be JSONAPI::Request::QueryParamCollection::IncludeParam
       expect(pc.get(:josh_ua).class).to be JSONAPI::Request::QueryParamCollection::QueryParam
       expect(pc.get(:page).class).to be JSONAPI::Request::QueryParamCollection::PageParam
-      expect(pc.get(:filter).class).to be JSONAPI::Request::QueryParamCollection::FilterParam
-      expect(pc.get(:sort).class).to be JSONAPI::Request::QueryParamCollection::SortParam
+      expect(pc.get(:filters).class).to be JSONAPI::Request::QueryParamCollection::FilterParam
+      expect(pc.get(:sorts).class).to be JSONAPI::Request::QueryParamCollection::SortParam
     end
 
     it 'should raise InvalidParameter if given a impl specific param that does not follow naming rules' do

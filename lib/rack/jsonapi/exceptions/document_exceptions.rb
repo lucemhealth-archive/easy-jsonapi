@@ -137,7 +137,7 @@ module JSONAPI
         end
         ensure!(resource[:type].class == String,
                 'The value of the resource type member MUST be string')
-        # Make sure that type id attributes and relationships share a common namespace
+        # Check for sharing a common namespace is in #check_resource_members!
         ensure!(JSONAPI::Exceptions::NamingExceptions.check_member_constraints(resource[:type]).nil?,
                 'The values of type members MUST adhere to the same constraints as member names')
         
@@ -152,6 +152,9 @@ module JSONAPI
         check_relationships!(resource[:relationships]) if resource.key? :relationships
         check_meta!(resource[:meta]) if resource.key? :meta
         check_links!(resource[:links]) if resource.key? :links
+        ensure!(shares_common_namespace?(resource[:attributes], resource[:relationships]),
+                'Fields for a resource object MUST share a common namespace with each ' \
+                'other and with type and id')
       end
 
       # @param attributes [Hash]  The attributes for resource
@@ -305,10 +308,30 @@ module JSONAPI
         ensure!(included.is_a?(Array),
                 'The top level included member MUST be represented as an array of resource objects')
         included.each { |res| check_resource!(res) }
-        # Compound documents require “full linkage”, meaning that every included resource MUST be 
+        # TODO: Compound documents require “full linkage”, meaning that every included resource MUST be 
         # identified by at least one resource identifier object in the same document.
       end
 
+      # def self.full_linkage?(document)
+      #   return true unless document[:included] && document[:data]
+        
+      #   res_id_hash = res_id_hash(document[:data])
+      #   document[:included].each do |res|
+      #     return false unless res_id_hash[res[:type]].include? res[:id]
+      #   end
+      #   true
+      # end
+
+      # def self.get_res_id_hash(data)
+      #   res_id_hash = {}
+      #   data.each do |res| 
+      #     next unless res[:relationships]
+      #     res[:relationships].each do |rel|
+      #       next unless rel[:data]
+      #       res_id_hash[rel[:data][:type]] = 
+      #     end
+      #   end
+      # end
       # **********************************
       # * CHECK MEMBER NAMES             *
       # **********************************
@@ -348,6 +371,23 @@ module JSONAPI
       # @raise InvalidDocument
       def self.ensure!(condition, error_message)
         raise InvalidDocument, error_message unless condition
+      end
+
+      def self.shares_common_namespace?(attributes, relationships)
+        true && \
+          !contains_type_or_id_member?(attributes) && \
+          !contains_type_or_id_member?(relationships) && \
+          keys_intersection_empty?(attributes, relationships)
+      end
+
+      def self.contains_type_or_id_member?(hash)
+        return false unless hash
+        hash.key?(:id) || hash.key?(:type)
+      end
+
+      def self.keys_intersection_empty?(arr1, arr2)
+        return true unless arr1 && arr2
+        arr1.keys & arr2.keys == []
       end
     end
   end

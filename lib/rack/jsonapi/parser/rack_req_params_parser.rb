@@ -16,7 +16,7 @@ require 'rack/jsonapi/request/query_param_collection/sort_param'
 require 'rack/jsonapi/request/query_param_collection/fields_param'
 require 'rack/jsonapi/request/query_param_collection/fields_param/fieldset'
 
-require 'rack/jsonapi/document/resource/field'
+require 'rack/jsonapi/field'
 
 module JSONAPI
   module Parser
@@ -71,14 +71,14 @@ module JSONAPI
         fieldsets = []
         value.each do |res_type, res_field_str|
           res_field_str_arr = res_field_str.split(',')
-          res_field_arr = res_field_str_arr.map { |res_field| JSONAPI::Document::Resource::Field.new(res_field) }
+          res_field_arr = res_field_str_arr.map { |res_field| JSONAPI::Field.new(res_field) }
           fieldsets << JSONAPI::Request::QueryParamCollection::FieldsParam::Fieldset.new(res_type, res_field_arr)
         end
         JSONAPI::Request::QueryParamCollection::FieldsParam.new(fieldsets)
       end
 
       def self.parse_sort_param(value)
-        res_field_arr = value.split(',').map { |res_field| JSONAPI::Document::Resource::Field.new(res_field) }
+        res_field_arr = value.split(',').map { |res_field| JSONAPI::Field.new(res_field) }
         JSONAPI::Request::QueryParamCollection::SortParam.new(res_field_arr)
       end
 

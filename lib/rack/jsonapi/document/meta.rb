@@ -10,7 +10,7 @@ module JSONAPI
 
       def initialize(meta_arr = [])
         meta_arr = [meta_arr] unless meta_arr.is_a? Array
-        super(meta_arr, JSONAPI::Document::Meta::MetaMember)
+        super(meta_arr, item_type: JSONAPI::Document::Meta::MetaMember)
       end
 
       # #empyt? provided by super

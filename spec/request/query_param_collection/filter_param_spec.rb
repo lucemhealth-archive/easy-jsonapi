@@ -13,7 +13,7 @@ describe JSONAPI::Request::QueryParamCollection::FilterParam do
     new_filter = JSONAPI::Request::QueryParamCollection::FilterParam::Filter.new('users', '(age > 15)')
     
     let(:pair) { JSONAPI::Request::QueryParamCollection::FilterParam.new([filter1, filter2]) }
-    let(:name) { 'filter' }
+    let(:name) { 'filters' }
     let(:value) { [filter1, filter2] }
     let(:new_value_input) { new_filter }
     let(:new_value) { [new_filter] }

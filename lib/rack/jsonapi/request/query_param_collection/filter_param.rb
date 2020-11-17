@@ -13,7 +13,7 @@ module JSONAPI
         # @param filter_arr [Array<JSONAPI::Request::QueryParamCollection::FilterParam::Filter>]
         #   The array of filters included in the query string. Ex: filter[articles]=(posted_date == today)
         def initialize(filter_arr)
-          super('filter', filter_arr)
+          super('filters', filter_arr)
         end
 
         # Represent each filter separated by a & value

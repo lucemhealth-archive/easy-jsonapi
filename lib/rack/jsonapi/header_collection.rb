@@ -11,7 +11,7 @@ module JSONAPI
     #   a Header collection
     # @return JSONAPI::HeaderCollection
     def initialize(header_arr = [])
-      super(header_arr, JSONAPI::HeaderCollection::Header)
+      super(header_arr, item_type: JSONAPI::HeaderCollection::Header)
     end
 
     # #empyt? provided by super

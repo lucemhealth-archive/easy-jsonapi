@@ -92,7 +92,7 @@ describe JSONAPI::Request::QueryParamCollection::IncludeParam do
 
   it_behaves_like 'query param tests' do
     let(:pair) { i1 }
-    let(:name) { 'include' }
+    let(:name) { 'includes' }
     let(:value) { value1 }
     let(:new_value_input) { value2 }
     let(:new_value) { value2 }

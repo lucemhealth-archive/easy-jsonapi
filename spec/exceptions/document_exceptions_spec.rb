@@ -247,6 +247,44 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               expect { f({ data: { type: 123, id: '123' } }) }.to raise_error(ec, msg_type)
             end
 
+            it 'should raise if the resource fields do not share a common namespace' do
+              msg = 'Fields for a resource object MUST share a common namespace with each ' \
+                    'other and with type and id'
+              expect do
+                f(
+                  { 
+                    data: { 
+                      type: 't', id: '123',
+                      attributes: { not_unique: 'ex' },
+                      relationships: { not_unique: { data: { type: 't', id: '123' } } }
+                    }
+                  }
+                )
+              end.to raise_error msg
+              expect do
+                f(
+                  { 
+                    data: { 
+                      type: 't', id: '123',
+                      attributes: { type: 'ex' },
+                      relationships: { not_unique: { data: { type: 't', id: '123' } } }
+                    }
+                  }
+                )
+              end.to raise_error msg
+              expect do
+                f(
+                  { 
+                    data: { 
+                      type: 't', id: '123',
+                      attributes: { example: 'ex' },
+                      relationships: { id: { data: { type: 't', id: '123' } } }
+                    }
+                  }
+                )
+              end.to raise_error msg
+            end
+
             it 'it should raise if the value of type does not conform to member naming rules' do
               msg = 'The values of type members MUST adhere to the same constraints as member names'
               expect { f({ data: { type: '***type***', id: '123' } }) }.to raise_error(ec, msg)

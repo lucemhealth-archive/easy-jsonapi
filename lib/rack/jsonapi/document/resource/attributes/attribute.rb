@@ -1,21 +1,25 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/resource/attributes'
-require 'rack/jsonapi/document/resource/field'
+require 'rack/jsonapi/field'
 
 module JSONAPI
   class Document
     class Resource
-      class Attributes
+      class Attributes < JSONAPI::NameValuePairCollection
 
         # An individual attribute in a JSON:API Attributes object
-        class Attribute < JSONAPI::Document::Resource::Field
+        class Attribute < JSONAPI::Field
 
           attr_accessor :value
 
           def initialize(name, value, type: String)
             @value = value
             super(name, type: type)
+          end
+
+          # @raise RuntimeError An attribute name is not updatable.
+          def name=(_)
+            raise 'Cannot change the name of an Attribute'
           end
 
           # JSON key - value notation

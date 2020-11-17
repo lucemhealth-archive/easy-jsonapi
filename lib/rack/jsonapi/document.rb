@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+require 'rack/jsonapi/document/resource'
+require 'rack/jsonapi/document/resource_id'
+require 'rack/jsonapi/document/error'
+require 'rack/jsonapi/document/jsonapi'
+require 'rack/jsonapi/document/links'
+require 'rack/jsonapi/document/meta'
+
+require 'rack/jsonapi/utility'
+
 module JSONAPI
 
   # Contains all objects relating to a JSONAPI Document
@@ -10,6 +19,7 @@ module JSONAPI
     # @param document [Hash] A hash of the different possible document members
     #   with the values being clases associated with those members
     def initialize(document = {})
+      return unless document.is_a? Hash
       @data = document[:data]
       @meta = document[:meta]
       @links = document[:links] # software generated?
@@ -21,12 +31,12 @@ module JSONAPI
     # To String
     def to_s
       '{ ' \
-        "#{member_to_s('data', @data, first_member: true)}" \
-        "#{member_to_s('meta', @meta)}" \
-        "#{member_to_s('links', @links)}" \
-        "#{member_to_s('included', @included)}" \
-        "#{member_to_s('errors', @errors)}" \
-        "#{member_to_s('jsonapi', @jsonapi)}" \
+        "#{JSONAPI::Utility.member_to_s('data', @data, first_member: true)}" \
+        "#{JSONAPI::Utility.member_to_s('meta', @meta)}" \
+        "#{JSONAPI::Utility.member_to_s('links', @links)}" \
+        "#{JSONAPI::Utility.member_to_s('included', @included)}" \
+        "#{JSONAPI::Utility.member_to_s('errors', @errors)}" \
+        "#{JSONAPI::Utility.member_to_s('jsonapi', @jsonapi)}" \
       ' }'
     end
 

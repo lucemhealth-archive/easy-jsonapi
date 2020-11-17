@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/resource/field'
+require 'rack/jsonapi/field'
 
-describe JSONAPI::Document::Resource::Field do
+describe JSONAPI::Field do
 
-  let(:f1) { JSONAPI::Document::Resource::Field.new('number', type: Integer) }
-  let(:f2) { JSONAPI::Document::Resource::Field.new('title') }
+  let(:f1) { JSONAPI::Field.new('number', type: Integer) }
+  let(:f2) { JSONAPI::Field.new('title') }
 
   describe '#initialize' do
     
@@ -16,14 +16,13 @@ describe JSONAPI::Document::Resource::Field do
       expect(f2.name).to eq 'title'
       expect(f2.type).to eq String
 
-      f1.name = 'body'
+      error_msg = 'Cannot change the name of a Resource::Field'
+      expect { f1.name = 'body' }.to raise_error error_msg
+      expect { f2.name = 'authors' }.to raise_error error_msg
+      
       f1.type = String
-      expect(f1.name).to eq 'body'
-      expect(f1.type).to eq String
-
-      f2.name = 'authors'
       f2.type = Array
-      expect(f2.name).to eq 'authors'
+      expect(f1.type).to eq String
       expect(f2.type).to eq Array
     end
   end

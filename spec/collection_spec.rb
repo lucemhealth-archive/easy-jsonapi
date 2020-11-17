@@ -31,8 +31,8 @@ describe JSONAPI::Collection do
     ]
   
     item_arr = obj_arr.map { |i| JSONAPI::Item.new(i) }
-    let(:c) { JSONAPI::Collection.new(item_arr, class_type: item_class, &:name) }
-    let(:ec) { JSONAPI::Collection.new(class_type: item_class) }
+    let(:c) { JSONAPI::Collection.new(item_arr, item_type: item_class, &:name) }
+    let(:ec) { JSONAPI::Collection.new(item_type: item_class) }
   
   end
 end

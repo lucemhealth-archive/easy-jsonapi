@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/name_value_pair_collection'
-require 'rack/jsonapi/document/resource_id'
 
 module JSONAPI
   class Document
@@ -10,7 +9,7 @@ module JSONAPI
       class Attributes < JSONAPI::NameValuePairCollection
   
         def initialize(attr_arr = [])
-          super(attr_arr, JSONAPI::Document::Resource::Attributes::Attribute)
+          super(attr_arr, item_type: JSONAPI::Document::Resource::Attributes::Attribute)
         end
 
         # #empyt? provided by super

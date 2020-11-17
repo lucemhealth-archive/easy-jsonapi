@@ -8,10 +8,14 @@ module JSONAPI
       # Used to create a unique Sort JSONAPI::Request::QueryParamCollection::QueryParam
       class SortParam < QueryParam
         
-        # @param res_field_arr [Array<JSONAPI::Document::Resource::Field] The resource fields
+        # @param res_field_arr [Array<JSONAPI::Field] The resource fields
         #   to sort the primary resources by.
         def initialize(res_field_arr)
-          super('sort', res_field_arr)
+          super('sorts', res_field_arr)
+        end
+
+        def to_s
+          "sort=#{JSONAPI::Utility.to_string_collection(value, delimiter: ',')}"
         end
   
       end

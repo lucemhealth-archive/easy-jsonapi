@@ -8,8 +8,8 @@ module JSONAPI
       attr_accessor :type, :id
 
       def initialize(type, id)
-        @type = type
-        @id = id
+        @type = type.to_s
+        @id = id.to_s
       end
 
       # Represents ResourceId as a JSON parsable string

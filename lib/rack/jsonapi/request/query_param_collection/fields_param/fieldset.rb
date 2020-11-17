@@ -12,7 +12,7 @@ module JSONAPI
 
           attr_accessor :resource_type, :resource_fields
 
-          # @param res_field_arr [Array<JSONAPI::Document::Resource::Field>]
+          # @param res_field_arr [Array<JSONAPI::Field>]
           #   A fieldset is a collection of Resource Fields
           def initialize(resource_type, res_field_arr = [])
             @resource_type = resource_type

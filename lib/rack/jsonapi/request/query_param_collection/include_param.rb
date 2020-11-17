@@ -14,7 +14,7 @@ module JSONAPI
         #   Ex: incude=author,people => ['author', 'people']
         def initialize(includes_arr)
           includes_hash_structure = store_includes(includes_arr)
-          super('include', includes_hash_structure)
+          super('includes', includes_hash_structure)
         end
 
         def to_s

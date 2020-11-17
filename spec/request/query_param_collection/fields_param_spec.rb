@@ -2,7 +2,7 @@
 
 require 'rack/jsonapi/request/query_param_collection/fields_param'
 require 'rack/jsonapi/request/query_param_collection/fields_param/fieldset'
-require 'rack/jsonapi/document/resource/field'
+require 'rack/jsonapi/field'
 
 require 'shared_examples/query_param_tests'
 
@@ -10,14 +10,14 @@ describe JSONAPI::Request::QueryParamCollection::FieldsParam do
 
   let(:res_field_arr1) do
     [
-      JSONAPI::Document::Resource::Field.new('title'), 
-      JSONAPI::Document::Resource::Field.new('body')
+      JSONAPI::Field.new('title'), 
+      JSONAPI::Field.new('body')
     ]
   end
 
   let(:res_field_arr2) do
     [
-      JSONAPI::Document::Resource::Field.new('name')
+      JSONAPI::Field.new('name')
     ]
   end
 
@@ -25,7 +25,7 @@ describe JSONAPI::Request::QueryParamCollection::FieldsParam do
   let(:fieldset2) { JSONAPI::Request::QueryParamCollection::FieldsParam::Fieldset.new('people', res_field_arr2) }
   
   # Used when checking #value=
-  res_field = JSONAPI::Document::Resource::Field.new('date')
+  res_field = JSONAPI::Field.new('date')
   let(:fieldset3) { JSONAPI::Request::QueryParamCollection::FieldsParam::Fieldset.new('comments', res_field) }
 
 

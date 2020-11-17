@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
-shared_examples 'item like classes' do
-  context '#initialize' do
+shared_examples 'item shared tests' do
+  describe '#initialize' do
     it 'should inherit methods and variables of the super class' do
       expect(item.is_a?(JSONAPI::Item)).to be true
+    end
+
+    it 'should raise if a hash is passed with strings as keys' do
+      tmp = { 'name' => 'test', 'value' => 'ing' }
+      expect { JSONAPI::Item.new(tmp) }.to raise_error "All keys must be Symbols. 'name' was String"
+      tmp = { name: 'test', 'value' => 'ing' }
+      expect { JSONAPI::Item.new(tmp) }.to raise_error "All keys must be Symbols. 'value' was String"
     end
   end
 
@@ -28,7 +35,7 @@ shared_examples 'item like classes' do
       expect { item.should_get_var?(:name) }.to raise_error NoMethodError
     end
   end
-  
+
   describe '#to_s' do
     it 'should work' do
       str = "{ \"name\": \"name\", \"value\": \"value\" }"

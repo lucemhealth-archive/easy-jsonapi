@@ -33,9 +33,10 @@ describe JSONAPI::Document::Resource::Relationships::Relationship do
     end
   
     it 'should have proper write methods and raise when envoking on read only' do
-      expect(rel.links.first.name = 'new_self').to eq 'new_self'
+      msg = 'Cannot change the name of NameValuePair Objects'
+      expect { rel.links.first.name = 'new_self' }.to raise_error msg
       expect(rel.data.type = 'new_type').to eq 'new_type'
-      expect(rel.meta.get(:count).name = 'new_name').to eq 'new_name'
+      expect { rel.meta.get(:count).name = 'new_name' }.to raise_error msg
       expect { rel.name = 'new_name' }.to raise_error NoMethodError
     end
   end
