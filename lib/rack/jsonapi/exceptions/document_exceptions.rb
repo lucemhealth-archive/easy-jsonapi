@@ -40,7 +40,7 @@ module JSONAPI
       # @param http_method_is_post [TrueClass | FalseClass | NilClass] Whether the document belongs to a post request
       # @raise InvalidDocument if any part of the spec is not observed
       def self.check_compliance(document, is_a_request: nil, http_method_is_post: nil)
-        ensure!(document.nil?, 'A document cannot be nil')
+        ensure!(!document.nil?, 'A document cannot be nil')
         check_essentials(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
         check_members(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
         check_member_names(document)
@@ -54,7 +54,7 @@ module JSONAPI
         ensure!(document.is_a?(Hash),
                 'A JSON object MUST be at the root of every JSON API request ' \
                 'and response containing data')  
-        ensure!(is_a_request || is_a_request.nil? || http_method_is_post,
+        ensure!(is_a_request || is_a_request.nil? || !http_method_is_post,
                 'A document cannot both belong to a post request and not belong to a request') 
         is_a_request = true if http_method_is_post
         check_top_level(document, is_a_request: is_a_request)
@@ -68,18 +68,18 @@ module JSONAPI
       # @param (see *check_compliance)
       # @raise (see check_compliance)
       def self.check_top_level(document, is_a_request: false)
-        ensure!((document.keys & REQUIRED_TOP_LEVEL_KEYS).empty?, 
+        ensure!(!(document.keys & REQUIRED_TOP_LEVEL_KEYS).empty?, 
                 'A document MUST contain at least one of the following ' \
                 "top-level members: #{REQUIRED_TOP_LEVEL_KEYS}")
         
         if document.key? :data
-          ensure!(document.key?(:errors),
+          ensure!(!document.key?(:errors),
                   'The members data and errors MUST NOT coexist in the same document')
         else
-          ensure!(document.key?(:included),
+          ensure!(!document.key?(:included),
                   'If a document does not contain a top-level data key, the included ' \
                   'member MUST NOT be present either')
-          ensure!(is_a_request,
+          ensure!(!is_a_request,
                   'The request MUST include a single resource object as primary data')
         end
       end
@@ -98,7 +98,7 @@ module JSONAPI
         check_jsonapi(document[:jsonapi]) if document.key? :jsonapi
         check_links(document[:links]) if document.key? :links
         check_included(document[:included]) if document.key? :included
-        check_full_linkage(document, is_a_request: is_a_request)
+        # check_full_linkage(document, is_a_request: is_a_request)
       end
 
       # -- TOP LEVEL - PRIMARY DATA
@@ -108,7 +108,7 @@ module JSONAPI
       # @param (see #check_compliance)
       # @raise (see #check_compliance)
       def self.check_data(data, is_a_request: false, http_method_is_post: false)
-        ensure!(data.is_a?(Hash) || is_a_request,
+        ensure!(data.is_a?(Hash) || !is_a_request,
                 'The request MUST include a single resource object as primary data')
         case data
         when Hash
@@ -125,7 +125,7 @@ module JSONAPI
       # @param (see #check_compliance)
       # @raise (see #check_compliance)
       def self.check_resource(resource, http_method_is_post: false)
-        if http_method_is_post
+        if !http_method_is_post
           ensure!((resource[:type] && resource[:id]),
                   'Every resource object MUST contain an id member and a type member')
         else
@@ -181,7 +181,7 @@ module JSONAPI
       # @raise (see #check_compliance)
       def self.check_relationship(rel)
         ensure!(rel.is_a?(Hash), 'Each relationships member MUST be a object')
-        ensure!((rel.keys & RELATIONSHIP_KEYS).empty?,
+        ensure!(!(rel.keys & RELATIONSHIP_KEYS).empty?,
                 'A relationship object MUST contain at least one of ' \
                 "#{RELATIONSHIP_KEYS}")
         
@@ -197,7 +197,7 @@ module JSONAPI
       # TODO: If TO-ONE relationship only self and related
       # TODO: If TO-MANY relationship -- self, related, pagination
       def self.check_relationship_links(links)
-        ensure!((links.keys & TO_ONE_RELATIONSHIP_LINK_KEYS).empty?,
+        ensure!(!(links.keys & TO_ONE_RELATIONSHIP_LINK_KEYS).empty?,
                 'A relationship link MUST contain at least one of '\
                 "#{TO_ONE_RELATIONSHIP_LINK_KEYS}")
         check_links(links)
@@ -313,14 +313,14 @@ module JSONAPI
       end
 
       #  -- Checking if document is fully linked
-      def self.check_full_linkage(document, is_a_request:)
-        return nil if is_a_request
+      # def self.check_full_linkage(document, is_a_request:)
+      #   return nil if is_a_request
         
-        # TODO: Possible refactor?
-        ensure!(full_linkage?(document),
-                'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
-                'identified by at least one resource identifier object in the same document.')
-      end
+      #   # TODO: Possible refactor?
+      #   ensure!(full_linkage?(document),
+      #           'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
+      #           'identified by at least one resource identifier object in the same document.')
+      # end
 
       
 
@@ -371,8 +371,8 @@ module JSONAPI
 
       def self.shares_common_namespace?(attributes, relationships)
         true && \
-          contains_type_or_id_member?(attributes) && \
-          contains_type_or_id_member?(relationships) && \
+          !contains_type_or_id_member?(attributes) && \
+          !contains_type_or_id_member?(relationships) && \
           keys_intersection_empty?(attributes, relationships)
       end
 
@@ -390,60 +390,60 @@ module JSONAPI
       # Helper Methods for Full Linkage:
       # ********************************
 
-      def self.full_linkage?(document)
-        return true unless document[:included] # Checked earlier to make sure included only exists w data
+      # def self.full_linkage?(document)
+      #   return true unless document[:included] # Checked earlier to make sure included only exists w data
         
-        possible_includes = get_possible_includes(document)
-        check_included_against(possible_includes, document)
-      end
+      #   possible_includes = get_possible_includes(document)
+      #   check_included_against(possible_includes, document)
+      # end
 
-      def self.get_possible_includes(document)
-        possible_includes = {}
-        primary_data = document[:data]
-        include_arr = document[:include]
-        populate_w_primary_data(possible_includes, primary_data)
-        populate_w_include_mem(possible_includes, include_arr)
-      end
+      # def self.get_possible_includes(document)
+      #   possible_includes = {}
+      #   primary_data = document[:data]
+      #   include_arr = document[:include]
+      #   populate_w_primary_data(possible_includes, primary_data)
+      #   populate_w_include_mem(possible_includes, include_arr)
+      # end
 
-      def self.check_included_against(possible_includes, document)
-        document[:include].each do |res|
-          return false unless possible_includes.key? res_id_to_sym(res[:type], res[:id])
-        end
-        true
-      end
+      # def self.check_included_against(possible_includes, document)
+      #   document[:include].each do |res|
+      #     return false unless possible_includes.key? res_id_to_sym(res[:type], res[:id])
+      #   end
+      #   true
+      # end
 
-      def self.populate_w_primary_data(possible_includes, primary_data)
-        if primary_data.is_a? Array
-          primary_data.each do |res|
-            populate_w_res_rels(possible_includes, res)
-          end
-        else
-          populate_w_res_rels(possible_includes, primary_data)
-        end
-      end
+      # def self.populate_w_primary_data(possible_includes, primary_data)
+      #   if primary_data.is_a? Array
+      #     primary_data.each do |res|
+      #       populate_w_res_rels(possible_includes, res)
+      #     end
+      #   else
+      #     populate_w_res_rels(possible_includes, primary_data)
+      #   end
+      # end
 
-      def self.populate_w_include_mem(possible_includes, include_arr)
-        include_arr.each do |res|
-          populate_w_res_rels(possible_includes, res)
-        end
-      end
+      # def self.populate_w_include_mem(possible_includes, include_arr)
+      #   include_arr.each do |res|
+      #     populate_w_res_rels(possible_includes, res)
+      #   end
+      # end
 
-      def self.populate_w_res_rels(possible_includes, resource)
-        resource[:relationships].each do |rel|
-          res_id = rel[:data]
-          next unless res_id
+      # def self.populate_w_res_rels(possible_includes, resource)
+      #   resource[:relationships].each do |rel|
+      #     res_id = rel[:data]
+      #     next unless res_id
 
-          if res_id.is_a? Array
-            res_id.each { |id| possible_includes[res_id_to_sym(id[:type], id[:id])] = true }
-          else
-            possible_includes[res_id_to_sym(res_id[:type], res_id[:id])] = true
-          end
-        end
-      end
+      #     if res_id.is_a? Array
+      #       res_id.each { |id| possible_includes[res_id_to_sym(id[:type], id[:id])] = true }
+      #     else
+      #       possible_includes[res_id_to_sym(res_id[:type], res_id[:id])] = true
+      #     end
+      #   end
+      # end
 
-      def self.res_id_to_sym(type, id)
-        "#{type}|#{id}".to_sym
-      end
+      # def self.res_id_to_sym(type, id)
+      # "#{type}|#{id}".to_sym
+      # end
     end
   end
 end

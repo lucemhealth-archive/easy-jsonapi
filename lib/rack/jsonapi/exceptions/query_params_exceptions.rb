@@ -45,7 +45,7 @@ module JSONAPI
         raise InvalidParameter, msg
       end
 
-      private_class_method :raise_error!
+      private_class_method :raise_error
     end
   end
 end

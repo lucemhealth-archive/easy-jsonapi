@@ -31,7 +31,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         "type": "articles",
         "id": "1",
         "attributes": {
-          "title": "JSON:API paints my bikeshed"
+          "title": "JSON:API paints my bikeshed!"
         },
         "relationships": {
           "author": {
@@ -71,7 +71,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         "type": "comments",
         "id": "5",
         "attributes": {
-          "body": "First"
+          "body": "First!"
         },
         "relationships": {
           "author": {
@@ -133,7 +133,6 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       context 'when checking basic checks' do
   
         it 'should return nil if the document complies to all specs' do
-          pp response_doc.nil?
           expect(f(response_doc)).to be nil      
           expect(f(req_doc, is_a_request: true)).to be nil      
           expect(f(req_doc, is_a_request: true, http_method_is_post: true)).to be nil  
@@ -145,7 +144,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           expect { f(nil) }.to raise_error(ec, msg)
         end
   
-        it 'should raise if request but http_method_is_post' do
+        it 'should raise if !request but http_method_is_post' do
           msg = 'A document cannot both belong to a post request and not belong to a request'
           expect { f(response_doc, is_a_request: false, http_method_is_post: true) }.to raise_error(ec, msg)
           expect(f(req_doc, http_method_is_post: true)).to be nil
@@ -286,7 +285,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               end.to raise_error msg
             end
 
-            it 'it should raise if the value of type does not conform to member naming rules' do
+            it 'should raise if the value of type does not conform to member naming rules' do
               msg = 'The values of type members MUST adhere to the same constraints as member names'
               expect { f({ data: { type: '***type***', id: '123' } }) }.to raise_error(ec, msg)
             end
@@ -865,7 +864,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               {
                 'type': 'articles',
                 'id': '1',
-                'attributes': { '***title***': 'JSON API paints my bikeshed' },
+                'attributes': { '***title***': 'JSON API paints my bikeshed!' },
                 'links': { 'self': 'http://example.com/articles/1' },
                 'relationships': {
                   'author': {
@@ -886,7 +885,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               {
                 'type': 'articles',
                 'id': '1',
-                'attributes': { 'title': 'JSON API paints my bikeshed' },
+                'attributes': { 'title': 'JSON API paints my bikeshed!' },
                 'links': { 'self': 'http://example.com/articles/1' },
                 'relationships': {
                   '***author***': {
@@ -907,7 +906,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               {
                 'type': 'articles',
                 'id': '1',
-                'attributes': { 'title': 'JSON API paints my bikeshed' },
+                'attributes': { 'title': 'JSON API paints my bikeshed!' },
                 'links': { 'self': 'http://example.com/articles/1' },
                 'relationships': {
                   "author": {

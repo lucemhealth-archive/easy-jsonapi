@@ -56,7 +56,7 @@ module JSONAPI
         raise InvalidHeader, msg
       end
 
-      private_class_method :check_content_type!, :check_accept!, :raise_error!
+      private_class_method :check_content_type, :check_accept, :raise_error
     end
   end
 end
