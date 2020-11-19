@@ -22,7 +22,7 @@ shared_examples 'name value and query shared tests' do
 
   context 'checking scope' do
     it 'should not be able to access parent private methods' do
-      expect { pair.ensure_keys_are_sym!({ name: name }) }.to raise_error NoMethodError
+      expect { pair.ensure_keys_are_sym({ name: name }) }.to raise_error NoMethodError
       expect { pair.should_update_var?(:name) }.to raise_error NoMethodError
       expect { pair.should_get_var?(:name) }.to raise_error NoMethodError
     end

@@ -14,7 +14,7 @@ module JSONAPI
     #   upon trying to access them.
     def initialize(obj)
       if obj.is_a? Hash
-        ensure_keys_are_sym!(obj)
+        ensure_keys_are_sym(obj)
       end
       @item = obj
     end
@@ -59,7 +59,7 @@ module JSONAPI
 
     # Ensures that hash keys are symbol (and not String) when passing a hash to item.
     # @param obj [Object]  A hash that can represent an item.
-    def ensure_keys_are_sym!(obj)
+    def ensure_keys_are_sym(obj)
       obj.each_key do |k|
         raise "All keys must be Symbols. '#{k}' was #{k.class}" unless k.is_a? Symbol
       end

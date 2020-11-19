@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# classes extending document:
 require 'rack/jsonapi/document/resource'
 require 'rack/jsonapi/document/resource_id'
 require 'rack/jsonapi/document/error'
@@ -39,35 +40,5 @@ module JSONAPI
         "#{JSONAPI::Utility.member_to_s('jsonapi', @jsonapi)}" \
       ' }'
     end
-
-    # To Hash
-
-    private
-
-    def member_to_s(str_name, member, first_member: false)
-      return '' if member.nil?
-      if first_member
-        "\"#{str_name}\": #{array_to_s(member)}"
-      else
-        ", \"#{str_name}\": #{array_to_s(member)}"
-      end
-    end
-
-    # Returns the proper to_s for members that are an array.
-    def array_to_s(obj_arr)
-      return obj_arr.to_s unless obj_arr.is_a? Array
-      to_return = '['
-      first = true
-      obj_arr.each do |obj|
-        if first
-          to_return += obj.to_s
-          first = false
-        else
-          to_return += ", #{obj}"
-        end
-      end
-      to_return += ']'
-    end
-
   end
 end

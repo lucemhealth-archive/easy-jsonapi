@@ -31,7 +31,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         "type": "articles",
         "id": "1",
         "attributes": {
-          "title": "JSON:API paints my bikeshed!"
+          "title": "JSON:API paints my bikeshed"
         },
         "relationships": {
           "author": {
@@ -71,7 +71,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         "type": "comments",
         "id": "5",
         "attributes": {
-          "body": "First!"
+          "body": "First"
         },
         "relationships": {
           "author": {
@@ -113,14 +113,14 @@ describe JSONAPI::Exceptions::DocumentExceptions do
     }
   end
 
-  # Alias for #check_compliance!
+  # Alias for #check_compliance
   def f(document, is_a_request: nil, http_method_is_post: nil)
-    JSONAPI::Exceptions::DocumentExceptions.check_compliance!(
+    JSONAPI::Exceptions::DocumentExceptions.check_compliance(
       document, is_a_request: is_a_request, http_method_is_post: http_method_is_post
     )
   end
   
-  describe '#check_compliance!' do
+  describe '#check_compliance' do
     
     # **********************************
     # * Check Essentials               *
@@ -133,6 +133,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       context 'when checking basic checks' do
   
         it 'should return nil if the document complies to all specs' do
+          pp response_doc.nil?
           expect(f(response_doc)).to be nil      
           expect(f(req_doc, is_a_request: true)).to be nil      
           expect(f(req_doc, is_a_request: true, http_method_is_post: true)).to be nil  
@@ -144,7 +145,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           expect { f(nil) }.to raise_error(ec, msg)
         end
   
-        it 'should raise if !request but http_method_is_post' do
+        it 'should raise if request but http_method_is_post' do
           msg = 'A document cannot both belong to a post request and not belong to a request'
           expect { f(response_doc, is_a_request: false, http_method_is_post: true) }.to raise_error(ec, msg)
           expect(f(req_doc, http_method_is_post: true)).to be nil
@@ -154,7 +155,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       # **********************************
       # * CHECK TOP LEVEL                *
       # **********************************
-      describe '#check_top_level!' do
+      describe '#check_top_level' do
         it 'should raise if document is not a hash' do
           msg = 'A JSON object MUST be at the root of every JSON API request ' \
                 'and response containing data'
@@ -200,7 +201,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
     # **********************************
     # * CHECKING TOP LEVEL MEMBERS     *
     # **********************************
-    describe '#check_members!' do
+    describe '#check_members' do
       
       # -- TOP LEVEL - DATA:
       context 'when checking primary data' do
@@ -789,12 +790,64 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           expect { f(i_id_not_str) }.to raise_error(ec, msg)
         end
       end
+
+      # -- Checking Full Linkage:
+      context 'when checking full linkage of includes' do
+        fully_linked_doc = {
+          "data": [{
+            "type": "articles",
+            "id": "1",
+            "relationships": {
+              "author": {
+                "data": { "type": "people", "id": "9" }
+              },
+              "comments": {
+                "data": [
+                  { "type": "comments", "id": "5" },
+                  { "type": "comments", "id": "12" }
+                ]
+              }
+            }
+          }],
+          "included": [
+            {
+              "type": "people",
+              "id": "9"
+            }, 
+            {
+              "type": "comments",
+              "id": "5",
+              "relationships": {
+                "author": {
+                  "data": { "type": "people", "id": "2" }
+                }
+              }
+            }, 
+            {
+              "type": "comments",
+              "id": "12",
+              "relationships": {
+                "author": {
+                  "data": { "type": "people", "id": "9" }
+                }
+              }
+            }
+          ]
+        }
+        
+        it 'should return nil when a document is fully linked' do
+          expect(f(fully_linked_doc)).to eq nil
+        end
+
+        not_fully_linked_doc = fully_linked_doc.dup
+        not_fully_linked_doc[:data][0][:relationships][:author][:id] = '10'
+      end
     end
     
     # **********************************
     # * CHECKING MEMBER NAMES          *
     # **********************************
-    describe 'check_member_names!' do
+    describe 'check_member_names' do
 
       it 'should raise when given empty keys (no characters)' do
         doc_w_empty_keys = 
@@ -812,7 +865,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               {
                 'type': 'articles',
                 'id': '1',
-                'attributes': { '***title***': 'JSON API paints my bikeshed!' },
+                'attributes': { '***title***': 'JSON API paints my bikeshed' },
                 'links': { 'self': 'http://example.com/articles/1' },
                 'relationships': {
                   'author': {
@@ -833,7 +886,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               {
                 'type': 'articles',
                 'id': '1',
-                'attributes': { 'title': 'JSON API paints my bikeshed!' },
+                'attributes': { 'title': 'JSON API paints my bikeshed' },
                 'links': { 'self': 'http://example.com/articles/1' },
                 'relationships': {
                   '***author***': {
@@ -854,7 +907,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               {
                 'type': 'articles',
                 'id': '1',
-                'attributes': { 'title': 'JSON API paints my bikeshed!' },
+                'attributes': { 'title': 'JSON API paints my bikeshed' },
                 'links': { 'self': 'http://example.com/articles/1' },
                 'relationships': {
                   "author": {
@@ -881,17 +934,17 @@ describe JSONAPI::Exceptions::DocumentExceptions do
 
         msg = "The member named '***title***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(name_w_bad_letters1) }.to raise_error(ec, msg)
+        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names(name_w_bad_letters1) }.to raise_error(ec, msg)
         msg = "The member named '***author***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(name_w_bad_letters2) }.to raise_error(ec, msg)
+        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names(name_w_bad_letters2) }.to raise_error(ec, msg)
         msg = "The member named '***comments***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names!(name_w_bad_letters3) }.to raise_error(ec, msg)
+        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names(name_w_bad_letters3) }.to raise_error(ec, msg)
       end
 
       it 'should return nil given a correct document' do
-        expect(JSONAPI::Exceptions::DocumentExceptions.check_member_names!(response_doc)).to be nil
+        expect(JSONAPI::Exceptions::DocumentExceptions.check_member_names(response_doc)).to be nil
       end
     end
 

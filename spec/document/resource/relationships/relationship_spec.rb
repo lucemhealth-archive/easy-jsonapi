@@ -15,7 +15,7 @@ describe JSONAPI::Document::Resource::Relationships::Relationship do
   }
 
   let(:rel) do 
-    JSONAPI::Parser::DocumentParser.parse_relationship!(:author, rel_hash)
+    JSONAPI::Parser::DocumentParser.parse_relationship(:author, rel_hash)
   end
   
   context 'checking accessor methods' do

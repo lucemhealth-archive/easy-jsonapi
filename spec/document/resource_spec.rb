@@ -16,7 +16,7 @@ describe JSONAPI::Document::Resource do
           self: 'http://example.com/articles/1/relationships/author',
           related: 'http://example.com/articles/1/author'
         },
-        data: { type: 'people',  id: '9' }
+        data: { type: 'people', id: '9' }
       },
       journal: {
         data: nil
@@ -35,7 +35,7 @@ describe JSONAPI::Document::Resource do
     meta: { count: '1' }
   }
 
-  let(:res) { JSONAPI::Parser::DocumentParser.parse_resource!(res_hash) }
+  let(:res) { JSONAPI::Parser::DocumentParser.parse_resource(res_hash) }
   let(:eres) { JSONAPI::Document::Resource.new }
 
   describe '#initialize' do

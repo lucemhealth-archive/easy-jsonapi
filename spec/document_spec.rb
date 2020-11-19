@@ -1,14 +1,10 @@
 # frozen_string_literal: true
 
-require 'json'
-
 require 'rack/jsonapi/document'
 require 'rack/jsonapi/parser/document_parser'
-
 require 'rack/jsonapi/exceptions/document_exceptions'
 
-require 'rack/jsonapi/document/resource'
-
+require 'json'
 require 'oj'
 
 describe JSONAPI::Document do
@@ -49,7 +45,7 @@ describe JSONAPI::Document do
 
   let(:doc_hash) { doc_hash }
 
-  doc = JSONAPI::Parser::DocumentParser.parse!(doc_hash)
+  doc = JSONAPI::Parser::DocumentParser.parse(doc_hash)
 
   let(:d) { doc }
 

@@ -56,15 +56,15 @@ describe JSONAPI::Exceptions::HeadersExceptions do
 
   describe '#compliant?' do
     it 'should pass if both CONTENT_TYPE and ACCEPT headers comply' do
-      expect(JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env1)).to be nil
-      expect(JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env2)).to be nil
-      expect(JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env3)).to be nil
+      expect(JSONAPI::Exceptions::HeadersExceptions.check_compliance(env1)).to be nil
+      expect(JSONAPI::Exceptions::HeadersExceptions.check_compliance(env2)).to be nil
+      expect(JSONAPI::Exceptions::HeadersExceptions.check_compliance(env3)).to be nil
     end
 
     it 'should raise InvalidHeader if either CONTENT_TYPE or ACCEPT headers do not comply' do
-      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env4) }.to raise_error error_class
-      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env5) }.to raise_error error_class
-      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env6) }.to raise_error error_class
+      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env4) }.to raise_error error_class
+      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env5) }.to raise_error error_class
+      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env6) }.to raise_error error_class
     end
   end
 end

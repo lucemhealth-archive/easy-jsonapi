@@ -21,12 +21,12 @@ module JSONAPI
       if includes_jsonapi_doc
         req = Rack::Request.new(env)
 
-        JSONAPI::Exceptions::QueryParamsExceptions.check_compliance!(req.params)
+        JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.params)
 
         req_body = Oj.load(req.body.read, symbol_keys: true)
         req.body.rewind
         http_method_is_post = env['REQUEST_METHOD'] == 'POST'
-        JSONAPI::Exceptions::DocumentExceptions.check_compliance!(req_body, http_method_is_post: http_method_is_post)
+        JSONAPI::Exceptions::DocumentExceptions.check_compliance(req_body, http_method_is_post: http_method_is_post)
       end
 
       @app.call(env)
@@ -38,7 +38,7 @@ module JSONAPI
     # @param (see #call)
     # @return [TrueClass | FalseClass] whether 
     def includes_jsonapi_document?(env)
-      JSONAPI::Exceptions::HeadersExceptions.check_compliance!(env)
+      JSONAPI::Exceptions::HeadersExceptions.check_compliance(env)
       env['CONTENT_TYPE'] == 'application/vnd.api+json'
     end
     

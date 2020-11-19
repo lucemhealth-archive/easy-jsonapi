@@ -1,19 +1,6 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document'
-require 'rack/jsonapi/document/resource'
-require 'rack/jsonapi/document/resource_id'
-
-require 'rack/jsonapi/document/resource/attributes'
-require 'rack/jsonapi/document/resource/attributes/attribute'
-
-require 'rack/jsonapi/document/resource/relationships'
-
-require 'rack/jsonapi/document/links'
-require 'rack/jsonapi/document/links/link'
-
-require 'rack/jsonapi/document/meta'
-require 'rack/jsonapi/document/meta/meta_member'
 
 require 'rack/jsonapi/parser'
 require 'rack/jsonapi/parser/document_parser'
@@ -60,7 +47,7 @@ describe JSONAPI::Parser::DocumentParser do
 
   oj_formatted_hash = Oj.load(Oj.dump(doc_hash), symbol_keys: true)
 
-  let(:document) { JSONAPI::Parser::DocumentParser.parse!(oj_formatted_hash) }
+  let(:document) { JSONAPI::Parser::DocumentParser.parse(oj_formatted_hash) }
 
   describe '#parse!' do
     it 'should return a Document object given a valid jsonapi document' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document'
+# require 'rack/jsonapi/document'
 
 module JSONAPI
 

@@ -75,8 +75,8 @@ describe JSONAPI::Parser do
         'REMOTE_ADDR' => '::1'
       }
       
-    req = JSONAPI::Parser.parse_request!(env)
-    req_no_body = JSONAPI::Parser.parse_request!(env_no_body)
+    req = JSONAPI::Parser.parse_request(env)
+    req_no_body = JSONAPI::Parser.parse_request(env_no_body)
 
     let(:req) { req }
 

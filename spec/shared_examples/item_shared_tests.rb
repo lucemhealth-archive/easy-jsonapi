@@ -30,7 +30,7 @@ shared_examples 'item shared tests' do
 
   context 'checking scope' do
     it 'should not be able to access parent private methods' do
-      expect { item.ensure_keys_ar_sym!({ name: 'name' }) }.to raise_error NoMethodError
+      expect { item.ensure_keys_ar_sym({ name: 'name' }) }.to raise_error NoMethodError
       expect { item.should_update_var?(:name) }.to raise_error NoMethodError
       expect { item.should_get_var?(:name) }.to raise_error NoMethodError
     end

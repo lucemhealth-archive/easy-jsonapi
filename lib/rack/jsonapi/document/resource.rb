@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/resource/attributes'
-require 'rack/jsonapi/document/resource/relationships'
+require 'rack/jsonapi/document/resource/attributes' # extension
+require 'rack/jsonapi/document/resource/relationships' # extension
 require 'rack/jsonapi/utility'
 
 module JSONAPI

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/name_value_pair_collection'
-require 'rack/jsonapi/document/jsonapi/jsonapi_member'
+require 'rack/jsonapi/document/jsonapi/jsonapi_member' # extension
 
 module JSONAPI
   class Document

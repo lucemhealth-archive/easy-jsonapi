@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/utility'
+require 'rack/jsonapi/document/resource/relationships'
 
 module JSONAPI
   class Document

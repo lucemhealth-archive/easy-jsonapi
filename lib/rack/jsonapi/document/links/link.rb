@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/links'
 require 'rack/jsonapi/name_value_pair'
+require 'rack/jsonapi/document/links'
 
 module JSONAPI
   class Document
-    class Links
+    class Links < JSONAPI::NameValuePairCollection
 
       # An individual attribute in a JSON:API Links object
       class Link < JSONAPI::NameValuePair

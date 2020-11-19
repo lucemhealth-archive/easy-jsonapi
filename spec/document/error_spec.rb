@@ -2,10 +2,13 @@
 
 require 'rack/jsonapi/document/error'
 require 'rack/jsonapi/document/error/error_member'
+
 require 'rack/jsonapi/document/meta/meta_member'
 require 'rack/jsonapi/document/meta'
+
 require 'rack/jsonapi/document/links/link'
 require 'rack/jsonapi/document/links'
+
 require 'shared_examples/collection_like_classes_tests'
 
 describe JSONAPI::Document::Error do

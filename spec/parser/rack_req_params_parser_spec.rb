@@ -26,14 +26,14 @@ describe JSONAPI::Parser::RackReqParamsParser do
         'sort' => 'age,title'
       }
     
-    @query_param_collection = JSONAPI::Parser::RackReqParamsParser.parse!(rack_params)
+    @query_param_collection = JSONAPI::Parser::RackReqParamsParser.parse(rack_params)
   end
 
   # The query_param collection when the parser is passed params
   let(:pc) { @query_param_collection }
 
   # The query_param collection when the parser is passed an empty query_param object
-  let(:epc) { JSONAPI::Parser::RackReqParamsParser.parse!({}) }
+  let(:epc) { JSONAPI::Parser::RackReqParamsParser.parse({}) }
 
   let(:e_class) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidParameter }
 
@@ -51,7 +51,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
     end
 
     it 'should include each added item' do
-      expect(pc.include?(:'fields')).to be true
+      expect(pc.include?(:fields)).to be true
       expect(pc.include?(:includes)).to be true
       expect(pc.include?(:josh_ua)).to be true
       expect(pc.include?(:page)).to be true
@@ -69,7 +69,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
     end
 
     it 'should raise InvalidParameter if given a impl specific param that does not follow naming rules' do
-      expect { JSONAPI::Parser::RackReqParamsParser.parse!(@rack_params_w_bad_name) }.to raise_error e_class
+      expect { JSONAPI::Parser::RackReqParamsParser.parse(@rack_params_w_bad_name) }.to raise_error e_class
     end
   end
 end

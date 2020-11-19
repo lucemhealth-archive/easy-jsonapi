@@ -10,9 +10,9 @@ module JSONAPI
       end
 
       # @param env [Hash]  The rack environment variable
-      def self.check_compliance!(env)
-        check_content_type!(env)
-        check_accept!(env)
+      def self.check_compliance(env)
+        check_content_type(env)
+        check_accept(env)
       end
 
       # Checks the content type of the request to see if it is jsonapi.
@@ -21,12 +21,12 @@ module JSONAPI
       # @param (see #compliant?)
       # @return nil Returns nil if no error found
       # @raise InvalidHeader if it is jsonapi with parameters
-      def self.check_content_type!(env)
+      def self.check_content_type(env)
         return if env['CONTENT_TYPE'].nil? # no request body
         return if env['CONTENT_TYPE'] == 'application/vnd.api+json' # jsonapi
         return if (env['CONTENT_TYPE'] =~ %r{application/vnd\.api\+json\s?;}).nil? # no jsonapi w params
         
-        raise_error!(
+        raise_error(
           'Clients MUST send all JSON:API data in request documents with the header ' \
           'Content-Type: application/vnd.api+json without any media type parameters.'
         )
@@ -35,7 +35,7 @@ module JSONAPI
       # Checks to see if the JSON:API media type is included in the Accept header, and if
       #   it is, whether it contains media type parameters.
       # @param (see #compliant?)
-      def self.check_accept!(env)
+      def self.check_accept(env)
         jsonapi_doc_w_params = false
         accept_arr = env['HTTP_ACCEPT'].split(',')
         
@@ -45,14 +45,14 @@ module JSONAPI
         end
         return unless jsonapi_doc_w_params
 
-        raise_error!(
+        raise_error(
           'Clients that include the JSON:API media type in their Accept header MUST ' \
           'specify the media type there at least once without any media type parameters.'
         )
       end
 
       # @param msg [String]  The message to raise InvalidHeader with.
-      def self.raise_error!(msg)
+      def self.raise_error(msg)
         raise InvalidHeader, msg
       end
 

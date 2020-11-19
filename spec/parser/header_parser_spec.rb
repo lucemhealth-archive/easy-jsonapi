@@ -38,7 +38,7 @@ describe JSONAPI::Parser::HeadersParser do
     }
   end
 
-  let(:hc) { JSONAPI::Parser::HeadersParser.parse!(env) }
+  let(:hc) { JSONAPI::Parser::HeadersParser.parse(env) }
   
   describe '#parse!' do
     

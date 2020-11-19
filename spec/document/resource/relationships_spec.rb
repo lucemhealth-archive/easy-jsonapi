@@ -45,7 +45,7 @@ describe JSONAPI::Document::Resource::Relationships do
     let(:ex_item_key) { :author }
     
     # Name is test so that it works with collection_like_classes_test.rb
-    let(:ex_item) { JSONAPI::Parser::DocumentParser.parse_relationship!(:author, ex_relstionship) }
+    let(:ex_item) { JSONAPI::Parser::DocumentParser.parse_relationship(:author, ex_relstionship) }
     
     let(:to_string) do
       '{ ' \
@@ -69,7 +69,7 @@ describe JSONAPI::Document::Resource::Relationships do
       ' }'
     end
 
-    let(:c) { JSONAPI::Parser::DocumentParser.parse_relationships!(relationships_hash) }
+    let(:c) { JSONAPI::Parser::DocumentParser.parse_relationships(relationships_hash) }
     let(:ec) { JSONAPI::Document::Resource::Relationships.new }
     
   end
