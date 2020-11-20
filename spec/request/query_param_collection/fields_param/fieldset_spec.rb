@@ -30,15 +30,15 @@ describe JSONAPI::Request::QueryParamCollection::FieldsParam::Fieldset do
       expect(fieldset1.resource_type).to eq 'articles'
       expect(fieldset2.resource_type).to eq 'people'
 
-      expect(fieldset1.resource_fields.size).to eq 3
-      expect(fieldset2.resource_fields.size).to eq 1
+      expect(fieldset1.fields.size).to eq 3
+      expect(fieldset2.fields.size).to eq 1
     end
 
     it 'should raise when trying to overwrite instance variables' do
       expect { fieldset1.resource_type = 'new_type' }.to raise_error NoMethodError
       expect { fieldset2.resource_type = 'new_type' }.to raise_error NoMethodError
-      expect { fieldset1.resource_fields = 'new_fields' }.to raise_error NoMethodError
-      expect { fieldset2.resource_fields = 'new_fields' }.to raise_error NoMethodError
+      expect { fieldset1.fields = 'new_fields' }.to raise_error NoMethodError
+      expect { fieldset2.fields = 'new_fields' }.to raise_error NoMethodError
     end
   end
 

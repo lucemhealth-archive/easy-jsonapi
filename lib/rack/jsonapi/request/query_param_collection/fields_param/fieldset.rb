@@ -11,20 +11,20 @@ module JSONAPI
         # Collection of fields related to specific resource objects
         class Fieldset
 
-          attr_reader :resource_type, :resource_fields
+          attr_reader :resource_type, :fields
 
-          # @param res_field_arr [Array<JSONAPI::Field>]
+          # @param field_arr [Array<JSONAPI::Field>]
           #   A fieldset is a collection of Resource Fields
-          def initialize(resource_type, res_field_arr = [])
+          def initialize(resource_type, field_arr = [])
             @resource_type = resource_type
-            @resource_fields = res_field_arr
+            @fields = field_arr
           end
 
           # Represention of Fieldset as a string where fields
           #   are comma separated strings
           def to_s
             pre_string = "fields[#{@resource_type}]="
-            JSONAPI::Utility.to_string_collection(@resource_fields, delimiter: ',', pre_string: pre_string)
+            JSONAPI::Utility.to_string_collection(@fields, delimiter: ',', pre_string: pre_string)
           end
 
         end

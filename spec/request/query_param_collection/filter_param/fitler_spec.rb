@@ -9,12 +9,12 @@ describe JSONAPI::Request::QueryParamCollection::FilterParam::Filter do
   context 'when initializing' do
     it 'should have proper reader methods' do
       expect(f.resource_type).to eq 'res_name'
-      expect(f.filter_string).to eq 'special'
+      expect(f.filter).to eq 'special'
     end
 
     it 'should raise when trying to overwrite instance variables' do
       expect { f.resource_type = 'new_type' }.to raise_error NoMethodError
-      expect { f.filter_string = 'new_string' }.to raise_error NoMethodError
+      expect { f.filter = 'new_string' }.to raise_error NoMethodError
     end
   end
 

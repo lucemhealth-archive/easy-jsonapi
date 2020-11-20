@@ -19,11 +19,11 @@ module JSONAPI
       # #empyt? provided by super class
       # #include provided by super class
       
-      # @param query_param [JSONAPI::Request::QueryParamCollection::QueryParam] The query_param or query_param subclass to add.
-      def add(query_param)
-        p_name = query_param.name
-        @error_names << p_name unless @error_names.include?(p_name)
-        super(query_param)
+      # @param err_mem [JSONAPI::Request::QueryParamCollection::QueryParam] The err_mem or err_mem subclass to add.
+      def add(err_mem)
+        e_name = err_mem.name
+        @error_names << e_name unless @error_names.include?(e_name)
+        super(err_mem)
       end
   
       # #<< provided by super, but calls overriden #add

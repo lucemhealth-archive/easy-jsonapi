@@ -115,7 +115,7 @@ describe JSONAPI::Request do
   context 'when checking accessor methods' do
     it 'should be able to read path, protocol, host, port, query_string' do
       expect(req.path).to eq rack_req.path
-      expect(req.method).to eq rack_req.request_method
+      expect(req.http_method).to eq rack_req.request_method
       expect(req.host).to eq rack_req.host
       expect(req.port).to eq rack_req.port
       expect(req.query_string).to eq rack_req.query_string

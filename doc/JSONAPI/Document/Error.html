@@ -143,7 +143,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(query_param)  &#x21d2; Object </a>
+      <a href="#add-instance_method" title="#add (instance method)">#<strong>add</strong>(err_mem)  &#x21d2; Object </a>
     
 
     
@@ -411,7 +411,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="add-instance_method">
   
-    #<strong>add</strong>(query_param)  &#x21d2; <tt>Object</tt> 
+    #<strong>add</strong>(err_mem)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -429,7 +429,7 @@
   
     <li>
       
-        <span class='name'>query_param</span>
+        <span class='name'>err_mem</span>
       
       
         <span class='type'>(<tt><span class='object_link'><a href="../Request/QueryParamCollection/QueryParam.html" title="JSONAPI::Request::QueryParamCollection::QueryParam (class)">JSONAPI::Request::QueryParamCollection::QueryParam</a></span></tt>)</span>
@@ -437,7 +437,7 @@
       
       
         &mdash;
-        <div class='inline'><p>The query_param or query_param subclass to add.</p>
+        <div class='inline'><p>The err_mem or err_mem subclass to add.</p>
 </div>
       
     </li>
@@ -460,10 +460,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/error.rb', line 23</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_query_param'>query_param</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_p_name'>p_name</span> <span class='op'>=</span> <span class='id identifier rubyid_query_param'>query_param</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
-  <span class='ivar'>@error_names</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_p_name'>p_name</span> <span class='kw'>unless</span> <span class='ivar'>@error_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_p_name'>p_name</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_query_param'>query_param</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_err_mem'>err_mem</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_e_name'>e_name</span> <span class='op'>=</span> <span class='id identifier rubyid_err_mem'>err_mem</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
+  <span class='ivar'>@error_names</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e_name'>e_name</span> <span class='kw'>unless</span> <span class='ivar'>@error_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_e_name'>e_name</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_err_mem'>err_mem</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -515,7 +515,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov 20 00:14:03 2020 by
+  Generated on Fri Nov 20 13:03:11 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

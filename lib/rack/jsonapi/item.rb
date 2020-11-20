@@ -19,26 +19,6 @@ module JSONAPI
       @item = obj
     end
 
-    # Only used if implementing Item directly.
-    #   dynamically creates accessor methods for instance variables
-    #   created in the initialize
-    def method_missing(method_name, *args, &block)
-      return super unless is_a? JSONAPI::Item
-      return super unless @item.is_a? Hash
-      if should_update_var?(method_name)
-        @item[method_name[..-2].to_sym] = args[0]
-      elsif should_get_var?(method_name)
-        @item[method_name]
-      else
-        super
-      end
-    end
-
-    # Needed when using #method_missing
-    def respond_to_missing?(method_name, *)
-      instance_variables.include?("@#{method_name}".to_sym) || super
-    end
-
     # A special to_string method if @item is a hash.
     def to_s
       return @item.to_s unless @item.is_a? Hash
@@ -61,6 +41,26 @@ module JSONAPI
     end
 
     private
+
+    # Only used if implementing Item directly.
+    #   dynamically creates accessor methods for instance variables
+    #   created in the initialize
+    def method_missing(method_name, *args, &block)
+      return super unless is_a? JSONAPI::Item
+      return super unless @item.is_a? Hash
+      if should_update_var?(method_name)
+        @item[method_name[..-2].to_sym] = args[0]
+      elsif should_get_var?(method_name)
+        @item[method_name]
+      else
+        super
+      end
+    end
+
+    # Needed when using #method_missing
+    def respond_to_missing?(method_name, *)
+      instance_variables.include?("@#{method_name}".to_sym) || super
+    end
 
     # Ensures that hash keys are symbol (and not String) when passing a hash to item.
     # @param obj [Object]  A hash that can represent an item.

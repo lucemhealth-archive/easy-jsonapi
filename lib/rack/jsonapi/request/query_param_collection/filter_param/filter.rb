@@ -9,18 +9,18 @@ module JSONAPI
         # Represents an individual Filtering scheme for the filter query param(s) used.
         class Filter
 
-          attr_reader :resource_type, :filter_string
+          attr_reader :resource_type, :filter
 
           # @param resource_type [String] The type to filter
-          # @param filter_string [String] The filter algorithm
-          def initialize(resource_type, filter_string)
+          # @param filter [String] The filter algorithm
+          def initialize(resource_type, filter)
             @resource_type = resource_type
-            @filter_string = filter_string
+            @filter = filter
           end
 
           # Represent filter as an individual filter query param
           def to_s
-            "filter[#{@resource_type}]=#{@filter_string}"
+            "filter[#{@resource_type}]=#{@filter}"
           end
         end
       end

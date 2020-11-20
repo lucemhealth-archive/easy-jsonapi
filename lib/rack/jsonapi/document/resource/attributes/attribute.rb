@@ -2,6 +2,7 @@
 
 require 'rack/jsonapi/field'
 require 'rack/jsonapi/document/resource/attributes'
+require 'rack/jsonapi/name_value_pair'
 
 module JSONAPI
   class Document
@@ -9,31 +10,16 @@ module JSONAPI
       class Attributes < JSONAPI::NameValuePairCollection
 
         # An individual attribute in a JSON:API Attributes object
-        class Attribute < JSONAPI::Field
+        class Attribute < JSONAPI::NameValuePair
 
-          attr_accessor :value
+          attr_reader :field
 
           # @param name [String] The name of an attribute
           # @param value [String] The value of an attribute
           # @param type [Any] The type of an attribute value
           def initialize(name, value, type: String)
-            @value = value
-            super(name, type: type)
-          end
-
-          # @raise RuntimeError An attribute name is not updatable.
-          def name=(_)
-            raise 'Cannot change the name of an Attribute'
-          end
-
-          # JSON key - value notation
-          def to_s
-            "\"#{name}\": \"#{@value}\""
-          end
-
-          # A hash with just this attribute
-          def to_h
-            { name.to_sym => @value }
+            @field = JSONAPI::Field.new(name, type: type)
+            super(name, value)
           end
 
         end

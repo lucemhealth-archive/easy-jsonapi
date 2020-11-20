@@ -948,17 +948,17 @@ describe JSONAPI::Exceptions::DocumentExceptions do
 
         msg = "The member named '***title***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names(name_w_bad_letters1) }.to raise_error(ec, msg)
+        expect { f(name_w_bad_letters1) }.to raise_error(ec, msg)
         msg = "The member named '***author***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names(name_w_bad_letters2) }.to raise_error(ec, msg)
+        expect { f(name_w_bad_letters2) }.to raise_error(ec, msg)
         msg = "The member named '***comments***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { JSONAPI::Exceptions::DocumentExceptions.check_member_names(name_w_bad_letters3) }.to raise_error(ec, msg)
+        expect { f(name_w_bad_letters3) }.to raise_error(ec, msg)
       end
 
       it 'should return nil given a correct document' do
-        expect(JSONAPI::Exceptions::DocumentExceptions.check_member_names(response_doc)).to be nil
+        expect(f(response_doc)).to be nil
       end
     end
 

@@ -1,21 +1,26 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document/resource/attributes/attribute'
-require 'shared_examples/name_value_and_query_shared_tests'
+require 'shared_examples/name_value_pair_tests'
 
 describe JSONAPI::Document::Resource::Attributes::Attribute do
   
   let(:pair) { JSONAPI::Document::Resource::Attributes::Attribute.new(:name, 'value') }
-  let(:name) { 'name' }
-  let(:value) { 'value' }
-  let(:new_value) { 'new_value' }
-  let(:to_str_orig) { "\"name\": \"value\"" }
-  let(:name_error_msg) { 'Cannot change the name of an Attribute' } # this is what makes this class unique
   
-  it_behaves_like 'name value and query shared tests' do
+  it_behaves_like 'name value pair tests' do
   end
 
-  it 'should have a to_h method' do
-    expect(pair.to_h).to eq({ name.to_sym => value })
+  describe 'when testing field instance variable' do
+    it 'should be a JSONAPI::Field' do
+      expect(pair.field.class).to eq JSONAPI::Field
+    end
+
+    it 'should have the same name as the attributes' do
+      expect(pair.name).to eq pair.field.name
+    end
+
+    it 'should have the right type' do
+      expect(pair.field.type).to eq String
+    end
   end
 end
