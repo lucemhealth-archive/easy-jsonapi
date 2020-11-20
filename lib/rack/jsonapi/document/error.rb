@@ -2,6 +2,7 @@
 
 require 'rack/jsonapi/name_value_pair_collection'
 require 'rack/jsonapi/document/error/error_member' # extension
+require 'rack/jsonapi/utility'
 
 module JSONAPI
   class Document
@@ -11,6 +12,11 @@ module JSONAPI
       def initialize(err_members = [])
         super(err_members, item_type: JSONAPI::Document::Error::ErrorMember)
       end
+
+      def to_h
+        JSONAPI::Utility.to_h_collection(self)
+      end
+      
     end
   end
 end

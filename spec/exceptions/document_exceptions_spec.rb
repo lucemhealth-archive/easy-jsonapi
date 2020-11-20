@@ -837,9 +837,24 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         it 'should return nil when a document is fully linked' do
           expect(f(fully_linked_doc)).to eq nil
         end
-
-        not_fully_linked_doc = fully_linked_doc.dup
-        not_fully_linked_doc[:data][0][:relationships][:author][:id] = '10'
+        
+        it 'should raise if any included resource does not have a corresponding res_id' do
+          not_fully_linked_doc1 = {}
+          not_fully_linked_doc2 = {}
+          not_fully_linked_doc1.replace fully_linked_doc
+          not_fully_linked_doc2.replace fully_linked_doc
+          
+          not_fully_linked_doc1[:data][0][:relationships][:comments][:data][0][:id] = 'not_linked'
+          
+          not_fully_linked_doc2[:data][0][:relationships][:author][:data][:id] = '10'
+          not_fully_linked_doc2[:included][2][:relationships][:author][:data][:id] = '10'
+          
+          msg = 'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
+                'identified by at least one resource identifier object in the same document.'
+          
+          expect { f(not_fully_linked_doc1) }.to raise_error(ec, msg)
+          expect { f(not_fully_linked_doc2) }.to raise_error(ec, msg)
+        end
       end
     end
     

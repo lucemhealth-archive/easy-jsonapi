@@ -38,6 +38,10 @@ module JSONAPI
       JSONAPI::Utility.to_string_collection(self, pre_string: '{ ', post_string: ' }')
     end
 
+    def to_h
+      JSONAPI::Utility.to_h_collection(self)
+    end
+
     protected :insert
   end
 end

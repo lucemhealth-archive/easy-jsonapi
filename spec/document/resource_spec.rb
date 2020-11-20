@@ -5,35 +5,34 @@ require 'rack/jsonapi/parser/document_parser'
 
 describe JSONAPI::Document::Resource do
 
-  res_hash = {
-    type: 'articles',
-    id: '1',
-    attributes: { title: 'JSON API paints my bikeshed!' },
-    links: { self: 'http://example.com/articles/1' },
-    relationships: {
-      author: {
-        links: {
-          self: 'http://example.com/articles/1/relationships/author',
-          related: 'http://example.com/articles/1/author'
+  let(:res_hash) do
+    {
+      type: 'articles',
+      id: '1',
+      attributes: { title: 'JSON API paints my bikeshed!' },
+      links: { self: 'http://example.com/articles/1' },
+      relationships: {
+        author: {
+          links: {
+            self: 'http://example.com/articles/1/relationships/author',
+            related: 'http://example.com/articles/1/author'
+          },
+          data: { type: 'people', id: '9' }
         },
-        data: { type: 'people', id: '9' }
+        comments: {
+          links: {
+            self: 'http://example.com/articles/1/relationships/comments',
+            related: 'http://example.com/articles/1/comments'
+          },
+          data: [
+            { type: 'comments', id: '5' },
+            { type: 'comments', id: '12' }
+          ]
+        }
       },
-      journal: {
-        data: nil
-      },
-      comments: {
-        links: {
-          self: 'http://example.com/articles/1/relationships/comments',
-          related: 'http://example.com/articles/1/comments'
-        },
-        data: [
-          { type: 'comments', id: '5' },
-          { type: 'comments', id: '12' }
-        ]
-      }
-    },
-    meta: { count: '1' }
-  }
+      meta: { count: '1' }
+    }
+  end
 
   let(:res) { JSONAPI::Parser::DocumentParser.parse_resource(res_hash) }
   let(:eres) { JSONAPI::Document::Resource.new }
@@ -46,6 +45,46 @@ describe JSONAPI::Document::Resource do
       expect(res.relationships.class).to eq JSONAPI::Document::Resource::Relationships
       expect(res.links.class).to eq JSONAPI::Document::Links
       expect(res.meta.class).to eq JSONAPI::Document::Meta
+    end
+  end
+
+  describe '#to_s' do
+    to_string = 
+      '{ ' \
+        "\"type\": \"articles\", " \
+        "\"id\": \"1\", " \
+        "\"attributes\": { \"title\": \"JSON API paints my bikeshed!\" }, " \
+        "\"relationships\": { " \
+          "\"author\": { " \
+            "\"links\": { " \
+              "\"self\": \"http://example.com/articles/1/relationships/author\", " \
+              "\"related\": \"http://example.com/articles/1/author\" " \
+            '}, ' \
+            "\"data\": { \"type\": \"people\", \"id\": \"9\" } " \
+          '}, ' \
+          "\"comments\": { " \
+            "\"links\": { " \
+              "\"self\": \"http://example.com/articles/1/relationships/comments\", " \
+              "\"related\": \"http://example.com/articles/1/comments\" " \
+            '}, ' \
+            "\"data\": [" \
+              "{ \"type\": \"comments\", \"id\": \"5\" }, " \
+              "{ \"type\": \"comments\", \"id\": \"12\" }" \
+            '] ' \
+          '} ' \
+        '}, ' \
+        "\"links\": { \"self\": \"http://example.com/articles/1\" }, " \
+        "\"meta\": { \"count\": \"1\" } " \
+      '}'
+
+    it 'should be intuitive' do
+      expect(res.to_s).to eq to_string
+    end
+  end
+
+  describe '#to_h' do
+    it 'should mimic JSON format' do
+      expect(res.to_h).to eq res_hash
     end
   end
 end

@@ -2,7 +2,7 @@
 
 require 'rack/jsonapi/collection'
 require 'rack/jsonapi/item'
-require 'shared_examples/collection_like_classes_tests'
+require 'shared_examples/collection_like_classes'
 
 describe JSONAPI::Collection do
   it_behaves_like 'collection-like classes' do
@@ -33,6 +33,6 @@ describe JSONAPI::Collection do
     item_arr = obj_arr.map { |i| JSONAPI::Item.new(i) }
     let(:c) { JSONAPI::Collection.new(item_arr, item_type: item_class, &:name) }
     let(:ec) { JSONAPI::Collection.new(item_type: item_class) }
-  
+
   end
 end

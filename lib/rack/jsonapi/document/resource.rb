@@ -34,6 +34,17 @@ module JSONAPI
           "#{JSONAPI::Utility.member_to_s('meta', @meta)}" \
         ' }'
       end
+
+      def to_h
+        to_return = {}
+        JSONAPI::Utility.to_h_member(to_return, @type, :type)
+        JSONAPI::Utility.to_h_member(to_return, @id, :id)
+        JSONAPI::Utility.to_h_member(to_return, @attributes, :attributes)
+        JSONAPI::Utility.to_h_member(to_return, @relationships, :relationships)
+        JSONAPI::Utility.to_h_member(to_return, @links, :links)
+        JSONAPI::Utility.to_h_member(to_return, @meta, :meta)
+        to_return
+      end
     end
   end
 end

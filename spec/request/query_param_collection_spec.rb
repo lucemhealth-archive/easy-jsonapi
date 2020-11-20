@@ -17,7 +17,7 @@ require 'rack/jsonapi/request/query_param_collection/fields_param/fieldset'
 
 require 'rack/jsonapi/field'
 
-require 'shared_examples/collection_like_classes_tests'
+require 'shared_examples/name_value_pair_collections'
 
 describe JSONAPI::Request::QueryParamCollection do
 
@@ -39,7 +39,7 @@ describe JSONAPI::Request::QueryParamCollection do
             [
               JSONAPI::Field.new('name')
             ]
-        )
+          )
         ]
       ),
       JSONAPI::Request::QueryParamCollection::QueryParam.new('leBron', 'james'),
@@ -49,33 +49,32 @@ describe JSONAPI::Request::QueryParamCollection do
         [JSONAPI::Request::QueryParamCollection::FilterParam::Filter.new('res_name', 'special')]
       )
     ]
-
-  it_behaves_like 'collection-like classes' do
     
-    # rack::request.params:
-    # {
-    #   "include"=>"author, comments.author",
-    #   "fields"=>{"articles"=>"title,body,author", "people"=>"name"},
-    #   "leBron"=>"james",
-    #   "page"=>{"offset"=>"3", "limit"=>"25"},
-    #   "sort"=>"alpha",
-    #   "filter"=>"special",
-    # }
+  # rack::request.params:
+  # {
+  #   "include"=>"author, comments.author",
+  #   "fields"=>{"articles"=>"title,body,author", "people"=>"name"},
+  #   "leBron"=>"james",
+  #   "page"=>{"offset"=>"3", "limit"=>"25"},
+  #   "sort"=>"alpha",
+  #   "filter"=>"special",
+  # }
     
-    let(:item_class) { JSONAPI::Request::QueryParamCollection::QueryParam }
-    let(:c_size) { 6 }
-    let(:keys) { %i[includes fields lebron page sorts filters] }
-    let(:ex_item_key) { :lebron }
-    let(:ex_item) { JSONAPI::Request::QueryParamCollection::QueryParam.new('leBron', 'james') }
+  let(:item_class) { JSONAPI::Request::QueryParamCollection::QueryParam }
+  let(:c_size) { 6 }
+  let(:keys) { %i[includes fields lebron page sorts filters] }
+  let(:ex_item_key) { :lebron }
+  let(:ex_item) { JSONAPI::Request::QueryParamCollection::QueryParam.new('leBron', 'james') }
     
-    let(:to_string) do
-      'include=author,comments.likes&fields[articles]=title,body,author&fields[people]=name&' \
-      'leBron=james&page[offset]=3&page[limit]=25&sort=alpha&filter[res_name]=special'
-    end
+  let(:to_string) do
+    'include=author,comments.likes&fields[articles]=title,body,author&fields[people]=name&' \
+    'leBron=james&page[offset]=3&page[limit]=25&sort=alpha&filter[res_name]=special'
+  end
 
-    let(:c) { JSONAPI::Request::QueryParamCollection.new(item_arr, &:name) }
-    let(:ec) { JSONAPI::Request::QueryParamCollection.new }
+  let(:c) { JSONAPI::Request::QueryParamCollection.new(item_arr, &:name) }
+  let(:ec) { JSONAPI::Request::QueryParamCollection.new }
 
+  it_behaves_like 'name value pair collections' do
   end
 
   describe '#method_missing' do

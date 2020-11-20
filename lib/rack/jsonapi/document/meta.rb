@@ -13,7 +13,6 @@ module JSONAPI
         meta_arr = [meta_arr] unless meta_arr.is_a? Array
         super(meta_arr, item_type: JSONAPI::Document::Meta::MetaMember)
       end
-
     end
   end
 end

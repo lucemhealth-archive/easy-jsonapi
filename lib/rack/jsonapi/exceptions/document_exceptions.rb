@@ -98,7 +98,7 @@ module JSONAPI
         check_jsonapi(document[:jsonapi]) if document.key? :jsonapi
         check_links(document[:links]) if document.key? :links
         check_included(document[:included]) if document.key? :included
-        # check_full_linkage(document, is_a_request: is_a_request)
+        check_full_linkage(document, is_a_request: is_a_request)
       end
 
       # -- TOP LEVEL - PRIMARY DATA
@@ -313,14 +313,14 @@ module JSONAPI
       end
 
       #  -- Checking if document is fully linked
-      # def self.check_full_linkage(document, is_a_request:)
-      #   return nil if is_a_request
+      def self.check_full_linkage(document, is_a_request:)
+        return nil if is_a_request
         
-      #   # TODO: Possible refactor?
-      #   ensure!(full_linkage?(document),
-      #           'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
-      #           'identified by at least one resource identifier object in the same document.')
-      # end
+        # TODO: Possible refactor?
+        ensure!(full_linkage?(document),
+                'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
+                'identified by at least one resource identifier object in the same document.')
+      end
 
       
 
@@ -390,60 +390,63 @@ module JSONAPI
       # Helper Methods for Full Linkage:
       # ********************************
 
-      # def self.full_linkage?(document)
-      #   return true unless document[:included] # Checked earlier to make sure included only exists w data
+      def self.full_linkage?(document)
+        return true unless document[:included] # Checked earlier to make sure included only exists w data
         
-      #   possible_includes = get_possible_includes(document)
-      #   check_included_against(possible_includes, document)
-      # end
+        possible_includes = get_possible_includes(document)
+        any_additional_includes?(possible_includes, document)
+      end
 
-      # def self.get_possible_includes(document)
-      #   possible_includes = {}
-      #   primary_data = document[:data]
-      #   include_arr = document[:include]
-      #   populate_w_primary_data(possible_includes, primary_data)
-      #   populate_w_include_mem(possible_includes, include_arr)
-      # end
+      def self.get_possible_includes(document)
+        possible_includes = {}
+        primary_data = document[:data]
+        include_arr = document[:included]
+        populate_w_primary_data(possible_includes, primary_data)
+        populate_w_include_mem(possible_includes, include_arr)
+        possible_includes
+      end
 
-      # def self.check_included_against(possible_includes, document)
-      #   document[:include].each do |res|
-      #     return false unless possible_includes.key? res_id_to_sym(res[:type], res[:id])
-      #   end
-      #   true
-      # end
+      def self.any_additional_includes?(possible_includes, document)
+        document[:included].each do |res|
+          return false unless possible_includes.key? res_id_to_sym(res[:type], res[:id])
+        end
+        true
+      end
 
-      # def self.populate_w_primary_data(possible_includes, primary_data)
-      #   if primary_data.is_a? Array
-      #     primary_data.each do |res|
-      #       populate_w_res_rels(possible_includes, res)
-      #     end
-      #   else
-      #     populate_w_res_rels(possible_includes, primary_data)
-      #   end
-      # end
+      def self.populate_w_primary_data(possible_includes, primary_data)
+        if primary_data.is_a? Array
+          primary_data.each do |res|
+            populate_w_res_rels(possible_includes, res)
+          end
+        else
+          populate_w_res_rels(possible_includes, primary_data)
+        end
+      end
 
-      # def self.populate_w_include_mem(possible_includes, include_arr)
-      #   include_arr.each do |res|
-      #     populate_w_res_rels(possible_includes, res)
-      #   end
-      # end
+      def self.populate_w_include_mem(possible_includes, include_arr)
+        include_arr.each do |res|
+          populate_w_res_rels(possible_includes, res)
+        end
+      end
 
-      # def self.populate_w_res_rels(possible_includes, resource)
-      #   resource[:relationships].each do |rel|
-      #     res_id = rel[:data]
-      #     next unless res_id
+      def self.populate_w_res_rels(possible_includes, resource)
+        return unless resource[:relationships]
+        resource[:relationships].each_value do |rel|
+          # pp rel
+          res_id = rel[:data]
+          next unless res_id
 
-      #     if res_id.is_a? Array
-      #       res_id.each { |id| possible_includes[res_id_to_sym(id[:type], id[:id])] = true }
-      #     else
-      #       possible_includes[res_id_to_sym(res_id[:type], res_id[:id])] = true
-      #     end
-      #   end
-      # end
+          if res_id.is_a? Array
+            res_id.each { |id| possible_includes[res_id_to_sym(id[:type], id[:id])] = true }
+          else
+            possible_includes[res_id_to_sym(res_id[:type], res_id[:id])] = true
+          end
+        end
+      end
 
-      # def self.res_id_to_sym(type, id)
-      # "#{type}|#{id}".to_sym
-      # end
+      def self.res_id_to_sym(type, id)
+        "#{type}|#{id}".to_sym
+      end
     end
   end
 end

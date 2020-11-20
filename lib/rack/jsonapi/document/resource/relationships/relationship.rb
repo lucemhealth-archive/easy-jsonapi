@@ -31,6 +31,14 @@ module JSONAPI
               "#{JSONAPI::Utility.member_to_s('meta', @meta)}" \
             ' }' \
           end
+
+          def to_h
+            { @name.to_sym => { 
+              links: @links.to_h, 
+              data: @data.to_h,
+              meta: @meta.to_h 
+            } }
+          end
         end
       end
     end

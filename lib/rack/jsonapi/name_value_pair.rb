@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/item'
+require 'rack/jsonapi/utility'
 
 module JSONAPI
   # A generic name->value query pair
@@ -57,6 +58,10 @@ module JSONAPI
         val_str = value
       end
       "\"#{name}\": #{val_str}"
+    end
+
+    def to_h
+      { name.to_sym => JSONAPI::Utility.to_h_value(value) }
     end
 
     # prevent users and sublcasses from accessing Parent's #method_missing

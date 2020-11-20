@@ -55,6 +55,10 @@ module JSONAPI
       tr += ' }'
     end
 
+    def to_h
+      @item.to_h
+    end
+
     private
 
     # Ensures that hash keys are symbol (and not String) when passing a hash to item.

@@ -28,6 +28,10 @@ module JSONAPI
             "\"#{name}\": \"#{@value}\""
           end
 
+          def to_h
+            { name.to_sym => @value }
+          end
+
         end
       end
     end

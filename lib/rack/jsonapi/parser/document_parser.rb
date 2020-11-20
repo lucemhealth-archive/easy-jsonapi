@@ -145,7 +145,7 @@ module JSONAPI
       # @param res_id [Hash] The resource identifier to parse
       # @return [JSONAPI::Document::ResourceId] The parsed resource identifier
       def self.parse_resource_identifier(res_id)
-        JSONAPI::Document::ResourceId.new(res_id[:type], res_id[:id])
+        JSONAPI::Document::ResourceId.new(type: res_id[:type], id: res_id[:id])
       end
 
       # @param included_arr [Array<Hash>] The array of included resoures to parse

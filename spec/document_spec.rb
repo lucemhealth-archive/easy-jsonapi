@@ -74,4 +74,10 @@ describe JSONAPI::Document do
       expect(JSON.parse(doc.to_s, symbolize_names: true)).to eq doc_hash
     end
   end
+
+  describe '#to_h' do
+    it 'should mimic JSON format' do
+      expect(doc.to_h).to eq doc_hash
+    end
+  end
 end

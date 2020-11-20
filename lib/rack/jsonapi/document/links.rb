@@ -2,6 +2,7 @@
 
 require 'rack/jsonapi/name_value_pair_collection'
 require 'rack/jsonapi/document/links/link' # extension
+require 'rack/jsonapi/utility'
 
 module JSONAPI
   class Document
