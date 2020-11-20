@@ -55,4 +55,17 @@ describe JSONAPI::Document::Error do
 
   it_behaves_like 'document collections' do
   end
+
+  context 'when checking dynamic accessors' do
+    it 'should be able to access existing members by using their names' do
+      expect(c.status).to eq '422'
+      expect(c.title).to eq 'Invalid Attribute'
+      expect(c.meta.class).to eq JSONAPI::Document::Meta
+      expect(c.links.class).to eq JSONAPI::Document::Links
+    end
+
+    it 'should raise NoMethodError if attempting to an unknown error member' do
+      expect { c.service_number }.to raise_error NoMethodError
+    end
+  end
 end

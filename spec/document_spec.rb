@@ -53,6 +53,11 @@ describe JSONAPI::Document do
 
   describe '#initialize' do
 
+    it 'should raise if not given a hash during initialization' do
+      msg = 'JSONAPI::Document parameter must be a Hash'
+      expect { JSONAPI::Document.new(1234) }.to raise_error msg
+    end
+
     it 'should provide nil for instance variables that are not present' do
       expect(d.errors).to eq nil
       expect(d.jsonapi).to eq nil
@@ -78,6 +83,12 @@ describe JSONAPI::Document do
   describe '#to_h' do
     it 'should mimic JSON format' do
       expect(doc.to_h).to eq doc_hash
+    end
+  end
+
+  describe '#validate' do
+    it 'should return nil when given a valid document' do
+      expect(d.validate).to be nil
     end
   end
 end

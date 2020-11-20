@@ -9,6 +9,7 @@ require 'rack/jsonapi/document/links'
 require 'rack/jsonapi/document/meta'
 
 require 'rack/jsonapi/utility'
+require 'rack/jsonapi/exceptions/document_exceptions'
 
 module JSONAPI
 
@@ -19,8 +20,16 @@ module JSONAPI
 
     # @param document [Hash] A hash of the different possible document members
     #   with the values being clases associated with those members
+    #   @data is either a JSONAPI::Document::Resource or a Array<JSONAPI::Document::Resource>
+    #                 or a JSONAPI::Document::ResourceId or a Array<JSONAPI::Document::ResourceId>
+    #   @meta is JSONAPI::Document::Meta
+    #   @links is JSONAPI::Document::Links
+    #   @included is an Array<JSONAPI::Document::Resource>
+    #   @errors is an Array<JSONAPI::Document::Error>
+    #   @jsonapi is JSONAPI::Document::Jsonapi
+    # @raise RuntimeError A document must be initialized with a hash of its members.
     def initialize(document = {})
-      return unless document.is_a? Hash
+      raise 'JSONAPI::Document parameter must be a Hash' unless document.is_a? Hash
       @data = document[:data]
       @meta = document[:meta]
       @links = document[:links] # software generated?
@@ -50,6 +59,10 @@ module JSONAPI
       JSONAPI::Utility.to_h_member(to_return, @errors, :errors)
       JSONAPI::Utility.to_h_member(to_return, @jsonapi, :jsonapi)
       to_return
+    end
+
+    def validate
+      JSONAPI::Exceptions::DocumentExceptions.check_compliance(to_h)
     end
   end
 end

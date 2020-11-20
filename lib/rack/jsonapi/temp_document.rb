@@ -6,7 +6,7 @@ module JSONAPI
 
   # A abstract document from the point of view of a developer. He or she only cares about
   #   adding resources and adding 
-  class UserDocument
+  class TempDocument
 
     def initialize(members_hash = {})
       @data = members_hash[:data] || {}
