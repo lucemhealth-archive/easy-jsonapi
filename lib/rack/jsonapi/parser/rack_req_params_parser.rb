@@ -45,6 +45,10 @@ module JSONAPI
         query_param_collection
       end
 
+      # @param name [String] The name of the query param to add
+      # @param value [String | Hash] The value of the query param to add
+      # @param query_param_collection [JSONAPI::Request::QueryParamCollection]
+      #   The collection to add all the params to
       def self.add_the_param(name, value, query_param_collection)
         case name
         when 'include'
@@ -62,11 +66,13 @@ module JSONAPI
         end
       end
 
+      # @param value [String] The value to initialize with
       def self.parse_include_param(value)
         includes_arr = value.split(',')
         JSONAPI::Request::QueryParamCollection::IncludeParam.new(includes_arr)
       end
 
+      # @param (see #parse_include_param)
       def self.parse_fields_param(value)
         fieldsets = []
         value.each do |res_type, res_field_str|
@@ -77,15 +83,18 @@ module JSONAPI
         JSONAPI::Request::QueryParamCollection::FieldsParam.new(fieldsets)
       end
 
+      # @param (see #parse_include_param)
       def self.parse_sort_param(value)
         res_field_arr = value.split(',').map { |res_field| JSONAPI::Field.new(res_field) }
         JSONAPI::Request::QueryParamCollection::SortParam.new(res_field_arr)
       end
 
+      # @param (see #parse_include_param)
       def self.parse_page_param(value)
         JSONAPI::Request::QueryParamCollection::PageParam.new(offset: value[:offset], limit: value[:limit])
       end
 
+      # @param (see #parse_include_param)
       def self.parse_filter_param(value)
         
         filter_arr = value.map do |res_name, filter|
@@ -94,11 +103,14 @@ module JSONAPI
         JSONAPI::Request::QueryParamCollection::FilterParam.new(filter_arr)
       end
 
+      # @param (see #parse_include_param)
       def self.parse_query_param(name, value)
         JSONAPI::Request::QueryParamCollection::QueryParam.new(name, value)
       end
 
-      private_class_method :add_the_param, :parse_fields_param, :parse_include_param
+      private_class_method :add_the_param, :parse_include_param, :parse_fields_param,
+                            :parse_sort_param, :parse_page_param, :parse_filter_param,
+                            :parse_query_param
     end
   end
 end

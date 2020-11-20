@@ -8,6 +8,7 @@ module JSONAPI
   #   adding resources and adding 
   class TempDocument
 
+    # Temp document
     def initialize(members_hash = {})
       @data = members_hash[:data] || {}
       @meta = members_hash[:meta] || {}

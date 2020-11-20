@@ -60,6 +60,7 @@ module JSONAPI
       "\"#{name}\": #{val_str}"
     end
 
+    # Represents a pair as a hash
     def to_h
       { name.to_sym => JSONAPI::Utility.to_h_value(value) }
     end

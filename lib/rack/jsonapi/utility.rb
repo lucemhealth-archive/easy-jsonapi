@@ -5,6 +5,8 @@ module JSONAPI
   # A collection of resued logic throughout the gem.
   module Utility
 
+    # To hash method for a JSONAPI collection (like Attributes)
+    # @param collection [Inumerable] The collection to hashify
     def self.to_h_collection(collection)
       to_return = {}
       collection.each do |mem|
@@ -14,7 +16,7 @@ module JSONAPI
       to_return
     end
     
-    # Helper method for #to_h
+    # Helper method for #to_h_collection
     # @param val [Any] The value to call to hash on.
     # @return a hash value member
     def self.to_h_value(val)
@@ -38,6 +40,12 @@ module JSONAPI
       end
     end
 
+    # Helper for #to_h for classes that arent collection and have a set number
+    #   of instance variables to hashify
+    # @param hash_to_add_to [Hash] The hash to return
+    # @param obj_member [Any] The instance variable to hashify
+    # @param obj_member_name [Symbol] The hash key to store the object under
+    # @return [Hash] The hash for a specific instance variable
     def self.to_h_member(hash_to_add_to, obj_member, obj_member_name)
       return if obj_member.nil?
       case obj_member

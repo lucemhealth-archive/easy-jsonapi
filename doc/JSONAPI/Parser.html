@@ -123,7 +123,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse_request!-class_method" title="parse_request! (class method)">.<strong>parse_request!</strong>(env)  &#x21d2; JSONAPI::Request </a>
+      <a href="#parse_request-class_method" title="parse_request (class method)">.<strong>parse_request</strong>(env)  &#x21d2; JSONAPI::Request </a>
     
 
     
@@ -153,9 +153,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="parse_request!-class_method">
+  <h3 class="signature first" id="parse_request-class_method">
   
-    .<strong>parse_request!</strong>(env)  &#x21d2; <tt><span class='object_link'><a href="Request.html" title="JSONAPI::Request (class)">JSONAPI::Request</a></span></tt> 
+    .<strong>parse_request</strong>(env)  &#x21d2; <tt><span class='object_link'><a href="Request.html" title="JSONAPI::Request (class)">JSONAPI::Request</a></span></tt> 
   
 
   
@@ -228,14 +228,14 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/parser.rb', line 18</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_request!'>parse_request!</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse_request'>parse_request</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req'>req</span> <span class='op'>=</span> <span class='const'>Rack</span><span class='op'>::</span><span class='const'>Request</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   
-  <span class='id identifier rubyid_query_param_collection'>query_param_collection</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Parser/RackReqParamsParser.html" title="JSONAPI::Parser::RackReqParamsParser (module)">RackReqParamsParser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse!'><span class='object_link'><a href="Parser/RackReqParamsParser.html#parse!-class_method" title="JSONAPI::Parser::RackReqParamsParser.parse! (method)">parse!</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_req'>req</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_header_collection'>header_collection</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Parser/HeadersParser.html" title="JSONAPI::Parser::HeadersParser (module)">HeadersParser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse!'><span class='object_link'><a href="Parser/HeadersParser.html#parse!-class_method" title="JSONAPI::Parser::HeadersParser.parse! (method)">parse!</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_query_param_collection'>query_param_collection</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Parser/RackReqParamsParser.html" title="JSONAPI::Parser::RackReqParamsParser (module)">RackReqParamsParser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Parser/RackReqParamsParser.html#parse-class_method" title="JSONAPI::Parser::RackReqParamsParser.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_req'>req</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_header_collection'>header_collection</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Parser/HeadersParser.html" title="JSONAPI::Parser::HeadersParser (module)">HeadersParser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Parser/HeadersParser.html#parse-class_method" title="JSONAPI::Parser::HeadersParser.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span>
   
   <span class='id identifier rubyid_req_body'>req_body</span> <span class='op'>=</span> <span class='const'>Oj</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_req'>req</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='comma'>,</span> <span class='label'>symbol_keys:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='comment'># stored separately because can only read 1x
-</span>  <span class='id identifier rubyid_document'>document</span> <span class='op'>=</span> <span class='id identifier rubyid_includes_jsonapi_document?'>includes_jsonapi_document?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="Parser/DocumentParser.html" title="JSONAPI::Parser::DocumentParser (module)">DocumentParser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse!'><span class='object_link'><a href="Parser/DocumentParser.html#parse!-class_method" title="JSONAPI::Parser::DocumentParser.parse! (method)">parse!</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_req_body'>req_body</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span>
+</span>  <span class='id identifier rubyid_document'>document</span> <span class='op'>=</span> <span class='id identifier rubyid_includes_jsonapi_document?'>includes_jsonapi_document?</span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="Parser/DocumentParser.html" title="JSONAPI::Parser::DocumentParser (module)">DocumentParser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Parser/DocumentParser.html#parse-class_method" title="JSONAPI::Parser::DocumentParser.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_req_body'>req_body</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span>
   
   <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Request.html" title="JSONAPI::Request (class)">Request</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Request.html#initialize-instance_method" title="JSONAPI::Request#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_env'>env</span><span class='comma'>,</span> <span class='id identifier rubyid_query_param_collection'>query_param_collection</span><span class='comma'>,</span> <span class='id identifier rubyid_header_collection'>header_collection</span><span class='comma'>,</span> <span class='id identifier rubyid_document'>document</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -249,7 +249,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov 17 12:11:45 2020 by
+  Generated on Fri Nov 20 00:14:03 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

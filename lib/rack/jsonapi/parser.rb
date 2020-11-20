@@ -13,8 +13,8 @@ module JSONAPI
   # Parsing logic in rack middleware
   module Parser
     
-    # @return [JSONAPI::Request] the instantiated jsonapi request object
     # @param env [Hash] The rack envirornment hash
+    # @return [JSONAPI::Request] the instantiated jsonapi request object
     def self.parse_request(env)
       req = Rack::Request.new(env)
       

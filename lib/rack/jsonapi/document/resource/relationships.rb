@@ -9,10 +9,15 @@ module JSONAPI
     class Resource
       # A JSONAPI resource's relationships
       class Relationships < JSONAPI::NameValuePairCollection
+        
+        # @param rels_obj_arr [Array<JSONAPI::Document::Resource::Relationships::Relationship]
+        #   The collection of relationships to initialize the collection with
         def initialize(rels_obj_arr = [])
           super(rels_obj_arr, item_type: JSONAPI::Document::Resource::Relationships::Relationship)
         end
 
+        # The jsonapi hash representation of a resource's relationships
+        # @return [Hash] A resource's relationships
         def to_h
           to_return = {}
           each do |rel|

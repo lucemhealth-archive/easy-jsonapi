@@ -178,7 +178,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../NameValuePairCollection.html#<<-instance_method" title="JSONAPI::NameValuePairCollection#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#add-instance_method" title="JSONAPI::NameValuePairCollection#add (method)">#add</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#to_s-instance_method" title="JSONAPI::NameValuePairCollection#to_s (method)">#to_s</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../NameValuePairCollection.html#<<-instance_method" title="JSONAPI::NameValuePairCollection#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#add-instance_method" title="JSONAPI::NameValuePairCollection#add (method)">#add</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#to_h-instance_method" title="JSONAPI::NameValuePairCollection#to_h (method)">#to_h</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#to_s-instance_method" title="JSONAPI::NameValuePairCollection#to_s (method)">#to_s</a></span></p>
 
   
   
@@ -211,7 +211,30 @@
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>jsonapi_member_arr</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="Jsonapi/JsonapiMember.html" title="JSONAPI::Document::Jsonapi::JsonapiMember (class)">JSONAPI::Document::Jsonapi::JsonapiMember</a></span>] The collection
+of members to intialize this collection with.</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>sonapi_member_arr [Array&lt;JSONAPI::Document::Jsonapi::JsonapiMember] The collection
+of members to intialize this collection with.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -219,12 +242,12 @@
       <pre class="lines">
 
 
-12
-13
-14</pre>
+14
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/jsonapi.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/jsonapi.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonapi_member_arr'>jsonapi_member_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonapi_member_arr'>jsonapi_member_arr</span><span class='comma'>,</span> <span class='label'>item_type:</span> <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Document.html" title="JSONAPI::Document (class)">Document</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSONAPI::Document::Jsonapi (class)">Jsonapi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Jsonapi/JsonapiMember.html" title="JSONAPI::Document::Jsonapi::JsonapiMember (class)">JsonapiMember</a></span></span><span class='rparen'>)</span>
@@ -240,7 +263,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov 17 12:11:45 2020 by
+  Generated on Fri Nov 20 00:14:03 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

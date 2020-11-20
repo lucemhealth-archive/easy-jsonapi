@@ -9,8 +9,6 @@ module JSONAPI
 
       # An individual member in a JSON:API Meta object
       class JsonapiMember < JSONAPI::NameValuePair
-        
-        # TODO: Error checking here or somewhere else?
       end
     end
   end

@@ -39,7 +39,7 @@ module JSONAPI
       instance_variables.include?("@#{method_name}".to_sym) || super
     end
 
-    # A special to string method if @item is a hash.
+    # A special to_string method if @item is a hash.
     def to_s
       return @item.to_s unless @item.is_a? Hash
       tr = '{ '
@@ -55,6 +55,7 @@ module JSONAPI
       tr += ' }'
     end
 
+    # Represent item as a hash
     def to_h
       @item.to_h
     end

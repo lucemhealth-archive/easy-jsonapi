@@ -13,14 +13,20 @@ module JSONAPI
           attr_accessor :links, :data, :meta
           attr_reader :name
     
-          def initialize(rels_member_obj)
-            # add a relationship, and type
+          # @param rels_member_hash [Hash] The hash of relationship members
+          def initialize(rels_member_hash)
+            unless rels_member_hash.is_a? Hash
+              msg = 'Must initialize a ' \
+                    'JSONAPI::Document::Resource::Relationships::Relationship with a Hash'
+              raise msg
+            end
+            # TODO: add a relationship, and type
             # need to know one or many
             # object
-            @name = rels_member_obj[:name].to_s
-            @links = rels_member_obj[:links]
-            @data = rels_member_obj[:data]
-            @meta = rels_member_obj[:meta]
+            @name = rels_member_hash[:name].to_s
+            @links = rels_member_hash[:links]
+            @data = rels_member_hash[:data]
+            @meta = rels_member_hash[:meta]
           end
   
           # @return [String] A JSON parseable representation of a relationship
@@ -32,6 +38,7 @@ module JSONAPI
             ' }' \
           end
 
+          # Hash representation of a relationship
           def to_h
             { @name.to_sym => { 
               links: @links.to_h, 

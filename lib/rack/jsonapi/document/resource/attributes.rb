@@ -9,6 +9,8 @@ module JSONAPI
       # The attributes of a resource
       class Attributes < JSONAPI::NameValuePairCollection
   
+        # @param attr_arr [Array<JSONAPI::Document::Resource::Attributes::Attribute] 
+        #   The collection of attributes to initialize the collection with.
         def initialize(attr_arr = [])
           super(attr_arr, item_type: JSONAPI::Document::Resource::Attributes::Attribute)
         end

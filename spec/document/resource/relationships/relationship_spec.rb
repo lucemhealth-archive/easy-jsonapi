@@ -17,6 +17,13 @@ describe JSONAPI::Document::Resource::Relationships::Relationship do
   let(:rel) do 
     JSONAPI::Parser::DocumentParser.parse_relationship(:author, rel_hash)
   end
+
+  context 'when initializing' do
+    it 'should raise if not given a hash upon initializitaion' do
+      msg = 'Must initialize a JSONAPI::Document::Resource::Relationships::Relationship with a Hash'
+      expect { JSONAPI::Document::Resource::Relationships::Relationship.new(123) }.to raise_error msg
+    end
+  end
   
   context 'checking accessor methods' do
     it 'should be able to access members and get proper classes' do

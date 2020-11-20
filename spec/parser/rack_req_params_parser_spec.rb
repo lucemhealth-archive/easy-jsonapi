@@ -35,7 +35,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
   # The query_param collection when the parser is passed an empty query_param object
   let(:epc) { JSONAPI::Parser::RackReqParamsParser.parse({}) }
 
-  let(:e_class) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidParameter }
+  let(:e_class) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter }
 
   describe '#parse' do
     it 'should return a QueryParamCollection object' do
@@ -68,7 +68,7 @@ describe JSONAPI::Parser::RackReqParamsParser do
       expect(pc.get(:sorts).class).to be JSONAPI::Request::QueryParamCollection::SortParam
     end
 
-    it 'should raise InvalidParameter if given a impl specific param that does not follow naming rules' do
+    it 'should raise InvalidQueryParameter if given a impl specific param that does not follow naming rules' do
       expect { JSONAPI::Parser::RackReqParamsParser.parse(@rack_params_w_bad_name) }.to raise_error e_class
     end
   end

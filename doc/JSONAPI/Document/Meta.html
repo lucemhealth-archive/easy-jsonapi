@@ -178,7 +178,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../NameValuePairCollection.html#<<-instance_method" title="JSONAPI::NameValuePairCollection#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#add-instance_method" title="JSONAPI::NameValuePairCollection#add (method)">#add</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#to_s-instance_method" title="JSONAPI::NameValuePairCollection#to_s (method)">#to_s</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../NameValuePairCollection.html#<<-instance_method" title="JSONAPI::NameValuePairCollection#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#add-instance_method" title="JSONAPI::NameValuePairCollection#add (method)">#add</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#to_h-instance_method" title="JSONAPI::NameValuePairCollection#to_h (method)">#to_h</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#to_s-instance_method" title="JSONAPI::NameValuePairCollection#to_s (method)">#to_s</a></span></p>
 
   
   
@@ -211,7 +211,30 @@
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>meta_arr</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="Meta/MetaMember.html" title="JSONAPI::Document::Meta::MetaMember (class)">JSONAPI::Document::Meta::MetaMember</a></span>] The 
+array of <span class='object_link'><a href="../Document.html#meta-instance_method" title="JSONAPI::Document#meta (method)">meta</a></span> members to <span class='object_link'><a href="#initialize-instance_method" title="JSONAPI::Document::Meta#initialize (method)">initialize</a></span> the collection with</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>eta_arr [Array&lt;JSONAPI::Document::Meta::MetaMember] The 
+array of meta members to initialize the collection with</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -219,13 +242,13 @@
       <pre class="lines">
 
 
-11
-12
-13
-14</pre>
+14
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/meta.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/document/meta.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_meta_arr'>meta_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_meta_arr'>meta_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_meta_arr'>meta_arr</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_meta_arr'>meta_arr</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
@@ -242,7 +265,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov 17 12:11:45 2020 by
+  Generated on Fri Nov 20 00:14:03 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

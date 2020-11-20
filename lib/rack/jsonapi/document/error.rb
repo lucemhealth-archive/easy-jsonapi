@@ -39,6 +39,8 @@ module JSONAPI
         JSONAPI::Utility.to_h_collection(self)
       end
 
+      private
+
       # Gets the QueryParam class whose name matches the method_name called
       # @param method_name [Symbol] The name of the method called
       # @param args If any arguments were passed to the method called
@@ -49,7 +51,6 @@ module JSONAPI
       end
   
       # Whether or not method missing should be called.
-      # TODO: look into why this works lol
       def respond_to_missing?(method_name, *)
         @error_names.include?(method_name) || super
       end

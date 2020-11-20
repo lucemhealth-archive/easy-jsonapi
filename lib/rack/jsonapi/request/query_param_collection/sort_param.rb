@@ -14,6 +14,7 @@ module JSONAPI
           super('sorts', res_field_arr)
         end
 
+        # Represent sort as query string
         def to_s
           "sort=#{JSONAPI::Utility.to_string_collection(value, delimiter: ',')}"
         end

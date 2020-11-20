@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/name_value_pair_collection'
+require 'rack/jsonapi/request/query_param_collection/fields_param'
 require 'rack/jsonapi/utility'
 
 module JSONAPI
@@ -10,7 +11,7 @@ module JSONAPI
         # Collection of fields related to specific resource objects
         class Fieldset
 
-          attr_accessor :resource_type, :resource_fields
+          attr_reader :resource_type, :resource_fields
 
           # @param res_field_arr [Array<JSONAPI::Field>]
           #   A fieldset is a collection of Resource Fields

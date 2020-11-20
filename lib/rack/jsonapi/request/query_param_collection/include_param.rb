@@ -17,27 +17,33 @@ module JSONAPI
           super('includes', includes_hash_structure)
         end
 
+        # to string
         def to_s
           "include=#{stringify_includes_hash(value)}"
         end
 
         private 
 
+        # Represent include internal hash as query string
+        # @param includes_hash [Hash] The internal structure
         def stringify_includes_hash(includes_hash)
           to_return = ''
           first = true
           includes_hash.each do |mem_name, mem_hash|
             if first
-              to_return += helper(mem_name, mem_hash)
+              to_return += to_s_mem(mem_name, mem_hash)
               first = false
             else
-              to_return += ",#{helper(mem_name, mem_hash)}"
+              to_return += ",#{to_s_mem(mem_name, mem_hash)}"
             end
           end
           to_return
         end
 
-        def helper(mem_name, mem_hash)
+        # Depending on the delimiter stringify differently.
+        # @param mem_name [Symbol] The name of the member to stringify
+        # @param mem_hash [Hash] The information about that member
+        def to_s_mem(mem_name, mem_hash)
           if mem_hash[:relationships] == {}
             mem_name.to_s
           else
@@ -47,16 +53,18 @@ module JSONAPI
             first = true
             mem_hash[:relationships].each do |m_name, m_hash|
               if first
-                to_return += "#{prefix}#{helper(m_name, m_hash)}"
+                to_return += "#{prefix}#{to_s_mem(m_name, m_hash)}"
                 first = false
               else
-                to_return += ",#{prefix}#{helper(m_name, m_hash)}"
+                to_return += ",#{prefix}#{to_s_mem(m_name, m_hash)}"
               end
             end
             to_return
           end
         end
 
+        # Helper for #initialize
+        # @param includes_arr [Array<String>] The array of includes to store
         def store_includes(includes_arr)
           incl_hash = {}
           includes_arr.each do |include_str|
@@ -66,6 +74,8 @@ module JSONAPI
           incl_hash
         end
 
+        # @param loc_in_h [Hash] The location within the main hash
+        # @param i_arr [Array<String>] The array of include strings
         def store_include(loc_in_h, i_arr)
           res_name = i_arr[0].to_sym
           if i_arr.length == 1
@@ -76,6 +86,7 @@ module JSONAPI
           end
         end
 
+        # @param (see #store_include)
         def res_included?(i_arr)
           delim = i_arr[1]
           case delim
@@ -88,6 +99,10 @@ module JSONAPI
           end
         end
 
+        # @param loc_in_h [Hash] The location within the main hash
+        # @param res_name [Symbol] The name of the resource
+        # @param included [TrueClass | FalseClass] Whether or not a resource
+        #   is being requested or not
         def add_member(loc_in_h, res_name, included:)
           if loc_in_h.key?(res_name)
             loc_in_h[res_name][:included] = included unless included == false

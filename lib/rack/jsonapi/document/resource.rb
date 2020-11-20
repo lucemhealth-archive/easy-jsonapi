@@ -11,7 +11,11 @@ module JSONAPI
 
       attr_accessor :attributes, :relationships, :links, :meta, :type, :id
       
+      # @param members_hash [Hash] The members to initialize a resource with
       def initialize(members_hash)
+        unless members_hash.is_a? Hash
+          raise 'A JSONAPI::Document::Resource must be initialized with a Hash'
+        end
         @type = members_hash[:type].to_s
         @id = members_hash[:id].to_s
         @attributes = members_hash[:attributes]
@@ -35,6 +39,8 @@ module JSONAPI
         ' }'
       end
 
+      # Hash representation of a jsonapi resource
+      # @return [Hash] The jsonapi representation of the resource
       def to_h
         to_return = {}
         JSONAPI::Utility.to_h_member(to_return, @type, :type)

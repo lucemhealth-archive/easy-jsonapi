@@ -46,6 +46,11 @@ describe JSONAPI::Document::Resource do
       expect(res.links.class).to eq JSONAPI::Document::Links
       expect(res.meta.class).to eq JSONAPI::Document::Meta
     end
+
+    it 'should raise if initialized with something other than a hash' do
+      msg = 'A JSONAPI::Document::Resource must be initialized with a Hash'
+      expect { JSONAPI::Document::Resource.new(123) }.to raise_error msg
+    end
   end
 
   describe '#to_s' do

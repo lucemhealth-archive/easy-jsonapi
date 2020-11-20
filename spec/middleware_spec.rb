@@ -37,7 +37,7 @@ describe JSONAPI::Middleware do
             { "type": "comments", "id": "12" }
           ]
         }
-      },
+      }
     },
     "included": [{
       "type": "people",
@@ -173,9 +173,37 @@ describe JSONAPI::Middleware do
     }
   end
 
+  let(:env_bad_param) do
+    {
+      'SERVER_SOFTWARE' => 'thin 1.7.2 codename Bachmanity',
+      'SERVER_NAME' => 'localhost',
+      "rack.input" => StringIO.new(body_str),
+      'rack.version' => [1, 0],
+      'rack.multithread' => false,
+      'rack.multiprocess' => false,
+      'rack.run_once' => false,
+      'REQUEST_METHOD' => 'POST',
+      'REQUEST_PATH' => '/articles',
+      'PATH_INFO' => '/articles',
+      'QUERY_STRING' => 'include=author,comments&fields[articles]=title,body,author&fields[people]=name&joshua=demoss&page[offset]=1&page[limit]=1',
+      'REQUEST_URI' => '/articles?include=author,comments&fields[articles]=title,body,author&fields[people]=name&=demoss&page[offset]=1&page[limit]=1',
+      'HTTP_VERSION' => 'HTTP/1.1', 
+      'HTTP_ACCEPT' => 'application/vnd.beta.curatess.v1.api+json ; q=0.5, text/*, image/* ; q=.3',
+      'HTTP_POSTMAN_TOKEN' => 'de878a8f-917e-4016-b9f7-f723a6483f03',
+      'HTTP_HOST' => 'localhost:9292',
+      'CONTENT_TYPE' => 'application/vnd.api+json',
+      'GATEWAY_INTERFACE' => 'CGI/1.2',
+      'SERVER_PORT' => '9292',
+      'SERVER_PROTOCOL' => 'HTTP/1.1',
+      'rack.url_scheme' => 'http',
+      'SCRIPT_NAME' => '',
+      'REMOTE_ADDR' => '::1'
+    }
+  end
+
   let(:doc_error) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
   let(:headers_error) { JSONAPI::Exceptions::HeadersExceptions::InvalidHeader }
-  let(:query_params_error) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidParameter }
+  let(:query_params_error) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter }
 
   let(:response) { [200, { "Content-Type" => "text/plain" }, ['Testing: JSONAPI::Request']] }
 
@@ -188,6 +216,12 @@ describe JSONAPI::Middleware do
     context 'when part of the document does not follow the spec' do
       it 'should raise InvalidDocument' do
         expect { m.call(env_bad_doc) }.to raise_error doc_error
+      end
+    end
+
+    context 'when a query param is invalid and it is a jsonapi request' do
+      it 'should raise InvalidQueryParameter' do
+        expect { m.call(env_bad_param) }.to raise_error query_params_error
       end
     end
   end

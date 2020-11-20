@@ -312,7 +312,9 @@ module JSONAPI
         # Full linkage check is in #check_members
       end
 
-      #  -- Checking if document is fully linked
+      # Checking if document is fully linked
+      # @param document [Hash] The jsonapi document
+      # @param is_a_request [TrueClass | FalseClass] Whether it is a request
       def self.check_full_linkage(document, is_a_request:)
         return nil if is_a_request
         
@@ -369,6 +371,9 @@ module JSONAPI
       # Helper Method for #check_resource_members
       # *****************************************
 
+      # Checks whether a resource's fields share a common namespace
+      # @param attributes [Hash] A resource's attributes
+      # @param relationships [Hash] A resource's relationships
       def self.shares_common_namespace?(attributes, relationships)
         true && \
           !contains_type_or_id_member?(attributes) && \
@@ -376,11 +381,15 @@ module JSONAPI
           keys_intersection_empty?(attributes, relationships)
       end
 
+      # @param hash [Hash] The hash to check
       def self.contains_type_or_id_member?(hash)
         return false unless hash
         hash.key?(:id) || hash.key?(:type)
       end
 
+      # Checks to see if two hashes share any key members names
+      # @param arr1 [Array<Symbol>] The first hash key array
+      # @param arr2 [Array<Symbol>] The second hash key array
       def self.keys_intersection_empty?(arr1, arr2)
         return true unless arr1 && arr2
         arr1.keys & arr2.keys == []
@@ -390,6 +399,7 @@ module JSONAPI
       # Helper Methods for Full Linkage:
       # ********************************
 
+      # @param document [Hash] The jsonapi document hash
       def self.full_linkage?(document)
         return true unless document[:included] # Checked earlier to make sure included only exists w data
         
@@ -397,6 +407,9 @@ module JSONAPI
         any_additional_includes?(possible_includes, document)
       end
 
+      # Get a collection of all possible includes
+      # @param (see #full_linkage?)
+      # @return [Hash] Collection of possible includes
       def self.get_possible_includes(document)
         possible_includes = {}
         primary_data = document[:data]
@@ -406,6 +419,8 @@ module JSONAPI
         possible_includes
       end
 
+      # @param possible_includes [Hash] The collection of possible includes
+      # @document (see #full_linkage?)
       def self.any_additional_includes?(possible_includes, document)
         document[:included].each do |res|
           return false unless possible_includes.key? res_id_to_sym(res[:type], res[:id])
@@ -413,6 +428,8 @@ module JSONAPI
         true
       end
 
+      # @param possible_includes (see #any_additional_includes?)
+      # @param primary_data [Hash] The primary data of a document
       def self.populate_w_primary_data(possible_includes, primary_data)
         if primary_data.is_a? Array
           primary_data.each do |res|
@@ -423,12 +440,16 @@ module JSONAPI
         end
       end
 
+      # @param possible_includes (see #any_additional_includes?)
+      # @param include_arr [Array<Hash>] The array of includes
       def self.populate_w_include_mem(possible_includes, include_arr)
         include_arr.each do |res|
           populate_w_res_rels(possible_includes, res)
         end
       end
 
+      # @param possible_includes (see #any_additional_includes?)
+      # @param resource [Hash] The resource to check
       def self.populate_w_res_rels(possible_includes, resource)
         return unless resource[:relationships]
         resource[:relationships].each_value do |rel|
@@ -444,6 +465,9 @@ module JSONAPI
         end
       end
 
+      # Creates a hash key using type and id
+      # @param type [String] the resource type
+      # @param id [String] the resource id
       def self.res_id_to_sym(type, id)
         "#{type}|#{id}".to_sym
       end

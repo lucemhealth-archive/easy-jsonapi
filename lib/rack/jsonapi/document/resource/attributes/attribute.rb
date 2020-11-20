@@ -13,6 +13,9 @@ module JSONAPI
 
           attr_accessor :value
 
+          # @param name [String] The name of an attribute
+          # @param value [String] The value of an attribute
+          # @param type [Any] The type of an attribute value
           def initialize(name, value, type: String)
             @value = value
             super(name, type: type)
@@ -28,6 +31,7 @@ module JSONAPI
             "\"#{name}\": \"#{@value}\""
           end
 
+          # A hash with just this attribute
           def to_h
             { name.to_sym => @value }
           end

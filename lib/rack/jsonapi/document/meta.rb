@@ -9,6 +9,8 @@ module JSONAPI
     # The meta of a resource
     class Meta < JSONAPI::NameValuePairCollection
 
+      # @param meta_arr [Array<JSONAPI::Document::Meta::MetaMember] The 
+      #   array of meta members to initialize the collection with
       def initialize(meta_arr = [])
         meta_arr = [meta_arr] unless meta_arr.is_a? Array
         super(meta_arr, item_type: JSONAPI::Document::Meta::MetaMember)

@@ -190,52 +190,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#method_missing-instance_method" title="#method_missing (instance method)">#<strong>method_missing</strong>(method_name, *args, &amp;block)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Gets the QueryParam class whose name matches the method_name called.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#respond_to_missing%3F-instance_method" title="#respond_to_missing? (instance method)">#<strong>respond_to_missing?</strong>(method_name)  &#x21d2; Boolean </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Whether or not method missing should be called.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; Object </a>
     
 
@@ -250,7 +204,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><h1 id="provided-by-super-but-calls-overriden-add-each-provided-from-super-remove-provided-from-super-get-provided-by-super-keys-provided-by-super-size-provided-by-super">&lt;&lt; provided by super, but calls overriden #add #each provided from super #remove provided from super #get provided by super #keys provided by super #size provided by super.</h1>
+    <span class="summary_desc"><div class='inline'><p>Represent query param collection like the query_param string.</p>
 </div></span>
   
 </li>
@@ -269,7 +223,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../NameValuePairCollection.html" title="JSONAPI::NameValuePairCollection (class)">NameValuePairCollection</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../NameValuePairCollection.html#<<-instance_method" title="JSONAPI::NameValuePairCollection#&lt;&lt; (method)">#<<</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../NameValuePairCollection.html#<<-instance_method" title="JSONAPI::NameValuePairCollection#&lt;&lt; (method)">#<<</a></span>, <span class='object_link'><a href="../NameValuePairCollection.html#to_h-instance_method" title="JSONAPI::NameValuePairCollection#to_h (method)">#to_h</a></span></p>
 
   
   
@@ -302,7 +256,30 @@
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>param_arr</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="QueryParamCollection/QueryParam.html" title="JSONAPI::Request::QueryParamCollection::QueryParam (class)">JSONAPI::Request::QueryParamCollection::QueryParam</a></span>] The
+query <span class='object_link'><a href="../Request.html#params-instance_method" title="JSONAPI::Request#params (method)">params</a></span> to <span class='object_link'><a href="#initialize-instance_method" title="JSONAPI::Request::QueryParamCollection#initialize (method)">initialize</a></span> the collection with</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>aram_arr [Array&lt;JSONAPI::Request::QueryParamCollection::QueryParam] The
+query params to initialize the collection with</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -310,13 +287,13 @@
       <pre class="lines">
 
 
-11
-12
 13
-14</pre>
+14
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_param_arr'>param_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='ivar'>@param_names</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -338,7 +315,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="method_missing-instance_method">
   
-    #<strong>method_missing</strong>(method_name, *args, &amp;block)  &#x21d2; <tt>Object</tt> 
+    #<strong>method_missing</strong>(method_name, *args, &amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(private)</span>
   
 
   
@@ -409,13 +386,13 @@
       <pre class="lines">
 
 
-41
-42
-43
-44</pre>
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>super</span> <span class='kw'>unless</span> <span class='ivar'>@param_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
@@ -476,73 +453,19 @@
       <pre class="lines">
 
 
-20
-21
 22
 23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_query_param'>query_param</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_p_name'>p_name</span> <span class='op'>=</span> <span class='id identifier rubyid_query_param'>query_param</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@param_names</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_p_name'>p_name</span> <span class='kw'>unless</span> <span class='ivar'>@param_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_p_name'>p_name</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_query_param'>query_param</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="respond_to_missing?-instance_method">
-  
-    #<strong>respond_to_missing?</strong>(method_name)  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>Whether or not method missing should be called.
-TODO: look into why this works lol</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-48
-49
-50</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 48</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_respond_to_missing?'>respond_to_missing?</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='rparen'>)</span>
-  <span class='ivar'>@param_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -560,17 +483,7 @@ TODO: look into why this works lol</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <h1 id="provided-by-super-but-calls-overriden-add">&lt;&lt; provided by super, but calls overriden #add</h1>
-
-<h1 id="each-provided-from-super">each provided from super</h1>
-
-<h1 id="remove-provided-from-super">remove provided from super</h1>
-
-<h1 id="get-provided-by-super">get provided by super</h1>
-
-<h1 id="keys-provided-by-super">keys provided by super</h1>
-
-<h1 id="size-provided-by-super">size provided by super</h1>
+    <p>Represent query param collection like the query_param string</p>
 
 
   </div>
@@ -584,12 +497,12 @@ TODO: look into why this works lol</p>
       <pre class="lines">
 
 
-33
-34
-35</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/request/query_param_collection.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='const'><span class='object_link'><a href="../../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Utility.html" title="JSONAPI::Utility (module)">Utility</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_string_collection'><span class='object_link'><a href="../Utility.html#to_string_collection-class_method" title="JSONAPI::Utility.to_string_collection (method)">to_string_collection</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>delimiter:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&amp;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -604,7 +517,7 @@ TODO: look into why this works lol</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Nov 17 12:11:45 2020 by
+  Generated on Fri Nov 20 00:14:04 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# classes extending document:
+# classes extending document: (require needed because parser requires document)
 require 'rack/jsonapi/document/resource'
 require 'rack/jsonapi/document/resource_id'
 require 'rack/jsonapi/document/error'
@@ -38,7 +38,7 @@ module JSONAPI
       @jsonapi = document[:jsonapi] # online documentation
     end
 
-    # To String
+    # Represent as a string mimicing the JSONAPI format
     def to_s
       '{ ' \
         "#{JSONAPI::Utility.member_to_s('data', @data, first_member: true)}" \
@@ -50,6 +50,7 @@ module JSONAPI
       ' }'
     end
 
+    # Represent as a hash mimicing the JSONAPI format
     def to_h
       to_return = {}
       JSONAPI::Utility.to_h_member(to_return, @data, :data)
@@ -61,6 +62,8 @@ module JSONAPI
       to_return
     end
 
+    # Check if the document is JSONAPI compliant
+    # @raise If the document's to_h does not comply
     def validate
       JSONAPI::Exceptions::DocumentExceptions.check_compliance(to_h)
     end

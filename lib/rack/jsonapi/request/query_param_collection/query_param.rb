@@ -23,7 +23,7 @@ module JSONAPI
         end
   
         # Update the query_param value, turning value into an array if it was given as a string
-        # @param new_val [String, Array<String>] The new value of the Parameter
+        # @param new_value [String, Array<String>] The new value of the Parameter
         def value=(new_value)
           new_value = new_value.split(',') if new_value.is_a? String
           super(new_value)
@@ -34,6 +34,7 @@ module JSONAPI
           "#{name}=#{JSONAPI::Utility.to_string_collection(value, delimiter: ',')}"
         end
 
+        # @raise RuntimeError Cannot change the name of a QueryParam object
         def name=(_)
           raise 'Cannot change the name of QueryParam Objects'
         end

@@ -4,7 +4,7 @@ module JSONAPI
 
   # Contains all objects relating to a HTTP request
   class Request
-    attr_accessor :path, :protocol, :host, :port, :query_string, :params, :headers, :body
+    attr_reader :path, :method, :host, :port, :query_string, :params, :headers, :body
 
     # @param env The rack envirornment hash
     # @param query_param_collection [QueryParamCollection]  The already initialized QueryParamCollection class
@@ -13,9 +13,9 @@ module JSONAPI
     def initialize(env, query_param_collection, header_collection, document)
       # from env hash
       @path = env['REQUEST_PATH']
-      @protocol = env['REQUEST_METHOD']
+      @method = env['REQUEST_METHOD']
       @host = env['SERVER_NAME']
-      @port = env['SERVER_PORT']
+      @port = env['SERVER_PORT'].to_i
       @query_string = env['QUERY_STRING']
 
       # parsed objects

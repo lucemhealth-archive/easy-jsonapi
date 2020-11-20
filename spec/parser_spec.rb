@@ -88,8 +88,8 @@ describe JSONAPI::Parser do
       expect(req.class).to eq JSONAPI::Request
     end
     
-    context 'when a jsonapi document is included with the request' do
-      it 'should return nil for request.body' do
+    context 'when a jsonapi document is not included with the request' do
+      it 'should return nil when accessing the request body' do
         expect(req_no_body.body).to eq nil
       end        
     end

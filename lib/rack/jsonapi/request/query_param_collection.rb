@@ -8,6 +8,8 @@ module JSONAPI
     # A collection of QueryParam objects 
     class QueryParamCollection < JSONAPI::NameValuePairCollection
 
+      # @param param_arr [Array<JSONAPI::Request::QueryParamCollection::QueryParam] The
+      #   query params to initialize the collection with
       def initialize(param_arr = [])
         @param_names = []
         super(param_arr, item_type: JSONAPI::Request::QueryParamCollection::QueryParam)
@@ -30,9 +32,12 @@ module JSONAPI
       # #keys provided by super
       # #size provided by super
 
+      # Represent query param collection like the query_param string
       def to_s
         JSONAPI::Utility.to_string_collection(self, delimiter: '&')
       end
+
+      private
   
       # Gets the QueryParam class whose name matches the method_name called
       # @param method_name [Symbol] The name of the method called

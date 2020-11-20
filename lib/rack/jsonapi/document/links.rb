@@ -10,6 +10,8 @@ module JSONAPI
     # The links of a resource
     class Links < JSONAPI::NameValuePairCollection
 
+      # @param link_arr [Array<JSONAPI::Document::Links::Link] The array
+      #   of links to initialize this collection with.
       def initialize(link_arr = [])
         super(link_arr, item_type: JSONAPI::Document::Links::Link)
       end

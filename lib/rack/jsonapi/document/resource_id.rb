@@ -7,6 +7,8 @@ module JSONAPI
 
       attr_accessor :type, :id
 
+      # @param type [String | Symbol] The type of the resource identifier
+      # @param id [String | Symbol] The id of the resource identifier
       def initialize(type:, id:)
         @type = type.to_s
         @id = id.to_s
@@ -17,6 +19,7 @@ module JSONAPI
         "{ \"type\": \"#{@type}\", \"id\": \"#{@id}\" }"
       end
 
+      # Represents ResourceID as a jsonapi hash
       def to_h
         { type: @type, id: @id }
       end

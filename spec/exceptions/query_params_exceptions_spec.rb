@@ -62,7 +62,7 @@ describe JSONAPI::Exceptions::QueryParamsExceptions do
   end
 
   # The error class to return
-  let(:error_class) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidParameter }
+  let(:error_class) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter }
 
   describe '#check_compliance!' do
     it 'should raise a runtime error when test is all lowercase' do
