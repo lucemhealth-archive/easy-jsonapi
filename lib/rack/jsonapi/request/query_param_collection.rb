@@ -47,7 +47,6 @@ module JSONAPI
       end
 
       # Whether or not method missing should be called.
-      # TODO: look into why this works lol
       def respond_to_missing?(method_name, *)
         @param_names.include?(method_name) || super
       end

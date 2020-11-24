@@ -323,7 +323,6 @@ module JSONAPI
         def check_full_linkage(document, is_a_request:)
           return nil if is_a_request
           
-          # TODO: Possible refactor?
           ensure!(full_linkage?(document),
                   'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
                   'identified by at least one resource identifier object in the same document.')

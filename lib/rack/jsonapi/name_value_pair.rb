@@ -38,27 +38,26 @@ module JSONAPI
     # Represents a pair as a string
     def to_s
       v = value
-      case v
-      when Array
-        # TODO: Refactor using utility?
-        val_str = '['
-        first = true
-        v.each do |val|
-          if first
-            val_str += "\"#{val}\""
-            first = false
-          else
-            val_str += ", \"#{val}\""
-          end
-        end
-        val_str += ']'
-      when String
-        val_str = "\"#{v}\""
-      when JSONAPI::NameValuePair
-        val_str = "{ #{value} }"
-      else
-        val_str = value
-      end
+      val_str = case v
+                when Array
+                  val_str = '['
+                  first = true
+                  v.each do |val|
+                    if first
+                      val_str += "\"#{val}\""
+                      first = false
+                    else
+                      val_str += ", \"#{val}\""
+                    end
+                  end
+                  val_str += ']'
+                when String
+                  "\"#{v}\""
+                when JSONAPI::NameValuePair
+                  "{ #{v} }"
+                else
+                  v
+                end
       "\"#{name}\": #{val_str}"
     end
 
