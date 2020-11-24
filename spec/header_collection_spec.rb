@@ -7,25 +7,25 @@ require 'shared_examples/name_value_pair_collections'
 describe JSONAPI::HeaderCollection do
   let(:item_class) { JSONAPI::HeaderCollection::Header }
   obj_arr = [
-    { name: 'Content-Type', value: 'application/vnd.api+json' },
-    { name: 'Accept', value: 'application/vnd.api+json, text/plain, text/html ; level=1 ; q=0.5, text/x-div; q=0.8, text/x-c, */*' },
-    { name: 'Host', value: 'localhost:9292' },
-    { name: 'Connection', value: 'keep-alive' },
-    { name: 'WWW-Authenticate', value: 'Basic realm="Access to the staging site", charset="UTF-8"' }
+    { name: 'CONTENT_TYPE', value: 'application/vnd.api+json' },
+    { name: 'ACCEPT', value: 'application/vnd.api+json, text/plain, text/html ; level=1 ; q=0.5, text/x-div; q=0.8, text/x-c, */*' },
+    { name: 'HOST', value: 'localhost:9292' },
+    { name: 'CONNECTION', value: 'keep-alive' },
+    { name: 'WWW_AUTHENTICATE', value: 'Basic realm="Access to the staging site", charset="UTF-8"' }
   ]
   
   let(:c_size) { 5 }
-  let(:keys) { %i[content-type accept host connection www-authenticate] }
-  let(:ex_item_key) { :'content-type' }
+  let(:keys) { %i[content_type accept host connection www_authenticate] }
+  let(:ex_item_key) { :content_type }
   let(:ex_item) { JSONAPI::HeaderCollection::Header.new('content-type', 'application/vnd.api+json') }
   
   let(:to_string) do
     '{ ' \
-    "\"Content-Type\": \"application/vnd.api+json\", " \
-    "\"Accept\": \"application/vnd.api+json, text/plain, text/html ; level=1 ; q=0.5, text/x-div; q=0.8, text/x-c, */*\", " \
-    "\"Host\": \"localhost:9292\", " \
-    "\"Connection\": \"keep-alive\", " \
-    "\"WWW-Authenticate\": \"Basic realm=\"Access to the staging site\", charset=\"UTF-8\"\"" \
+    "\"CONTENT_TYPE\": \"application/vnd.api+json\", " \
+    "\"ACCEPT\": \"application/vnd.api+json, text/plain, text/html ; level=1 ; q=0.5, text/x-div; q=0.8, text/x-c, */*\", " \
+    "\"HOST\": \"localhost:9292\", " \
+    "\"CONNECTION\": \"keep-alive\", " \
+    "\"WWW_AUTHENTICATE\": \"Basic realm=\"Access to the staging site\", charset=\"UTF-8\"\"" \
     ' }'
   end
 
@@ -36,5 +36,15 @@ describe JSONAPI::HeaderCollection do
   let(:ec) { JSONAPI::HeaderCollection.new }
   
   it_behaves_like 'name value pair collections' do
+  end
+
+  context 'when checking dynamic access methods' do
+    it 'should retrieve the value of the object specified' do
+      expect(c.content_type).to eq obj_arr[0][:value]
+      expect(c.accept).to eq obj_arr[1][:value]
+      expect(c.host).to eq obj_arr[2][:value]
+      expect(c.connection).to eq obj_arr[3][:value]
+      expect(c.www_authenticate).to eq obj_arr[4][:value]
+    end
   end
 end

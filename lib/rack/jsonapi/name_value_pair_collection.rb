@@ -12,6 +12,7 @@ module JSONAPI
     # Creates an empty collection by default
     # @param pair_arr [Array<JSONAPI::NameValuePair>] The pairs to be initialized with.
     def initialize(pair_arr = [], item_type: JSONAPI::NameValuePair)
+      @pair_names = []
       super(pair_arr, item_type: item_type, &:name)
     end
 
@@ -20,6 +21,8 @@ module JSONAPI
 
     # @param pair [JSONAPI::NameValuePair] The pair to add
     def add(pair)
+      p_name = pair.name.gsub(/-/, '_').downcase.to_sym
+      @pair_names << p_name unless @pair_names.include?(p_name)
       super(pair, &:name)
     end
 
@@ -48,5 +51,23 @@ module JSONAPI
     end
 
     protected :insert
+
+    private
+
+    # Gets the NameValuePair object whose name matches the method_name called
+    # @param method_name [Symbol] The name of the method called
+    # @param args If any arguments were passed to the method called
+    # @param block If a block was passed to the method called
+    def method_missing(method_name, *args, &block)
+      super unless @pair_names.include?(method_name)
+      get(method_name).value
+    end
+
+    # Whether or not method missing should be called.
+    # TODO: look into why this works lol
+    def respond_to_missing?(method_name, *)
+      @pair_names.include?(method_name) || super
+    end
+
   end
 end

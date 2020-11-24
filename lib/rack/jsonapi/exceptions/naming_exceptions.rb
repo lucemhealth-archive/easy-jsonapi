@@ -29,7 +29,7 @@ module JSONAPI
       def self.check_additional_constraints(name)
         name = name.to_s
         return nil unless (name =~ /[^a-z]/).nil?
-        'Implementation specific query parameters MUST scontain at least one non a-z character'
+        'Implementation specific query parameters MUST contain at least one non a-z character'
       end
     end
   end

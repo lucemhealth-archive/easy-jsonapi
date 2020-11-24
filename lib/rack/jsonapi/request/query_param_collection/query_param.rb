@@ -42,3 +42,6 @@ module JSONAPI
     end
   end
 end
+
+# include=author,comments-likers,comments.likes
+# author comments-likers comments.likes

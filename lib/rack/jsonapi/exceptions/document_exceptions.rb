@@ -102,6 +102,7 @@ module JSONAPI
           check_jsonapi(document[:jsonapi]) if document.key? :jsonapi
           check_links(document[:links]) if document.key? :links
           check_included(document[:included]) if document.key? :included
+          # TODO: Unless filtered out with sparsefieldsets
           check_full_linkage(document, is_a_request: is_a_request)
         end
 
@@ -457,7 +458,6 @@ module JSONAPI
         def populate_w_res_rels(possible_includes, resource)
           return unless resource[:relationships]
           resource[:relationships].each_value do |rel|
-            # pp rel
             res_id = rel[:data]
             next unless res_id
 

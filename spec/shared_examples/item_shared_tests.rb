@@ -42,4 +42,5 @@ shared_examples 'item shared tests' do
       expect(item.to_s).to eq str
     end
   end
+
 end

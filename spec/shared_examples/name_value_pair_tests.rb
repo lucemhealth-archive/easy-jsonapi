@@ -15,4 +15,5 @@ shared_examples 'name value pair tests' do
   it 'should have a to_h method that mimics JSON' do
     expect(pair.to_h).to eq({ name.to_sym => value })
   end
+
 end

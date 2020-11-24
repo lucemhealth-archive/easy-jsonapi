@@ -24,5 +24,16 @@ module JSONAPI
       @body = document
     end
 
+    def to_s
+      "path == #{@path}\n" \
+      "http == #{@http}\n" \
+      "host == #{@host}\n" \
+      "port == #{@port}\n\n" \
+      "query_string == #{@query_string}\n\n" \
+      "params == #{@params}\n\n" \
+      "headers == #{@headers}\n\n" \
+      "body == #{@body}" \
+    end
+
   end
 end

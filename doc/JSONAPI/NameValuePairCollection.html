@@ -312,13 +312,116 @@
 
 14
 15
-16</pre>
+16
+17</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_pair_arr'>pair_arr</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>item_type:</span> <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NameValuePair.html" title="JSONAPI::NameValuePair (class)">NameValuePair</a></span></span><span class='rparen'>)</span>
+  <span class='ivar'>@pair_names</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_pair_arr'>pair_arr</span><span class='comma'>,</span> <span class='label'>item_type:</span> <span class='id identifier rubyid_item_type'>item_type</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+<div id="method_missing_details" class="method_details_list">
+  <h2>Dynamic Method Handling</h2>
+  <p class="notice this">
+    This class handles dynamic methods through the <tt>method_missing</tt> method
+    
+  </p>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="method_missing-instance_method">
+  
+    #<strong>method_missing</strong>(method_name, *args, &amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Gets the NameValuePair object whose name matches the method_name called</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>method_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The name of the method called</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>If any arguments were passed to the method called</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>block</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>If a block was passed to the method called</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 61</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>super</span> <span class='kw'>unless</span> <span class='ivar'>@pair_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_pair'>pair</span> <span class='op'>=</span> <span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -357,12 +460,12 @@
       <pre class="lines">
 
 
-28
-29
-30</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='op'>&lt;&lt;</span><span class='lparen'>(</span><span class='id identifier rubyid_pair'>pair</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_pair'>pair</span><span class='rparen'>)</span>
@@ -415,14 +518,18 @@
       <pre class="lines">
 
 
-22
 23
-24</pre>
+24
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_pair'>pair</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_p_name'>p_name</span> <span class='op'>=</span> <span class='id identifier rubyid_pair'>pair</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>-</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='ivar'>@pair_names</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_p_name'>p_name</span> <span class='kw'>unless</span> <span class='ivar'>@pair_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_p_name'>p_name</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_pair'>pair</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -472,12 +579,12 @@
       <pre class="lines">
 
 
-46
-47
-48</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_h'>to_h</span>
   <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Utility.html" title="JSONAPI::Utility (module)">Utility</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_h_collection'><span class='object_link'><a href="Utility.html#to_h_collection-class_method" title="JSONAPI::Utility.to_h_collection (method)">to_h_collection</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
@@ -529,12 +636,12 @@
       <pre class="lines">
 
 
-40
-41
-42</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='const'><span class='object_link'><a href="../JSONAPI.html" title="JSONAPI (module)">JSONAPI</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Utility.html" title="JSONAPI::Utility (module)">Utility</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_string_collection'><span class='object_link'><a href="Utility.html#to_string_collection-class_method" title="JSONAPI::Utility.to_string_collection (method)">to_string_collection</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>pre_string:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{ </span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>post_string:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> }</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
@@ -549,7 +656,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov 20 13:03:12 2020 by
+  Generated on Mon Nov 23 16:09:21 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

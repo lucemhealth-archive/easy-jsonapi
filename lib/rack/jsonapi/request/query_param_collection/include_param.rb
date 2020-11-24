@@ -68,7 +68,7 @@ module JSONAPI
         def store_includes(includes_arr)
           incl_hash = {}
           includes_arr.each do |include_str|
-            include_str_arr = include_str.scan(/\w+|-|\./)
+            include_str_arr = include_str.scan(/\w+|-|\./) # split into array (word, -, or .)
             store_include(incl_hash, include_str_arr)
           end
           incl_hash

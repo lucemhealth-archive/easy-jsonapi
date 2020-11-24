@@ -7,13 +7,13 @@ require 'shared_examples/name_value_pair_collections'
 describe JSONAPI::NameValuePairCollection do
   let(:item_class) { JSONAPI::NameValuePair }
   let(:c_size) { 5 }
-  let(:keys) { %i[include lebron charles michael kobe] }
-  let(:ex_item_key) { :include }
-  let(:ex_item) { JSONAPI::NameValuePair.new(:include, 'author,comments.likes') }
+  let(:keys) { %i[includes lebron charles michael kobe] }
+  let(:ex_item_key) { :includes }
+  let(:ex_item) { JSONAPI::NameValuePair.new(:includes, 'author,comments.likes') }
 
   let(:to_string) do
     '{ ' \
-      "\"include\": \"author,comments.likes\", " \
+      "\"includes\": \"author,comments.likes\", " \
       "\"lebron\": \"james\", " \
       "\"charles\": \"barkley\", " \
       "\"michael\": \"jordan,jackson\", " \
@@ -23,7 +23,7 @@ describe JSONAPI::NameValuePairCollection do
 
   let(:to_hash) do
     {
-      include: 'author,comments.likes',
+      includes: 'author,comments.likes',
       lebron: 'james',
       charles: 'barkley',
       michael: 'jordan,jackson',
@@ -32,7 +32,7 @@ describe JSONAPI::NameValuePairCollection do
   end
 
   obj_arr = {
-    include: 'author,comments.likes',
+    includes: 'author,comments.likes',
     lebron: 'james',
     charles: 'barkley',
     michael: 'jordan,jackson',
@@ -44,5 +44,15 @@ describe JSONAPI::NameValuePairCollection do
   let(:ec) { JSONAPI::NameValuePairCollection.new }
 
   it_behaves_like 'name value pair collections' do
+  end
+
+  context 'when checking dynamic accessor methods' do
+    it 'should be able to access items by their names' do
+      expect(c.includes).to eq 'author,comments.likes'
+      expect(c.lebron).to eq 'james'
+      expect(c.charles).to eq 'barkley'
+      expect(c.michael).to eq 'jordan,jackson'
+      expect(c.kobe).to eq 'bryant'
+    end
   end
 end

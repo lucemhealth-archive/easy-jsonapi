@@ -185,7 +185,7 @@ describe JSONAPI::Middleware do
       'REQUEST_METHOD' => 'POST',
       'REQUEST_PATH' => '/articles',
       'PATH_INFO' => '/articles',
-      'QUERY_STRING' => 'include=author,comments&fields[articles]=title,body,author&fields[people]=name&joshua=demoss&page[offset]=1&page[limit]=1',
+      'QUERY_STRING' => 'include=author,comments&fields[articles]=title,body,author&fields[people]=name&bad=param&page[offset]=1&page[limit]=1',
       'REQUEST_URI' => '/articles?include=author,comments&fields[articles]=title,body,author&fields[people]=name&=demoss&page[offset]=1&page[limit]=1',
       'HTTP_VERSION' => 'HTTP/1.1', 
       'HTTP_ACCEPT' => 'application/vnd.beta.curatess.v1.api+json ; q=0.5, text/*, image/* ; q=.3',
@@ -221,7 +221,13 @@ describe JSONAPI::Middleware do
 
     context 'when a query param is invalid and it is a jsonapi request' do
       it 'should raise InvalidQueryParameter' do
-        expect { m.call(env_bad_param) }.to raise_error query_params_error
+        msg = 
+          'Implementation specific query parameters MUST adhere to the same constraints ' \
+            "as member names. Allowed characters are: a-z, A-Z, 0-9 for beginning, middle, or end characters, " \
+            "and '_' is allowed for middle characters. (While the JSON:API spec also allows '-', it is not " \
+            'recommended, and thus is prohibited in this implementation). ' \
+            "Implementation specific query members MUST contain at least one non a-z character as well."
+        expect { m.call(env_bad_param) }.to raise_error(query_params_error, msg)
       end
     end
   end

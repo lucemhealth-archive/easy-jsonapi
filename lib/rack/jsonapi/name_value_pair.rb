@@ -10,6 +10,7 @@ module JSONAPI
     # @param name The name of the pair
     # @param value The value of the pair
     def initialize(name, value)
+      name = name.to_s.gsub('-', '_')
       super({ name: name.to_s, value: value })
     end
 
@@ -39,6 +40,7 @@ module JSONAPI
       v = value
       case v
       when Array
+        # TODO: Refactor using utility?
         val_str = '['
         first = true
         v.each do |val|

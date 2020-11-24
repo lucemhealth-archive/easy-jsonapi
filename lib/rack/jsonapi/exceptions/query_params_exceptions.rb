@@ -28,11 +28,17 @@ module JSONAPI
 
       # Checks an implementation specific param name to see if it complies to the spec.
       def self.check_param_name(name)
-        return if NamingExceptions.check_member_constraints(name).nil? && NamingExceptions.check_additional_constraints(name).nil?
+        should_return =  
+          NamingExceptions.check_member_constraints(name).nil? && \
+          NamingExceptions.check_additional_constraints(name).nil? && \
+          !name.include?('-')
+        return if should_return
         raise_error(
           'Implementation specific query parameters MUST adhere to the same constraints ' \
-          "as member names (a-z, A-Z, 0-9) and ('-', '_') allowed in the middle, with the " \
-          "additional requirement - they MUST contain at least one non a-z character."
+          "as member names. Allowed characters are: a-z, A-Z, 0-9 for beginning, middle, or end characters, " \
+          "and '_' is allowed for middle characters. (While the JSON:API spec also allows '-', it is not " \
+          'recommended, and thus is prohibited in this implementation). ' \
+          "Implementation specific query members MUST contain at least one non a-z character as well."
         )
       end
 

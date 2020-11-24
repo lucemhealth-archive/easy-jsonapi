@@ -110,5 +110,7 @@ module JSONAPI
       end
       to_return += ']'
     end
+
+
   end
 end
