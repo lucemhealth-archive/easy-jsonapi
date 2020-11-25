@@ -43,6 +43,8 @@ module JSONAPI
     # @raise If the document body is not JSONAPI compliant
     def check_req_body_compliance(req, env)
       return if req.nil?
+      raise 'GET requests cannot include a body' if env['REQUEST_METHOD'] == 'GET'
+
       req_body = Oj.load(req.body.read, symbol_keys: true)
       req.body.rewind
       http_method_is_post = env['REQUEST_METHOD'] == 'POST'

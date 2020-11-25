@@ -412,15 +412,13 @@
 61
 62
 63
-64
-65</pre>
+64</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/rack/jsonapi/name_value_pair_collection.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>super</span> <span class='kw'>unless</span> <span class='ivar'>@pair_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_pair'>pair</span> <span class='op'>=</span> <span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_method_name'>method_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -656,7 +654,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov 23 16:09:21 2020 by
+  Generated on Tue Nov 24 18:56:32 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25 (ruby-2.7.0).
 </div>

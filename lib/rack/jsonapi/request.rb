@@ -24,6 +24,7 @@ module JSONAPI
       @body = document
     end
 
+    # Simple representation of a request object.
     def to_s
       "path == #{@path}\n" \
       "http == #{@http}\n" \

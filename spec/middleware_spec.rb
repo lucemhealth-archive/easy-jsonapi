@@ -230,5 +230,14 @@ describe JSONAPI::Middleware do
         expect { m.call(env_bad_param) }.to raise_error(query_params_error, msg)
       end
     end
+
+    context 'when it recieves a GET request with a body' do
+      it 'should raise runtime error' do
+        get_env = {}
+        get_env.replace(env)
+        get_env['REQUEST_METHOD'] = 'GET'
+        expect { m.call(get_env) }.to raise_error 'GET requests cannot include a body'
+      end
+    end
   end
 end
