@@ -20,10 +20,10 @@ module JSONAPI
     # #include provided by super
 
     # @param pair [JSONAPI::NameValuePair] The pair to add
-    def add(pair)
-      p_name = pair.name.gsub(/-/, '_').downcase.to_sym
+    def add(pair, &block)
+      p_name = pair.name.gsub(/-/, '_').to_sym
       @pair_names << p_name unless @pair_names.include?(p_name)
-      super(pair, &:name)
+      super(pair, &block)
     end
 
     # Another way to add a query_param

@@ -15,6 +15,12 @@ module JSONAPI
           super(attr_arr, item_type: JSONAPI::Document::Resource::Attributes::Attribute)
         end
 
+        # Add a jsonapi member to the collection
+        # @param attribute [JSONAPI::Document::Resource::Attributes::Attribute] The member to add
+        def add(attribute)
+          super(attribute, &:name)
+        end
+
         # #empyt? provided by super
         # #include provided by super
         # #add provided by super

@@ -36,14 +36,14 @@ shared_examples 'collection-like classes' do
       expect(c.include?('not_ex_item_key')).to be false
     end
 
-    it 'should be case insensitive for checking the name' do
+    it 'should be case sensitive for checking the name' do
       expect(ec.include?(ex_item_key.to_s)).to be false
       expect(ec.include?(ex_item_key.to_sym)).to be false
       expect(ec.include?(ex_item_key.upcase)).to be false
       ec.add(ex_item, &:name)
       expect(ec.include?(ex_item_key.to_s)).to be true
       expect(ec.include?(ex_item_key.to_sym)).to be true
-      expect(ec.include?(ex_item_key.upcase)).to be true
+      expect(ec.include?(ex_item_key.upcase)).to be false
     end
   end
 
@@ -105,7 +105,6 @@ shared_examples 'collection-like classes' do
       expect(c.include?(ex_item_key)).to be true
       item = c.remove(ex_item_key)
       expect(c.include?(ex_item_key)).to be false
-      expect(item.name.downcase).to eq ex_item_key.to_s
       expect(item.is_a?(item_class)).to be true
     end
   end
@@ -119,14 +118,12 @@ shared_examples 'collection-like classes' do
     it 'should return the appropriate item' do
       item = c.get(ex_item_key)
       expect(item.is_a?(item_class)).to be true
-      expect(item.name.downcase).to eq ex_item_key.to_s
     end
 
-    it 'should be case insensitive and work for symbol or string' do
+    it 'should be case sensitive but work for both symbol or string' do
       ec.add(ex_item, &:name)
       item = ec.get(ex_item_key)
       expect(ec.get(ex_item_key.to_s)).to eq item
-      expect(ec.get(ex_item_key.to_sym.upcase)).to eq item
     end
   end
 

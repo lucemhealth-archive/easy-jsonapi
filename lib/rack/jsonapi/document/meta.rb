@@ -15,6 +15,12 @@ module JSONAPI
         meta_arr = [meta_arr] unless meta_arr.is_a? Array
         super(meta_arr, item_type: JSONAPI::Document::Meta::MetaMember)
       end
+
+      # Add a jsonapi member to the collection
+      # @param meta_member [JSONAPI::Document::Meta::MetaMember] The member to add
+      def add(meta_member)
+        super(meta_member, &:name)
+      end
     end
   end
 end

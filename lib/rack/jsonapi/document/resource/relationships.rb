@@ -16,6 +16,12 @@ module JSONAPI
           super(rels_obj_arr, item_type: JSONAPI::Document::Resource::Relationships::Relationship)
         end
 
+        # Add a jsonapi member to the collection
+        # @param relationship [JSONAPI::Document::Resource::Relationships::Relationship] The member to add
+        def add(relationship)
+          super(relationship, &:name)
+        end
+
         # The jsonapi hash representation of a resource's relationships
         # @return [Hash] A resource's relationships
         def to_h

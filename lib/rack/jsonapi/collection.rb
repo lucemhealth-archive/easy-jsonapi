@@ -38,8 +38,7 @@ module JSONAPI
     # Does the collection's internal hash include this key?
     # @param key [String | Symbol]  The key to search for in the hash
     def include?(key)
-      k = to_hash_key(key)
-      @collection.include?(k)
+      @collection.include?(key.to_sym)
     end
     
     # Add an item to the collection, giving a block to indicate how the
@@ -53,18 +52,16 @@ module JSONAPI
 
     # Adds an item to Collection's internal hash
     def insert(key, item)
-      k = to_hash_key(key)
-      if @collection[k]
+      if @collection[key.to_sym]
         raise 'The hash key given already has an Item associated with it. ' \
               'Remove existing item first.'
       end
-      @collection[k] = item
+      @collection[key.to_sym] = item
     end
 
     # Overwrites the item associated w a given key, or adds an association if no item is already associated.
     def set(key, item)
-      k = to_hash_key(key)
-      @collection[k] = item
+      @collection[key.to_sym] = item
     end
 
     # Yield the block given on all the items in the collection
@@ -77,16 +74,14 @@ module JSONAPI
     # @param (see #include)
     # @return [Item | nil] the deleted item object if it exists
     def remove(key)
-      k = to_hash_key(key)
-      return nil if @collection[k].nil?
-      @collection.delete(key)
+      return nil if @collection[key.to_sym].nil?
+      @collection.delete(key.to_sym)
     end
 
     # @param (see #remove)
     # @return [Item | nil] The appropriate Item objet if it exists
     def get(key)
-      k = to_hash_key(key)
-      @collection[k]
+      @collection[key.to_sym]
     end
 
     # Allows the developer to treat the Collection class as a hash, retrieving all keys mapped to Items.
@@ -114,16 +109,6 @@ module JSONAPI
         end
       end
       to_return += ' }'
-    end
-
-    private
-    
-    # Converts the developer's input into a lowercase symbol to be used as a hash key
-    #   for Collection's internal hash.
-    # @param input [Symbol | String] Whatever the developer uses as a item key.
-    # @!visibility private
-    def to_hash_key(input)
-      input.to_s.downcase.to_sym
     end
   end
 end

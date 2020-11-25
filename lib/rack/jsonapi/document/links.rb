@@ -15,6 +15,12 @@ module JSONAPI
       def initialize(link_arr = [])
         super(link_arr, item_type: JSONAPI::Document::Links::Link)
       end
+
+      # Add a jsonapi member to the collection
+      # @param link [JSONAPI::Document::Links:Link] The member to add
+      def add(link)
+        super(link, &:name)
+      end
     end
   end
 end

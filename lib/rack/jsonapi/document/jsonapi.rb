@@ -15,6 +15,12 @@ module JSONAPI
         super(jsonapi_member_arr, item_type: JSONAPI::Document::Jsonapi::JsonapiMember)
       end
 
+      # Add a jsonapi member to the collection
+      # @param jsonapi_member [JSONAPI::Document::Jsonapi::JsonapiMember] The member to add
+      def add(jsonapi_member)
+        super(jsonapi_member, &:name)
+      end
+
     end
   end
 end

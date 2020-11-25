@@ -17,7 +17,12 @@ module JSONAPI
 
       # #empyt? provided by super
       # #include provided by super
-      # #add provided by super
+      
+      # Add a error to the collection using it's name
+      # @param error [JSONAPI::Document::Error::ErrorMember]
+      def add(error_mem)
+        super(error_mem, &:name)
+      end
       # #<< provided by super, but calls overriden #add
       # #each provided from super
       # #remove provided from super

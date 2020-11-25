@@ -17,12 +17,15 @@ module JSONAPI
   
       # #empyt? provided by super class
       # #include provided by super class
-      # #add provided by super
+      
+      # Add a QueryParameter to the collection. (CASE-SENSITIVE)
+      # @param param [JSONAPI::Request::QueryParamCollection::QueryParam] The param to add
       def add(param)
-        p_name = param.name.gsub(/-/, '_').downcase.to_sym
+        p_name = param.name.gsub(/-/, '_').to_sym
         @param_names << p_name unless @param_names.include?(p_name)
         super(param, &:name)
       end
+
       # #<< provided by super, but calls overriden #add
       # #each provided from super
       # #remove provided from super

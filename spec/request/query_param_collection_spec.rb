@@ -62,10 +62,10 @@ describe JSONAPI::Request::QueryParamCollection do
     
   let(:item_class) { JSONAPI::Request::QueryParamCollection::QueryParam }
   let(:c_size) { 6 }
-  let(:keys) { %i[includes fields lebron page sorts filters] }
-  let(:ex_item_key) { :lebron }
+  let(:keys) { %i[includes fields leBron page sorts filters] }
+  let(:ex_item_key) { :leBron }
   let(:ex_item) { JSONAPI::Request::QueryParamCollection::QueryParam.new('leBron', 'james') }
-    
+
   let(:to_string) do
     'include=author,comments.likes&fields[articles]=title,body,author&fields[people]=name&' \
     'leBron=james&page[offset]=3&page[limit]=25&sort=alpha&filter[res_name]=special'
