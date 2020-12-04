@@ -55,4 +55,16 @@ describe JSONAPI::NameValuePairCollection do
       expect(c.kobe).to eq 'bryant'
     end
   end
+
+  context 'when checking if items are case insensitive' do
+    it 'should treat cases differently' do
+      expect(c.get('includes').class).to eq JSONAPI::NameValuePair
+      expect(c.get('INCLUDES').class).to eq NilClass
+    end
+    it 'should be symbol/string insensitive though' do
+      i1 = c.get('includes')
+      i3 = c.get(:includes)
+      expect(i1).to eq i3
+    end
+  end
 end

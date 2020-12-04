@@ -38,7 +38,8 @@ module JSONAPI
           "as member names. Allowed characters are: a-z, A-Z, 0-9 for beginning, middle, or end characters, " \
           "and '_' is allowed for middle characters. (While the JSON:API spec also allows '-', it is not " \
           'recommended, and thus is prohibited in this implementation). ' \
-          "Implementation specific query members MUST contain at least one non a-z character as well."
+          "Implementation specific query members MUST contain at least one non a-z character as well. " \
+          "Param name given: \"#{name}\""
         )
       end
 

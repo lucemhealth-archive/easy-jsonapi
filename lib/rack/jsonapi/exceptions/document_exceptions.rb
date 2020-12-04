@@ -48,8 +48,9 @@ module JSONAPI
       end
 
       # Make helper methods private
+      # TODO: SHould these be private?
       class << self
-        private
+        # private
 
         # Checks the essentials of a jsonapi document. It is
         #  used by #check_compliance and JSONAPI::Document's #initialize method
@@ -138,10 +139,10 @@ module JSONAPI
                     'The resource object (for a post request) MUST contain at least a type member')
           end
           if resource[:id]
-            ensure!(resource[:id].class == String,
+            ensure!(resource[:id].instance_of?(String),
                     'The value of the resource id member MUST be string')
           end
-          ensure!(resource[:type].class == String,
+          ensure!(resource[:type].instance_of?(String),
                   'The value of the resource type member MUST be string')
           # Check for sharing a common namespace is in #check_resource_members
           ensure!(JSONAPI::Exceptions::NamingExceptions.check_member_constraints(resource[:type]).nil?,
@@ -296,9 +297,9 @@ module JSONAPI
           when Hash
             ensure!((link.keys - LINK_KEYS).empty?,
                     'If the link is an object, it can contain the members href or meta')
-            ensure!(link[:href].nil? || link[:href].class == String,
+            ensure!(link[:href].nil? || link[:href].instance_of?(String),
                     'The member href MUST be a string')
-            ensure!(link[:meta].nil? || link[:meta].class == Hash,
+            ensure!(link[:meta].nil? || link[:meta].instance_of?(Hash),
                     'The value of each meta member MUST be an object')
           else
             ensure!(false,

@@ -47,4 +47,14 @@ describe JSONAPI::HeaderCollection do
       expect(c.www_authenticate).to eq obj_arr[4][:value]
     end
   end
+
+  context 'when checking if items are case insensitive' do
+    it 'should be able to retrieve the same item with different case names' do
+      i1 = c.get('host')
+      i2 = c.get('HOST')
+      expect(i1).to eq i2
+      i3 = c.get(:host)
+      expect(i1).to eq i3
+    end
+  end
 end

@@ -19,43 +19,28 @@ module JSONAPI
     # @param env The rack envirornment hash
     def call(env)
 
-      req = nil
-      if requesting_jsonapi_response?(env) || includes_jsonapi_document?(env)
-        req = Rack::Request.new(env)
+      if jsonapi_request?(env)
+        error_response = check_compliance(env)
+        return error_response unless error_response.nil?
       end
-      
-      check_query_param_compliance(req)
-      check_req_body_compliance(req, env)
 
       @app.call(env)
     end
 
     private
 
-    # @param req [Rack::Request | NilClass] The rack request
-    # @raise If the query parameters are not JSONAPI compliant
-    def check_query_param_compliance(req)
-      return if req.nil?
-      JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.params)
-    end
-
-    # @req (see #check_query_param_compliance)
-    # @raise If the document body is not JSONAPI compliant
-    def check_req_body_compliance(req, env)
-      return if req.nil?
-      raise 'GET requests cannot include a body' if env['REQUEST_METHOD'] == 'GET'
-
-      req_body = Oj.load(req.body.read, symbol_keys: true)
-      req.body.rewind
-      http_method_is_post = env['REQUEST_METHOD'] == 'POST'
-      JSONAPI::Exceptions::DocumentExceptions.check_compliance(req_body, http_method_is_post: http_method_is_post)
+    # If the Content-type or Accept header values include the JSON:API media type without media 
+    #   parameters, then it is a jsonapi request.
+    # @param (see #call)
+    def jsonapi_request?(env)
+      accept_header_jsonapi?(env) || content_type_header_jsonapi?(env)
     end
 
     # Determines whether there is a request body, and whether the Content-Type is jsonapi compliant
     # @param (see #call)
     # @return [TrueClass | FalseClass] Whether the document body is supposed to be jsonapi
-    def includes_jsonapi_document?(env)
-      JSONAPI::Exceptions::HeadersExceptions.check_compliance(env)
+    def content_type_header_jsonapi?(env)
+      return false unless env['CONTENT_TYPE'].include? 'application/vnd.api+json'
       env['CONTENT_TYPE'] == 'application/vnd.api+json'
     end
 
@@ -63,10 +48,62 @@ module JSONAPI
     #   the ACCEPT header.
     # @env (see #call)
     # @return [TrueClass | FalseClass] Whether or not the request is JSONAPI
-    def requesting_jsonapi_response?(env)
+    def accept_header_jsonapi?(env)
       accept_arr = env['HTTP_ACCEPT'].split(',')
-      accept_arr.include? 'application/vnd.api+json'
+      accept_arr.any? { |hdr| hdr.include?('application/vnd.api+json') }
     end
-    
+
+    # Checks whether the request is JSON:API compliant and raises an error if not.
+    # @param (see #call)
+    # @return [NilClass | Array] Nil meaning no error or a 400 level http response
+    def check_compliance(env)
+      header_error = check_headers_compliance(env)
+      return header_error unless header_error.nil?
+
+      req = Rack::Request.new(env)
+      
+      param_error = check_query_param_compliance(req, env)
+      return param_error unless param_error.nil?
+      
+      body_error = check_req_body_compliance(req, env)
+      return body_error unless body_error.nil?
+    end
+
+    # Checks whether the http headers are jsonapi compliant
+    # @param (see #call)
+    # @return [NilClass | Array] Nil meaning no error or a 400 level http response
+    def check_headers_compliance(env)
+      JSONAPI::Exceptions::HeadersExceptions.check_compliance(env)
+    rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader
+      raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
+      
+      [400, {}, []] 
+    end
+
+    # @param req [Rack::Request | NilClass] The rack request
+    # @raise If the query parameters are not JSONAPI compliant
+    # @return [NilClass | Array] Nil meaning no error or a 400 level http response
+    def check_query_param_compliance(req, env)
+      JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.params)
+    rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter
+      raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
+      
+      [400, {}, []] 
+    end
+
+    # @param env (see #call)
+    # @param req (see #check_query_param_compliance)
+    # @raise If the document body is not JSONAPI compliant
+    def check_req_body_compliance(req, env)
+      raise 'GET requests cannot include a body' if env['REQUEST_METHOD'] == 'GET'
+      req_body = Oj.load(req.body.read, symbol_keys: true)
+      req.body.rewind
+      http_method_is_post = env['REQUEST_METHOD'] == 'POST'
+      JSONAPI::Exceptions::DocumentExceptions.check_compliance(req_body, http_method_is_post: http_method_is_post)
+    rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument
+      raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
+      
+      [400, {}, []] 
+    end
   end
 end
