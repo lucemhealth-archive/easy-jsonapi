@@ -36,7 +36,7 @@ module JSONAPI
       accept_header_jsonapi?(env) || content_type_header_jsonapi?(env)
     end
 
-    # Determines whether there is a request body, and whether the Content-Type is jsonapi compliant
+    # Determines whether there is a request body, and whether the Content-Type is jsonapi compliant.
     # @param (see #call)
     # @return [TrueClass | FalseClass] Whether the document body is supposed to be jsonapi
     def content_type_header_jsonapi?(env)
