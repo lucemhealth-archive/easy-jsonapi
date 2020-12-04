@@ -74,10 +74,10 @@ module JSONAPI
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
     def check_headers_compliance(env)
       JSONAPI::Exceptions::HeadersExceptions.check_compliance(env)
-    rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader
+    rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader => e
       raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
       
-      [400, {}, []] 
+      [e.status_code, {}, []] 
     end
 
     # @param req [Rack::Request | NilClass] The rack request

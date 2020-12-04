@@ -7,6 +7,12 @@ module JSONAPI
       
       # A more specific standard error to raise when an exception is found
       class InvalidHeader < StandardError
+        attr_accessor :status_code
+
+        # Init w a status code, so that it can be accessed when rescuing an exception
+        def initialize(status_code)
+          @status_code = status_code
+        end
       end
 
       # @param env [Hash]  The rack environment variable
@@ -52,8 +58,8 @@ module JSONAPI
       end
 
       # @param msg [String]  The message to raise InvalidHeader with.
-      def self.raise_error(msg)
-        raise InvalidHeader, msg
+      def self.raise_error(status_code = 400, msg)
+        raise InvalidHeader.new(status_code), msg
       end
 
       private_class_method :check_content_type, :check_accept, :raise_error
