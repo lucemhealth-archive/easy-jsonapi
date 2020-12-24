@@ -11,7 +11,7 @@ module JSONAPI
     # @return [Nilclass] if no errors are found
     # @raise [InvalidDocument | InvalidHeader] depending on what errors were found
     def self.validate(body, headers)
-      body = Oj.load(body) if body.is_a? String
+      body = Oj.load(body, symbol_keys: true) if body.is_a? String
       validate_headers(headers)
       validate_body(body)
     end
