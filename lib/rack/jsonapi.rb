@@ -3,6 +3,7 @@
 # Needed so that config.ru can get JSONAPI::Middleware
 require 'rack/jsonapi/middleware'
 require 'rack/jsonapi/parser'
+require 'rack/jsonapi/response'
 
 # This module is the top level namespace for the curatess jsonapi middleware gem
 #
