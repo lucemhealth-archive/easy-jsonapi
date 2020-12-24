@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions/document_exceptions'
+require 'shared_contexts/document_exceptions_shared_context'
 
 TOP_LEVEL_KEYS = %i[data errors meta].freeze
 LINKS_KEYS = %i[self related first prev next last].freeze
@@ -16,88 +17,9 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   # USEFUL VARIABLES
   # **********************************
 
-  # Alias for the error class InvalidDocument
-  let(:ec) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
-
-  # The example response document given by JSON:API spec examples
-  let(:response_doc) do
-    {
-      "links": {
-        "self": "http://example.com/articles",
-        "next": "http://example.com/articles?page[offset]=2",
-        "last": "http://example.com/articles?page[offset]=10"
-      },
-      "data": [{
-        "type": "articles",
-        "id": "1",
-        "attributes": {
-          "title": "JSON:API paints my bikeshed!"
-        },
-        "relationships": {
-          "author": {
-            "links": {
-              "self": "http://example.com/articles/1/relationships/author",
-              "related": "http://example.com/articles/1/author"
-            },
-            "data": { "type": "people", "id": "9" }
-          },
-          "comments": {
-            "links": {
-              "self": "http://example.com/articles/1/relationships/comments",
-              "related": "http://example.com/articles/1/comments"
-            },
-            "data": [
-              { "type": "comments", "id": "5" },
-              { "type": "comments", "id": "12" }
-            ]
-          }
-        },
-        "links": {
-          "self": "http://example.com/articles/1"
-        }
-      }],
-      "included": [{
-        "type": "people",
-        "id": "9",
-        "attributes": {
-          "firstName": "Dan",
-          "lastName": "Gebhardt",
-          "twitter": "dgeb"
-        },
-        "links": {
-          "self": "http://example.com/people/9"
-        }
-      }, {
-        "type": "comments",
-        "id": "5",
-        "attributes": {
-          "body": "First!"
-        },
-        "relationships": {
-          "author": {
-            "data": { "type": "people", "id": "2" }
-          }
-        },
-        "links": {
-          "self": "http://example.com/comments/5"
-        }
-      }, {
-        "type": "comments",
-        "id": "12",
-        "attributes": {
-          "body": "I like XML better"
-        },
-        "relationships": {
-          "author": {
-            "data": { "type": "people", "id": "9" }
-          }
-        },
-        "links": {
-          "self": "http://example.com/comments/12"
-        }
-      }]
-    }
-  end
+  include_context 'document exceptions'
+  # response_doc is located in shared_context
+  # dec as well ^
 
   # An example of a request document given by JSON:API spec
   let(:req_doc) do 
@@ -140,13 +62,13 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   
         it 'should raise when document is nil' do
           msg = 'A document cannot be nil'
-          expect { f(nil, is_a_request: true) }.to raise_error(ec, msg)
-          expect { f(nil) }.to raise_error(ec, msg)
+          expect { f(nil, is_a_request: true) }.to raise_error(dec, msg)
+          expect { f(nil) }.to raise_error(dec, msg)
         end
   
         it 'should raise if !request but http_method_is_post' do
           msg = 'A document cannot both belong to a post request and not belong to a request'
-          expect { f(response_doc, is_a_request: false, http_method_is_post: true) }.to raise_error(ec, msg)
+          expect { f(response_doc, is_a_request: false, http_method_is_post: true) }.to raise_error(dec, msg)
           expect(f(req_doc, http_method_is_post: true)).to be nil
         end
       end
@@ -158,21 +80,21 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         it 'should raise if document is not a hash' do
           msg = 'A JSON object MUST be at the root of every JSON API request ' \
                 'and response containing data'
-          expect { f([], is_a_request: true) }.to raise_error(ec, msg)
-          expect { f([]) }.to raise_error(ec, msg)
-          expect { f(:asdj, is_a_request: true) }.to raise_error(ec, msg)
-          expect { f(:asdj) }.to raise_error(ec, msg)
-          expect { f(1234, is_a_request: true) }.to raise_error(ec, msg)
-          expect { f(1234) }.to raise_error(ec, msg)
-          expect { f('1234', is_a_request: true) }.to raise_error(ec, msg)
-          expect { f('1234') }.to raise_error(ec, msg)
+          expect { f([], is_a_request: true) }.to raise_error(dec, msg)
+          expect { f([]) }.to raise_error(dec, msg)
+          expect { f(:asdj, is_a_request: true) }.to raise_error(dec, msg)
+          expect { f(:asdj) }.to raise_error(dec, msg)
+          expect { f(1234, is_a_request: true) }.to raise_error(dec, msg)
+          expect { f(1234) }.to raise_error(dec, msg)
+          expect { f('1234', is_a_request: true) }.to raise_error(dec, msg)
+          expect { f('1234') }.to raise_error(dec, msg)
         end
           
         it 'should raise if a document does not contain at least one of the required keys' do
           msg = 'A document MUST contain at least one of the following ' \
                 "top-level members: #{TOP_LEVEL_KEYS}"
-          expect { f({ 'my_own_key': 'nothing' }) }.to raise_error(ec, msg)
-          expect { f({ 'links': 'my_links' }) }.to raise_error(ec, msg)
+          expect { f({ 'my_own_key': 'nothing' }) }.to raise_error(dec, msg)
+          expect { f({ 'links': 'my_links' }) }.to raise_error(dec, msg)
         end
   
         it 'should return nil when document contains one of the top level keys' do
@@ -181,18 +103,18 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   
         it 'should raise if errors key present with data key' do
           msg = 'The members data and errors MUST NOT coexist in the same document'
-          expect { f({ 'data': { 'type': 'author' }, 'errors': 'error' }) }.to raise_error(ec, msg)
+          expect { f({ 'data': { 'type': 'author' }, 'errors': 'error' }) }.to raise_error(dec, msg)
         end
   
         it 'should raise if included key present without data key' do
           msg = 'If a document does not contain a top-level data key, the included ' \
                 'member MUST NOT be present either'
-          expect { f({ 'meta': { 'meta_info': 'm' }, 'included': 'incl_objs' }) }.to raise_error(ec, msg)
+          expect { f({ 'meta': { 'meta_info': 'm' }, 'included': 'incl_objs' }) }.to raise_error(dec, msg)
         end
   
         it 'should raise if no data member included and document is a request' do
           msg = 'The request MUST include a single resource object as primary data'
-          expect { f({ 'meta': { 'meta_info': 'm' } }, is_a_request: true) }.to raise_error(ec, msg)
+          expect { f({ 'meta': { 'meta_info': 'm' } }, is_a_request: true) }.to raise_error(dec, msg)
         end
       end
     end
@@ -206,13 +128,13 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       context 'when checking primary data' do
         it 'should raise if data not a hash when it is a request' do
           msg = 'The request MUST include a single resource object as primary data'
-          expect { f({ meta: { 'count': 123 } }, is_a_request: true) }.to raise_error(ec, msg)
+          expect { f({ meta: { 'count': 123 } }, is_a_request: true) }.to raise_error(dec, msg)
         end
 
         it 'should raise if not nil, a hash, or an array' do
           msg = 'Primary data must be either nil, an object or an array'
-          expect { f({ data: 123 }) }.to raise_error(ec, msg)
-          expect { f({ data: 'not_valid' }) }.to raise_error(ec, msg)
+          expect { f({ data: 123 }) }.to raise_error(dec, msg)
+          expect { f({ data: 'not_valid' }) }.to raise_error(dec, msg)
         end
 
         # -- TOP LEVEL - PRIMARY DATA * RESOURCE
@@ -225,7 +147,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           context 'when checking resource type and id' do
             it "should raise if it is not a post request and it doesn't have an id member" do
               msg = 'Every resource object MUST contain an id member and a type member'
-              expect { f({ data: { type: 'type' } }) }.to raise_error(ec, msg)
+              expect { f({ data: { type: 'type' } }) }.to raise_error(dec, msg)
             end
 
             it 'should return nil if id is not included, but it is a post request' do
@@ -234,17 +156,17 @@ describe JSONAPI::Exceptions::DocumentExceptions do
 
             it 'should raise if type is ever not included' do
               msg_reg = 'Every resource object MUST contain an id member and a type member'
-              expect { f({ data: {} }) }.to raise_error(ec, msg_reg)
-              expect { f({ data: {} }, is_a_request: true) }.to raise_error(ec, msg_reg)
+              expect { f({ data: {} }) }.to raise_error(dec, msg_reg)
+              expect { f({ data: {} }, is_a_request: true) }.to raise_error(dec, msg_reg)
               msg_post = 'The resource object (for a post request) MUST contain at least a type member'
-              expect { f({ data: {} }, http_method_is_post: true) }.to raise_error(ec, msg_post)
+              expect { f({ data: {} }, http_method_is_post: true) }.to raise_error(dec, msg_post)
             end
 
             it 'should raise if the type of id or type is not string' do
               msg_id = 'The value of the resource id member MUST be string'
-              expect { f({ data: { type: 't', id: 123 } }) }.to raise_error(ec, msg_id)
+              expect { f({ data: { type: 't', id: 123 } }) }.to raise_error(dec, msg_id)
               msg_type = 'The value of the resource type member MUST be string'
-              expect { f({ data: { type: 123, id: '123' } }) }.to raise_error(ec, msg_type)
+              expect { f({ data: { type: 123, id: '123' } }) }.to raise_error(dec, msg_type)
             end
 
             it 'should raise if the resource fields do not share a common namespace' do
@@ -287,7 +209,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
 
             it 'should raise if the value of type does not conform to member naming rules' do
               msg = 'The values of type members MUST adhere to the same constraints as member names'
-              expect { f({ data: { type: '***type***', id: '123' } }) }.to raise_error(ec, msg)
+              expect { f({ data: { type: '***type***', id: '123' } }) }.to raise_error(dec, msg)
             end
           end
 
@@ -295,7 +217,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           context 'when checking attributes' do
             it 'should raise if attributes is not a hash' do
               msg = 'The value of the attributes key MUST be an object'
-              expect { f({ data: { type: 't', id: '123', attributes: [] } }) }.to raise_error(ec, msg)
+              expect { f({ data: { type: 't', id: '123', attributes: [] } }) }.to raise_error(dec, msg)
             end
 
             it 'should return nil if attributes is a hash' do
@@ -320,7 +242,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                   }
                 }
               msg = 'The value of the relationships key MUST be an object'
-              expect { f(rel_not_hash) }.to raise_error(ec, msg)
+              expect { f(rel_not_hash) }.to raise_error(dec, msg)
             end
             
             it 'should raise if the value of any relationships key is not a hash' do
@@ -337,7 +259,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                   }
                 }
               msg = 'Each relationships member MUST be a object'
-              expect { f(rel_key_not_hash) }.to raise_error(ec, msg)
+              expect { f(rel_key_not_hash) }.to raise_error(dec, msg)
             end
 
             it 'should raise if a relationship does not contain one of the necessary keys' do
@@ -353,7 +275,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                 }
               msg = 'A relationship object MUST contain at least one of ' \
                     "#{RELATIONSHIP_KEYS}"
-              expect { f(rel_missing_keys) }.to raise_error(ec, msg)
+              expect { f(rel_missing_keys) }.to raise_error(dec, msg)
             end
 
             # -- TOP LEVEL - PRIMARY DATA * RESOURCE - RELATIONSHIPS
@@ -399,8 +321,8 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                     }
                   msg = 'A relationship link MUST contain at least one of '\
                         "#{RELATIONSHIP_LINK_KEYS}"
-                  expect { f(bad_rel1) }.to raise_error(ec, msg)
-                  expect { f(bad_rel2) }.to raise_error(ec, msg)
+                  expect { f(bad_rel1) }.to raise_error(dec, msg)
+                  expect { f(bad_rel2) }.to raise_error(dec, msg)
                   expect(f(rel)).to be nil
                 end
 
@@ -431,7 +353,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                     }
                   expect(f(rel_w_extra_member)).to be nil
                   msg = 'A link MUST be represented as either a string or an object'
-                  expect { f(bad_rel_w_extra_member) }.to raise_error(ec, msg)
+                  expect { f(bad_rel_w_extra_member) }.to raise_error(dec, msg)
                 end
               end
 
@@ -439,7 +361,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               context 'checking data' do
                 it 'should raise if data is not a hash array or nil' do
                   msg = 'Resource linkage (relationship data) MUST be either nil, an object or an array'
-                  expect { f({ data: { type: 't', id: '1', relationships: { author: { data: 'test' } } } }) }.to raise_error(ec, msg)
+                  expect { f({ data: { type: 't', id: '1', relationships: { author: { data: 'test' } } } }) }.to raise_error(dec, msg)
                 end
 
                 # -- TOP LEVEL - PRIMARY DATA * RESOURCE - RELATIONSHIPS * DATA - RESOURCE IDs
@@ -454,7 +376,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                         }
                       }
                     msg = 'A resource identifier object MUST be an object'
-                    expect { f(rel_id_not_hash) }.to raise_error(ec, msg)
+                    expect { f(rel_id_not_hash) }.to raise_error(dec, msg)
                   end
 
                   it 'should raise if resource id does not contain type and id members' do
@@ -476,8 +398,8 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                       }
                     msg = 'A resource identifier object MUST contain ' \
                           "#{RESOURCE_IDENTIFIER_KEYS} members"
-                    expect { f(rel_no_id) }.to raise_error(ec, msg)
-                    expect { f(rel_no_type) }.to raise_error(ec, msg)
+                    expect { f(rel_no_id) }.to raise_error(dec, msg)
+                    expect { f(rel_no_type) }.to raise_error(dec, msg)
                   end
 
                   it 'should raise if type or id value is not a string' do
@@ -499,8 +421,8 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                       }
                     msg_id = 'The resource identifier id member must be a string'
                     msg_type = 'The resource identifier type member must be a string'
-                    expect { f(rel_id_not_string) }.to raise_error(ec, msg_id)
-                    expect { f(rel_type_not_string) }.to raise_error(ec, msg_type)
+                    expect { f(rel_id_not_string) }.to raise_error(dec, msg_id)
+                    expect { f(rel_type_not_string) }.to raise_error(dec, msg_type)
                   end
 
                   it 'should return nil if given a valid meta object' do
@@ -521,7 +443,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                         }
                       }
                     msg = 'A meta object MUST be an object'
-                    expect { f(rel) }.to raise_error(ec, msg)
+                    expect { f(rel) }.to raise_error(dec, msg)
                   end
                 end
               end
@@ -542,7 +464,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                       }
                     }
                   msg = 'A meta object MUST be an object'
-                  expect { f(rel_meta_not_hash) }.to raise_error(ec, msg)
+                  expect { f(rel_meta_not_hash) }.to raise_error(dec, msg)
                 end
               end
             end
@@ -558,7 +480,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                   }
                 }
               msg = 'A links object MUST be an object'
-              expect { f(res) }.to raise_error(ec, msg)
+              expect { f(res) }.to raise_error(dec, msg)
             end
             
             it 'should raise if resource links members not a string or hash' do
@@ -569,7 +491,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                   }
                 }
               msg = 'A link MUST be represented as either a string or an object'
-              expect { f(res) }.to raise_error(ec, msg)
+              expect { f(res) }.to raise_error(dec, msg)
             end
           end
 
@@ -583,7 +505,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                   }
                 }
               msg = 'A meta object MUST be an object'
-              expect { f(res) }.to raise_error(ec, msg)
+              expect { f(res) }.to raise_error(dec, msg)
             end
           end
         end
@@ -611,7 +533,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             errors: {}
           }
           msg = 'Top level errors member MUST be an array'
-          expect { f(err) }.to raise_error(ec, msg)
+          expect { f(err) }.to raise_error(dec, msg)
         end
 
         it 'should raise if any of the errors array values are not hashes' do
@@ -622,7 +544,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             ]
           }
           msg = 'Error objects MUST be objects'
-          expect { f(err) }.to raise_error(ec, msg)
+          expect { f(err) }.to raise_error(dec, msg)
         end
       end
 
@@ -640,7 +562,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             meta: []
           }
           msg = 'A meta object MUST be an object'
-          expect { f(m) }.to raise_error(ec, msg)
+          expect { f(m) }.to raise_error(dec, msg)
         end
       end
 
@@ -652,7 +574,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             jsonapi: []
           }
           msg = 'A JSONAPI object MUST be an object'
-          expect { f(j_not_hash) }.to raise_error(ec, msg)
+          expect { f(j_not_hash) }.to raise_error(dec, msg)
         end
 
         it 'should raise if it has version and the value of version is not string' do
@@ -661,7 +583,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             jsonapi: { version: [] }
           }
           msg = "The value of JSONAPI's version member MUST be a string"
-          expect { f(j_v_not_str) }.to raise_error(ec, msg)
+          expect { f(j_v_not_str) }.to raise_error(dec, msg)
         end
 
         it 'should raise if an error with an included meta obj' do
@@ -670,7 +592,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             jsonapi: { meta: [] }
           }
           msg = 'A meta object MUST be an object'
-          expect { f(j_w_bad_m) }.to raise_error(ec, msg)
+          expect { f(j_w_bad_m) }.to raise_error(dec, msg)
         end
 
         it 'should return nil if given valid input, ignoring extra members if there are any' do
@@ -701,7 +623,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         
         it 'should be a hash' do
           msg = 'A links object MUST be an object'
-          expect { f({ data: { type: 't', id: '1' }, links: [] }) }.to raise_error(ec, msg)
+          expect { f({ data: { type: 't', id: '1' }, links: [] }) }.to raise_error(dec, msg)
         end
 
         it 'should ignore additional top level links members' do
@@ -757,8 +679,8 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             }
           msg_href = 'The member href MUST be a string'
           msg_meta = 'The value of each meta member MUST be an object'
-          expect { f({ data: { type: 'type', id: '123' }, links: bad_links_href }) }.to raise_error(ec, msg_href)
-          expect { f({ data: { type: 'type', id: '123' }, links: bad_links_meta }) }.to raise_error(ec, msg_meta)
+          expect { f({ data: { type: 'type', id: '123' }, links: bad_links_href }) }.to raise_error(dec, msg_href)
+          expect { f({ data: { type: 'type', id: '123' }, links: bad_links_meta }) }.to raise_error(dec, msg_meta)
           expect(f({ data: { type: 'type', id: '123' }, links: good_links })).to be nil
         end
       end
@@ -771,7 +693,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             included: { type: 't', id: '2' }
           }
           msg = 'The top level included member MUST be represented as an array of resource objects'
-          expect { f(i_not_arr) }.to raise_error(ec, msg)
+          expect { f(i_not_arr) }.to raise_error(dec, msg)
 
           i = {
             data: { type: 't', id: '1', relationships: { author: { data: { type: 't', id: '2' } } } },
@@ -786,7 +708,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             included: [{ type: 't', id: '2' }]
           }
           msg = 'The value of the resource id member MUST be string'
-          expect { f(i_id_not_str) }.to raise_error(ec, msg)
+          expect { f(i_id_not_str) }.to raise_error(dec, msg)
         end
       end
 
@@ -852,8 +774,8 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           msg = 'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
                 'identified by at least one resource identifier object in the same document.'
           
-          expect { f(not_fully_linked_doc1) }.to raise_error(ec, msg)
-          expect { f(not_fully_linked_doc2) }.to raise_error(ec, msg)
+          expect { f(not_fully_linked_doc1) }.to raise_error(dec, msg)
+          expect { f(not_fully_linked_doc2) }.to raise_error(dec, msg)
         end
       end
     end
@@ -869,7 +791,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
             data: { type: 't', id: '1', attributes: { '': 'empty key' } }
           }
         msg = "The member named '' raised: Member names MUST contain at least one character"
-        expect { f(doc_w_empty_keys) }.to raise_error(ec, msg)
+        expect { f(doc_w_empty_keys) }.to raise_error(dec, msg)
       end
 
       it 'should raise when a member name containing any prohibitted letters' do
@@ -948,13 +870,13 @@ describe JSONAPI::Exceptions::DocumentExceptions do
 
         msg = "The member named '***title***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { f(name_w_bad_letters1) }.to raise_error(ec, msg)
+        expect { f(name_w_bad_letters1) }.to raise_error(dec, msg)
         msg = "The member named '***author***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { f(name_w_bad_letters2) }.to raise_error(ec, msg)
+        expect { f(name_w_bad_letters2) }.to raise_error(dec, msg)
         msg = "The member named '***comments***' raised: Member names MUST contain only the allowed " \
               "characters: a-z, A-Z, 0-9, '-', '_'"
-        expect { f(name_w_bad_letters3) }.to raise_error(ec, msg)
+        expect { f(name_w_bad_letters3) }.to raise_error(dec, msg)
       end
 
       it 'should return nil given a correct document' do

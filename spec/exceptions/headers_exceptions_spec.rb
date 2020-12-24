@@ -1,58 +1,14 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions/headers_exceptions'
+require 'shared_contexts/headers_exceptions_shared_context'
 
 describe JSONAPI::Exceptions::HeadersExceptions do
 
-  # Should pass
-  let(:env1) do
-    {
-      'HTTP_ACCEPT' => 'text/plain',
-      'CONTENT_TYPE' => 'text/plain'
-    }
-  end
-
-  # Should pass
-  let(:env2) do
-    {
-      'HTTP_ACCEPT' => 'text/plain',
-      'CONTENT_TYPE' => 'application/vnd.api+json'
-    }
-  end
-
-  # Should pass
-  let(:env3) do
-    {
-      'HTTP_ACCEPT' => 'application/vnd.api+json',
-      'CONTENT_TYPE' => 'application/vnd.api+json'
-    }
-  end
+  include_context 'headers exceptions'
+  # envs are located ^
+  # hec located ^ as well
   
-  # Should raise error bc of content type
-  let(:env4) do
-    {
-      'HTTP_ACCEPT' => 'text/plain',
-      'CONTENT_TYPE' => 'application/vnd.api+json; idk'
-    }
-  end
-
-  # Should raise error because of HTTP_ACCEPT
-  let(:env5) do
-    {
-      'HTTP_ACCEPT' => 'application/vnd.api+json ; q=0.5, text/*, image/* ; q=.3',
-      'CONTENT_TYPE' => 'application/vnd.api+json'
-    }
-  end
-
-  # Should raise error because of both
-  let(:env6) do
-    {
-      'HTTP_ACCEPT' => 'application/vnd.api+json ; q=0.5, text/*, image/* ; q=.3',
-      'CONTENT_TYPE' => 'application/vnd.api+json ; idk'
-    }
-  end
-
-  let(:error_class) { JSONAPI::Exceptions::HeadersExceptions::InvalidHeader }
 
   describe '#compliant?' do
     it 'should pass if both CONTENT_TYPE and ACCEPT headers comply' do
@@ -62,9 +18,9 @@ describe JSONAPI::Exceptions::HeadersExceptions do
     end
 
     it 'should raise InvalidHeader if either CONTENT_TYPE or ACCEPT headers do not comply' do
-      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env4) }.to raise_error error_class
-      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env5) }.to raise_error error_class
-      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env6) }.to raise_error error_class
+      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env4) }.to raise_error hec
+      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env5) }.to raise_error hec
+      expect { JSONAPI::Exceptions::HeadersExceptions.check_compliance(env6) }.to raise_error hec
     end
   end
 end
