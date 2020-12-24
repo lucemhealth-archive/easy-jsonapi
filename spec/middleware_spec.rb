@@ -228,11 +228,20 @@ describe JSONAPI::Middleware do
         expect { m.call(env_bad_header) }.to raise_error(headers_error)
       end
 
-      it 'should return a 400 level error otherwise' do
+      it 'should return a 415 error for a Content-Type error' do
         env_bad_header_production = {}
         env_bad_header_production.replace env_bad_header
         env_bad_header_production["RACK_ENV"] = :production
-        expect(m.call(env_bad_header_production)).to eq [400, {}, []]
+        expect(m.call(env_bad_header_production)).to eq [406, {}, []]
+      end
+      
+      it 'should return a 406 error if there is a Accept header error' do
+        env_bad_header_production = {}
+        env_bad_header_production.replace env_bad_header
+        env_bad_header_production["RACK_ENV"] = :production
+        env_bad_header_production["HTTP_ACCEPT"] = 'application/vnd.api+json'
+        env_bad_header_production["CONTENT_TYPE"] = 'application/vnd.api+json; q=0.5'
+        expect(m.call(env_bad_header_production)).to eq [415, {}, []]
       end
     end
 

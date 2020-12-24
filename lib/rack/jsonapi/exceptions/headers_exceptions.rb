@@ -12,6 +12,7 @@ module JSONAPI
         # Init w a status code, so that it can be accessed when rescuing an exception
         def initialize(status_code)
           @status_code = status_code
+          super
         end
       end
 
@@ -30,31 +31,33 @@ module JSONAPI
       def self.check_content_type(env)
         return if env['CONTENT_TYPE'].nil? # no request body
         return if env['CONTENT_TYPE'] == 'application/vnd.api+json' # jsonapi
-        return if (env['CONTENT_TYPE'] =~ %r{application/vnd\.api\+json\s?;}).nil? # no jsonapi w params
+        return unless contains_media_type_params?(env['CONTENT_TYPE']) # no jsonapi w params
         
-        raise_error(
-          'Clients MUST send all JSON:API data in request documents with the header ' \
-          'Content-Type: application/vnd.api+json without any media type parameters.'
-        )
+        raise_error(415,
+                    'Clients MUST send all JSON:API data in request documents with the header ' \
+                    'Content-Type: application/vnd.api+json without any media type parameters.')
       end
 
       # Checks to see if the JSON:API media type is included in the Accept header, and if
       #   it is, whether it contains media type parameters.
       # @param (see #compliant?)
       def self.check_accept(env)
-        jsonapi_doc_w_params = false
         accept_arr = env['HTTP_ACCEPT'].split(',')
-        
         return if accept_arr.include? 'application/vnd.api+json'
+        
+        found_jsonapi_media_type_w_params = false
         accept_arr.each do |val|
-          jsonapi_doc_w_params ||= val.match(%r{\Aapplication/vnd\.api\+json\s?;})
+          found_jsonapi_media_type_w_params ||= contains_media_type_params?(val)
         end
-        return unless jsonapi_doc_w_params
+        return unless found_jsonapi_media_type_w_params
 
-        raise_error(
-          'Clients that include the JSON:API media type in their Accept header MUST ' \
-          'specify the media type there at least once without any media type parameters.'
-        )
+        raise_error(406,
+                    'Clients that include the JSON:API media type in their Accept header MUST ' \
+                    'specify the media type there at least once without any media type parameters.')
+      end
+
+      def self.contains_media_type_params?(header_value)
+        header_value.match(%r{\Aapplication/vnd\.api\+json\s?;})
       end
 
       # @param msg [String]  The message to raise InvalidHeader with.

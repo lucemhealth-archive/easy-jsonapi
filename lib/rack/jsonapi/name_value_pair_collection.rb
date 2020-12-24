@@ -19,6 +19,7 @@ module JSONAPI
     # #empyt? provided by super
     # #include provided by super
 
+    # Add a pair to the collection. (CASE-SENSITIVE)
     # @param pair [JSONAPI::NameValuePair] The pair to add
     def add(pair, &block)
       p_name = pair.name.gsub(/-/, '_').to_sym

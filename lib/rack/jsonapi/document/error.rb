@@ -19,7 +19,7 @@ module JSONAPI
       # #include provided by super
       
       # Add a error to the collection using it's name
-      # @param error [JSONAPI::Document::Error::ErrorMember]
+      # @param error_mem [JSONAPI::Document::Error::ErrorMember]
       def add(error_mem)
         super(error_mem, &:name)
       end

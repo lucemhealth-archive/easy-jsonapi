@@ -76,7 +76,6 @@ module JSONAPI
       JSONAPI::Exceptions::HeadersExceptions.check_compliance(env)
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader => e
       raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
-      
       [e.status_code, {}, []] 
     end
 
