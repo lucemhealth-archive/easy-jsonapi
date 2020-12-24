@@ -29,7 +29,7 @@ module JSONAPI
       # @return nil Returns nil if no error found
       # @raise InvalidHeader if it is jsonapi with parameters
       def self.check_content_type(env)
-        return if env['CONTENT_TYPE'].nil? # no request body
+        return unless env['CONTENT_TYPE'] # no request body
         return if env['CONTENT_TYPE'] == 'application/vnd.api+json' # jsonapi
         return unless contains_media_type_params?(env['CONTENT_TYPE']) # no jsonapi w params
         
@@ -42,6 +42,7 @@ module JSONAPI
       #   it is, whether it contains media type parameters.
       # @param (see #compliant?)
       def self.check_accept(env)
+        return unless env['HTTP_ACCEPT']
         accept_arr = env['HTTP_ACCEPT'].split(',')
         return if accept_arr.include? 'application/vnd.api+json'
         
