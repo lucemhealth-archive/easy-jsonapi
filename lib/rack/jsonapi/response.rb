@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions'
+require 'oj'
 
 module JSONAPI
   # Used to validate the serialized response before returned to a client
   module Response
 
-    # @param body [Hash] The ruby hash mimicking jsonapi to check for compliance
+    # @param body [Hash | String] The ruby hash mimicking jsonapi to check for compliance
     # @return [Nilclass] if no errors are found
     # @raise [InvalidDocument | InvalidHeader] depending on what errors were found
     def self.validate(body, headers)
+      body = Oj.load(body) if body.is_a? String
       validate_headers(headers)
       validate_body(body)
     end
