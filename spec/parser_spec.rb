@@ -49,6 +49,41 @@ describe JSONAPI::Parser do
         'REMOTE_ADDR' => '::1'
       }
 
+    env_get_w_body =
+      {
+        "SERVER_SOFTWARE" => "thin 1.8.0 codename Possessed Pickle",
+        "SERVER_NAME" => "localhost",
+        "rack.input" => StringIO.new(req_body_str),
+        "rack.version" => [1, 0],
+        "rack.multithread" => true,
+        "rack.multiprocess" => false,
+        "rack.run_once" => false,
+        "REQUEST_METHOD" => "GET",
+        "REQUEST_PATH" => "/person/5632139873746944",
+        "PATH_INFO" => "/person/5632139873746944",
+        "REQUEST_URI" => "/person/5632139873746944",
+        "HTTP_VERSION" => "HTTP/1.1",
+        "HTTP_USER_AGENT" => "PostmanRuntime/7.26.8",
+        "HTTP_ACCEPT" => "*/*",
+        "HTTP_POSTMAN_TOKEN" => "ad8b44f0-8f24-43a3-a6d8-f4291929e00b",
+        "HTTP_HOST" => "localhost:4567",
+        "HTTP_ACCEPT_ENCODING" => "gzip, deflate, br",
+        "HTTP_CONNECTION" => "keep-alive",
+        "CONTENT_LENGTH" => "89",
+        "CONTENT_TYPE" => "application/vnd.api+json",
+        "GATEWAY_INTERFACE" => "CGI/1.2",
+        "SERVER_PORT" => "4567",
+        "QUERY_STRING" => "",
+        "SERVER_PROTOCOL" => "HTTP/1.1",
+        "rack.url_scheme" => "http",
+        "SCRIPT_NAME" => "",
+        "REMOTE_ADDR" => "::1",
+        "sinatra.commonlogger" => true,
+        "rack.request.query_string" => "",
+        "rack.request.query_hash" => {},
+        "sinatra.route" => "GET /:type/:id/?"
+      }
+
     env_no_body = 
       {
         'SERVER_SOFTWARE' => 'thin 1.7.2 codename Bachmanity',
@@ -76,9 +111,11 @@ describe JSONAPI::Parser do
       }
       
     req = JSONAPI::Parser.parse_request(env)
+    req_get_w_body = JSONAPI::Parser.parse_request(env_get_w_body)
     req_no_body = JSONAPI::Parser.parse_request(env_no_body)
 
     let(:req) { req }
+    let(:req_get_w_body) { req_get_w_body }
 
     let(:req_no_body) { req_no_body }
 
@@ -86,10 +123,13 @@ describe JSONAPI::Parser do
       
     it 'should return a Request object' do
       expect(req.class).to eq JSONAPI::Request
+      expect(req_get_w_body.class).to eq JSONAPI::Request
+      expect(req_no_body.class).to eq JSONAPI::Request
     end
     
     context 'when a jsonapi document is not included with the request' do
       it 'should return nil when accessing the request body' do
+        expect(req_get_w_body.body).to eq nil
         expect(req_no_body.body).to eq nil
       end        
     end

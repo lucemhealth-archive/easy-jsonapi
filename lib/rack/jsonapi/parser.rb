@@ -31,7 +31,8 @@ module JSONAPI
     # @param (see #parse_request)
     # @return [TrueClass | FalseClass]
     def self.includes_jsonapi_document?(env)
-      env['CONTENT_TYPE'] == 'application/vnd.api+json'
+      env['CONTENT_TYPE'] == 'application/vnd.api+json' &&
+        env['REQUEST_METHOD'] != "GET"
     end
 
     private_class_method :includes_jsonapi_document?
