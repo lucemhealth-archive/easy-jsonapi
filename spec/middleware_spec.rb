@@ -19,10 +19,9 @@ describe JSONAPI::Middleware do
       'REQUEST_PATH' => '/articles',
       'PATH_INFO' => '/articles',
       'QUERY_STRING' => 'include=author,comments&fields[articles]=title,body,author&fields[people]=name&josh_ua=demoss&page[offset]=1&page[limit]=1',
-      'REQUEST_URI' => '/articles?include=author,comments&fields[articles]=title,body,author&fields[people]=name&=demoss&page[offset]=1&page[limit]=1',
+      'REQUEST_URI' => '/articles?include=author,comments&fields[articles]=title,body,author&fields[people]=name&josh_ua=demoss&page[offset]=1&page[limit]=1',
       'HTTP_VERSION' => 'HTTP/1.1', 
       'HTTP_ACCEPT' => 'application/vnd.api+json',
-      'HTTP_POSTMAN_TOKEN' => 'de878a8f-917e-4016-b9f7-f723a6483f03',
       'HTTP_HOST' => 'localhost:9292',
       'CONTENT_TYPE' => 'application/vnd.api+json',
       'GATEWAY_INTERFACE' => 'CGI/1.2',
@@ -251,6 +250,24 @@ describe JSONAPI::Middleware do
         get_env.replace(env)
         get_env['REQUEST_METHOD'] = 'GET'
         expect { m.call(get_env) }.to raise_error 'GET requests cannot include a body'
+      end
+    end
+
+    context 'when checking Content-Type Header' do
+      it 'should raise if http request is POST, PUT, or PATCH and no body' do
+        get_env = {}
+        get_env.replace(env)
+        get_env.delete('CONTENT_TYPE')
+        expect { m.call(get_env) }.to raise_error 'POST, PUT, or PATCH sent without body'
+      end
+    end
+    
+    context 'when checking Accept Header' do
+      it 'should raise if no Accept Header given' do
+        get_env = {}
+        get_env.replace(env)
+        get_env['HTTP_ACCEPT'] = nil
+        expect { m.call(get_env) }.to raise_error 'GET requests must have an ACCEPT header'
       end
     end
   end

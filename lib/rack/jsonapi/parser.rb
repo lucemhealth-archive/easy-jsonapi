@@ -18,7 +18,7 @@ module JSONAPI
     def self.parse_request(env)
       req = Rack::Request.new(env)
       
-      query_param_collection = RackReqParamsParser.parse(req.params)
+      query_param_collection = RackReqParamsParser.parse(req.GET)
       header_collection = HeadersParser.parse(env)
       
       req_body = Oj.load(req.body.read, symbol_keys: true) # stored separately because can only read 1x

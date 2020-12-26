@@ -40,6 +40,7 @@ module JSONAPI
     # @param (see #call)
     # @return [TrueClass | FalseClass] Whether the document body is supposed to be jsonapi
     def content_type_header_jsonapi?(env)
+      return false unless env['CONTENT_TYPE']
       return false unless env['CONTENT_TYPE'].include? 'application/vnd.api+json'
       env['CONTENT_TYPE'] == 'application/vnd.api+json'
     end
@@ -49,6 +50,7 @@ module JSONAPI
     # @env (see #call)
     # @return [TrueClass | FalseClass] Whether or not the request is JSONAPI
     def accept_header_jsonapi?(env)
+      raise 'GET requests must have an ACCEPT header' unless env['HTTP_ACCEPT']
       accept_arr = env['HTTP_ACCEPT'].split(',')
       accept_arr.any? { |hdr| hdr.include?('application/vnd.api+json') }
     end
@@ -61,7 +63,7 @@ module JSONAPI
       return header_error unless header_error.nil?
 
       req = Rack::Request.new(env)
-      
+
       param_error = check_query_param_compliance(req, env)
       return param_error unless param_error.nil?
       
@@ -83,7 +85,7 @@ module JSONAPI
     # @raise If the query parameters are not JSONAPI compliant
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
     def check_query_param_compliance(req, env)
-      JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.params)
+      JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.GET)
     rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter
       raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
       
@@ -94,7 +96,11 @@ module JSONAPI
     # @param req (see #check_query_param_compliance)
     # @raise If the document body is not JSONAPI compliant
     def check_req_body_compliance(req, env)
+      if post_put_or_patch?(env) && env['CONTENT_TYPE'].nil?
+        raise 'POST, PUT, or PATCH sent without body'
+      end
       raise 'GET requests cannot include a body' if env['REQUEST_METHOD'] == 'GET'
+      
       req_body = Oj.load(req.body.read, symbol_keys: true)
       req.body.rewind
       http_method_is_post = env['REQUEST_METHOD'] == 'POST'
@@ -103,6 +109,12 @@ module JSONAPI
       raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
       
       [400, {}, []] 
+    end
+
+    def post_put_or_patch?(env)
+      env['REQUEST_METHOD'] == 'POST' ||
+        env['REQUEST_METHOD'] == 'PATCH' ||
+        env['REQUEST_METHOD'] == 'PUT'
     end
   end
 end
