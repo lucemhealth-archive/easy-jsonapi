@@ -77,7 +77,7 @@ module JSONAPI
     def check_headers_compliance(env)
       JSONAPI::Exceptions::HeadersExceptions.check_compliance(env)
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader => e
-      raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
+      raise if environment_development?(env)
       [e.status_code, {}, []] 
     end
 
@@ -87,7 +87,7 @@ module JSONAPI
     def check_query_param_compliance(req, env)
       JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.GET)
     rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter
-      raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
+      raise if environment_development?(env)
       
       [400, {}, []] 
     end
@@ -106,15 +106,21 @@ module JSONAPI
       http_method_is_post = env['REQUEST_METHOD'] == 'POST'
       JSONAPI::Exceptions::DocumentExceptions.check_compliance(req_body, http_method_is_post: http_method_is_post)
     rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument
-      raise if env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
-      
-      [400, {}, []] 
+      raise if environment_development?(env)
+      [400, {}, []]
+    rescue Oj::ParseError
+      raise if environment_development?(env)
+      [400, {}, []]
     end
 
     def post_put_or_patch?(env)
       env['REQUEST_METHOD'] == 'POST' ||
         env['REQUEST_METHOD'] == 'PATCH' ||
         env['REQUEST_METHOD'] == 'PUT'
+    end
+
+    def environment_development?(env)
+      env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
     end
   end
 end

@@ -270,5 +270,22 @@ describe JSONAPI::Middleware do
         expect { m.call(get_env) }.to raise_error 'GET requests must have an ACCEPT header'
       end
     end
+
+    context 'when sending invalid json' do
+      it 'should return a 400 level error if in production' do
+        env_body_malformed = {}
+        env_body_malformed.replace(env)
+        env_body_malformed["RACK_ENV"] = :production
+        env_body_malformed['rack.input'] = StringIO.new("[")
+        expect(m.call(env_body_malformed)).to eq [400, {}, []]
+      end
+      
+      it 'should raise if in development' do
+        env_body_malformed = {}
+        env_body_malformed.replace(env)
+        env_body_malformed['rack.input'] = StringIO.new("[")
+        expect { m.call(env_body_malformed) }.to raise_error Oj::ParseError
+      end
+    end
   end
 end
