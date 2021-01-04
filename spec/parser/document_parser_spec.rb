@@ -49,7 +49,10 @@ describe JSONAPI::Parser::DocumentParser do
 
   let(:document) { JSONAPI::Parser::DocumentParser.parse(oj_formatted_hash) }
 
-  describe '#parse!' do
+  describe '#parse' do
+    it 'should return nil if given a nil document' do
+      expect(JSONAPI::Parser::DocumentParser.parse(nil)).to be nil
+    end
     it 'should return a Document object given a valid jsonapi document' do
       expect(document.class).to eq JSONAPI::Document
     end

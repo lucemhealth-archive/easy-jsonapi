@@ -13,6 +13,7 @@ module JSONAPI
       # @return [JSONAPI::Document] The parsed JSONAPI document.
       # @raise [JSONAPI::Parser::InvalidDocument] if document is invalid.
       def self.parse(document)
+        return if document.nil?
         doc_members_hash = parse_top_level_members(document)
         JSONAPI::Document.new(doc_members_hash)
       end
