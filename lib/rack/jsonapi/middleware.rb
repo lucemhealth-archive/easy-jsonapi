@@ -67,6 +67,7 @@ module JSONAPI
       param_error = check_query_param_compliance(req, env)
       return param_error unless param_error.nil?
       
+      return unless env['CONTENT_TYPE']
       body_error = check_req_body_compliance(req, env)
       return body_error unless body_error.nil?
     end
