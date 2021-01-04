@@ -18,5 +18,7 @@ describe JSONAPI::Document::ResourceId do
 
   it 'should have a working #to_h' do
     expect(res_id.to_h).to eq({ type: 'people', id: '1' })
+
+
   end
 end

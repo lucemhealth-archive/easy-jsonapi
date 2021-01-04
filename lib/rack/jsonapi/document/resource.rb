@@ -16,12 +16,12 @@ module JSONAPI
         unless members_hash.is_a? Hash
           raise 'A JSONAPI::Document::Resource must be initialized with a Hash'
         end
-        @type = members_hash[:type].to_s
-        @id = members_hash[:id].to_s
-        @attributes = members_hash[:attributes]
-        @relationships = members_hash[:relationships]
-        @links = members_hash[:links]
-        @meta = members_hash[:meta]
+        @type = members_hash[:type].to_s unless members_hash[:type].nil?
+        @id = members_hash[:id].to_s unless members_hash[:id].nil?
+        @attributes = members_hash[:attributes] unless members_hash[:attributes].nil?
+        @relationships = members_hash[:relationships] unless members_hash[:relationships].nil?
+        @links = members_hash[:links] unless members_hash[:links].nil?
+        @meta = members_hash[:meta] unless members_hash[:meta].nil?
       end
 
       # String representation of Document that is JSON parsable

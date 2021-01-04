@@ -43,11 +43,21 @@ describe JSONAPI::Document do
       links: { self: 'url' }
     }
 
+  doc_hash2 = {
+    data: {
+      type: 'person',
+      attributes: {
+        name: 'Caleb'
+      }
+    }
+  }
+
   let(:doc_hash) { doc_hash }
+  let(:doc_hash2) { doc_hash2 }
 
-  doc = JSONAPI::Parser::DocumentParser.parse(doc_hash)
-
-  let(:d) { doc }
+  
+  let(:d) { JSONAPI::Parser::DocumentParser.parse(doc_hash) }
+  let(:d2) { JSONAPI::Parser::DocumentParser.parse(doc_hash2) }
 
   let(:ec) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
 
@@ -76,13 +86,19 @@ describe JSONAPI::Document do
 
   describe '#to_s' do
     it 'should output a string that can be parsed by a JSON parser' do
-      expect(JSON.parse(doc.to_s, symbolize_names: true)).to eq doc_hash
+      expect(JSON.parse(d.to_s, symbolize_names: true)).to eq doc_hash
+    end
+    
+    it 'should not include id when id is not included in the original body' do
+      d_hash = d2.to_h
+      pp d_hash
+      expect(d_hash[:data][:id].nil?).to be true
     end
   end
 
   describe '#to_h' do
     it 'should mimic JSON format' do
-      expect(doc.to_h).to eq doc_hash
+      expect(d.to_h).to eq doc_hash
     end
   end
 
