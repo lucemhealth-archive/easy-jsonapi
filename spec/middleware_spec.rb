@@ -249,19 +249,10 @@ describe JSONAPI::Middleware do
         get_env = {}
         get_env.replace(env)
         get_env['REQUEST_METHOD'] = 'GET'
-        expect { m.call(get_env) }.to raise_error 'GET requests cannot include a body'
+        expect { m.call(get_env) }.to raise_error "GET requests cannot include the 'CONTENT_TYPE' header"
       end
     end
 
-    context 'when checking Content-Type Header' do
-      it 'should raise if http request is POST, PUT, or PATCH and no body' do
-        get_env = {}
-        get_env.replace(env)
-        get_env.delete('CONTENT_TYPE')
-        expect { m.call(get_env) }.to raise_error 'POST, PUT, or PATCH sent without body'
-      end
-    end
-    
     context 'when checking Accept Header' do
       it 'should raise if no Accept Header given' do
         get_env = {}

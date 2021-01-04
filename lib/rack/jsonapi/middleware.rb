@@ -97,10 +97,7 @@ module JSONAPI
     # @param req (see #check_query_param_compliance)
     # @raise If the document body is not JSONAPI compliant
     def check_req_body_compliance(req, env)
-      if post_put_or_patch?(env) && env['CONTENT_TYPE'].nil?
-        raise 'POST, PUT, or PATCH sent without body'
-      end
-      raise 'GET requests cannot include a body' if env['REQUEST_METHOD'] == 'GET'
+      raise "GET requests cannot include the 'CONTENT_TYPE' header" if env['REQUEST_METHOD'] == 'GET'
       
       req_body = Oj.load(req.body.read, symbol_keys: true)
       req.body.rewind
