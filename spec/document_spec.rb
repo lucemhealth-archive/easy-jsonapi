@@ -52,12 +52,15 @@ describe JSONAPI::Document do
     }
   }
 
-  let(:doc_hash) { doc_hash }
-  let(:doc_hash2) { doc_hash2 }
+  let(:body) { Oj.dump(doc_hash) }
+  let(:body2) { Oj.dump(doc_hash2) }
 
   
-  let(:d) { JSONAPI::Parser::DocumentParser.parse(doc_hash) }
-  let(:d2) { JSONAPI::Parser::DocumentParser.parse(doc_hash2) }
+  let(:d) { JSONAPI::Parser::DocumentParser.parse(body) }
+  let(:d2) { JSONAPI::Parser::DocumentParser.parse(body2) }
+  
+  let(:dh) { JSONAPI::Parser::DocumentParser.parse_hash(Oj.load(body, symbol_keys: true)) }
+  let(:dh2) { JSONAPI::Parser::DocumentParser.parse_hash(Oj.load(body2, symbol_keys: true)) }
 
   let(:ec) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
 
@@ -72,12 +75,20 @@ describe JSONAPI::Document do
       expect(d.errors).to eq nil
       expect(d.jsonapi).to eq nil
       expect(d.included).to eq nil
+      
+      expect(dh.errors).to eq nil
+      expect(dh.jsonapi).to eq nil
+      expect(dh.included).to eq nil
     end
 
     it 'should have the appropriate classes associated with each instance variable' do
       expect(d.data.class).to eq JSONAPI::Document::Resource
       expect(d.meta.class).to eq JSONAPI::Document::Meta
       expect(d.links.class).to eq JSONAPI::Document::Links
+      
+      expect(dh.data.class).to eq JSONAPI::Document::Resource
+      expect(dh.meta.class).to eq JSONAPI::Document::Meta
+      expect(dh.links.class).to eq JSONAPI::Document::Links
 
       # a = JSON.parse(d.to_s)
       # a.to_json
@@ -87,24 +98,29 @@ describe JSONAPI::Document do
   describe '#to_s' do
     it 'should output a string that can be parsed by a JSON parser' do
       expect(JSON.parse(d.to_s, symbolize_names: true)).to eq doc_hash
+      expect(JSON.parse(dh.to_s, symbolize_names: true)).to eq doc_hash
     end
     
     it 'should not include id when id is not included in the original body' do
       d_hash = d2.to_h
-      pp d_hash
       expect(d_hash[:data][:id].nil?).to be true
+      
+      dh_hash = dh2.to_h
+      expect(dh_hash[:data][:id].nil?).to be true
     end
   end
 
   describe '#to_h' do
     it 'should mimic JSON format' do
       expect(d.to_h).to eq doc_hash
+      expect(dh.to_h).to eq doc_hash
     end
   end
 
   describe '#validate' do
     it 'should return nil when given a valid document' do
       expect(d.validate).to be nil
+      expect(dh.validate).to be nil
     end
   end
 end

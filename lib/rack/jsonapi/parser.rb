@@ -6,7 +6,6 @@ require 'rack/jsonapi/parser/document_parser'
 require 'rack/jsonapi/request'
 
 require 'rack'
-require 'oj'
 
 module JSONAPI
 
@@ -21,7 +20,7 @@ module JSONAPI
       query_param_collection = RackReqParamsParser.parse(req.GET)
       header_collection = HeadersParser.parse(env)
       
-      req_body = Oj.load(req.body.read, symbol_keys: true) # stored separately because can only read 1x
+      req_body = req.body.read # stored separately because can only read 1x
       document = includes_jsonapi_document?(env) ? DocumentParser.parse(req_body) : nil
       
       JSONAPI::Request.new(env, query_param_collection, header_collection, document)

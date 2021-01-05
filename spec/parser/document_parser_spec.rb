@@ -45,9 +45,9 @@ describe JSONAPI::Parser::DocumentParser do
       'links' => { 'self' => 'url' }
     }
 
-  oj_formatted_hash = Oj.load(Oj.dump(doc_hash), symbol_keys: true)
+  body = Oj.dump(doc_hash)
 
-  let(:document) { JSONAPI::Parser::DocumentParser.parse(oj_formatted_hash) }
+  let(:document) { JSONAPI::Parser::DocumentParser.parse(body) }
 
   describe '#parse' do
     it 'should return nil if given a nil document' do

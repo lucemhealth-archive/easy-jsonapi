@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/document'
+require 'oj'
 
 module JSONAPI
   module Parser
@@ -8,13 +9,23 @@ module JSONAPI
     # Document Parsing Logic
     module DocumentParser
 
-      # Validate the structure of a JSONAPI request document.
-      # @param document [Hash]  The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
+      # Parse the JSONAPI Request into objects.
+      # @param req_body [String]  The supplied JSONAPI document with POST, PATCH, PUT, or DELETE.
       # @return [JSONAPI::Document] The parsed JSONAPI document.
       # @raise [JSONAPI::Parser::InvalidDocument] if document is invalid.
-      def self.parse(document)
-        return if document.nil?
-        doc_members_hash = parse_top_level_members(document)
+      def self.parse(req_body)
+        return if req_body.nil?
+        document_hash = Oj.load(req_body, symbol_keys: true) # parse json string into hash
+        parse_hash(document_hash)
+      end
+
+      # Parse the JSONAPI Request into objects.
+      # @param document_hash [Hash] The jsonapi-like ruby hash to parse into objects
+      # @return (see #parse)
+      # @raise (see #parse)
+      def self.parse_hash(document_hash)
+        return if document_hash.nil?
+        doc_members_hash = parse_top_level_members(document_hash)
         JSONAPI::Document.new(doc_members_hash)
       end
 
