@@ -51,4 +51,166 @@ shared_context 'headers exceptions' do
       'CONTENT_TYPE' => 'application/vnd.api+json ; idk'
     }
   end
+
+  # ENVs WITH HTTP VERB and BODY INCLUDED ------------------------------------
+
+  # GET ------------
+
+  # GET w Body
+  # Should raise bc of body
+  let(:get_w_body) do
+    {
+      'REQUEST_METHOD' => 'GET',
+      'HTTP_ACCEPT' => 'application/vnd.api+json, text/*',
+      'CONTENT_TYPE' => 'application/vnd.api+json',
+      'rack.input' => StringIO.new('I have a body')
+    }
+  end
+
+  # GET no body, no accept or content-type headers
+  # SHOULD PASS
+  let(:get_no_hdrs) do
+    {
+      'REQUEST_METHOD' => 'GET'
+    }
+  end
+
+  # GET no accept, but has content-type
+  # SHOULD RAISE bc contains content-type header
+  let(:get_w_content_type1) do
+    {
+      'REQUEST_METHOD' => 'GET',
+      'CONTENT_TYPE' => 'application/vnd.api+json'
+    }
+  end
+
+  # GET w accept, but has content-type
+  # SHOULD RAISE bc contains content-type header
+  let(:get_w_content_type2) do
+    {
+      'REQUEST_METHOD' => 'GET',
+      'HTTP_ACCEPT' => 'application/vnd.api+json, text/*',
+      'CONTENT_TYPE' => 'application/vnd.api+json'
+    }
+  end
+
+  # POST, PATCH, and PUT -------------
+
+  # POST no body
+  # SHOULD RAISE bc needs a body
+  let(:post_no_body) do
+    {
+      'REQUEST_METHOD' => 'POST'
+    }
+  end
+
+  # POST no content-type header
+  # SHOULD RAISE
+  let(:post_no_content_type) do
+    {
+      'REQUEST_METHOD' => 'POST',
+      'rack.input' => StringIO.new('Body')
+    }
+  end
+
+  # POST accept header not jsonapi
+  # SHOULD RAISE
+  let(:post_accept_not_jsonapi) do
+    {
+      'REQUEST_METHOD' => 'POST',
+      'CONTENT_TYPE' => 'application/vnd.api+json',
+      'HTTP_ACCEPT' => 'text/*',
+      'rack.input' => StringIO.new('Body')
+    }
+  end
+
+  # POST content type not jsonapi
+  # SHOULD PASS
+  let(:post_content_type_not_jsonapi) do
+    {
+      'REQUEST_METHOD' => 'POST',
+      'CONTENT_TYPE' => 'text/html',
+      'rack.input' => StringIO.new('Body')
+    }
+  end
+  
+  # POST content-type and accept header jsonapi
+  # SHOULD PASS
+  let(:post_content_type_and_accept_jsonapi) do
+    {
+      'REQUEST_METHOD' => 'POST',
+      'CONTENT_TYPE' => 'application/vnd.api+json',
+      'HTTP_ACCEPT' => 'application/vnd.api+json',
+      'rack.input' => StringIO.new('Body')
+    }
+  end
+  
+  # POST content-type and accept header jsonapi
+  # SHOULD PASS
+  let(:post_content_type_jsonapi_but_accept_not_jsonapi) do
+    {
+      'REQUEST_METHOD' => 'POST',
+      'CONTENT_TYPE' => 'application/vnd.api+json',
+      'HTTP_ACCEPT' => 'text/*',
+      'rack.input' => StringIO.new('Body')
+    }
+  end
+
+  # DELETE ---------------
+
+  # DELETE w body
+  # SHOULD RAISE bc contains body
+  let(:delete_w_body) do
+    {
+      'REQUEST_METHOD' => 'DELETE',
+      'rack.input' => StringIO.new('Body')
+    }
+  end
+
+  # DELETE no accept or content-type headers
+  # SHOULD PASS
+  let(:delete_no_content_type_or_accept) do
+    {
+      'REQUEST_METHOD' => 'DELETE'
+    }
+  end
+
+  # DELETE w content
+  # SHOULD RAISE
+  let(:delete_w_content_type) do
+    {
+      'REQUEST_METHOD' => 'DELETE',
+      'CONTENT_TYPE' => 'text/html'
+    }
+  end
+
+  # DELETE w accept jsonapi
+  # SHOULD PASS
+  let(:delete_accept_jsonapi) do
+    {
+      'REQUEST_METHOD' => 'DELETE',
+      'HTTP_ACCEPT' => 'application/vnd.api+json'
+    }
+  end
+  
+  # DELETE w accept not jsonapi
+  # SHOULD PASS
+  let(:delete_not_accept_jsonapi) do
+    {
+      'REQUEST_METHOD' => 'DELETE',
+      'HTTP_ACCEPT' => 'text/html'
+    }
+  end
+
+
+
+
+
+
+
+
+
+  
+
+
 end

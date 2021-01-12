@@ -249,16 +249,8 @@ describe JSONAPI::Middleware do
         get_env = {}
         get_env.replace(env)
         get_env['REQUEST_METHOD'] = 'GET'
-        expect { m.call(get_env) }.to raise_error "GET requests cannot include the 'CONTENT_TYPE' header"
-      end
-    end
-
-    context 'when checking Accept Header' do
-      it 'should raise if no Accept Header given' do
-        get_env = {}
-        get_env.replace(env)
-        get_env['HTTP_ACCEPT'] = nil
-        expect { m.call(get_env) }.to raise_error 'GET requests must have an ACCEPT header'
+        e_msg = 'GET requests cannot have a body.'
+        expect { m.call(get_env) }.to raise_error headers_error, e_msg
       end
     end
 

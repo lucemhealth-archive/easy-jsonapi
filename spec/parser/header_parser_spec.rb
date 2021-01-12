@@ -25,7 +25,7 @@ describe JSONAPI::Parser::HeadersParser do
       'QUERY_STRING' => 'include=author,comments&fields[articles]=title,body,author&fields[people]=name&josh_ua=demoss&page[offset]=1&page[limit]=1',
       'REQUEST_URI' => '/articles?include=author,comments&fields[articles]=title,body,author&fields[people]=name&josh_ua=demoss&page[offset]=1&page[limit]=1',
       'HTTP_VERSION' => 'HTTP/1.1', 
-      'HTTP_ACCEPT' => 'application/vnd.beta.curatess.v1.api+json ; q=0.5, text/*, image/* ; q=.3',
+      'HTTP_ACCEPT' => 'application/vnd.api+json ; q=0.5, text/*, image/* ; q=.3',
       'HTTP_POSTMAN_TOKEN' => 'de878a8f-917e-4016-b9f7-f723a6483f03',
       'HTTP_HOST' => 'localhost:9292',
       'CONTENT_TYPE' => 'application/vnd.api+json',
@@ -38,9 +38,24 @@ describe JSONAPI::Parser::HeadersParser do
     }
   end
 
+  let(:env_bad_content_type) do
+    {
+      'REQUEST_METHOD' => 'POST',
+      'REQUEST_PATH' => '/articles',
+      'PATH_INFO' => '/articles',
+      'HTTP_ACCEPT' => 'application/vnd.api+json ; q=0.5, text/*, image/* ; q=.3',
+      'CONTENT_TYPE' => 'text/*'
+    }
+  end
+
   let(:hc) { JSONAPI::Parser::HeadersParser.parse(env) }
   
   describe '#parse!' do
+    
+    it 'should raise InvaidHeader if Content-Type non jsonapi friendly' do
+      hdr_error = JSONAPI::Exceptions::HeadersExceptions::InvalidHeader
+      expect { JSONAPI::Parser::HeadersParser.parse(env_bad_content_type) }.to raise_error hdr_error
+    end
     
     it 'should return a header collection' do
       expect(hc.class).to eq JSONAPI::HeaderCollection

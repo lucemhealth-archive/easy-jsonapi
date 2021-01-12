@@ -36,23 +36,22 @@ module JSONAPI
       accept_header_jsonapi?(env) || content_type_header_jsonapi?(env)
     end
 
-    # Determines whether there is a request body, and whether the Content-Type is jsonapi compliant.
-    # @param (see #call)
-    # @return [TrueClass | FalseClass] Whether the document body is supposed to be jsonapi
-    def content_type_header_jsonapi?(env)
-      return false unless env['CONTENT_TYPE']
-      return false unless env['CONTENT_TYPE'].include? 'application/vnd.api+json'
-      env['CONTENT_TYPE'] == 'application/vnd.api+json'
-    end
-
     # Determines whether the request is JSONAPI or not by looking at
     #   the ACCEPT header.
     # @env (see #call)
     # @return [TrueClass | FalseClass] Whether or not the request is JSONAPI
     def accept_header_jsonapi?(env)
-      raise 'GET requests must have an ACCEPT header' unless env['HTTP_ACCEPT']
+      return true if env['HTTP_ACCEPT'].nil? # no header means assume any
       accept_arr = env['HTTP_ACCEPT'].split(',')
       accept_arr.any? { |hdr| hdr.include?('application/vnd.api+json') }
+    end
+
+    # Determines whether there is a request body, and whether the Content-Type is jsonapi compliant.
+    # @param (see #call)
+    # @return [TrueClass | FalseClass] Whether the document body is supposed to be jsonapi
+    def content_type_header_jsonapi?(env)
+      return false unless env['CONTENT_TYPE']
+      env['CONTENT_TYPE'].include? 'application/vnd.api+json'
     end
 
     # Checks whether the request is JSON:API compliant and raises an error if not.
@@ -76,7 +75,7 @@ module JSONAPI
     # @param (see #call)
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
     def check_headers_compliance(env)
-      JSONAPI::Exceptions::HeadersExceptions.check_compliance(env)
+      JSONAPI::Exceptions::HeadersExceptions.check_request(env)
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader => e
       raise if environment_development?(env)
       [e.status_code, {}, []] 
