@@ -39,10 +39,10 @@ module JSONAPI
       # @param is_a_request [TrueClass | FalseClass | NilClass] Whether the document belongs to a http request
       # @param http_method_is_post [TrueClass | FalseClass | NilClass] Whether the document belongs to a post request
       # @raise InvalidDocument if any part of the spec is not observed
-      def self.check_compliance(document, is_a_request: nil, http_method_is_post: nil)
+      def self.check_compliance(document, is_a_request: nil, http_method_is_post: nil, sparse_fieldsets: false)
         ensure!(!document.nil?, 'A document cannot be nil')
         check_essentials(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
-        check_members(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
+        check_members(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post, sparse_fieldsets: sparse_fieldsets)
         check_member_names(document)
         nil
       end
@@ -96,15 +96,21 @@ module JSONAPI
         # Checks if any errors exist in the jsonapi document members
         # @param (see #check_compliance)
         # @raise (see #check_compliance)
-        def check_members(document, is_a_request: false, http_method_is_post: false)
+        def check_members(document, is_a_request:, http_method_is_post:, sparse_fieldsets:)
+          check_individual_members(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
+          check_full_linkage(document, is_a_request: is_a_request) unless sparse_fieldsets
+        end
+
+        # Checks individual members of the jsonapi document for errors
+        # @param (see #check_compliance)
+        # @raise (see #check_complaince)
+        def check_individual_members(document, is_a_request:, http_method_is_post:)
           check_data(document[:data], is_a_request: is_a_request, http_method_is_post: http_method_is_post) if document.key? :data
           check_errors(document[:errors]) if document.key? :errors
           check_meta(document[:meta]) if document.key? :meta
           check_jsonapi(document[:jsonapi]) if document.key? :jsonapi
           check_links(document[:links]) if document.key? :links
           check_included(document[:included]) if document.key? :included
-          # TODO: Unless filtered out with sparsefieldsets
-          check_full_linkage(document, is_a_request: is_a_request)
         end
 
         # -- TOP LEVEL - PRIMARY DATA
@@ -198,7 +204,7 @@ module JSONAPI
           check_meta(rel[:meta]) if rel.key? :meta
         end
 
-        # @param links [Hash]  A resources relationships relationship links
+        # @param links [Hash]  A resource's relationships relationship links
         # @raise (see #check_compliance)
         # TODO: If TO-ONE relationship only self and related
         # TODO: If TO-MANY relationship -- self, related, pagination
@@ -322,7 +328,7 @@ module JSONAPI
         # @param document [Hash] The jsonapi document
         # @param is_a_request [TrueClass | FalseClass] Whether it is a request
         def check_full_linkage(document, is_a_request:)
-          return nil if is_a_request
+          return if is_a_request
           
           ensure!(full_linkage?(document),
                   'Compound documents require “full linkage”, meaning that every included resource MUST be ' \

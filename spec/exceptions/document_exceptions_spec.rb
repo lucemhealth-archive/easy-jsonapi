@@ -36,9 +36,9 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   end
 
   # Alias for #check_compliance
-  def f(document, is_a_request: nil, http_method_is_post: nil)
+  def f(document, is_a_request: nil, http_method_is_post: nil, sparse_fieldsets: false)
     JSONAPI::Exceptions::DocumentExceptions.check_compliance(
-      document, is_a_request: is_a_request, http_method_is_post: http_method_is_post
+      document, is_a_request: is_a_request, http_method_is_post: http_method_is_post, sparse_fieldsets: sparse_fieldsets
     )
   end
   
@@ -776,6 +776,21 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           
           expect { f(not_fully_linked_doc1) }.to raise_error(dec, msg)
           expect { f(not_fully_linked_doc2) }.to raise_error(dec, msg)
+        end
+
+        it 'should return nil if not fully linked, but sparse fieldsets are included' do
+          not_fully_linked_doc1 = {}
+          not_fully_linked_doc2 = {}
+          not_fully_linked_doc1.replace fully_linked_doc
+          not_fully_linked_doc2.replace fully_linked_doc
+          
+          not_fully_linked_doc1[:data][0][:relationships][:comments][:data][0][:id] = 'not_linked'
+          
+          not_fully_linked_doc2[:data][0][:relationships][:author][:data][:id] = '10'
+          not_fully_linked_doc2[:included][2][:relationships][:author][:data][:id] = '10'
+
+          expect(f(not_fully_linked_doc1, sparse_fieldsets: true)).to be nil
+          expect(f(not_fully_linked_doc2, sparse_fieldsets: true)).to be nil
         end
       end
     end
