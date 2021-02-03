@@ -24,9 +24,10 @@ module JSONAPI
       # A relationships object MUST contain one of the following:
       RELATIONSHIP_KEYS = %i[data links meta].freeze
 
-      # A relationship that is to-one must conatin at least one of the following.
+      # A relationship that is to-one or to-many must conatin at least one of the following.
+      #   A to-many relationship can also contain the addition 'pagination' key.
       TO_ONE_RELATIONSHIP_LINK_KEYS = %i[self related].freeze
-
+      
       # Every resource object MUST contain an id member and a type member.
       RESOURCE_IDENTIFIER_KEYS = %i[type id].freeze
 
@@ -48,7 +49,6 @@ module JSONAPI
       end
 
       # Make helper methods private
-      # TODO: SHould these be private?
       class << self
         # private
 
@@ -204,10 +204,10 @@ module JSONAPI
           check_meta(rel[:meta]) if rel.key? :meta
         end
 
-        # @param links [Hash]  A resource's relationships relationship links
+        # Raise if links don't contain at least one of the TO_ONE_RELATIONSHIP_LINK_KEYS
+        # @param links [Hash]  A resource's relationships' relationship-links
         # @raise (see #check_compliance)
-        # TODO: If TO-ONE relationship only self and related
-        # TODO: If TO-MANY relationship -- self, related, pagination
+        # TODO: If a pagination links are present, they MUST paginate the relationships not the related resource data
         def check_relationship_links(links)
           ensure!(!(links.keys & TO_ONE_RELATIONSHIP_LINK_KEYS).empty?,
                   'A relationship link MUST contain at least one of '\

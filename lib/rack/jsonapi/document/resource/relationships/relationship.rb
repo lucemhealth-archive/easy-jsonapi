@@ -9,10 +9,9 @@ module JSONAPI
       class Relationships < JSONAPI::NameValuePairCollection
         # The relationships of a resource
         class Relationship
-    
           attr_accessor :links, :data, :meta
           attr_reader :name
-    
+
           # @param rels_member_hash [Hash] The hash of relationship members
           def initialize(rels_member_hash)
             unless rels_member_hash.is_a? Hash
@@ -28,7 +27,7 @@ module JSONAPI
             @data = rels_member_hash[:data]
             @meta = rels_member_hash[:meta]
           end
-  
+
           # @return [String] A JSON parseable representation of a relationship
           def to_s
             "\"#{@name}\": { " \
@@ -40,10 +39,10 @@ module JSONAPI
 
           # Hash representation of a relationship
           def to_h
-            { @name.to_sym => { 
-              links: @links.to_h, 
+            { @name.to_sym => {
+              links: @links.to_h,
               data: @data.to_h,
-              meta: @meta.to_h 
+              meta: @meta.to_h
             } }
           end
         end
