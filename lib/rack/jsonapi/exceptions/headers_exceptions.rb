@@ -96,7 +96,9 @@ module JSONAPI
           raise_error('POST, PUT, and PATCH requests must have a body.') unless env['rack.input']
           raise_error("POST, PUT, and PATCH requests must have a 'CONTENT_TYPE' header.") unless env['CONTENT_TYPE']
           
-          accepts_jsonapi = env['HTTP_ACCEPT'].nil? || env['HTTP_ACCEPT'].split(',').include?('application/vnd.api+json')
+          accepts_jsonapi = env['HTTP_ACCEPT'].nil? ||
+                            env['HTTP_ACCEPT'].split(',').include?('*/*') ||
+                            env['HTTP_ACCEPT'].split(',').include?('application/vnd.api+json')
           return unless env['CONTENT_TYPE'] == 'application/vnd.api+json' && !accepts_jsonapi
           
           raise_error('POST, PUT, and PATCH requests must have an ACCEPT header that includes the ' \
@@ -111,7 +113,7 @@ module JSONAPI
 
         # Of the included media types in the accept header, all jsonapi media types
         #   are accompanied by params
-        # @param accept_hder [String] The value of the http accept header
+        # @param accept_hdr [String] The value of the http accept header
         def all_jsonapi_media_types_have_params?(accept_hdr)
           found_a_jsonapi_mt = false
           found_a_jsonapi_without_params = false

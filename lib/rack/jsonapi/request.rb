@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module JSONAPI
-
   # Contains all objects relating to a HTTP request
   class Request
     attr_reader :path, :http_method, :host, :port, :query_string, :params, :headers, :body
@@ -26,15 +25,16 @@ module JSONAPI
 
     # Simple representation of a request object.
     def to_s
-      "path == #{@path}\n" \
-      "http == #{@http}\n" \
-      "host == #{@host}\n" \
-      "port == #{@port}\n\n" \
-      "query_string == #{@query_string}\n\n" \
-      "params == #{@params}\n\n" \
-      "headers == #{@headers}\n\n" \
-      "body == #{@body}" \
+      "Quick Access Methods:\n\n" \
+        "\tpath: #{@path}\n" \
+        "\thttp: #{@http}\n" \
+        "\thost: #{@host}\n" \
+        "\tport: #{@port}\n" \
+        "\tquery_string: #{@query_string}\n\n" \
+      "Accessing main sections of request:\n\n" \
+        "\tparams: #{@params}\n" \
+        "\theaders: #{@headers}\n" \
+        "\tbody: #{@body}" \
     end
-
   end
 end

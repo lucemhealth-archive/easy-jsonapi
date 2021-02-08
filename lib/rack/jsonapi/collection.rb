@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 module JSONAPI
-
   # Models a collection of items
   class Collection
-    
     include Enumerable
-    
+
     # Assume collection is empty not innitialized with an array of objects.
     # @param arr_of_obj [Object] The objects to be stored
     # for block { |item| item[:name] } 
@@ -14,8 +12,9 @@ module JSONAPI
     def initialize(arr_of_obj = [], item_type: Object, &block)
       @item_type = item_type
       @collection = {}
-      
+
       return unless (arr_of_obj != []) && block_given?
+
       arr_of_obj.each do |obj|
         add(obj, &block)
       end
@@ -40,7 +39,7 @@ module JSONAPI
     def include?(key)
       @collection.include?(key.to_sym)
     end
-    
+
     # Add an item to the collection, giving a block to indicate how the
     #   collection should create a hash key for the item.
     # @param item [Object]
@@ -79,7 +78,7 @@ module JSONAPI
     end
 
     # @param (see #remove)
-    # @return [Item | nil] The appropriate Item objet if it exists
+    # @return [Item | nil] The appropriate Item object if it exists
     def get(key)
       @collection[key.to_sym]
     end

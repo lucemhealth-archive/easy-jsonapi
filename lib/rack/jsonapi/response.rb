@@ -8,6 +8,7 @@ module JSONAPI
   module Response
 
     # @param body [Hash | String] The ruby hash mimicking jsonapi to check for compliance
+    # @param headers [Hash] The hash of response headers.
     # @return [Nilclass] if no errors are found
     # @raise [InvalidDocument | InvalidHeader] depending on what errors were found
     def self.validate(body, headers)

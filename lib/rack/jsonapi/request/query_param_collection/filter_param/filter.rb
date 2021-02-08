@@ -18,6 +18,10 @@ module JSONAPI
             @filter = filter
           end
 
+          def value
+            @filter
+          end
+
           # Represent filter as an individual filter query param
           def to_s
             "filter[#{@resource_type}]=#{@filter}"

@@ -6,10 +6,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Joshua DeMoss']
   spec.email         = ['joshua.demoss@curatess.com']
 
-  spec.summary       = 'Write a short summary, because RubyGems requires one.'
+  spec.summary       = 'Middleware to screen non-JSONAPI-compliant requests, a parser to provide OO access to requests, and a validator for validating JSONAPI Serialized responses.'
   spec.description   = 'Write a longer description or delete this line.'
   spec.homepage      = 'https://rubygems.org/gems/rack-jsonapi'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
@@ -27,13 +27,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Dev Dependencies
-  spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'license_finder', '~> 6.10'
   spec.add_development_dependency 'rack', '~> 2.2'
-  spec.add_development_dependency 'rspec', '~> 3.9'
+  spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'redcarpet', '~> 3.5'
-  spec.add_development_dependency 'yard', '~> 0.9'
-  spec.add_development_dependency 'solargraph', '~> 0.39'
+  spec.add_development_dependency 'rspec', '~> 3.9'
   spec.add_development_dependency 'rubocop', '~> 0.92'
+  spec.add_development_dependency 'solargraph', '~> 0.39'
 
   # Dependencies
   spec.add_dependency 'oj', '~> 3.10'

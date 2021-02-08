@@ -5,7 +5,11 @@
 
 # rack-jsonapi
 
-A ruby middleware gem that intercepts http requests, validates [JSON API](http://jsonapi.org), and instantiates standardized jsonapi objects that provide developers fast and convenient access to request attributes.
+## A ruby [JSONAPI](http://jsonapi.org) gem that provides 3 main use cases:
+
+- A middleware to intercept and screen http requests that do not conform to the [JSON API specification](http://jsonapi.org)
+- A parser to convert requests into objects with intuitive and efficient convenience methods, including header and query parameter collections
+- A response validator to validate that serialized responses conform to the [JSON API specification](http://jsonapi.org)
 
 ## Status
 
@@ -16,51 +20,45 @@ A ruby middleware gem that intercepts http requests, validates [JSON API](http:/
 
 ## Resources
 
-<!-- * Chat: [gitter](http://gitter.im/jsonapi-rb)
-* Twitter: [@jsonapirb](http://twitter.com/jsonapirb)
-* Docs: [jsonapi-rb.org](http://jsonapi-rb.org) -->
+- API rubydocs: [jsonapi-rb.org](http://jsonapi-rb.org)
 
 ## Installation
+
+Add this ine to your applications' Gemfile:
 
 ```ruby
 # Gemfile
 gem 'rack-jsonapi'
 ```
 
-then
+then execute:
 
 ```ruby
 $ bundle
-Using rack-jsonapi
+# ...
 ```
 
 or manually via
 
 ```ruby
 $ gem install rack-jsonapi
-Successfully installed rack-jsonapi-version#
+# ...
 ```
 
-## Usage
+## Using the Middleware
 
-### First, require the gem
+### Setup
 
-```ruby
-require 'rack/jsonapi'
-```
-
-### Then use the gem as a middleware
-
-#### For Sintra
+#### Sintra
 
 ```ruby
 # app.rb
 use JSONAPI::Middleware
 ```
 
-#### For Rails
+#### Rails
 
-Editing `config/environments/development.rb`.
+Edit `config/environments/development.rb`.
 
 ```ruby
 # config/environments/development.rb
@@ -76,45 +74,93 @@ MyApp::Application.configure do
 end
 ```
 
-#### For Rack Apps
+#### Rack Apps
 
 ```ruby
 # config.ru
 use JSONAPI::Middleware
 ```
 
-### Then, use your new instance variable
+### Functionality
 
-With the gem required and added as a middleware, your rack, sinatra, or rails application will have available a new instance variable: `@jsonapi_request`.
+The rack-jsonapi middleware can opperate in development or production mode.
+ 
+If `ENV['RACK_ENV']` is set to `:development` or not set at all, the middleware will be opperating in development mode.
 
-`@jsonapi_request` references a JSONAPI::Request object and through this object, all other parts of the request can be accessed as well.
+When the middleware is in development mode it will raise an exception wherever it finds the http request to be non JSONAPI compliant.
 
-Use this object to quickly access parts of the jsonapi conforming request.
+The types of exceptions it will raise are:
+
+- `Oj::ParserError` when an included body is not valid JSON
+- `JSONAPI::Exceptions::HeaderExceptions::InvalidHeader` when an included header is non-compliant
+- `JSONAPI::Exceptions::QueryParamExceptions::InvalidQueryParam` when an included query parameter is non-compliant
+- `JSONAPI::Exceptions::DocumentExceptions::InvalidDocument` when the body is included and non-compliant
+
+If `ENV['RACK_ENV']` is set to something other than  `:development`, then the middleware will return a 400 status code indicating a malformed request.
+
+## Using the Request Parser
+
+The request parser works by parsing the rack `env` variable.
+
+With Rails or Sinatra you can access this by using:
 
 ```ruby
-@jsonapi_request.instance_variables
-# [:@path, :@protocol, :@host, :@port, :@params, :@pagination, :@field_sets, :@headers, :@document]
-
-@jsonapi_request.headers.get(:content_type)
-# "application/vnd.api+json"
-
-@jsonapi_request.params.view_all
-# params:
-#   include = authors, comments
-#   sort = alpha
-#   filter = usa
+request.env
 ```
 
-See the Api Documentation for all included methods:
+For rack apps you get env from the call method:
+
+```ruby
+def call(env)
+
+  # ...
+
+end
+```
+
+To parse:
+
+```ruby
+require 'rack/jsonapi'
+
+# ...
+
+jsonapi_req = JSONAPI::Parser.parse(env)
+```
+
+This returns a `JSONAPI::Request` object that can be used to access the collection of query params, collection of headers, and the body of the request. To see example usage, see [Using the JSONPI::Request Object](tbd).
+
+## Using the Serialized Response Validator
+
+The `JSONAPI::Response` module is responsible for validating whether a serialized response is fully JSONAPI compliant or not.
+
+The following methods are provided to validate the response.
+
+```ruby
+require 'rack/jsonapi'
+
+#  ...
+
+JSONAPI::Response.validate(body, headers)
+
+JSONAPI::Response.validate(body)
+
+JSONAPI::Response.validate(headers)
+```
+
+The `body` param is either the JSON body or a ruby hash representation of the body.
+The `headers` param is a hash of `String => String` of the header keys and values.
+
+See the [rubydocs](tbd) for more on the Serialized Response Validator.
 
 ## License
 
 rack-jsonapi is released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
-<!-- ## Contributing
+## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rack-jsonapi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md). -->
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rack-jsonapi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md).
 
-<!-- ## Code of Conduct
+## Code of Conduct
 
-Everyone interacting in the rack-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md). -->
+Everyone interacting in the rack-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md).

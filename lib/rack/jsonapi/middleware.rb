@@ -13,7 +13,7 @@ module JSONAPI
     def initialize(app)
       @app = app
     end
-    
+
     # If there is a JSONAPI-compliant body, it checks it for compliance and raises
     #   and error if it is found to be compliant. It 
     # @param env The rack envirornment hash
