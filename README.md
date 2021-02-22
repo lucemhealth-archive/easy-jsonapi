@@ -125,7 +125,7 @@ require 'rack/jsonapi'
 
 # ...
 
-jsonapi_req = JSONAPI::Parser.parse(env)
+jsonapi_req = JSONAPI::Parser.parse_request(env)
 ```
 
 This returns a `JSONAPI::Request` object that can be used to access the collection of query params, collection of headers, and the body of the request. To see example usage, see [Using the JSONPI::Request Object](tbd).
