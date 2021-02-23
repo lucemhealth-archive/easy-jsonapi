@@ -36,11 +36,12 @@ module JSONAPI
       end
       
       # Checks a request document against the JSON:API spec to see if it complies
-      # @param document [Hash]  The jsonapi document included with the http request
+      # @param document [String | Hash]  The jsonapi document included with the http request
       # @param is_a_request [TrueClass | FalseClass | NilClass] Whether the document belongs to a http request
       # @param http_method_is_post [TrueClass | FalseClass | NilClass] Whether the document belongs to a post request
       # @raise InvalidDocument if any part of the spec is not observed
       def self.check_compliance(document, is_a_request: nil, http_method_is_post: nil, sparse_fieldsets: false)
+        document = Oj.load(document, symbol_keys: true) if document.is_a? String
         ensure!(!document.nil?, 'A document cannot be nil')
         check_essentials(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
         check_members(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post, sparse_fieldsets: sparse_fieldsets)
