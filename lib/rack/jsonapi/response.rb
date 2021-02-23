@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions'
-require 'oj'
 
 module JSONAPI
   # Used to validate the serialized response before returned to a client
