@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions/naming_exceptions'
+require 'rack/jsonapi/exceptions/user_defined_exceptions'
 
 module JSONAPI
   module Exceptions
@@ -40,18 +41,22 @@ module JSONAPI
       # @param is_a_request [TrueClass | FalseClass | NilClass] Whether the document belongs to a http request
       # @param http_method_is_post [TrueClass | FalseClass | NilClass] Whether the document belongs to a post request
       # @raise InvalidDocument if any part of the spec is not observed
-      def self.check_compliance(document, is_a_request: nil, http_method_is_post: nil, sparse_fieldsets: false)
+      def self.check_compliance(document, is_a_request: nil, http_method_is_post: nil, sparse_fieldsets: false, config: nil)
         document = Oj.load(document, symbol_keys: true) if document.is_a? String
         ensure!(!document.nil?, 'A document cannot be nil')
         check_essentials(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
         check_members(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post, sparse_fieldsets: sparse_fieldsets)
         check_member_names(document)
+        
+        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, config)
+        return err_msg unless err_msg.nil?
+
         nil
       end
 
       # Make helper methods private
       class << self
-        # private
+        # private TODO: Should these be private?
 
         # Checks the essentials of a jsonapi document. It is
         #  used by #check_compliance and JSONAPI::Document's #initialize method
@@ -335,8 +340,6 @@ module JSONAPI
                   'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
                   'identified by at least one resource identifier object in the same document.')
         end
-
-        
 
         # **********************************
         # * CHECK MEMBER NAMES             *

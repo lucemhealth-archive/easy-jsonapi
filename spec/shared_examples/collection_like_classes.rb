@@ -109,14 +109,17 @@ shared_examples 'collection-like classes' do
     end
   end
 
-  describe '#get' do
+  describe '#get and #[]' do
     
     it 'should return nil if the collection does not contain the item' do
       expect(ec.get('te_st')).to eq nil
+      expect(ec['te_st']).to eq nil
     end
     
     it 'should return the appropriate item' do
       item = c.get(ex_item_key)
+      expect(item.is_a?(item_class)).to be true
+      item = c[ex_item_key]
       expect(item.is_a?(item_class)).to be true
     end
 
@@ -124,8 +127,40 @@ shared_examples 'collection-like classes' do
       ec.add(ex_item, &:name)
       item = ec.get(ex_item_key)
       expect(ec.get(ex_item_key.to_s)).to eq item
+      item = ec[ex_item_key]
+      expect(ec[ex_item_key.to_s]).to eq item
     end
   end
+
+  describe '#set and #[]=' do
+
+    it 'should create a key if it does not exist' do
+      expect(ec.get(ex_item_key)).to be nil
+      ec.set(ex_item_key, ex_item)
+      expect(ec.get(ex_item_key)).to eq ex_item
+      
+      ec.remove(ex_item_key)
+      expect(ec.get(ex_item_key)).to be nil
+      ec[ex_item_key] = ex_item
+      expect(ec.get(ex_item_key)).to eq ex_item
+    end
+
+    it 'should overwrite the value of a key if the key exists already ' do
+      ec.set(ex_item_key, ex_item)
+      new_ex_item = ex_item.clone
+      ec.set(ex_item_key, new_ex_item)
+      expect(ex_item.object_id).not_to eq new_ex_item.object_id
+      expect(ec.get(ex_item_key)).to eq new_ex_item
+      
+      ec[ex_item_key] = ex_item
+      new_ex_item = ex_item.clone
+      ec[ex_item_key] = new_ex_item
+      expect(ex_item.object_id).not_to eq new_ex_item.object_id
+      expect(ec.get(ex_item_key)).to eq new_ex_item
+    end
+  end
+
+
 
   describe '#keys' do
     it 'should return a list of the names of all the Item objects stored in Collection as lower case symbols' do

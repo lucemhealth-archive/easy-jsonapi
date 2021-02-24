@@ -60,6 +60,7 @@ module JSONAPI
 
     # Overwrites the item associated w a given key, or adds an association if no item is already associated.
     def set(key, item)
+      raise "Cannot add an item that is not #{@item_type}" unless item.is_a? @item_type
       @collection[key.to_sym] = item
     end
 
@@ -81,6 +82,20 @@ module JSONAPI
     # @return [Item | nil] The appropriate Item object if it exists
     def get(key)
       @collection[key.to_sym]
+    end
+
+    # Alias to #get
+    # @param (see #get)
+    # @param (see #get)
+    def [](key)
+      get(key)
+    end
+
+    # Alias to #set
+    # @param (see #set)
+    # @param (see #set)
+    def []=(key, item)
+      set(key, item)
     end
 
     # Allows the developer to treat the Collection class as a hash, retrieving all keys mapped to Items.

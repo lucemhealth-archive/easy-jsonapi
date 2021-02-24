@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions'
+require 'rack/jsonapi/config'
 require 'oj'
 
 module JSONAPI
@@ -10,17 +11,23 @@ module JSONAPI
   class Middleware
 
     # @param app The Rack Application
-    def initialize(app)
+    def initialize(app, &block)
       @app = app
+      @config = JSONAPI::Config.new
+
+      return unless block_given?
+      @block = block
     end
 
     # If there is a JSONAPI-compliant body, it checks it for compliance and raises
     #   and error if it is found to be compliant. It 
     # @param env The rack envirornment hash
     def call(env)
+      
+      init_config
 
       if jsonapi_request?(env)
-        error_response = check_compliance(env)
+        error_response = check_compliance(env, @config)
         return error_response unless error_response.nil?
       end
 
@@ -28,6 +35,11 @@ module JSONAPI
     end
 
     private
+
+    # Initializes the config variable
+    def init_config
+      @block&.call(@config)
+    end
 
     # If the Content-type or Accept header values include the JSON:API media type without media 
     #   parameters, then it is a jsonapi request.
@@ -55,27 +67,28 @@ module JSONAPI
     end
 
     # Checks whether the request is JSON:API compliant and raises an error if not.
-    # @param (see #call)
+    # @param env (see #call)
+    # @param config [JSONAPI::Config] The config object to use modify compliance checking
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_compliance(env)
-      header_error = check_headers_compliance(env)
+    def check_compliance(env, config)
+      header_error = check_headers_compliance(env, config)
       return header_error unless header_error.nil?
 
       req = Rack::Request.new(env)
 
-      param_error = check_query_param_compliance(req, env)
+      param_error = check_query_param_compliance(req, env, config)
       return param_error unless param_error.nil?
       
       return unless env['CONTENT_TYPE']
-      body_error = check_req_body_compliance(req, env)
+      body_error = check_req_body_compliance(req, env, config)
       return body_error unless body_error.nil?
     end
 
     # Checks whether the http headers are jsonapi compliant
     # @param (see #call)
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_headers_compliance(env)
-      JSONAPI::Exceptions::HeadersExceptions.check_request(env)
+    def check_headers_compliance(env, config)
+      JSONAPI::Exceptions::HeadersExceptions.check_request(env, config: config)
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader => e
       raise if environment_development?(env)
       [e.status_code, {}, []] 
@@ -84,8 +97,8 @@ module JSONAPI
     # @param req [Rack::Request | NilClass] The rack request
     # @raise If the query parameters are not JSONAPI compliant
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_query_param_compliance(req, env)
-      JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.GET)
+    def check_query_param_compliance(req, env, config)
+      JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.GET, config: config)
     rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter
       raise if environment_development?(env)
       
@@ -95,11 +108,11 @@ module JSONAPI
     # @param env (see #call)
     # @param req (see #check_query_param_compliance)
     # @raise If the document body is not JSONAPI compliant
-    def check_req_body_compliance(req, env)
+    def check_req_body_compliance(req, env, config)
       raise "GET requests cannot include the 'CONTENT_TYPE' header" if env['REQUEST_METHOD'] == 'GET'
       
       http_method_is_post = env['REQUEST_METHOD'] == 'POST'
-      JSONAPI::Exceptions::DocumentExceptions.check_compliance(req.body.read, http_method_is_post: http_method_is_post)
+      JSONAPI::Exceptions::DocumentExceptions.check_compliance(req.body.read, http_method_is_post: http_method_is_post, config: config)
     rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument
       raise if environment_development?(env)
       [400, {}, []]

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rack/jsonapi/exceptions/user_defined_exceptions'
+
 module JSONAPI
   module Exceptions
     # Validates that Headers comply with the JSONAPI specification
@@ -18,16 +20,20 @@ module JSONAPI
 
       # Check http verb vs included headers
       # @param env [Hash] The rack environment variable
-      def self.check_request(env)
-        check_compliance(env)
+      def self.check_request(env, config: nil)
+        check_compliance(env, config: config)
         check_http_verb_against_headers(env)
       end
 
       # Check jsonapi compliance
       # @param (see #check_request)
-      def self.check_compliance(env)
+      def self.check_compliance(env, config: nil)
         check_content_type(env)
         check_accept(env)
+
+        hdrs = JSONAPI::Parser::HeadersParser.parse(env)
+        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_header_requirements(hdrs, config)
+        return err_msg unless err_msg.nil?
       end
 
       # @param content_type [String | NilClass] The http content-type header

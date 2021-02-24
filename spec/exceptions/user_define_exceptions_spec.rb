@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions/document_exceptions/user_defined_exceptions'
+require 'rack/jsonapi/exceptions/user_defined_exceptions'
+require 'rack/jsonapi/config'
 
-describe JSONAPI::Exceptions::DocumentExceptions::UserDefinedExceptions do
+describe JSONAPI::Exceptions::UserDefinedExceptions do
+  
+  let(:config) { JSONAPI::Config.new }
 
   let(:err) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
 
@@ -108,26 +111,30 @@ describe JSONAPI::Exceptions::DocumentExceptions::UserDefinedExceptions do
     }
   end
   
-  def check(document, req)
-    JSONAPI::Exceptions::DocumentExceptions::UserDefinedExceptions.check_additional_required_members(document, req)
+  def check(document, config)
+    JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, config)
   end
 
   describe 'check_additional_required_members' do
     it 'should raise when a top-level, user-defined, required member is not included' do
-      expect { check(doc1, req_check_top_level) }.to raise_error err, 'Document is missing one of the user-defined required keys: meta'
+      config.required_document_members = req_check_top_level
+      expect(check(doc1, config)).to eq 'Document is missing one of the user-defined required keys: meta'
     end
 
     it 'should raise when a lower-level, user-defined, required member is not included' do
-      expect { check(doc1, req_check_lower_level) }.to raise_error err, 'Document is missing one of the user-defined required keys: a3'
+      config.required_document_members = req_check_lower_level
+      expect(check(doc1, config)).to eq 'Document is missing one of the user-defined required keys: a3'
     end
 
     it 'should pass if all the required keys are included' do
-      expect(check(doc1, req_mic_doc1)).to be nil
+      config.required_document_members = req_mic_doc1
+      expect(check(doc1, config)).to be nil
     end
 
     it 'should check each obj in a array to make sure it includes the required memebers' do
-      expect { check(doc_bad_arr, req_arr) }.to raise_error err, 'Document is missing one of the user-defined required keys: attributes'
-      expect(check(doc_good_arr, req_arr)).to be nil
+      config.required_document_members = req_arr
+      expect(check(doc_bad_arr, config)).to eq 'Document is missing one of the user-defined required keys: attributes'
+      expect(check(doc_good_arr, config)).to be nil
     end
   end
 end

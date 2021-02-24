@@ -52,11 +52,6 @@ describe JSONAPI::Parser::HeadersParser do
   
   describe '#parse!' do
     
-    it 'should raise InvaidHeader if Content-Type non jsonapi friendly' do
-      hdr_error = JSONAPI::Exceptions::HeadersExceptions::InvalidHeader
-      expect { JSONAPI::Parser::HeadersParser.parse(env_bad_content_type) }.to raise_error hdr_error
-    end
-    
     it 'should return a header collection' do
       expect(hc.class).to eq JSONAPI::HeaderCollection
     end
