@@ -16,7 +16,7 @@ module JSONAPI
       
       return unless block_given?
       @config = JSONAPI::Config.new
-      block.call(@config)
+      @config = block.call(@config)
     end
 
     # If there is a JSONAPI-compliant body, it checks it for compliance and raises
