@@ -35,6 +35,7 @@ describe JSONAPI::Middleware do
 
   app = RackApp.new
   let(:m) { JSONAPI::Middleware.new(app) }
+  let(:m_user) { JSONAPI::Middleware.new(app) { |config| config.required_document_members = { data: { attributes: { a1: nil } } } } }
 
   body_hash = { 
     "data": {
@@ -184,6 +185,11 @@ describe JSONAPI::Middleware do
   let(:response) { [200, { "Content-Type" => "text/plain" }, ['Testing: JSONAPI::Request | JSONAPI::Document::Resource']] }
 
   describe '#call' do
+
+    it 'should return the appropriate response when a user configures the middleware to require certian document members' do
+      expect { m_user.call(env) }.to raise_error doc_error
+    end
+
     it 'should return the right response and instantiate a request object when data is included' do
       resp = m.call(env)
       expect(resp).to eq response

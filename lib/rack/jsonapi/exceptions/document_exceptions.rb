@@ -49,7 +49,7 @@ module JSONAPI
         check_member_names(document)
         
         err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, config)
-        return err_msg unless err_msg.nil?
+        ensure!(err_msg.nil?, err_msg)
 
         nil
       end
