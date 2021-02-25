@@ -18,7 +18,7 @@ module JSONAPI
         #   requirements from
         def check_user_document_requirements(document, config)
           check_for_required_document_members(document, config&.required_document_members)
-          # Add more private method calls to check document for other requirments here
+          # To add more user requirement features, add more methods here
         end
 
         # Performs compliance checks on the headers to see if it complies
@@ -28,15 +28,16 @@ module JSONAPI
         # @param config (see #check_user_document_requirements)
         def check_user_header_requirements(headers, config)
           check_for_required_headers(headers, config&.required_headers)
-          # Add more private method calls to check document for other requirments here
+          # To add more user requirement features, add more methods here
         end
 
         # Performs compliance checks on the query params to see if it complies
         #   to the user defined requirements
         # @param rack_req_params [Hash]  The hash of the query parameters given by Rack::Request
         # @param config (see #check_user_document_requirements)
-        def check_user_query_param_requiements(rack_req_params, config)
-          # Add more private method calls to check document for other requirments here
+        def check_user_query_param_requirements(rack_req_params, config)
+          check_for_required_params(rack_req_params, config&.required_query_params)
+          # To add more user requirement features, add more methods here
         end
 
         private
@@ -90,7 +91,7 @@ module JSONAPI
           document.instance_of?(req_mems.class) && !req_mems.nil?
         end
 
-        # Checks to makes sure the headers
+        # Checks to makes sure the headers conatin the user defined required headers
         # @param headers [Hash] The provided headers
         # @param req_headers [Hash] The required headers
         def check_for_required_headers(headers, req_headers)
@@ -102,6 +103,43 @@ module JSONAPI
               return "Headers missing one of the user-defined required headers: #{h_name}"
             end
           end
+          nil
+        end
+
+        # Checks to make sure the query params contain the user defined required params
+        #   Rack Request Params Ex:
+        #   {
+        #     'fields' => { 'articles' => 'title,body,author', 'people' => 'name' },
+        #     'include' => 'author,comments-likers,comments.users',
+        #     'josh_ua' => 'demoss,simpson',
+        #     'page' => { 'offset' => '5', 'limit' => '20' },
+        #     'filter' => { 'comments' => '(author/age > 21)', 'users' => '(age < 15)' },
+        #     'sort' => 'age,title'
+        #   }
+        #   Required Params Hash Ex:
+        #   {
+        #     fields: { articles: nil },
+        #     include: nil
+        #     page: nil
+        #   }
+        # @param rack_req_params [Hash] The Rack::Request.params hash
+        # @param required_params [Hash] The user defined required query params
+        def check_for_required_params(rack_req_params, required_params)
+          return if required_params.nil?
+          
+          case required_params
+          when Hash
+            required_params.each do |k, v|
+              return "Query Params missing one of the user-defined required query params: #{k}" unless rack_req_params[k.to_s]
+              err = check_for_required_params(rack_req_params[k.to_s], v)
+              return err unless err.nil?
+            end
+          when nil
+            return
+          else
+            return 'The user-defined required query params hash must contain keys with values either hash or nil'
+          end
+          nil
         end
       end
     end

@@ -5,6 +5,6 @@ module JSONAPI
   # User configurations for the gem
   class Config
 
-    attr_accessor :required_document_members, :required_headers
+    attr_accessor :required_document_members, :required_headers, :required_query_params
   end
 end

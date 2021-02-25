@@ -18,6 +18,7 @@ module JSONAPI
             @filter = filter
           end
 
+          # @return [String] The value of the filter
           def value
             @filter
           end
