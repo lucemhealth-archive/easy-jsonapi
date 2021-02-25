@@ -17,7 +17,8 @@ module JSONAPI
         # @param config [JSONAPI::Config] The config option to retreive user
         #   requirements from
         def check_user_document_requirements(document, config)
-          check_for_required_document_members(document, config&.required_document_members)
+          return unless config
+          check_for_required_document_members(document, config.required_document_members)
           # To add more user requirement features, add more methods here
         end
 
@@ -27,7 +28,8 @@ module JSONAPI
         #   with underscores instead of dashes.
         # @param config (see #check_user_document_requirements)
         def check_user_header_requirements(headers, config)
-          check_for_required_headers(headers, config&.required_headers)
+          return unless config
+          check_for_required_headers(headers, config.required_headers)
           # To add more user requirement features, add more methods here
         end
 
@@ -36,7 +38,8 @@ module JSONAPI
         # @param rack_req_params [Hash]  The hash of the query parameters given by Rack::Request
         # @param config (see #check_user_document_requirements)
         def check_user_query_param_requirements(rack_req_params, config)
-          check_for_required_params(rack_req_params, config&.required_query_params)
+          return unless config
+          check_for_required_params(rack_req_params, config.required_query_params)
           # To add more user requirement features, add more methods here
         end
 

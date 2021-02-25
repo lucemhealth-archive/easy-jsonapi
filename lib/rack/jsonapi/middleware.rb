@@ -13,19 +13,16 @@ module JSONAPI
     # @param app The Rack Application
     def initialize(app, &block)
       @app = app
-      @config = JSONAPI::Config.new
-
+      
       return unless block_given?
-      @block = block
+      @config = JSONAPI::Config.new
+      block.call(@config)
     end
 
     # If there is a JSONAPI-compliant body, it checks it for compliance and raises
     #   and error if it is found to be compliant. It 
     # @param env The rack envirornment hash
     def call(env)
-      
-      init_config
-
       if jsonapi_request?(env)
         error_response = check_compliance(env, @config)
         return error_response unless error_response.nil?
@@ -35,11 +32,6 @@ module JSONAPI
     end
 
     private
-
-    # Initializes the config variable
-    def init_config
-      @block&.call(@config)
-    end
 
     # If the Content-type or Accept header values include the JSON:API media type without media 
     #   parameters, then it is a jsonapi request.
