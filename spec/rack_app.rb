@@ -8,11 +8,11 @@ class RackApp
   def call(env)
     status = 200
     headers = { "Content-Type" => "text/plain" }
-    
+
     jsonapi_request = JSONAPI::Parser.parse_request(env)
     body = 
       [
-        "Testing: #{jsonapi_request.class}"
+        "Testing: #{jsonapi_request.class} | #{jsonapi_request.body.data.class}"
       ]
     [status, headers, body]
   end

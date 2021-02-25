@@ -104,7 +104,10 @@ module JSONAPI
       raise "GET requests cannot include the 'CONTENT_TYPE' header" if env['REQUEST_METHOD'] == 'GET'
       
       http_method_is_post = env['REQUEST_METHOD'] == 'POST'
-      JSONAPI::Exceptions::DocumentExceptions.check_compliance(req.body.read, http_method_is_post: http_method_is_post, config: config)
+      body = req.body.read # The next middleware or application may need to read the body which is 
+      # why we rewind and store in a separate variable
+      req.body.rewind
+      JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, http_method_is_post: http_method_is_post, config: config)
     rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument
       raise if environment_development?(env)
       [400, {}, []]

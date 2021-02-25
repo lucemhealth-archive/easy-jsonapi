@@ -181,10 +181,10 @@ describe JSONAPI::Middleware do
   let(:headers_error) { JSONAPI::Exceptions::HeadersExceptions::InvalidHeader }
   let(:query_params_error) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter }
 
-  let(:response) { [200, { "Content-Type" => "text/plain" }, ['Testing: JSONAPI::Request']] }
+  let(:response) { [200, { "Content-Type" => "text/plain" }, ['Testing: JSONAPI::Request | JSONAPI::Document::Resource']] }
 
   describe '#call' do
-    it 'should return the right response and instantiate a request object' do
+    it 'should return the right response and instantiate a request object when data is included' do
       resp = m.call(env)
       expect(resp).to eq response
     end
