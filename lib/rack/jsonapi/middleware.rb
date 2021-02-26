@@ -23,6 +23,9 @@ module JSONAPI
     #   and error if it is found to be compliant. It 
     # @param env The rack envirornment hash
     def call(env)
+      resp = in_maintenance_mode(env)
+      return resp unless resp.nil?
+
       if jsonapi_request?(env)
         error_response = check_compliance(env, @config)
         return error_response unless error_response.nil?
@@ -32,6 +35,19 @@ module JSONAPI
     end
 
     private
+
+    # Check fore "MAINTENCANCE" env variable and return 503 if found
+    # @param (see #call)
+    # @return [Array | Nilclass] Nil or the response to return
+    def in_maintenance_mode(env)
+      return unless env['MAINTENANCE']
+
+      if environment_development?(env)
+        [503, {}, ['MAINTENANCE envirornment variable set']]
+      else
+        [503, {}, []]
+      end
+    end
 
     # If the Content-type or Accept header values include the JSON:API media type without media 
     #   parameters, then it is a jsonapi request.
@@ -46,6 +62,7 @@ module JSONAPI
     # @return [TrueClass | FalseClass] Whether or not the request is JSONAPI
     def accept_header_jsonapi?(env)
       return true if env['HTTP_ACCEPT'].nil? # no header means assume any
+
       accept_arr = env['HTTP_ACCEPT'].split(',')
       accept_arr.any? { |hdr| hdr.include?('application/vnd.api+json') }
     end
@@ -55,6 +72,7 @@ module JSONAPI
     # @return [TrueClass | FalseClass] Whether the document body is supposed to be jsonapi
     def content_type_header_jsonapi?(env)
       return false unless env['CONTENT_TYPE']
+
       env['CONTENT_TYPE'].include? 'application/vnd.api+json'
     end
 
@@ -72,6 +90,7 @@ module JSONAPI
       return param_error unless param_error.nil?
       
       return unless env['CONTENT_TYPE']
+
       body_error = check_req_body_compliance(req, env, config)
       return body_error unless body_error.nil?
     end
@@ -83,6 +102,7 @@ module JSONAPI
       JSONAPI::Exceptions::HeadersExceptions.check_request(env, config: config)
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader => e
       raise if environment_development?(env)
+
       [e.status_code, {}, []] 
     end
 
@@ -110,9 +130,11 @@ module JSONAPI
       JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, http_method_is_post: http_method_is_post, config: config)
     rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument
       raise if environment_development?(env)
+
       [400, {}, []]
     rescue Oj::ParseError
       raise if environment_development?(env)
+
       [400, {}, []]
     end
 
@@ -123,7 +145,7 @@ module JSONAPI
     end
 
     def environment_development?(env)
-      env["RACK_ENV"] == :development || env["RACK_ENV"].nil?
+      env['RACK_ENV'].to_s.downcase == 'development' || env['RACK_ENV'].nil?
     end
   end
 end

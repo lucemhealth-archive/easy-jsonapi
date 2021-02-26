@@ -186,6 +186,17 @@ describe JSONAPI::Middleware do
 
   describe '#call' do
 
+    it 'should return 503 without body message if env["MAINTENANCE] is set and in not in development' do
+      env['MAINTENANCE'] = true
+      expect(m.call(env)).to eq [503, {}, ['MAINTENANCE envirornment variable set']]
+    end
+    
+    it 'should return 503 with message if env["MAINTENANCE] is not set or in development' do
+      env['MAINTENANCE'] = true
+      env['RACK_ENV'] = :production
+      expect(m.call(env)).to eq [503, {}, []]
+    end
+
     it 'should return the appropriate response when a user configures the middleware to require certian document members' do
       expect { m_user.call(env) }.to raise_error doc_error
     end
