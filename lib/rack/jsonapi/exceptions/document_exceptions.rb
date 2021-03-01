@@ -150,7 +150,6 @@ module JSONAPI
         # @raise (see #check_compliance)
         def check_resource(resource, http_method = nil)
           if http_method == 'POST'
-            pp resource
             ensure!(resource[:type],
                     'The resource object (for a post request) MUST contain at least a type member')
           else
