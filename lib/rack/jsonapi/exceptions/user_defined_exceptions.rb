@@ -102,7 +102,9 @@ module JSONAPI
         # @return [NilClass | String] An error msg or nil
         def check_values(value_given, permitted_values)
           return if value_given.is_a?(Hash)
-          return if permitted_values.include?(value_given)
+          permitted_values.each do |v|
+            return nil if v.to_s.upcase.gsub(/-/, '_') == value_given.to_s.upcase.gsub(/-/, '_')
+          end
           
           "The following value was given when only the following #{permitted_values} values are permitted: \"#{value_given}\""
         end

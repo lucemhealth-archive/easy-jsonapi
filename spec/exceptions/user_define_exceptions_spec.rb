@@ -64,7 +64,7 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
             type: 'testing3',
             attributes: {
               a1: 'a1',
-              a2: 'a2'
+              a2: 'A-2'
             }
           }
         ]
@@ -132,7 +132,7 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
 
     let(:req_arr_w_values3) do
       {
-        data: [{ type: nil, attributes: { a1: %w[a1 a2 a3] } }]
+        data: [{ type: nil, attributes: { a1: %w[A1 a_2 a3] } }]
       }
     end
     
