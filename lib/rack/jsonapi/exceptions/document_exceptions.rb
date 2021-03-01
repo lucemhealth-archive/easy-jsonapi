@@ -378,7 +378,7 @@ module JSONAPI
         # @param res_type [String] The resource type taken from the request body
         # @raise [JSONAPI::Exceptions::DocumentExceptions::InvalidDocument]
         def check_post_type(path_type, res_type)
-          ensure!(path_type == res_type,
+          ensure!(path_type.to_s.downcase.gsub(/-/, '_') == res_type.to_s.downcase.gsub(/-/, '_'),
                   "When processing a POST request, the resource object's type MUST " \
                   'be amoung the type(s) that constitute the collection represented by the endpoint',
                   status_code: 409)
@@ -391,7 +391,10 @@ module JSONAPI
         # @param res_id [String] The resource id taken from the request body
         # @raise [JSONAPI::Exceptions::DocumentExceptions::InvalidDocument]
         def check_patch_type(path_type, res_type, path_id, res_id)
-          ensure!((path_type == res_type && path_id == res_id),
+          check = 
+            path_type.to_s.downcase.gsub(/-/, '_') == res_type.to_s.downcase.gsub(/-/, '_') &&
+            path_id.to_s.downcase.gsub(/-/, '_') == res_id.to_s.downcase.gsub(/-/, '_')
+          ensure!(check,
                   "When processing a PATCH request, the resource object's type and id MUST " \
                   "match the server's endpoint",
                   status_code: 409)
