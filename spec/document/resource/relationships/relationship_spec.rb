@@ -6,12 +6,12 @@ require 'rack/jsonapi/parser/document_parser'
 describe JSONAPI::Document::Resource::Relationships::Relationship do
   
   rel_hash = {
-    "links": {
-      "self": "http://example.com/articles/1/relationships/author",
-      "related": "http://example.com/articles/1/author"
+    links: {
+      self: "http://example.com/articles/1/relationships/author",
+      related: "http://example.com/articles/1/author"
     },
-    "data": { "type": "people", "id": "9" },
-    "meta": { "count": "1" }
+    data: { type: "people", id: "9" },
+    meta: { count: "1" }
   }
 
   let(:rel) do 

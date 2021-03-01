@@ -39,6 +39,5 @@ describe JSONAPI::Document::Links do
   let(:c) { JSONAPI::Document::Links.new(item_arr, &:name) }
   let(:ec) { JSONAPI::Document::Links.new }
 
-  it_behaves_like 'document collections' do
-  end
+  it_behaves_like 'document collections'
 end

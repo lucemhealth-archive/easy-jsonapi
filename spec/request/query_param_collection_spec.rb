@@ -74,8 +74,7 @@ describe JSONAPI::Request::QueryParamCollection do
   let(:c) { JSONAPI::Request::QueryParamCollection.new(item_arr, &:name) }
   let(:ec) { JSONAPI::Request::QueryParamCollection.new }
 
-  it_behaves_like 'name value pair collections' do
-  end
+  it_behaves_like 'name value pair collections'
 
   describe '#method_missing' do
 

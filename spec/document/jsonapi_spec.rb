@@ -37,6 +37,5 @@ describe JSONAPI::Document::Jsonapi do
     }
   end
 
-  it_behaves_like 'document collections' do
-  end
+  it_behaves_like 'document collections'
 end

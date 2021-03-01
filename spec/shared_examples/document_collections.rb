@@ -3,8 +3,7 @@
 require 'shared_examples/collection_like_classes'
 
 shared_examples 'document collections' do
-  it_behaves_like 'collection-like classes' do
-  end
+  it_behaves_like 'collection-like classes'
 
   describe '#to_h' do
     it 'should mimic a JSONAPI document' do

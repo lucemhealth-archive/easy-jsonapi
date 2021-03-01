@@ -1,4 +1,4 @@
-# frozen_string_litral: true
+# frozen_string_literal: true
 
 require 'rack/jsonapi/document/resource'
 require 'rack/jsonapi/parser/document_parser'

@@ -66,34 +66,6 @@ module JSONAPI
       class << self
         # private TODO: Should these be private?
 
-        # Raises a 409 error if the endpoint type does not match the data type on a post request
-        # @param document (see #check_compliance)
-        # @param http_method [String] The request request method
-        # @param path [String] The request path
-        def check_for_matching_types(document, http_method, path)
-          return unless http_method
-          return unless path
-          
-          type = document.dig(:data, :type)
-          case http_method
-          when 'POST'
-            path_type = path.split('/')[-1]
-            ensure!(type == path_type,
-                    "When processing a POST request, the resource object's type MUST " \
-                    'be amoung the type(s) that constitute the collection represented by the endpoint',
-                    status_code: 409)
-          when 'PATCH'
-            id = document.dig(:data, :id)
-            temp = path.split('/')
-            path_type = temp[-2]
-            path_id = temp[-1]
-            ensure!((type == path_type && id == path_id),
-                    "When processing a PATCH request, the resource object's type and id MUST " \
-                    "match the server's endpoint",
-                    status_code: 409)
-          end
-        end
-
         # Checks the essentials of a jsonapi document. It is
         #  used by #check_compliance and JSONAPI::Document's #initialize method
         # @param (see #check_compliance)
@@ -374,6 +346,56 @@ module JSONAPI
           ensure!(full_linkage?(document),
                   'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
                   'identified by at least one resource identifier object in the same document.')
+        end
+
+        # **********************************
+        # * CHECK FOR MATCHING TYPES       *
+        # **********************************
+
+        # Raises a 409 error if the endpoint type does not match the data type on a post request
+        # @param document (see #check_compliance)
+        # @param http_method [String] The request request method
+        # @param path [String] The request path
+        def check_for_matching_types(document, http_method, path)
+          return unless http_method
+          return unless path
+          
+          res_type = document.dig(:data, :type)
+          case http_method
+          when 'POST'
+            path_type = path.split('/')[-1]
+            check_post_type(path_type, res_type)
+          when 'PATCH'
+            temp = path.split('/')
+            path_type = temp[-2]
+            path_id = temp[-1]
+            res_id = document.dig(:data, :id)
+            check_patch_type(path_type, res_type, path_id, res_id)
+          end
+        end
+
+        # Raise 409 unless post resource type == endpoint resource type
+        # @param path_type [String] The resource type taken from the request path
+        # @param res_type [String] The resource type taken from the request body
+        # @raise [JSONAPI::Exceptions::DocumentExceptions::InvalidDocument]
+        def check_post_type(path_type, res_type)
+          ensure!(path_type == res_type,
+                  "When processing a POST request, the resource object's type MUST " \
+                  'be amoung the type(s) that constitute the collection represented by the endpoint',
+                  status_code: 409)
+        end
+
+        # Raise 409 unless path resource type and id == endpoint resource type and id
+        # @param path_type [String] The resource type taken from the request path
+        # @param res_type [String] The resource type taken from the request body
+        # @param path_id [String] The resource id taken from the path
+        # @param res_id [String] The resource id taken from the request body
+        # @raise [JSONAPI::Exceptions::DocumentExceptions::InvalidDocument]
+        def check_patch_type(path_type, res_type, path_id, res_id)
+          ensure!((path_type == res_type && path_id == res_id),
+                  "When processing a PATCH request, the resource object's type and id MUST " \
+                  "match the server's endpoint",
+                  status_code: 409)
         end
 
         # **********************************

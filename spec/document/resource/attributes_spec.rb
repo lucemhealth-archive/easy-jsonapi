@@ -31,6 +31,5 @@ describe JSONAPI::Document::Resource::Attributes do
   let(:c) { JSONAPI::Document::Resource::Attributes.new(item_arr, &:name) }
   let(:ec) { JSONAPI::Document::Resource::Attributes.new }
   
-  it_behaves_like 'document collections' do
-  end
+  it_behaves_like 'document collections'
 end

@@ -15,7 +15,7 @@ module JSONAPI
         # @param name [String] The name of the parameter
         # @param value [String | Array<String>] The value of the parameter
         def initialize(name, value)
-          if self.class == QueryParam
+          if instance_of?(QueryParam)
             JSONAPI::Exceptions::QueryParamsExceptions.check_param_name(name)
           end
           value = value.split(',') if value.is_a? String

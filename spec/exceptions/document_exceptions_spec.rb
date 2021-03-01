@@ -24,12 +24,12 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   # An example of a request document given by JSON:API spec
   let(:req_doc) do 
     {
-      "data": {
-        "type": "photos",
-        "id": "550e8400-e29b-41d4-a716-446655440000",
-        "attributes": {
-          "title": "Ember Hamster",
-          "src": "http://example.com/images/productivity.png"
+      data: {
+        type: "photos",
+        id: "550e8400-e29b-41d4-a716-446655440000",
+        attributes: {
+          title: "Ember Hamster",
+          src: "http://example.com/images/productivity.png"
         }
       }
     }
@@ -87,28 +87,28 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         it 'should raise if a document does not contain at least one of the required keys' do
           msg = 'A document MUST contain at least one of the following ' \
                 "top-level members: #{TOP_LEVEL_KEYS}"
-          expect { f({ 'my_own_key': 'nothing' }) }.to raise_error(dec, msg)
-          expect { f({ 'links': 'my_links' }) }.to raise_error(dec, msg)
+          expect { f({ my_own_key: 'nothing' }) }.to raise_error(dec, msg)
+          expect { f({ links: 'my_links' }) }.to raise_error(dec, msg)
         end
   
         it 'should return nil when document contains one of the top level keys' do
-          expect(f({ 'errors': [] })).to be nil
+          expect(f({ errors: [] })).to be nil
         end
   
         it 'should raise if errors key present with data key' do
           msg = 'The members data and errors MUST NOT coexist in the same document'
-          expect { f({ 'data': { 'type': 'author' }, 'errors': 'error' }) }.to raise_error(dec, msg)
+          expect { f({ data: { type: 'author' }, errors: 'error' }) }.to raise_error(dec, msg)
         end
   
         it 'should raise if included key present without data key' do
           msg = 'If a document does not contain a top-level data key, the included ' \
                 'member MUST NOT be present either'
-          expect { f({ 'meta': { 'meta_info': 'm' }, 'included': 'incl_objs' }) }.to raise_error(dec, msg)
+          expect { f({ meta: { meta_info: 'm' }, included: 'incl_objs' }) }.to raise_error(dec, msg)
         end
   
         it 'should raise if no data member included and document is a request' do
           msg = 'The request MUST include a single resource object as primary data'
-          expect { f({ 'meta': { 'meta_info': 'm' } }, http_method: 'POST') }.to raise_error(dec, msg)
+          expect { f({ meta: { meta_info: 'm' } }, http_method: 'POST') }.to raise_error(dec, msg)
         end
       end
     end
@@ -122,7 +122,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       context 'when checking primary data' do
         it 'should raise if data not a hash when it is a request' do
           msg = 'The request MUST include a single resource object as primary data'
-          expect { f({ meta: { 'count': 123 } }, http_method: 'POST') }.to raise_error(dec, msg)
+          expect { f({ meta: { count: 123 } }, http_method: 'POST') }.to raise_error(dec, msg)
         end
 
         it 'should raise if not nil, a hash, or an array' do
@@ -513,9 +513,9 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               errors: [
                 {
                   status: '422',
-                  'source': { 'pointer': '/data/attributes/firstName' },
-                  'title': 'Invalid Attribute',
-                  'detail': 'First name must contain at least three characters.'
+                  source: { pointer: '/data/attributes/firstName' },
+                  title: 'Invalid Attribute',
+                  detail: 'First name must contain at least three characters.'
                 }
               ]
             }
@@ -623,22 +623,22 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         it 'should ignore additional top level links members' do
           links_obj_w_added_member = 
             {
-              'test': 't',
-              'self': 's',
-              'related': 'r',
-              'prev': 'p',
-              'next': 'n',
-              'first': 'f',
-              'last': 'l'
+              test: 't',
+              self: 's',
+              related: 'r',
+              prev: 'p',
+              next: 'n',
+              first: 'f',
+              last: 'l'
             }
           links_obj = 
             {
-              'self': 's',
-              'related': 'r',
-              'prev': 'p',
-              'next': 'n',
-              'first': 'f',
-              'last': 'l'
+              self: 's',
+              related: 'r',
+              prev: 'p',
+              next: 'n',
+              first: 'f',
+              last: 'l'
             }
           expect(f({ data: { type: 'type', id: '123' }, links: links_obj_w_added_member })).to be nil
           expect(f({ data: { type: 'type', id: '123' }, links: links_obj })).to be nil
@@ -647,28 +647,28 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         it 'should only contain link objs that are string or a hash w the right members' do
           bad_links_href =
             {
-              'self': 's',
-              'related': 
+              self: 's',
+              related: 
                 {
-                  'href': ['this, should, not, be, an array']
+                  href: ['this, should, not, be, an array']
                 }
             }
           bad_links_meta =
             {
-              'self': 's',
-              'related': 
+              self: 's',
+              related: 
                 {
-                  'href': 'this should be a string',
-                  'meta': 'this should be a hash...'
+                  href: 'this should be a string',
+                  meta: 'this should be a hash...'
                 }
             }
           good_links =
             {
-              'self': 's',
-              'related': 
+              self: 's',
+              related: 
                 {
-                  'href': 'this should be a string',
-                  'meta': { 'count': '1' }
+                  href: 'this should be a string',
+                  meta: { count: '1' }
                 }
             }
           msg_href = 'The member href MUST be a string'
@@ -709,41 +709,41 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       # -- Checking Full Linkage:
       context 'when checking full linkage of includes' do
         fully_linked_doc = {
-          "data": [{
-            "type": "articles",
-            "id": "1",
-            "relationships": {
-              "author": {
-                "data": { "type": "people", "id": "9" }
+          data: [{
+            type: "articles",
+            id: "1",
+            relationships: {
+              author: {
+                data: { type: "people", id: "9" }
               },
-              "comments": {
-                "data": [
-                  { "type": "comments", "id": "5" },
-                  { "type": "comments", "id": "12" }
+              comments: {
+                data: [
+                  { type: "comments", id: "5" },
+                  { type: "comments", id: "12" }
                 ]
               }
             }
           }],
-          "included": [
+          included: [
             {
-              "type": "people",
-              "id": "9"
+              type: "people",
+              id: "9"
             }, 
             {
-              "type": "comments",
-              "id": "5",
-              "relationships": {
-                "author": {
-                  "data": { "type": "people", "id": "2" }
+              type: "comments",
+              id: "5",
+              relationships: {
+                author: {
+                  data: { type: "people", id: "2" }
                 }
               }
             }, 
             {
-              "type": "comments",
-              "id": "12",
-              "relationships": {
-                "author": {
-                  "data": { "type": "people", "id": "9" }
+              type: "comments",
+              id: "12",
+              relationships: {
+                author: {
+                  data: { type: "people", id: "9" }
                 }
               }
             }
@@ -806,75 +806,75 @@ describe JSONAPI::Exceptions::DocumentExceptions do
       it 'should raise when a member name containing any prohibitted letters' do
         name_w_bad_letters1 = 
           {
-            'data': 
+            data: 
               {
-                'type': 'articles',
-                'id': '1',
-                'attributes': { '***title***': 'JSON API paints my bikeshed!' },
-                'links': { 'self': 'http://example.com/articles/1' },
-                'relationships': {
-                  'author': {
-                    'links': {
-                      'self': 'http://example.com/articles/1/relationships/author',
-                      'related': 'http://example.com/articles/1/author'
+                type: 'articles',
+                id: '1',
+                attributes: { '***title***': 'JSON API paints my bikeshed!' },
+                links: { self: 'http://example.com/articles/1' },
+                relationships: {
+                  author: {
+                    links: {
+                      self: 'http://example.com/articles/1/relationships/author',
+                      related: 'http://example.com/articles/1/author'
                     },
-                    'data': { 'type': 'people', 'id': '9' }
+                    data: { type: 'people', id: '9' }
                   }
                 }
               },
-            'meta': { 'count': '13' }
+            meta: { count: '13' }
           }
 
         name_w_bad_letters2 = 
           {
-            'data': 
+            data: 
               {
-                'type': 'articles',
-                'id': '1',
-                'attributes': { 'title': 'JSON API paints my bikeshed!' },
-                'links': { 'self': 'http://example.com/articles/1' },
-                'relationships': {
+                type: 'articles',
+                id: '1',
+                attributes: { title: 'JSON API paints my bikeshed!' },
+                links: { self: 'http://example.com/articles/1' },
+                relationships: {
                   '***author***': {
-                    'links': {
-                      'self': 'http://example.com/articles/1/relationships/author',
-                      'related': 'http://example.com/articles/1/author'
+                    links: {
+                      self: 'http://example.com/articles/1/relationships/author',
+                      related: 'http://example.com/articles/1/author'
                     },
-                    'data': { 'type': 'people', 'id': '9' }
+                    data: { type: 'people', id: '9' }
                   }
                 }
               },
-            'meta': { 'count': '13' }
+            meta: { count: '13' }
           }
   
         name_w_bad_letters3 = 
           {
-            'data': 
+            data: 
               {
-                'type': 'articles',
-                'id': '1',
-                'attributes': { 'title': 'JSON API paints my bikeshed!' },
-                'links': { 'self': 'http://example.com/articles/1' },
-                'relationships': {
-                  "author": {
-                    "links": {
-                      "self": "http://example.com/articles/1/relationships/author",
-                      "related": "http://example.com/articles/1/author"
+                type: 'articles',
+                id: '1',
+                attributes: { title: 'JSON API paints my bikeshed!' },
+                links: { self: 'http://example.com/articles/1' },
+                relationships: {
+                  author: {
+                    links: {
+                      self: "http://example.com/articles/1/relationships/author",
+                      related: "http://example.com/articles/1/author"
                     },
-                    "data": { "type": "people", "id": "9" }
+                    data: { type: "people", id: "9" }
                   },
                   "***comments***": {
-                    "links": {
-                      "self": "http://example.com/articles/1/relationships/comments",
-                      "related": "http://example.com/articles/1/comments"
+                    links: {
+                      self: "http://example.com/articles/1/relationships/comments",
+                      related: "http://example.com/articles/1/comments"
                     },
-                    "data": [
-                      { "type": "comments", "id": "5" },
-                      { "type": "comments", "id": "12" }
+                    data: [
+                      { type: "comments", id: "5" },
+                      { type: "comments", id: "12" }
                     ]
                   }
                 }
               },
-            'meta': { 'count': '13' }
+            meta: { count: '13' }
           }
 
         msg = "The member named '***title***' raised: Member names MUST contain only the allowed " \

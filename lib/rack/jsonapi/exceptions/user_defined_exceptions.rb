@@ -64,9 +64,7 @@ module JSONAPI
         # @param document (see #check_user_document_requirements)
         # @param req_mems[Hash] The hash representation of the user-defined required json members.
         def check_for_required_document_members(document, req_mems)
-          return if req_mems.nil?
-
-          unless same_class?(document, req_mems)
+          unless similar_structure?(document, req_mems)
             return "User-defined required members hash does not mimic structure of json document: #{document}"
           end
           
@@ -90,8 +88,8 @@ module JSONAPI
         #   of the document and req_mems hash are the same, excluding when req_mems is nil
         # @param (see #check_required_document_members)
         # @returns [TrueClass | FalseClass] The result of the evaluation
-        def same_class?(document, req_mems)
-          document.instance_of?(req_mems.class) && !req_mems.nil?
+        def similar_structure?(document, req_mems)
+          document.instance_of?(req_mems.class) || req_mems.nil?
         end
 
         # Checks to makes sure the headers conatin the user defined required headers

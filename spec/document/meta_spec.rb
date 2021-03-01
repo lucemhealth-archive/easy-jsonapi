@@ -37,6 +37,5 @@ describe JSONAPI::Document::Meta do
   let(:c) { JSONAPI::Document::Meta.new(item_arr, &:name) }
   let(:ec) { JSONAPI::Document::Meta.new }
   
-  it_behaves_like 'document collections' do
-  end
+  it_behaves_like 'document collections'
 end

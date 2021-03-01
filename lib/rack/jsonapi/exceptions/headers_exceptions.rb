@@ -84,9 +84,6 @@ module JSONAPI
             check_post_against_hdrs(env)
           when 'DELETE'
             check_delete_against_hdrs(env)
-          else
-            nil
-            # assume only these headers are valid for now
           end
         end
 

@@ -9,21 +9,21 @@ describe JSONAPI::Document::Resource::Relationships do
   
   let(:relationships_hash) do 
     {
-      "author": {
-        "links": {
-          "self": "http://example.com/articles/1/relationships/author",
-          "related": "http://example.com/articles/1/author"
+      author: {
+        links: {
+          self: "http://example.com/articles/1/relationships/author",
+          related: "http://example.com/articles/1/author"
         },
-        "data": { "type": "people", "id": "9" }
+        data: { type: "people", id: "9" }
       },
-      "comments": {
-        "links": {
-          "self": "http://example.com/articles/1/relationships/comments",
-          "related": "http://example.com/articles/1/comments"
+      comments: {
+        links: {
+          self: "http://example.com/articles/1/relationships/comments",
+          related: "http://example.com/articles/1/comments"
         },
-        "data": [
-          { "type": "comments", "id": "5" },
-          { "type": "comments", "id": "12" }
+        data: [
+          { type: "comments", id: "5" },
+          { type: "comments", id: "12" }
         ]
       }
     }
@@ -31,11 +31,11 @@ describe JSONAPI::Document::Resource::Relationships do
 
   let(:ex_relstionship) do
     {
-      "links": {
-        "self": "http://example.com/articles/1/relationships/author",
-        "related": "http://example.com/articles/1/author"
+      links: {
+        self: "http://example.com/articles/1/relationships/author",
+        related: "http://example.com/articles/1/author"
       },
-      "data": { "type": "people", "id": "9" }
+      data: { type: "people", id: "9" }
     }
   end
 
@@ -93,6 +93,5 @@ describe JSONAPI::Document::Resource::Relationships do
   let(:c) { JSONAPI::Parser::DocumentParser.parse_relationships(relationships_hash) }
   let(:ec) { JSONAPI::Document::Resource::Relationships.new }
   
-  it_behaves_like 'document collections' do
-  end
+  it_behaves_like 'document collections'
 end

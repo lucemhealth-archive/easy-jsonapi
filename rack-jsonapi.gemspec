@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'redcarpet', '~> 3.5'
   spec.add_development_dependency 'rspec', '~> 3.9'
-  spec.add_development_dependency 'rubocop', '~> 0.92'
+  spec.add_development_dependency 'rubocop', '~> 1.11'
   spec.add_development_dependency 'solargraph', '~> 0.39'
 
   # Dependencies

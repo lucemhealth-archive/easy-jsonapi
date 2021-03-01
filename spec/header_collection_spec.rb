@@ -35,8 +35,7 @@ describe JSONAPI::HeaderCollection do
   let(:c) { JSONAPI::HeaderCollection.new(item_arr, &:name) }
   let(:ec) { JSONAPI::HeaderCollection.new }
   
-  it_behaves_like 'name value pair collections' do
-  end
+  it_behaves_like 'name value pair collections'
 
   context 'when checking dynamic access methods' do
     it 'should retrieve the value of the object specified' do

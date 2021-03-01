@@ -43,8 +43,7 @@ describe JSONAPI::NameValuePairCollection do
   let(:c) { JSONAPI::NameValuePairCollection.new(pair_arr) }
   let(:ec) { JSONAPI::NameValuePairCollection.new }
 
-  it_behaves_like 'name value pair collections' do
-  end
+  it_behaves_like 'name value pair collections'
 
   context 'when checking dynamic accessor methods' do
     it 'should be able to access items by their names' do

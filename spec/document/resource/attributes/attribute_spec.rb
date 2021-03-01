@@ -7,8 +7,7 @@ describe JSONAPI::Document::Resource::Attributes::Attribute do
   
   let(:pair) { JSONAPI::Document::Resource::Attributes::Attribute.new(:name, 'value') }
   
-  it_behaves_like 'name value pair tests' do
-  end
+  it_behaves_like 'name value pair tests'
 
   describe 'when testing field instance variable' do
     it 'should be a JSONAPI::Field' do

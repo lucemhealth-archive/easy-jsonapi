@@ -3,6 +3,5 @@
 require 'shared_examples/collection_like_classes'
 
 shared_examples 'name value pair collections' do
-  it_behaves_like 'collection-like classes' do
-  end
+  it_behaves_like 'collection-like classes'
 end

@@ -53,8 +53,7 @@ describe JSONAPI::Document::Error do
     }
   end
 
-  it_behaves_like 'document collections' do
-  end
+  it_behaves_like 'document collections'
 
   context 'when checking dynamic accessors' do
     it 'should be able to access existing members by using their names' do

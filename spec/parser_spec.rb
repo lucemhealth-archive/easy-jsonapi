@@ -10,12 +10,12 @@ describe JSONAPI::Parser do
   describe '#parse_request!' do
 
     req_body_hash = {
-      "data": {
-        "type": "photos",
-        "id": "550e8400-e29b-41d4-a716-446655440000",
-        "attributes": {
-          "title": "Ember Hamster",
-          "src": "http://example.com/images/productivity.png"
+      data: {
+        type: "photos",
+        id: "550e8400-e29b-41d4-a716-446655440000",
+        attributes: {
+          title: "Ember Hamster",
+          src: "http://example.com/images/productivity.png"
         }
       }
     }
