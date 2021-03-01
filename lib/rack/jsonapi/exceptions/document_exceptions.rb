@@ -34,21 +34,29 @@ module JSONAPI
 
       # A more specific standard error to raise when an exception is found
       class InvalidDocument < StandardError
+        attr_accessor :status_code
+
+        # Init w a status code, so that it can be accessed when rescuing an exception
+        def initialize(status_code)
+          @status_code = status_code
+          super
+        end
       end
       
       # Checks a request document against the JSON:API spec to see if it complies
       # @param document [String | Hash]  The jsonapi document included with the http request
-      # @param is_a_request [TrueClass | FalseClass | NilClass] Whether the document belongs to a http request
-      # @param http_method_is_post [TrueClass | FalseClass | NilClass] Whether the document belongs to a post request
+      # @param opts [Hash] Includes path, http_method, sparse_fieldsets, and config variables
       # @raise InvalidDocument if any part of the spec is not observed
-      def self.check_compliance(document, is_a_request: nil, http_method_is_post: nil, sparse_fieldsets: false, config: nil)
+      def self.check_compliance(document, opts = {})
         document = Oj.load(document, symbol_keys: true) if document.is_a? String
         ensure!(!document.nil?, 'A document cannot be nil')
-        check_essentials(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
-        check_members(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post, sparse_fieldsets: sparse_fieldsets)
+        
+        check_essentials(document, opts[:http_method])
+        check_members(document, opts[:http_method], opts[:sparse_fieldsets])
+        check_for_matching_types(document, opts[:http_method], opts[:path])
         check_member_names(document)
         
-        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, config)
+        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, opts[:config])
         ensure!(err_msg.nil?, err_msg)
 
         nil
@@ -58,17 +66,42 @@ module JSONAPI
       class << self
         # private TODO: Should these be private?
 
+        # Raises a 409 error if the endpoint type does not match the data type on a post request
+        # @param document (see #check_compliance)
+        # @param http_method [String] The request request method
+        # @param path [String] The request path
+        def check_for_matching_types(document, http_method, path)
+          return unless http_method
+          return unless path
+          
+          type = document.dig(:data, :type)
+          case http_method
+          when 'POST'
+            path_type = path.split('/')[-1]
+            ensure!(type == path_type,
+                    "When processing a POST request, the resource object's type MUST " \
+                    'be amoung the type(s) that constitute the collection represented by the endpoint',
+                    status_code: 409)
+          when 'PATCH'
+            id = document.dig(:data, :id)
+            temp = path.split('/')
+            path_type = temp[-2]
+            path_id = temp[-1]
+            ensure!((type == path_type && id == path_id),
+                    "When processing a PATCH request, the resource object's type and id MUST " \
+                    "match the server's endpoint",
+                    status_code: 409)
+          end
+        end
+
         # Checks the essentials of a jsonapi document. It is
         #  used by #check_compliance and JSONAPI::Document's #initialize method
         # @param (see #check_compliance)
-        def check_essentials(document, is_a_request: nil, http_method_is_post: nil)
+        def check_essentials(document, http_method)
           ensure!(document.is_a?(Hash),
                   'A JSON object MUST be at the root of every JSON API request ' \
                   'and response containing data')  
-          ensure!(is_a_request || is_a_request.nil? || !http_method_is_post,
-                  'A document cannot both belong to a post request and not belong to a request') 
-          is_a_request = true if http_method_is_post
-          check_top_level(document, is_a_request: is_a_request)
+          check_top_level(document, http_method)
         end
 
         # **********************************
@@ -78,11 +111,11 @@ module JSONAPI
         # Checks if there are any errors in the top level hash
         # @param (see *check_compliance)
         # @raise (see check_compliance)
-        def check_top_level(document, is_a_request: false)
+        def check_top_level(document, http_method)
           ensure!(!(document.keys & REQUIRED_TOP_LEVEL_KEYS).empty?, 
                   'A document MUST contain at least one of the following ' \
                   "top-level members: #{REQUIRED_TOP_LEVEL_KEYS}")
-          
+
           if document.key? :data
             ensure!(!document.key?(:errors),
                     'The members data and errors MUST NOT coexist in the same document')
@@ -90,7 +123,7 @@ module JSONAPI
             ensure!(!document.key?(:included),
                     'If a document does not contain a top-level data key, the included ' \
                     'member MUST NOT be present either')
-            ensure!(!is_a_request,
+            ensure!(http_method.nil?,
                     'The request MUST include a single resource object as primary data')
           end
         end
@@ -100,18 +133,19 @@ module JSONAPI
         # **********************************
 
         # Checks if any errors exist in the jsonapi document members
-        # @param (see #check_compliance)
+        # @param http_method [String] The http verb
+        # @param sparse_fieldsets [TrueClass | FalseClass | Nilclass]
         # @raise (see #check_compliance)
-        def check_members(document, is_a_request:, http_method_is_post:, sparse_fieldsets:)
-          check_individual_members(document, is_a_request: is_a_request, http_method_is_post: http_method_is_post)
-          check_full_linkage(document, is_a_request: is_a_request) unless sparse_fieldsets
+        def check_members(document, http_method, sparse_fieldsets)
+          check_individual_members(document, http_method)
+          check_full_linkage(document, http_method) unless sparse_fieldsets
         end
 
         # Checks individual members of the jsonapi document for errors
         # @param (see #check_compliance)
         # @raise (see #check_complaince)
-        def check_individual_members(document, is_a_request:, http_method_is_post:)
-          check_data(document[:data], is_a_request: is_a_request, http_method_is_post: http_method_is_post) if document.key? :data
+        def check_individual_members(document, http_method)
+          check_data(document[:data], http_method) if document.key? :data
           check_errors(document[:errors]) if document.key? :errors
           check_meta(document[:meta]) if document.key? :meta
           check_jsonapi(document[:jsonapi]) if document.key? :jsonapi
@@ -125,14 +159,14 @@ module JSONAPI
         # @param (see #check_compliance)
         # @param (see #check_compliance)
         # @raise (see #check_compliance)
-        def check_data(data, is_a_request: false, http_method_is_post: false)
-          ensure!(data.is_a?(Hash) || !is_a_request,
+        def check_data(data, http_method)
+          ensure!(data.is_a?(Hash) || http_method.nil?,
                   'The request MUST include a single resource object as primary data')
           case data
           when Hash
-            check_resource(data, http_method_is_post: http_method_is_post)
+            check_resource(data, http_method)
           when Array
-            data.each { |res| check_resource(res) }
+            data.each { |res| check_resource(res, http_method) }
           else
             ensure!(data.nil?,
                     'Primary data must be either nil, an object or an array')
@@ -142,13 +176,14 @@ module JSONAPI
         # @param resource [Hash]  The jsonapi resource object
         # @param (see #check_compliance)
         # @raise (see #check_compliance)
-        def check_resource(resource, http_method_is_post: false)
-          if !http_method_is_post
-            ensure!((resource[:type] && resource[:id]),
-                    'Every resource object MUST contain an id member and a type member')
-          else
+        def check_resource(resource, http_method = nil)
+          if http_method == 'POST'
+            pp resource
             ensure!(resource[:type],
                     'The resource object (for a post request) MUST contain at least a type member')
+          else
+            ensure!((resource[:type] && resource[:id]),
+                    'Every resource object MUST contain an id member and a type member')
           end
           if resource[:id]
             ensure!(resource[:id].instance_of?(String),
@@ -332,9 +367,9 @@ module JSONAPI
 
         # Checking if document is fully linked
         # @param document [Hash] The jsonapi document
-        # @param is_a_request [TrueClass | FalseClass] Whether it is a request
-        def check_full_linkage(document, is_a_request:)
-          return if is_a_request
+        # @param http_method (see #check_for_matching_types)
+        def check_full_linkage(document, http_method)
+          return if http_method
           
           ensure!(full_linkage?(document),
                   'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
@@ -378,8 +413,8 @@ module JSONAPI
         # @param condition The condition to evaluate
         # @param error_message [String]  The message to raise InvalidDocument with
         # @raise InvalidDocument
-        def ensure!(condition, error_message)
-          raise InvalidDocument, error_message unless condition
+        def ensure!(condition, error_message, status_code: 400)
+          raise InvalidDocument.new(status_code), error_message unless condition
         end
         
         # *****************************************

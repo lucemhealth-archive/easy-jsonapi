@@ -55,9 +55,9 @@ module JSONAPI
           return if content_type_not_included_or_is_jsonapi?(env['CONTENT_TYPE'])
           return unless contains_media_type_params?(env['CONTENT_TYPE']) # no jsonapi w params
           
-          raise_error(415,
-                      'Clients MUST send all JSON:API data in request documents with the header ' \
-                      'Content-Type: application/vnd.api+json without any media type parameters.')
+          raise_error('Clients MUST send all JSON:API data in request documents with the header ' \
+                      'Content-Type: application/vnd.api+json without any media type parameters.',
+                      415)
         end
 
         # Checks to see if the JSON:API media type is included in the Accept header, and if
@@ -67,9 +67,9 @@ module JSONAPI
           return unless env['HTTP_ACCEPT'] # no accept header means compliant
           return unless all_jsonapi_media_types_have_params?(env['HTTP_ACCEPT'])
 
-          raise_error(406,
-                      'Clients that include the JSON:API media type in their Accept header MUST ' \
-                      'specify the media type there at least once without any media type parameters.')
+          raise_error('Clients that include the JSON:API media type in their Accept header MUST ' \
+                      'specify the media type there at least once without any media type parameters.',
+                      406)
         end
 
         # Check the http verb against the content_type and accept header and raise
@@ -152,7 +152,7 @@ module JSONAPI
         end
 
         # @param msg [String]  The message to raise InvalidHeader with.
-        def raise_error(status_code = 400, msg)
+        def raise_error(msg, status_code = 400)
           raise InvalidHeader.new(status_code), msg
         end
       end

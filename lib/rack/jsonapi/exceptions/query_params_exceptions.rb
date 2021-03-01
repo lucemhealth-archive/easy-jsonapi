@@ -11,6 +11,13 @@ module JSONAPI
       
       # A more specific Standard Error to raise
       class InvalidQueryParameter < StandardError
+        attr_accessor :status_code
+
+        # Init w a status code, so that it can be accessed when rescuing an exception
+        def initialize(status_code)
+          @status_code = status_code
+          super
+        end
       end
 
       # The jsonapi specific query parameters.
@@ -38,19 +45,20 @@ module JSONAPI
           NamingExceptions.check_additional_constraints(name).nil? && \
           !name.include?('-')
         return if should_return
+        
         raise_error(
           'Implementation specific query parameters MUST adhere to the same constraints ' \
-          "as member names. Allowed characters are: a-z, A-Z, 0-9 for beginning, middle, or end characters, " \
+          'as member names. Allowed characters are: a-z, A-Z, 0-9 for beginning, middle, or end characters, ' \
           "and '_' is allowed for middle characters. (While the JSON:API spec also allows '-', it is not " \
           'recommended, and thus is prohibited in this implementation). ' \
-          "Implementation specific query members MUST contain at least one non a-z character as well. " \
+          'Implementation specific query members MUST contain at least one non a-z character as well. ' \
           "Param name given: \"#{name}\""
         )
       end
 
       # @param msg [String]  The message to raise InvalidQueryParameter with.
-      def self.raise_error(msg)
-        raise InvalidQueryParameter, msg
+      def self.raise_error(msg, status_code = 400)
+        raise InvalidQueryParameter.new(status_code), msg
       end
 
       private_class_method :raise_error

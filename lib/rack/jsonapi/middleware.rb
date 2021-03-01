@@ -9,12 +9,12 @@ module JSONAPI
   # The middleware of the gem and also the contact point between the
   # the gem and the rack application using it
   class Middleware
-
     # @param app The Rack Application
     def initialize(app, &block)
       @app = app
-      
+
       return unless block_given?
+
       @config = JSONAPI::Config.new
       block.call(@config)
     end
@@ -103,7 +103,7 @@ module JSONAPI
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader => e
       raise if environment_development?(env)
 
-      [e.status_code, {}, []] 
+      [e.status_code, {}, []]
     end
 
     # @param req [Rack::Request | NilClass] The rack request
@@ -111,10 +111,10 @@ module JSONAPI
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
     def check_query_param_compliance(req, env, config)
       JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.GET, config: config)
-    rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter
+    rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter => e
       raise if environment_development?(env)
       
-      [400, {}, []] 
+      [e.status_code, {}, []]
     end
 
     # @param env (see #call)
@@ -123,15 +123,15 @@ module JSONAPI
     def check_req_body_compliance(req, env, config)
       raise "GET requests cannot include the 'CONTENT_TYPE' header" if env['REQUEST_METHOD'] == 'GET'
       
-      http_method_is_post = env['REQUEST_METHOD'] == 'POST'
-      body = req.body.read # The next middleware or application may need to read the body which is 
-      # why we rewind and store in a separate variable
+      # Store separately so you can rewind for next middleware or app
+      body = req.body.read
       req.body.rewind
-      JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, http_method_is_post: http_method_is_post, config: config)
-    rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument
+      opts = { http_method: env['REQUEST_METHOD'], path: env['PATH_INFO'], config: config }
+      JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, opts)
+    rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument => e
       raise if environment_development?(env)
 
-      [400, {}, []]
+      [e.status_code, {}, []]
     rescue Oj::ParseError
       raise if environment_development?(env)
 
