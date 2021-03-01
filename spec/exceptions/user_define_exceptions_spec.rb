@@ -13,7 +13,7 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
     let(:doc1) do
       {
         data: {
-          type: 'testing',
+          type: 'person',
           attributes: {
             a1: 'a1',
             a2: 'a2'
@@ -111,6 +111,30 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
         ]
       }
     end
+
+    let(:req_w_values) do
+      {
+        data: { type: %w[person place thing] }
+      }
+    end
+
+    let(:req_arr_w_values1) do
+      {
+        data: [{ type: %w[person place thing] }]
+      }
+    end
+
+    let(:req_arr_w_values2) do
+      {
+        data: [{ type: nil, attributes: { a1: %w[a2 a3] } }]
+      }
+    end
+
+    let(:req_arr_w_values3) do
+      {
+        data: [{ type: nil, attributes: { a1: %w[a1 a2 a3] } }]
+      }
+    end
     
     def check(document, config)
       JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, config)
@@ -132,9 +156,25 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
         expect(check(doc1, config)).to be nil
       end
 
-      it 'should check each obj in a array to make sure it includes the required memebers' do
+      it 'should check each obj in the document array to make sure it includes the required memebers' do
         config.required_document_members = req_arr
         expect(check(doc_bad_arr, config)).to eq 'Document is missing one of the user-defined required keys: attributes'
+        expect(check(doc_good_arr, config)).to be nil
+      end
+
+      it 'should check given document value to see if it is included in the given permitted req_mems array' do
+        config.required_document_members = req_w_values
+        expect(check(doc1, config)).to be nil
+
+        msg = 'The following value was given when only the following ["person", "place", "thing"] values are permitted: "testing"'
+        config.required_document_members = req_arr_w_values1
+        expect(check(doc_good_arr, config)).to eq msg
+        
+        msg = 'The following value was given when only the following ["a2", "a3"] values are permitted: "a1"'
+        config.required_document_members = req_arr_w_values2
+        expect(check(doc_good_arr, config)).to eq msg
+
+        config.required_document_members = req_arr_w_values3
         expect(check(doc_good_arr, config)).to be nil
       end
     end
@@ -220,8 +260,4 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
       expect(check(included_params, config)).to be nil
     end
   end
-
-  
-
-
 end

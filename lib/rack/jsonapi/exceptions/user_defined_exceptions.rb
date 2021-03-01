@@ -64,10 +64,13 @@ module JSONAPI
         # @param document (see #check_user_document_requirements)
         # @param req_mems[Hash] The hash representation of the user-defined required json members.
         def check_for_required_document_members(document, req_mems)
-          unless similar_structure?(document, req_mems)
-            return "User-defined required members hash does not mimic structure of json document: #{document}"
+          err = check_structure(document, req_mems)
+          return err unless err.nil?
+
+          if req_mems.is_a?(Array) && !document.is_a?(Array)
+            return check_values(document, req_mems)
           end
-          
+
           case req_mems
           when Hash
             req_mems.each do |k, v|
@@ -82,14 +85,26 @@ module JSONAPI
             end
           end
           nil
+        end          
+
+        # Check if same class or if req_mems nil. If not it indicates the user has specified set
+        #   of required values for a given key. Check whether the current valueis within the set.
+        # @param (see #check_required_document_members)
+        # @return [NilClass | String] An error message if one found.
+        def check_structure(document, req_mems)
+          return if document.instance_of?(req_mems.class) || req_mems.nil? || req_mems.is_a?(Array)
+
+          "User-defined required members hash does not mimic structure of json document: #{document}"
         end
         
-        # Helper for #check_required_document_members. Used to check whether the keys and values
-        #   of the document and req_mems hash are the same, excluding when req_mems is nil
-        # @param (see #check_required_document_members)
-        # @returns [TrueClass | FalseClass] The result of the evaluation
-        def similar_structure?(document, req_mems)
-          document.instance_of?(req_mems.class) || req_mems.nil?
+        # Checks whether a value given is within the permitted values
+        # @param value_given [Any]
+        # @return [NilClass | String] An error msg or nil
+        def check_values(value_given, permitted_values)
+          return if value_given.is_a?(Hash)
+          return if permitted_values.include?(value_given)
+          
+          "The following value was given when only the following #{permitted_values} values are permitted: \"#{value_given}\""
         end
 
         # Checks to makes sure the headers conatin the user defined required headers
