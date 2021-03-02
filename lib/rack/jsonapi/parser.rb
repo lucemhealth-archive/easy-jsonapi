@@ -19,6 +19,7 @@ module JSONAPI
       header_collection = HeadersParser.parse(env)
 
       req_body = req.body.read # stored separately because can only read 1x
+      req.body.rewind # rewind incase something else needs to read the body of the request
       document = includes_jsonapi_document?(env) ? DocumentParser.parse(req_body) : nil
 
       JSONAPI::Request.new(env, query_param_collection, header_collection, document)
