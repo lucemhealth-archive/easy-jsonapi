@@ -15,6 +15,9 @@ module JSONAPI
       # Top level links objects MAY contain the following members
       LINKS_KEYS = %i[self related first prev next last].freeze
 
+      # Pagination member names in a links object
+      PAGINATION_LINKS =  %i[first prev next last].freeze
+
       # Each member of a links object is a link. A link MUST be represented as either
       LINK_KEYS = %i[href meta].freeze
 
@@ -64,7 +67,6 @@ module JSONAPI
 
       # Make helper methods private
       class << self
-        # private TODO: Should these be private?
 
         # Checks the essentials of a jsonapi document. It is
         #  used by #check_compliance and JSONAPI::Document's #initialize method
@@ -297,6 +299,16 @@ module JSONAPI
 
         # -- TOP LEVEL - LINKS
 
+        # FIXME:
+        # Pagination Links:
+        # Only checked for on response
+        # Must only be included in links objects
+        # 
+
+        # FIXME:
+        # Response Questions:
+        # 
+
         # @param links [Hash] The links object
         # @raise (see check_compliance)
         def check_links(links)
@@ -478,10 +490,12 @@ module JSONAPI
           return true unless document[:included] # Checked earlier to make sure included only exists w data
           
           possible_includes = get_possible_includes(document)
-          any_additional_includes?(possible_includes, document)
+          any_additional_includes?(possible_includes, document[:included])
         end
 
         # Get a collection of all possible includes
+        #   Need to check relationships on primary resource(s) and also
+        #   relationships on the included resource(s)
         # @param (see #full_linkage?)
         # @return [Hash] Collection of possible includes
         def get_possible_includes(document)
@@ -494,9 +508,9 @@ module JSONAPI
         end
 
         # @param possible_includes [Hash] The collection of possible includes
-        # @document (see #full_linkage?)
-        def any_additional_includes?(possible_includes, document)
-          document[:included].each do |res|
+        # @param actual_includes [Hash] The included top level object
+        def any_additional_includes?(possible_includes, actual_includes)
+          actual_includes.each do |res|
             return false unless possible_includes.key? res_id_to_sym(res[:type], res[:id])
           end
           true

@@ -5,13 +5,6 @@ module JSONAPI
   # A collection of resued logic throughout the gem.
   module Utility
 
-    # Convert value to something that can be compared in a String vs Symbol, case, and
-    #   '-' vs '_' insensitive way.
-    # @param val [String | Symbol]
-    def self.all_insensitive(val)
-      val.to_s.downcase.gsub(/-/, '_')
-    end
-
     # To hash method for a JSONAPI collection (like Attributes)
     # @param collection [Inumerable] The collection to hashify
     def self.to_h_collection(collection)

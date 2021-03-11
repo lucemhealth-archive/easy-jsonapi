@@ -23,8 +23,9 @@ module JSONAPI
     #   and error if it is found to be compliant. It 
     # @param env The rack envirornment hash
     def call(env)
-      resp = in_maintenance_mode(env)
-      return resp unless resp.nil?
+      if in_maintenance_mode?(env)
+        return maintenance_response(env)
+      end
 
       if jsonapi_request?(env)
         error_response = check_compliance(env, @config)
@@ -36,12 +37,17 @@ module JSONAPI
 
     private
 
-    # Check fore "MAINTENCANCE" env variable and return 503 if found
+    # Checks the 'MAINTENANCE' environment variable
     # @param (see #call)
-    # @return [Array | Nilclass] Nil or the response to return
-    def in_maintenance_mode(env)
-      return unless env['MAINTENANCE']
+    # @return [TrueClass | FalseClass]
+    def in_maintenance_mode?(env)
+      !env['MAINTENANCE'].nil?
+    end
 
+    # Return 503 with or without msg depending on environment
+    # @param (see #call)
+    # @return [Array] Http Error Responses
+    def maintenance_response(env)
       if environment_development?(env)
         [503, {}, ['MAINTENANCE envirornment variable set']]
       else

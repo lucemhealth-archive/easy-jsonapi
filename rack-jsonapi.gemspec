@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'rack-jsonapi'
-  spec.version       = '0.1.1'
+  spec.version       = '0.1.0'
   spec.authors       = ['Joshua DeMoss']
   spec.email         = ['joshua.demoss@curatess.com']
 
