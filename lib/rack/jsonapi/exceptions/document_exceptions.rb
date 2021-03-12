@@ -151,6 +151,7 @@ module JSONAPI
         # @param (see #check_compliance)
         # @raise (see #check_compliance)
         def check_resource(resource, http_method = nil)
+          # TODO: Add config option to let user decide whether client generated ids are acceptable
           if http_method == 'POST'
             ensure!(resource[:type],
                     'The resource object (for a post request) MUST contain at least a type member')
