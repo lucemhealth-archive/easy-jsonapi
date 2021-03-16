@@ -208,12 +208,19 @@ describe JSONAPI::Middleware do
   end
 
   let(:doc_error) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
+  let(:user_doc_error) { JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument }
   let(:headers_error) { JSONAPI::Exceptions::HeadersExceptions::InvalidHeader }
   let(:query_params_error) { JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter }
 
   let(:response) { [200, { "Content-Type" => "text/plain" }, ['Testing: JSONAPI::Request | JSONAPI::Document::Resource']] }
 
   describe '#call' do
+
+    context 'when checking user defined exceptions' do
+      it 'should return the appropriate response when a user configures the middleware to require certian document members' do
+        expect { m_user.call(env) }.to raise_error user_doc_error
+      end
+    end
 
     it 'should return 503 without body message if env["MAINTENANCE] is set and in not in development' do
       env['MAINTENANCE'] = true
@@ -224,10 +231,6 @@ describe JSONAPI::Middleware do
       env['MAINTENANCE'] = true
       env['RACK_ENV'] = :production
       expect(m.call(env)).to eq [503, {}, []]
-    end
-
-    it 'should return the appropriate response when a user configures the middleware to require certian document members' do
-      expect { m_user.call(env) }.to raise_error doc_error
     end
 
     it 'should return the right response and instantiate a request object when data is included' do

@@ -59,9 +59,9 @@ module JSONAPI
         check_for_matching_types(document, opts[:http_method], opts[:path])
         check_member_names(document)
         
-        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, opts[:config])
-        ensure!(err_msg.nil?, err_msg)
-
+        err = JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, opts[:config], opts[:http_verb])
+        raise err, err.msg unless err.nil?
+        
         nil
       end
 

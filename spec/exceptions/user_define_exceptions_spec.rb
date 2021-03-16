@@ -136,19 +136,21 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
       }
     end
     
-    def check(document, config)
-      JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, config)
+    def check(document, config, http_verb = nil)
+      JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, config, http_verb)
     end
 
     describe 'check_additional_required_members' do
       it 'should return an error msg when a top-level, user-defined, required member is not included' do
         config.required_document_members = req_check_top_level
-        expect(check(doc1, config)).to eq 'Document is missing one of the user-defined required keys: meta'
+        expect(check(doc1, config).msg).to eq 'Document is missing one of the user-defined required keys: meta'
+        expect(check(doc1, config).status_code).to eq 400
+        expect(check(doc1, config).class).to eq JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument
       end
 
       it 'should return an error msg when a lower-level, user-defined, required member is not included' do
         config.required_document_members = req_check_lower_level
-        expect(check(doc1, config)).to eq 'Document is missing one of the user-defined required keys: a3'
+        expect(check(doc1, config).msg).to eq 'Document is missing one of the user-defined required keys: a3'
       end
 
       it 'should pass if all the required keys are included' do
@@ -158,7 +160,7 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
 
       it 'should check each obj in the document array to make sure it includes the required memebers' do
         config.required_document_members = req_arr
-        expect(check(doc_bad_arr, config)).to eq 'Document is missing one of the user-defined required keys: attributes'
+        expect(check(doc_bad_arr, config).msg).to eq 'Document is missing one of the user-defined required keys: attributes'
         expect(check(doc_good_arr, config)).to be nil
       end
 
@@ -168,14 +170,35 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
 
         msg = 'The following value was given when only the following ["person", "place", "thing"] values are permitted: "testing"'
         config.required_document_members = req_arr_w_values1
-        expect(check(doc_good_arr, config)).to eq msg
+        expect(check(doc_good_arr, config).msg).to eq msg
         
         msg = 'The following value was given when only the following ["a2", "a3"] values are permitted: "a1"'
         config.required_document_members = req_arr_w_values2
-        expect(check(doc_good_arr, config)).to eq msg
+        expect(check(doc_good_arr, config).msg).to eq msg
 
         config.required_document_members = req_arr_w_values3
         expect(check(doc_good_arr, config)).to be nil
+      end
+    end
+
+    describe 'check for client generated ids' do
+      it 'should return an error messsage when an id is included when not allowed' do
+        doc_w_id = {}
+        doc_w_id.replace(doc1)
+        doc_w_id[:data][:id] = 'should_not_be_included'
+        msg = 'Document MUST return 403 Forbidden in response to an unsupported request ' \
+              'to create a resource with a client-generated ID.'
+        expect(check(doc_w_id, config, 'POST').msg).to eq msg
+        expect(check(doc_w_id, config, 'POST').status_code).to eq 403
+      end
+
+      it 'should return nil when an id given OR not given when allowed' do
+        expect(check(doc1, config, 'POST')).to be nil
+        config.allow_client_ids = true
+        doc_w_id = {}
+        doc_w_id.replace(doc1)
+        doc_w_id[:data][:id] = 'can_be_included'
+        expect(check(doc_w_id, config, 'POST')).to be nil
       end
     end
   end
@@ -197,7 +220,9 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
     describe '#check_for_required_headers' do
       it 'should return an error msg when a required header is absent' do
         config.required_headers = %w[content-type xxx-authentication]
-        expect(check(included_headers, config)).to eq 'Headers missing one of the user-defined required headers: XXX_AUTHENTICATION'
+        expect(check(included_headers, config).msg).to eq 'Headers missing one of the user-defined required headers: XXX_AUTHENTICATION'
+        expect(check(included_headers, config).status_code).to eq 400
+        expect(check(included_headers, config).class).to eq JSONAPI::Exceptions::UserDefinedExceptions::InvalidHeader
       end
 
       it 'should return nil when all required headers are present' do
@@ -247,12 +272,14 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
 
     it 'should return an error msg when a required param is absent' do
       config.required_query_params = required_params1
-      expect(check(included_params, config)).to eq 'Query Params missing one of the user-defined required query params: joseph'
+      expect(check(included_params, config).msg).to eq 'Query Params missing one of the user-defined required query params: joseph'
+      expect(check(included_params, config).status_code).to eq 400
+      expect(check(included_params, config).class).to eq JSONAPI::Exceptions::UserDefinedExceptions::InvalidQueryParam
     end
 
     it 'should return an error msg when the user-defined required params hash contains a value other than hash or nil' do
       config.required_query_params = required_params2
-      expect(check(included_params, config)).to eq 'The user-defined required query params hash must contain keys with values either hash or nil'
+      expect(check(included_params, config).msg).to eq 'The user-defined required query params hash must contain keys with values either hash or nil'
     end
 
     it 'should return nil when all required params are present' do
