@@ -9,8 +9,8 @@ describe JSONAPI::Middleware do
   # Middleware variables
   let(:m) { JSONAPI::Middleware.new(RackApp.new) }
   let(:m_user) do
-    JSONAPI::Middleware.new(RackApp.new) do |config|
-      config.required_document_members = { data: { attributes: { a1: nil } } }
+    JSONAPI::Middleware.new(RackApp.new) do |config_manager|
+      config_manager.global.required_document_members = { data: { attributes: { a1: nil } } }
     end
   end
 
@@ -90,7 +90,42 @@ describe JSONAPI::Middleware do
     Oj.dump(body_hash)
   end
 
-  let(:env) do
+  let(:usr_body_str) do
+    body_hash =
+      {
+        data: {
+          type: 'articles',
+          attributes: {
+            title: 'JSON:API paints my bikeshed!'
+          },
+          links: {
+            self: 'http://example.com/articles/1'
+          },
+          relationships: {
+            author: {
+              links: {
+                self: 'http://example.com/articles/1/relationships/author',
+                related: 'http://example.com/articles/1/author'
+              },
+              data: { type: 'people', id: '9' }
+            },
+            comments: {
+              links: {
+                self: 'http://example.com/articles/1/relationships/comments',
+                related: 'http://example.com/articles/1/comments'
+              },
+              data: [
+                { type: 'comments', id: '5' },
+                { type: 'comments', id: '12' }
+              ]
+            }
+          }
+        }
+      }
+    Oj.dump(body_hash)
+  end
+
+  def env(body_str)
     {
       'SERVER_SOFTWARE' => 'thin 1.7.2 codename Bachmanity',
       'SERVER_NAME' => 'localhost',
@@ -218,26 +253,28 @@ describe JSONAPI::Middleware do
 
     context 'when checking user defined exceptions' do
       it 'should return the appropriate response when a user configures the middleware to require certian document members' do
-        expect { m_user.call(env) }.to raise_error user_doc_error
+        expect { m_user.call(env(usr_body_str)) }.to raise_error user_doc_error
       end
     end
 
     it 'should return 503 without body message if env["MAINTENANCE] is set and in not in development' do
-      env['MAINTENANCE'] = true
-      expect(m.call(env)).to eq [503, {}, ['MAINTENANCE envirornment variable set']]
+      e = env(body_str)
+      e['MAINTENANCE'] = true
+      expect(m.call(e)).to eq [503, {}, ['MAINTENANCE envirornment variable set']]
     end
     
     it 'should return 503 with message if env["MAINTENANCE] is not set or in development' do
-      env['MAINTENANCE'] = true
-      env['RACK_ENV'] = :production
-      expect(m.call(env)).to eq [503, {}, []]
+      e = env(body_str)
+      e['MAINTENANCE'] = true
+      e['RACK_ENV'] = :production
+      expect(m.call(e)).to eq [503, {}, []]
     end
 
     it 'should return the right response and instantiate a request object when data is included' do
-      pp env['rack.input'].read
-      env['rack.input'].rewind
+      e = env(body_str)
+      e['rack.input'].rewind
 
-      resp = m.call(env)
+      resp = m.call(e)
       expect(resp).to eq response
     end
 
@@ -302,7 +339,7 @@ describe JSONAPI::Middleware do
     context 'when it recieves a GET request with a body' do
       it 'should raise runtime error' do
         get_env = {}
-        get_env.replace(env)
+        get_env.replace(env(body_str))
         get_env['REQUEST_METHOD'] = 'GET'
         e_msg = 'GET requests cannot have a body.'
         expect { m.call(get_env) }.to raise_error headers_error, e_msg
@@ -312,7 +349,7 @@ describe JSONAPI::Middleware do
     context 'when sending invalid json' do
       it 'should return a 400 level error if in production' do
         env_body_malformed = {}
-        env_body_malformed.replace(env)
+        env_body_malformed.replace(env(body_str))
         env_body_malformed["RACK_ENV"] = :production
         env_body_malformed['rack.input'] = StringIO.new("[")
         expect(m.call(env_body_malformed)).to eq [400, {}, []]
@@ -320,7 +357,7 @@ describe JSONAPI::Middleware do
       
       it 'should raise if in development' do
         env_body_malformed = {}
-        env_body_malformed.replace(env)
+        env_body_malformed.replace(env(body_str))
         env_body_malformed['rack.input'] = StringIO.new("[")
         expect { m.call(env_body_malformed) }.to raise_error Oj::ParseError
       end

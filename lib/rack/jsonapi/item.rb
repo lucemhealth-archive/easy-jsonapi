@@ -58,7 +58,7 @@ module JSONAPI
     end
 
     # Needed when using #method_missing
-    def respond_to_missing?(method_name, *)
+    def respond_to_missing?(method_name, *args)
       instance_variables.include?("@#{method_name}".to_sym) || super
     end
 

@@ -21,8 +21,6 @@ module JSONAPI
       # Add a QueryParameter to the collection. (CASE-SENSITIVE)
       # @param param [JSONAPI::Request::QueryParamCollection::QueryParam] The param to add
       def add(param)
-        p_name = param.name.gsub(/-/, '_').to_sym
-        @param_names << p_name unless @param_names.include?(p_name)
         super(param, &:name)
       end
 
@@ -45,13 +43,13 @@ module JSONAPI
       # @param args If any arguments were passed to the method called
       # @param block If a block was passed to the method called
       def method_missing(method_name, *args, &block)
-        super unless @param_names.include?(method_name)
+        super unless include?(method_name)
         get(method_name)
       end
 
       # Whether or not method missing should be called.
       def respond_to_missing?(method_name, *)
-        @param_names.include?(method_name) || super
+        include?(method_name) || super
       end
     end
   end

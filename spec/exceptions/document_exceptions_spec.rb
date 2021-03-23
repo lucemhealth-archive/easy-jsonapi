@@ -2,6 +2,7 @@
 
 require 'rack/jsonapi/exceptions/document_exceptions'
 require 'shared_contexts/document_exceptions_shared_context'
+require 'rack/jsonapi/config_manager'
 
 TOP_LEVEL_KEYS = %i[data errors meta].freeze
 LINKS_KEYS = %i[self related first prev next last].freeze
@@ -36,9 +37,11 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   end
 
   # Alias for #check_compliance
-  def f(document, http_method: nil, sparse_fieldsets: false, path: nil)
+  def f(document, config_manager = JSONAPI::ConfigManager.new, http_method: nil, sparse_fieldsets: false, path: nil)
     JSONAPI::Exceptions::DocumentExceptions.check_compliance(
-      document, http_method: http_method, sparse_fieldsets: sparse_fieldsets, path: path
+      document, 
+      config_manager,
+      http_method: http_method, sparse_fieldsets: sparse_fieldsets, path: path
     )
   end
   
@@ -53,13 +56,12 @@ describe JSONAPI::Exceptions::DocumentExceptions do
   
         it 'should return nil if the document complies to all specs' do
           expect(f(response_doc)).to be nil      
-          expect(f(req_doc, http_method: 'POST')).to be nil      
-          expect(f(req_doc, http_method: 'POST')).to be nil  
+          expect(f(req_doc, http_method: 'PATCH', path: '/photos/550e8400-e29b-41d4-a716-446655440000')).to be nil      
         end
   
         it 'should raise when document is nil' do
           msg = 'A document cannot be nil'
-          expect { f(nil, http_method: 'POST') }.to raise_error(dec, msg)
+          expect { f(nil, http_method: 'POST', path: '/photos') }.to raise_error(dec, msg)
           expect { f(nil) }.to raise_error(dec, msg)
         end
       end
@@ -71,13 +73,13 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         it 'should raise if document is not a hash' do
           msg = 'A JSON object MUST be at the root of every JSON API request ' \
                 'and response containing data'
-          expect { f([], http_method: 'POST') }.to raise_error(dec, msg)
+          expect { f([], http_method: 'POST', path: '/photos') }.to raise_error(dec, msg)
           expect { f([]) }.to raise_error(dec, msg)
-          expect { f(:asdj, http_method: 'POST') }.to raise_error(dec, msg)
+          expect { f(:asdj, http_method: 'POST', path: '/photos') }.to raise_error(dec, msg)
           expect { f(:asdj) }.to raise_error(dec, msg)
-          expect { f(1234, http_method: 'POST') }.to raise_error(dec, msg)
+          expect { f(1234, http_method: 'POST', path: '/photos') }.to raise_error(dec, msg)
           expect { f(1234) }.to raise_error(dec, msg)
-          expect { f('1234', http_method: 'POST') }.to raise_error(dec, msg)
+          expect { f('1234', http_method: 'POST', path: '/photos') }.to raise_error(dec, msg)
           expect { f('1234') }.to raise_error(dec, msg)
         end
           
@@ -104,12 +106,13 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         end
   
         it 'should raise if no data member included and document is a request' do
-          msg = 'The request MUST include a single resource object as primary data'
-          expect { f({ meta: { meta_info: 'm' } }, http_method: 'POST') }.to raise_error(dec, msg)
+          msg = 'The request MUST include a single resource object as primary data, ' \
+                'unless it is a PATCH request clearing a relationship using a relationship link'
+          expect { f({ meta: { meta_info: 'm' } }, http_method: 'POST', path: '/photos') }.to raise_error(dec, msg)
         end
       end
     end
-
+    
     # **********************************
     # * CHECKING MEMBERS               *
     # **********************************
@@ -119,8 +122,10 @@ describe JSONAPI::Exceptions::DocumentExceptions do
         # -- TOP LEVEL - DATA:
         context 'when checking primary data' do
           it 'should raise if data not a hash when it is a request' do
-            msg = 'The request MUST include a single resource object as primary data'
-            expect { f({ meta: { count: 123 } }, http_method: 'POST') }.to raise_error(dec, msg)
+            msg = 'The request MUST include a single resource object as primary data, ' \
+                  'unless it is a PATCH request clearing a relationship using a relationship link'
+            expect { f({ data: [], meta: { count: 123 } }, http_method: 'POST', path: '/photos') }.to raise_error(dec, msg)
+            expect(f({ data: [] }, http_method: 'PATCH', path: '/person/123/relationships/comments')).to be nil
           end
 
           it 'should raise if not nil, a hash, or an array' do
@@ -143,7 +148,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
               end
 
               it 'should return nil if id is not included, but it is a post request' do
-                expect(f({ data: { type: 'type' } }, http_method: 'POST')).to be nil
+                expect(f({ data: { type: 'type' } }, http_method: 'POST', path: '/type')).to be nil
               end
 
               it 'should raise if type is ever not included' do
@@ -151,7 +156,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
                 expect { f({ data: {} }) }.to raise_error(dec, msg_reg)
                 expect { f({ data: {} }, http_method: 'GET') }.to raise_error(dec, msg_reg)
                 msg_post = 'The resource object (for a post request) MUST contain at least a type member'
-                expect { f({ data: {} }, http_method: 'POST') }.to raise_error(dec, msg_post)
+                expect { f({ data: {} }, http_method: 'POST', path: '/photos') }.to raise_error(dec, msg_post)
               end
 
               it 'should raise if the type of id or type is not string' do
@@ -503,6 +508,42 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           end
         end
 
+        # -- TOP LEVEL - INCLUDED:
+        context 'when checking top level included' do
+          it 'should be a array' do
+            i_not_arr = {
+              data: { type: 't', id: '1', relationships: { author: { data: { type: 't', id: '2' } } } },
+              included: { type: 't', id: '2' }
+            }
+            msg = 'The top level included member MUST be represented as an array of resource objects'
+            expect { f(i_not_arr) }.to raise_error(dec, msg)
+
+            i = {
+              data: { type: 't', id: '1', relationships: { author: { data: { type: 't', id: '2' } } } },
+              included: [{ type: 't', id: '2' }]
+            }
+            expect(f(i)).to be nil
+          end
+
+          it 'should raise if a resource error is found' do
+            i_id_not_str = {
+              data: { type: 't', id: 1, relationships: { author: { data: { type: 't', id: '2' } } } },
+              included: [{ type: 't', id: '2' }]
+            }
+            msg = 'The value of the resource id member MUST be string'
+            expect { f(i_id_not_str) }.to raise_error(dec, msg)
+          end
+
+          it 'should raise if 2 or more included resources have the same type/id pair' do
+            i = {
+              data: { type: 't', id: '1', relationships: { author: { data: { type: 't', id: '2' } } } },
+              included: [{ type: 't', id: '2' }, { type: 't', id: '2' }]
+            }
+            msg = 'A compound document MUST NOT include more than one resource object for each type and id pair.'
+            expect { f(i) }.to raise_error(dec, msg)
+          end
+        end
+
         #  -- TOP LEVEL - ERRORS:
         context 'when checking top level errors' do
           it 'should return nil if given valid input' do
@@ -677,32 +718,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           end
         end
 
-        # -- TOP LEVEL - INCLUDED:
-        context 'when checking top level included' do
-          it 'should be a array' do
-            i_not_arr = {
-              data: { type: 't', id: '1', relationships: { author: { data: { type: 't', id: '2' } } } },
-              included: { type: 't', id: '2' }
-            }
-            msg = 'The top level included member MUST be represented as an array of resource objects'
-            expect { f(i_not_arr) }.to raise_error(dec, msg)
 
-            i = {
-              data: { type: 't', id: '1', relationships: { author: { data: { type: 't', id: '2' } } } },
-              included: [{ type: 't', id: '2' }]
-            }
-            expect(f(i)).to be nil
-          end
-
-          it 'should raise if a resource error is found' do
-            i_id_not_str = {
-              data: { type: 't', id: 1, relationships: { author: { data: { type: 't', id: '2' } } } },
-              included: [{ type: 't', id: '2' }]
-            }
-            msg = 'The value of the resource id member MUST be string'
-            expect { f(i_id_not_str) }.to raise_error(dec, msg)
-          end
-        end
       end
 
       # -- Checking Full Linkage:
@@ -789,7 +805,7 @@ describe JSONAPI::Exceptions::DocumentExceptions do
     end
 
     # **********************************
-    # * CHECKING MEMBER NAMES          *
+    # * CHECKING FOR MATCHING TYPES    *
     # **********************************
     describe '#check_for_matching_types' do
 

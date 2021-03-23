@@ -51,11 +51,11 @@ module JSONAPI
 
     # Adds an item to Collection's internal hash
     def insert(key, item)
-      if @collection[key.to_sym]
+      if include?(key)
         raise 'The hash key given already has an Item associated with it. ' \
               'Remove existing item first.'
       end
-      @collection[key.to_sym] = item
+      set(key, item)
     end
 
     # Overwrites the item associated w a given key, or adds an association if no item is already associated.
@@ -123,6 +123,22 @@ module JSONAPI
         end
       end
       to_return += ' }'
+    end
+
+    private
+
+    # Gets the Collection object whose hash key matches the method_name called
+    # @param method_name [Symbol] The name of the method called
+    # @param args If any arguments were passed to the method called
+    # @param block If a block was passed to the method called
+    def method_missing(method_name, *args, &block)
+      super unless @collection.include?(method_name)
+      get(method_name)
+    end
+
+    # Whether or not method missing should be called.
+    def respond_to_missing?(method_name, *)
+      @collection.include?(method_name) || super
     end
   end
 end

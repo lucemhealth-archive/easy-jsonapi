@@ -3,6 +3,15 @@
 require 'rack/jsonapi/exceptions/naming_exceptions'
 require 'rack/jsonapi/exceptions/user_defined_exceptions'
 
+# TODO: Review document exceptions against jsonapi spec
+# TODO: PATCH -- Updating To One Relationships -- The path request must contain a top level member
+#   named data containing either a ResourceID or null
+#   ^ To check, create #relationships_url? and make check based on that
+
+
+# TODO: LET JSON API Know you wrote an implementation of the gem (See #status of https://jsonapi.org/format/#crud)
+
+
 module JSONAPI
   module Exceptions
 
@@ -48,19 +57,20 @@ module JSONAPI
       
       # Checks a request document against the JSON:API spec to see if it complies
       # @param document [String | Hash]  The jsonapi document included with the http request
-      # @param opts [Hash] Includes path, http_method, sparse_fieldsets, and config variables
+      # @param opts [Hash] Includes path, http_method, sparse_fieldsets
       # @raise InvalidDocument if any part of the spec is not observed
-      def self.check_compliance(document, opts = {})
+      def self.check_compliance(document, config_manager = nil, opts = {})
         document = Oj.load(document, symbol_keys: true) if document.is_a? String
         ensure!(!document.nil?, 'A document cannot be nil')
         
         check_essentials(document, opts[:http_method])
-        check_members(document, opts[:http_method], opts[:sparse_fieldsets])
+        check_members(document, opts[:http_method], opts[:path], opts[:sparse_fieldsets])
         check_for_matching_types(document, opts[:http_method], opts[:path])
         check_member_names(document)
         
-        err = JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, opts[:config], opts[:http_verb])
-        raise err, err.msg unless err.nil?
+        usr_opts = { http_method: opts[:http_method], path: opts[:path] }
+        err = JSONAPI::Exceptions::UserDefinedExceptions.check_user_document_requirements(document, config_manager, usr_opts)
+        raise err unless err.nil?
         
         nil
       end
@@ -98,7 +108,8 @@ module JSONAPI
                     'If a document does not contain a top-level data key, the included ' \
                     'member MUST NOT be present either')
             ensure!(http_method.nil?,
-                    'The request MUST include a single resource object as primary data')
+                    'The request MUST include a single resource object as primary data, ' \
+                    'unless it is a PATCH request clearing a relationship using a relationship link')
           end
         end
 
@@ -110,16 +121,16 @@ module JSONAPI
         # @param http_method [String] The http verb
         # @param sparse_fieldsets [TrueClass | FalseClass | Nilclass]
         # @raise (see #check_compliance)
-        def check_members(document, http_method, sparse_fieldsets)
-          check_individual_members(document, http_method)
-          check_full_linkage(document, http_method) unless sparse_fieldsets
+        def check_members(document, http_method, path, sparse_fieldsets)
+          check_individual_members(document, http_method, path)
+          check_full_linkage(document, http_method) unless sparse_fieldsets && http_method.nil?
         end
 
         # Checks individual members of the jsonapi document for errors
         # @param (see #check_compliance)
         # @raise (see #check_complaince)
-        def check_individual_members(document, http_method)
-          check_data(document[:data], http_method) if document.key? :data
+        def check_individual_members(document, http_method, path)
+          check_data(document[:data], http_method, path) if document.key? :data
           check_errors(document[:errors]) if document.key? :errors
           check_meta(document[:meta]) if document.key? :meta
           check_jsonapi(document[:jsonapi]) if document.key? :jsonapi
@@ -133,9 +144,10 @@ module JSONAPI
         # @param (see #check_compliance)
         # @param (see #check_compliance)
         # @raise (see #check_compliance)
-        def check_data(data, http_method)
-          ensure!(data.is_a?(Hash) || http_method.nil?,
-                  'The request MUST include a single resource object as primary data')
+        def check_data(data, http_method, path)
+          ensure!(data.is_a?(Hash) || http_method.nil? || clearing_relationship_link?(data, http_method, path),
+                  'The request MUST include a single resource object as primary data, ' \
+                  'unless it is a PATCH request clearing a relationship using a relationship link')
           case data
           when Hash
             check_resource(data, http_method)
@@ -151,7 +163,6 @@ module JSONAPI
         # @param (see #check_compliance)
         # @raise (see #check_compliance)
         def check_resource(resource, http_method = nil)
-          # TODO: Add config option to let user decide whether client generated ids are acceptable
           if http_method == 'POST'
             ensure!(resource[:type],
                     'The resource object (for a post request) MUST contain at least a type member')
@@ -159,12 +170,12 @@ module JSONAPI
             ensure!((resource[:type] && resource[:id]),
                     'Every resource object MUST contain an id member and a type member')
           end
+          ensure!(resource[:type].instance_of?(String),
+                  'The value of the resource type member MUST be string')
           if resource[:id]
             ensure!(resource[:id].instance_of?(String),
                     'The value of the resource id member MUST be string')
           end
-          ensure!(resource[:type].instance_of?(String),
-                  'The value of the resource type member MUST be string')
           # Check for sharing a common namespace is in #check_resource_members
           ensure!(JSONAPI::Exceptions::NamingExceptions.check_member_constraints(resource[:type]).nil?,
                   'The values of type members MUST adhere to the same constraints as member names')
@@ -191,8 +202,7 @@ module JSONAPI
           ensure!(attributes.is_a?(Hash),
                   'The value of the attributes key MUST be an object')
           # Attribute members can contain any json value (verified using OJ JSON parser), but
-          #   must not contain any attribute or links member
-          # TODO: has one foreign keys should not appear as attributes
+          #   must not contain any attribute or links member -- see #check_full_linkage for this check
           # Member names checked separately.
         end
 
@@ -257,6 +267,60 @@ module JSONAPI
           check_meta(res_id[:meta]) if res_id.key? :meta
         end
 
+        # -- TOP LEVEL - INCLUDED
+
+        # @param included [Array]  The array of included resources
+        # @raise (see #check_compliance)
+        def check_included(included)
+          ensure!(included.is_a?(Array),
+                  'The top level included member MUST be represented as an array of resource objects')
+          
+          check_included_resources(included)
+          # Full linkage check is in #check_members
+        end
+
+        # Check each included resource for compliance and make sure each type/id pair is unique
+        # @param (see #check_included)
+        # @raise (see #check_compliance)
+        def check_included_resources(included)
+          no_duplicate_type_and_id_pairs = true
+          set = {}
+          included.each do |res|
+            check_resource(res)
+            unless unique_pair?(set, res)
+              no_duplicate_type_and_id_pairs = false
+              break
+            end
+          end
+          ensure!(no_duplicate_type_and_id_pairs,
+                  'A compound document MUST NOT include more ' \
+                  'than one resource object for each type and id pair.')
+        end
+
+        # @param set [Hash] Set of unique pairs so far
+        # @param res [Hash] The resource to inspect
+        # @return [TrueClass | FalseClass] Whether the resource has a unique
+        #   type and id pair
+        def unique_pair?(set, res)
+          pair = "#{res[:type]}|#{res[:id]}"
+          if set.key?(pair)
+            return false
+          end
+          set[pair] = true
+          true
+        end
+
+        # Checking if document is fully linked
+        # @param document [Hash] The jsonapi document
+        # @param http_method (see #check_for_matching_types)
+        def check_full_linkage(document, http_method)
+          return if http_method
+          
+          ensure!(full_linkage?(document),
+                  'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
+                  'identified by at least one resource identifier object in the same document.')
+        end
+
         # -- TOP LEVEL - ERRORS
 
         # @param errors [Array] The array of errors contained in the jsonapi document
@@ -304,7 +368,7 @@ module JSONAPI
         # Pagination Links:
         # Only checked for on response
         # Must only be included in links objects
-        # 
+        # Must Paginate member they are inluded in (relationship vs primary resouce vs compound doc)
 
         # FIXME:
         # Response Questions:
@@ -338,28 +402,6 @@ module JSONAPI
           end
         end
 
-        # -- TOP LEVEL - INCLUDED
-
-        # @param included [Array]  The array of included resources
-        # @raise (see check_compliance)
-        def check_included(included)
-          ensure!(included.is_a?(Array),
-                  'The top level included member MUST be represented as an array of resource objects')
-          included.each { |res| check_resource(res) }
-          # Full linkage check is in #check_members
-        end
-
-        # Checking if document is fully linked
-        # @param document [Hash] The jsonapi document
-        # @param http_method (see #check_for_matching_types)
-        def check_full_linkage(document, http_method)
-          return if http_method
-          
-          ensure!(full_linkage?(document),
-                  'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
-                  'identified by at least one resource identifier object in the same document.')
-        end
-
         # **********************************
         # * CHECK FOR MATCHING TYPES       *
         # **********************************
@@ -372,7 +414,9 @@ module JSONAPI
           return unless http_method
           return unless path
           
-          res_type = document.dig(:data, :type)
+          return unless JSONAPI::Utility.all_hash_path?(document, %i[data type])
+          
+          res_type = document[:data][:type]
           case http_method
           when 'POST'
             path_type = path.split('/')[-1]
@@ -442,9 +486,9 @@ module JSONAPI
           raise InvalidDocument, "The member named '#{name}' raised: #{msg}"
         end
 
-        # **********************************
-        # * GENERAL HELPER FUNCTIONS       *
-        # **********************************
+        # ********************************
+        # * GENERAL HELPER Methods       *
+        # ********************************
         
         # Helper function to raise InvalidDocument errors
         # @param condition The condition to evaluate
@@ -453,10 +497,22 @@ module JSONAPI
         def ensure!(condition, error_message, status_code: 400)
           raise InvalidDocument.new(status_code), error_message unless condition
         end
+
+        # Helper Method for #check_top_level ---------------------------------
+
+        # TODO: Write tests for clearing_relationship_link
+        def clearing_relationship_link?(data, http_method, path)
+          http_method == 'PATCH' && data == [] && relationship_link?(path)
+        end
+
+        # Does the path length and values indicate that it is a relationsip link
+        # @param path [String] The request path
+        def relationship_link?(path)
+          path_arr = path.split('/')
+          path_arr[-2] == 'relationships' && path_arr.length >= 4
+        end
         
-        # *****************************************
-        # Helper Method for #check_resource_members
-        # *****************************************
+        # Helper Method for #check_resource_members --------------------------
 
         # Checks whether a resource's fields share a common namespace
         # @param attributes [Hash] A resource's attributes
@@ -482,13 +538,12 @@ module JSONAPI
           arr1.keys & arr2.keys == []
         end
 
-        # ********************************
-        # Helper Methods for Full Linkage:
-        # ********************************
+        # Helper Methods for Full Linkage -----------------------------------
 
         # @param document [Hash] The jsonapi document hash
         def full_linkage?(document)
-          return true unless document[:included] # Checked earlier to make sure included only exists w data
+          return true unless document[:included] 
+          # ^ Checked earlier to make sure included only exists w data
           
           possible_includes = get_possible_includes(document)
           any_additional_includes?(possible_includes, document[:included])

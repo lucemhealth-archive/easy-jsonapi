@@ -26,13 +26,13 @@ module JSONAPI
       # Checks to see if the query paramaters conform to the JSONAPI spec and raises InvalidQueryParameter
       #   if any parts are found to be non compliant
       # @param rack_req_params [Hash]  The hash of the query parameters given by Rack::Request
-      def self.check_compliance(rack_req_params, config: nil)
+      def self.check_compliance(rack_req_params, config_manager = nil, opts = {})
         impl_spec_names = rack_req_params.keys - %w[include fields page sort filter]
         impl_spec_names.each do |name|
           check_param_name(name)
         end
         
-        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_query_param_requirements(rack_req_params, config)
+        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_query_param_requirements(rack_req_params, config_manager, opts)
         return err_msg unless err_msg.nil?
 
         nil

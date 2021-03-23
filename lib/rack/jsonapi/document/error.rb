@@ -23,6 +23,11 @@ module JSONAPI
       def add(error_mem)
         super(error_mem, &:name)
       end
+
+      def <<(error_mem)
+        super(error_mem, &:name)
+      end
+      
       # #<< provided by super, but calls overriden #add
       # #each provided from super
       # #remove provided from super

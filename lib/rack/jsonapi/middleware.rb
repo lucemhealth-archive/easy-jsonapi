@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions'
-require 'rack/jsonapi/config'
+require 'rack/jsonapi/config_manager'
 require 'oj'
 
 module JSONAPI
@@ -15,8 +15,8 @@ module JSONAPI
 
       return unless block_given?
 
-      @config = JSONAPI::Config.new
-      block.call(@config)
+      @config_manager = JSONAPI::ConfigManager.new
+      block.call(@config_manager)
     end
 
     # If there is a JSONAPI-compliant body, it checks it for compliance and raises
@@ -28,7 +28,7 @@ module JSONAPI
       end
 
       if jsonapi_request?(env)
-        error_response = check_compliance(env, @config)
+        error_response = check_compliance(env, @config_manager)
         return error_response unless error_response.nil?
       end
 
@@ -86,37 +86,38 @@ module JSONAPI
     # @param env (see #call)
     # @param config [JSONAPI::Config] The config object to use modify compliance checking
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_compliance(env, config)
-      header_error = check_headers_compliance(env, config)
+    def check_compliance(env, config_manager)
+      opts = { http_method: env['REQUEST_METHOD'], path: env['PATH_INFO'] }
+
+      header_error = check_headers_compliance(env, config_manager, opts)
       return header_error unless header_error.nil?
 
       req = Rack::Request.new(env)
-
-      param_error = check_query_param_compliance(req, env, config)
+      param_error = check_query_param_compliance(env, req.GET, config_manager, opts)
       return param_error unless param_error.nil?
       
       return unless env['CONTENT_TYPE']
 
-      body_error = check_req_body_compliance(req, env, config)
+      body_error = check_req_body_compliance(env, config_manager, opts)
       return body_error unless body_error.nil?
     end
 
     # Checks whether the http headers are jsonapi compliant
     # @param (see #call)
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_headers_compliance(env, config)
-      JSONAPI::Exceptions::HeadersExceptions.check_request(env, config: config)
+    def check_headers_compliance(env, config_manager, opts)
+      JSONAPI::Exceptions::HeadersExceptions.check_request(env, config_manager, opts)
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader || JSONAPI::Exceptions::UserDefinedExceptions::InvalidHeader => e
       raise if environment_development?(env)
 
       [e.status_code, {}, []]
     end
 
-    # @param req [Rack::Request | NilClass] The rack request
+    # @param query_params [Hash] The rack request query_param hash
     # @raise If the query parameters are not JSONAPI compliant
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_query_param_compliance(req, env, config)
-      JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(req.GET, config: config)
+    def check_query_param_compliance(env, query_params, config_manager, opts)
+      JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(query_params, config_manager, opts)
     rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter || JSONAPI::Exceptions::UserDefinedExceptions::InvalidQueryParam => e
       raise if environment_development?(env)
       
@@ -126,14 +127,11 @@ module JSONAPI
     # @param env (see #call)
     # @param req (see #check_query_param_compliance)
     # @raise If the document body is not JSONAPI compliant
-    def check_req_body_compliance(req, env, config)
-      raise "GET requests cannot include the 'CONTENT_TYPE' header" if env['REQUEST_METHOD'] == 'GET'
-      
+    def check_req_body_compliance(env, config_manager, opts)
       # Store separately so you can rewind for next middleware or app
-      body = req.body.read
-      req.body.rewind
-      opts = { http_method: env['REQUEST_METHOD'], path: env['PATH_INFO'], config: config }
-      JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, opts)
+      body = env['rack.input'].read
+      env['rack.input'].rewind
+      JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, config_manager, opts)
     rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument || JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument => e
       raise if environment_development?(env)
 

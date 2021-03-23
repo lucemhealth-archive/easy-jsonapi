@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rack/jsonapi/exceptions/user_defined_exceptions'
+require 'rack/jsonapi/utility'
 
 module JSONAPI
   module Exceptions
@@ -20,19 +21,20 @@ module JSONAPI
 
       # Check http verb vs included headers
       # @param env [Hash] The rack environment variable
-      def self.check_request(env, config: nil)
-        check_compliance(env, config: config)
-        check_http_verb_against_headers(env)
+      def self.check_request(env, config_manager = nil, opts = {})
+        check_compliance(env, config_manager, opts)
+        check_http_method_against_headers(env)
       end
 
       # Check jsonapi compliance
       # @param (see #check_request)
-      def self.check_compliance(env, config: nil)
+      def self.check_compliance(env, config_manager = nil, opts = {})
         check_content_type(env)
         check_accept(env)
 
         hdrs = JSONAPI::Parser::HeadersParser.parse(env)
-        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_header_requirements(hdrs, config)
+        usr_opts = { http_method: opts[:http_method], path: opts[:path] }
+        err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_header_requirements(hdrs, config_manager, usr_opts)
         return err_msg unless err_msg.nil?
       end
 
@@ -76,7 +78,7 @@ module JSONAPI
         #   error if the combination doesn't make sense
         # @param (see #compliant?)
         # @raise InvalidHeader the invalid header incombination with the http verb
-        def check_http_verb_against_headers(env)
+        def check_http_method_against_headers(env)
           case env['REQUEST_METHOD']
           when 'GET'
             check_get_against_hdrs(env)

@@ -37,17 +37,33 @@ module JSONAPI
         # Performs compliance checks on the document to see if it complies
         #   to the user defined requirements
         # @param document [Hash] The hash representation of the json body
-        # @param config [JSONAPI::Config] The config option to retreive user
+        # @param config_manager [JSONAPI::ConfigManager] The config_manager option to retreive user
         #   requirements from
         # @return [NilClass | String] Nil or the String Error Message
-        def check_user_document_requirements(document, config, http_verb)
-          return unless config
-
-          err = 
-            check_for_required_document_members(document, config.required_document_members) ||
-            check_for_client_generated_id(document, config.allow_client_ids, http_verb)
+        def check_user_document_requirements(document, config_manager, opts)
+          return if config_manager.nil?
+          
+          config = get_config(config_manager, opts[:http_method], opts[:path])
+          err = check_for_client_generated_id(document, config.allow_client_ids, opts[:http_method])
+          pp "this shouldn't be nil: #{err}"
+          pp config_manager.size
+          
+          return if config.default? && config_manager.size.positive?
+          
+          pp opts
+          pp '*********** 3'
+          pp config.required_document_members
+          
+          if err.nil?
+            err = check_for_required_document_members(document, config.required_document_members)
+          end
           # To add more user requirement features, add more methods here
-          return JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument.new(err) unless err.nil?
+          
+          pp "this shouldn't be nil: #{err}"
+          pp '*********** 4'
+          # TODO: has-one foreign keys should not appear as attributes -- user could define
+          #   a set of foreign keys that the middleware could search for to see if they are included as attributes
+          JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument.new(err) unless err.nil?
         end
 
         # Performs compliance checks on the headers to see if it complies
@@ -55,8 +71,9 @@ module JSONAPI
         # @param headers [Hash | JSONAPI::HeaderCollection] The collection of provided headers. Keys should be upper case strings
         #   with underscores instead of dashes.
         # @param config (see #check_user_document_requirements)
-        def check_user_header_requirements(headers, config)
-          return unless config
+        def check_user_header_requirements(headers, config_manager, opts)
+          return if config_manager.nil? || config_manager.default?
+          config = get_config(config_manager, opts[:http_method], opts[:path])
 
           err = 
             check_for_required_headers(headers, config.required_headers)
@@ -69,8 +86,9 @@ module JSONAPI
         #   to the user defined requirements
         # @param rack_req_params [Hash]  The hash of the query parameters given by Rack::Request
         # @param config (see #check_user_document_requirements)
-        def check_user_query_param_requirements(rack_req_params, config)
-          return unless config
+        def check_user_query_param_requirements(rack_req_params, config_manager, opts)
+          return if config_manager.nil? || config_manager.default?
+          config = get_config(config_manager, opts[:http_method], opts[:path])
 
           err = 
             check_for_required_params(rack_req_params, config.required_query_params)
@@ -104,18 +122,20 @@ module JSONAPI
         # @param document (see #check_user_document_requirements)
         # @param req_mems[Hash] The hash representation of the user-defined required json members.
         def check_for_required_document_members(document, req_mems)
-          err = check_structure(document, req_mems)
-          return err unless err.nil?
 
-          if req_mems.is_a?(Array) && !document.is_a?(Array)
+
+          pp "reached val to check: #{reached_value_to_check?(document, req_mems)} -- #{document}"
+          if reached_value_to_check?(document, req_mems)
             return check_values(document, req_mems)
           end
+          
+          err = check_structure(document, req_mems)
+          return err unless err.nil?
 
           case req_mems
           when Hash
             req_mems.each do |k, v|
-              return ["Document is missing one of the user-defined required keys: #{k}"] unless document[k]
-              
+              pp "k: #{k}, v: #{v}"
               err = check_for_required_document_members(document[k], v)
               return err unless err.nil?
             end
@@ -126,41 +146,61 @@ module JSONAPI
             end
           end
           nil
-        end          
+        end       
 
         # Check if same class or if req_mems nil. If not it indicates the user has specified set
         #   of required values for a given key. Check whether the current valueis within the set.
         # @param (see #check_required_document_members)
         # @return [NilClass | String] An error message if one found.
         def check_structure(document, req_mems)
-          return if document.instance_of?(req_mems.class) || req_mems.nil? || req_mems.is_a?(Array)
+          pp "doc class: #{document.class}, req class: #{req_mems.class}"
+          if both_are_hashes(document, req_mems)
+            doc_keys = document.keys
+            req_keys = req_mems.keys
+            pp document.keys
+            pp req_mems.keys
+            pp doc_keys & req_keys == req_keys
+            return if doc_keys & req_keys == req_keys
+            ["Document is missing user-defined required keys: #{req_keys - doc_keys}"]
+          else 
+            return if document.instance_of?(req_mems.class) || req_mems.nil?
+            ["User-defined required members hash does not mimic structure of json document: #{document}"]
+          end
+        end
 
-          ["User-defined required members hash does not mimic structure of json document: #{document}"]
+        def both_are_hashes(first, second)
+          first.is_a?(Hash) && second.is_a?(Hash)
+        end
+
+        # @return [TrueClass | FalseClass]
+        def reached_value_to_check?(document, req_mems)
+          (req_mems.is_a?(Proc) || req_mems.nil?) && !document.is_a?(Hash) && !document.is_a?(Array)
         end
         
         # Checks whether a value given is within the permitted values
         # @param value_given [Any]
-        # @return [NilClass | String] An error msg or nil
         def check_values(value_given, permitted_values)
-          return if value_given.is_a?(Hash)
-          permitted_values.each do |v|
-            return nil if v.to_s.upcase.gsub(/-/, '_') == value_given.to_s.upcase.gsub(/-/, '_')
-          end
-          
-          ["The following value was given when only the following #{permitted_values} values are permitted: \"#{value_given}\""]
+          pp "checking values: permitted_values: #{permitted_values} -- val given: #{value_given}"
+          return if permitted_values.nil? || (permitted_values.is_a?(Proc) && permitted_values.call(value_given))
+          ["The user-defined Proc found at #{permitted_values.source_location}, evaluated the given value, #{value_given}, to be non compliant."]
         end
         
         # Checks if a resource id was included in the primary resource sent in a POST request
         # @param document (see# #check_required_document_members)
         # @param allow_client_ids [TrueClass | FalseClass] Does the user allow client generated
         #   ids
-        # @param http_verb [String] Does the document belong to a POST request
-        def check_for_client_generated_id(document, allow_client_ids, http_verb)
-          pp allow_client_ids
-          pp http_verb
+        # @param http_method [String] Does the document belong to a POST request
+        def check_for_client_generated_id(document, allow_client_ids, http_method)
+          pp
+          pp "checking_for_client_ids"
           pp document
-          return unless !allow_client_ids && http_verb == 'POST'
-          return unless document.dig(:data, :id)
+          pp "  allow_client_ids: #{allow_client_ids}"
+          pp "  http_method: #{http_method}"
+          pp "  all_hash_path?(data id): #{JSONAPI::Utility.all_hash_path?(document, %i[data id])}"
+          return unless http_method == 'POST' && !allow_client_ids
+          pp 'test'
+          return unless JSONAPI::Utility.all_hash_path?(document, %i[data id])
+          pp 'ing'
           
           msg = 'Document MUST return 403 Forbidden in response to an unsupported request ' \
                 'to create a resource with a client-generated ID.'
@@ -224,6 +264,19 @@ module JSONAPI
             return ['The user-defined required query params hash must contain keys with values either hash or nil']
           end
           nil
+        end
+
+        def get_config(config_manager, http_method, path)
+          if http_method
+            pp 'getting config'
+            res_type = JSONAPI::Utility.path_to_res_type(path)
+            pp 'res_type'
+            pp config_manager[res_type]
+            config_manager[res_type] || config_manager.global
+          else
+            pp 'not getting config'
+            config_manager.global
+          end
         end
       end
     end

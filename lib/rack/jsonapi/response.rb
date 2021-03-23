@@ -5,6 +5,7 @@ require 'rack/jsonapi/exceptions'
 module JSONAPI
   # Used to validate the serialized response before returned to a client
   module Response
+    # TODO: Add config_manager options for out bound serialization validation
 
     # @param body [Hash | String] The ruby hash mimicking jsonapi to check for compliance
     # @param headers [Hash] The hash of response headers.
@@ -19,7 +20,7 @@ module JSONAPI
     # @return (see #validate)
     # @raise InvalidDocument if document found to be non compliant
     def self.validate_body(body)
-      JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, is_a_request: false)
+      JSONAPI::Exceptions::DocumentExceptions.check_compliance(body)
     end
     
     # @param (see #validate)

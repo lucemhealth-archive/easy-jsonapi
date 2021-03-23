@@ -15,13 +15,11 @@ module JSONAPI
           # @param rels_member_hash [Hash] The hash of relationship members
           def initialize(rels_member_hash)
             unless rels_member_hash.is_a? Hash
-              msg = 'Must initialize a ' \
+              raise 'Must initialize a ' \
                     'JSONAPI::Document::Resource::Relationships::Relationship with a Hash'
-              raise msg
             end
-            # TODO: add a relationship, and type
-            # need to know one or many
-            # object
+            # TODO: Knowing whether a relationship is to-one or to-many can assist in validating
+            #   compliance and cross checking a document.
             @name = rels_member_hash[:name].to_s
             @links = rels_member_hash[:links]
             @data = rels_member_hash[:data]

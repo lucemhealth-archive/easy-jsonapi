@@ -11,9 +11,12 @@ module JSONAPI
 
     # Creates an empty collection by default
     # @param pair_arr [Array<JSONAPI::NameValuePair>] The pairs to be initialized with.
-    def initialize(pair_arr = [], item_type: JSONAPI::NameValuePair)
-      @pair_names = []
-      super(pair_arr, item_type: item_type, &:name)
+    def initialize(pair_arr = [], item_type: JSONAPI::NameValuePair, &block)
+      if block_given?
+        super(pair_arr, item_type: item_type, &block)
+      else
+        super(pair_arr, item_type: item_type, &:name)
+      end
     end
 
     # #empyt? provided by super
@@ -22,15 +25,17 @@ module JSONAPI
     # Add a pair to the collection. (CASE-SENSITIVE)
     # @param pair [JSONAPI::NameValuePair] The pair to add
     def add(pair, &block)
-      p_name = pair.name.gsub(/-/, '_').to_sym
-      @pair_names << p_name unless @pair_names.include?(p_name)
-      super(pair, &block)
+      if block_given?
+        super(pair, &block)
+      else
+        super(pair, &:name)
+      end
     end
 
     # Another way to add a query_param
     # @oaram (see #add)
-    def <<(pair)
-      add(pair)
+    def <<(pair, &block)
+      add(pair, &block)
     end
 
     # #each provided from super
@@ -55,18 +60,18 @@ module JSONAPI
 
     private
 
-    # Gets the NameValuePair object whose name matches the method_name called
+    # Gets the NameValuePair object value whose name matches the method_name called
     # @param method_name [Symbol] The name of the method called
     # @param args If any arguments were passed to the method called
     # @param block If a block was passed to the method called
     def method_missing(method_name, *args, &block)
-      super unless @pair_names.include?(method_name)
+      super unless include?(method_name)
       get(method_name).value
     end
 
     # Whether or not method missing should be called.
     def respond_to_missing?(method_name, *)
-      @pair_names.include?(method_name) || super
+      include?(method_name) || super
     end
 
   end
