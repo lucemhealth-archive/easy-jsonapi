@@ -24,6 +24,8 @@ module JSONAPI
         super(error_mem, &:name)
       end
 
+      # Another way to call add
+      # @param (see #add)
       def <<(error_mem)
         super(error_mem, &:name)
       end

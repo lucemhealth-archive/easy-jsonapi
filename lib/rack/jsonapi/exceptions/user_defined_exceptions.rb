@@ -45,22 +45,14 @@ module JSONAPI
           
           config = get_config(config_manager, opts[:http_method], opts[:path])
           err = check_for_client_generated_id(document, config.allow_client_ids, opts[:http_method])
-          pp "this shouldn't be nil: #{err}"
-          pp config_manager.size
           
           return if config.default? && config_manager.size.positive?
-          
-          pp opts
-          pp '*********** 3'
-          pp config.required_document_members
           
           if err.nil?
             err = check_for_required_document_members(document, config.required_document_members)
           end
           # To add more user requirement features, add more methods here
           
-          pp "this shouldn't be nil: #{err}"
-          pp '*********** 4'
           # TODO: has-one foreign keys should not appear as attributes -- user could define
           #   a set of foreign keys that the middleware could search for to see if they are included as attributes
           JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument.new(err) unless err.nil?
@@ -122,9 +114,6 @@ module JSONAPI
         # @param document (see #check_user_document_requirements)
         # @param req_mems[Hash] The hash representation of the user-defined required json members.
         def check_for_required_document_members(document, req_mems)
-
-
-          pp "reached val to check: #{reached_value_to_check?(document, req_mems)} -- #{document}"
           if reached_value_to_check?(document, req_mems)
             return check_values(document, req_mems)
           end
@@ -135,7 +124,6 @@ module JSONAPI
           case req_mems
           when Hash
             req_mems.each do |k, v|
-              pp "k: #{k}, v: #{v}"
               err = check_for_required_document_members(document[k], v)
               return err unless err.nil?
             end
@@ -153,13 +141,9 @@ module JSONAPI
         # @param (see #check_required_document_members)
         # @return [NilClass | String] An error message if one found.
         def check_structure(document, req_mems)
-          pp "doc class: #{document.class}, req class: #{req_mems.class}"
           if both_are_hashes(document, req_mems)
             doc_keys = document.keys
             req_keys = req_mems.keys
-            pp document.keys
-            pp req_mems.keys
-            pp doc_keys & req_keys == req_keys
             return if doc_keys & req_keys == req_keys
             ["Document is missing user-defined required keys: #{req_keys - doc_keys}"]
           else 
@@ -180,7 +164,6 @@ module JSONAPI
         # Checks whether a value given is within the permitted values
         # @param value_given [Any]
         def check_values(value_given, permitted_values)
-          pp "checking values: permitted_values: #{permitted_values} -- val given: #{value_given}"
           return if permitted_values.nil? || (permitted_values.is_a?(Proc) && permitted_values.call(value_given))
           ["The user-defined Proc found at #{permitted_values.source_location}, evaluated the given value, #{value_given}, to be non compliant."]
         end
@@ -191,16 +174,8 @@ module JSONAPI
         #   ids
         # @param http_method [String] Does the document belong to a POST request
         def check_for_client_generated_id(document, allow_client_ids, http_method)
-          pp
-          pp "checking_for_client_ids"
-          pp document
-          pp "  allow_client_ids: #{allow_client_ids}"
-          pp "  http_method: #{http_method}"
-          pp "  all_hash_path?(data id): #{JSONAPI::Utility.all_hash_path?(document, %i[data id])}"
           return unless http_method == 'POST' && !allow_client_ids
-          pp 'test'
           return unless JSONAPI::Utility.all_hash_path?(document, %i[data id])
-          pp 'ing'
           
           msg = 'Document MUST return 403 Forbidden in response to an unsupported request ' \
                 'to create a resource with a client-generated ID.'
@@ -268,13 +243,9 @@ module JSONAPI
 
         def get_config(config_manager, http_method, path)
           if http_method
-            pp 'getting config'
             res_type = JSONAPI::Utility.path_to_res_type(path)
-            pp 'res_type'
-            pp config_manager[res_type]
             config_manager[res_type] || config_manager.global
           else
-            pp 'not getting config'
             config_manager.global
           end
         end

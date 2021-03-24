@@ -84,7 +84,7 @@ module JSONAPI
 
     # Checks whether the request is JSON:API compliant and raises an error if not.
     # @param env (see #call)
-    # @param config [JSONAPI::Config] The config object to use modify compliance checking
+    # @param config_manager [JSONAPI::ConfigManager::Config] The config object to use modify compliance checking
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
     def check_compliance(env, config_manager)
       opts = { http_method: env['REQUEST_METHOD'], path: env['PATH_INFO'] }

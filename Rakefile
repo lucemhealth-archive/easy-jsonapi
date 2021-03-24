@@ -11,7 +11,6 @@ end
 
 task :build do
   system('gem build rack-jsonapi.gemspec')
-  system('gem install rack-jsonapi-0.1.0.gem')
 end
 
 YARD::Rake::YardocTask.new(:document) do |t|

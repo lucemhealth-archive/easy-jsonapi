@@ -114,6 +114,8 @@ module JSONAPI
       end
       
       # Get resource type from path
+      # @param path [String] The url path
+      # @return [String] The resource type
       def path_to_res_type(path)
         path_arr = path.split('/')
         if integer?(path_arr[-1]) || uuid?(path_arr[-1])
@@ -124,6 +126,7 @@ module JSONAPI
       end
       
       # Check if an input is an integer
+      # @param str [String | Integer]
       def integer?(str)
         # integers cannot be valid symbols, so assume string or integer input
         return true if str.is_a?(Integer) ||
@@ -131,6 +134,9 @@ module JSONAPI
         false
       end
       
+      # Use regix to test whether the input is a valid gen 4 uuid.
+      # @param uuid [String]
+      # @return [TrueClass | FalseClass]
       def uuid?(uuid)
         # uuids cannot be valid symbols, so assume string
         return true if uuid =~ /\A[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}\z/i ||
@@ -138,9 +144,11 @@ module JSONAPI
         false
       end
 
+      # The hash method #dig throws an error if an array appears in the path specified,
+      #   this method returns false for such a senario.
+      # @param hash [Hash] The hash being inspected
+      # @param args [Array<Symbol | String>] The hash keys making up the path
       def all_hash_path?(hash, args)
-        pp hash
-        pp args
         return false if (args.size.positive? && !hash.is_a?(Hash)) || hash.nil?
         return true if args.size.zero? && !hash.nil?
         all_hash_path?(hash[args.first], args[1..])
