@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/parser/rack_req_params_parser'
-require 'rack/jsonapi/exceptions/query_params_exceptions'
+require 'easy/jsonapi/parser/rack_req_params_parser'
+require 'easy/jsonapi/exceptions/query_params_exceptions'
 
 describe JSONAPI::Parser::RackReqParamsParser do
 

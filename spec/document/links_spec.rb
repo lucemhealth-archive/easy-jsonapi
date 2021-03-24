@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/links/link'
+require 'easy/jsonapi/document/links/link'
 require 'shared_examples/document_collections'
 
 describe JSONAPI::Document::Links do

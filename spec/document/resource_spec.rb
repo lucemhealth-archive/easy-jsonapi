@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/resource'
-require 'rack/jsonapi/parser/document_parser'
+require 'easy/jsonapi/document/resource'
+require 'easy/jsonapi/parser/document_parser'
 
 describe JSONAPI::Document::Resource do
 

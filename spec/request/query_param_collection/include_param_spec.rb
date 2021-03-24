@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/request/query_param_collection/include_param'
+require 'easy/jsonapi/request/query_param_collection/include_param'
 require 'shared_examples/query_param_tests'
 
 describe JSONAPI::Request::QueryParamCollection::IncludeParam do

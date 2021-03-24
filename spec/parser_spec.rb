@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/parser'
-require 'rack/jsonapi/request'
+require 'easy/jsonapi/parser'
+require 'easy/jsonapi/request'
 
 require 'oj'
 

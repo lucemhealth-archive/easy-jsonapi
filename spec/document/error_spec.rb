@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/error'
-require 'rack/jsonapi/document/error/error_member'
+require 'easy/jsonapi/document/error'
+require 'easy/jsonapi/document/error/error_member'
 
-require 'rack/jsonapi/document/meta/meta_member'
-require 'rack/jsonapi/document/meta'
+require 'easy/jsonapi/document/meta/meta_member'
+require 'easy/jsonapi/document/meta'
 
-require 'rack/jsonapi/document/links/link'
-require 'rack/jsonapi/document/links'
+require 'easy/jsonapi/document/links/link'
+require 'easy/jsonapi/document/links'
 
 require 'shared_examples/document_collections'
 

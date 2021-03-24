@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/utility'
+require 'easy/jsonapi/utility'
 
 describe JSONAPI::Utility do
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/resource/attributes/attribute'
+require 'easy/jsonapi/document/resource/attributes/attribute'
 require 'shared_examples/document_collections'
 
 describe JSONAPI::Document::Resource::Attributes do

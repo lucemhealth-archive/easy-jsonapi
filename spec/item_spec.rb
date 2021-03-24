@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/item'
+require 'easy/jsonapi/item'
 require 'shared_examples/item_shared_tests'
 
 describe JSONAPI::Item do

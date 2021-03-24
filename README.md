@@ -3,7 +3,7 @@
 # @title README
 -->
 
-# rack-jsonapi
+# easy-jsonapi
 
 ## A ruby [JSONAPI](http://jsonapi.org) gem that provides 3 main use cases:
 
@@ -28,7 +28,7 @@ Add this ine to your applications' Gemfile:
 
 ```ruby
 # Gemfile
-gem 'rack-jsonapi'
+gem 'easy-jsonapi'
 ```
 
 then execute:
@@ -41,7 +41,7 @@ $ bundle
 or manually via
 
 ```ruby
-$ gem install rack-jsonapi
+$ gem install easy-jsonapi
 # ...
 ```
 
@@ -83,7 +83,7 @@ use JSONAPI::Middleware
 
 ### Functionality
 
-The rack-jsonapi middleware can opperate in development or production mode.
+The easy-jsonapi middleware can opperate in development or production mode.
  
 If `ENV['RACK_ENV']` is set to `:development` or not set at all, the middleware will be opperating in development mode.
 
@@ -121,7 +121,7 @@ end
 To parse:
 
 ```ruby
-require 'rack/jsonapi'
+require 'easy/jsonapi'
 
 # ...
 
@@ -137,7 +137,7 @@ The `JSONAPI::Response` module is responsible for validating whether a serialize
 The following methods are provided to validate the response.
 
 ```ruby
-require 'rack/jsonapi'
+require 'easy/jsonapi'
 
 #  ...
 
@@ -155,12 +155,12 @@ See the [rubydocs](tbd) for more on the Serialized Response Validator.
 
 ## License
 
-rack-jsonapi is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+easy-jsonapi is released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rack-jsonapi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/easy-jsonapi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/easy-jsonapi/blob/master/CODE_OF_CONDUCT.md).
 
 ## Code of Conduct
 
-Everyone interacting in the rack-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rack-jsonapi/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the easy-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/easy-jsonapi/blob/master/CODE_OF_CONDUCT.md).

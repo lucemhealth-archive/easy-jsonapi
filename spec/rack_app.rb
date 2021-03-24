@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/parser'
+require 'easy/jsonapi/parser'
 
 # Demo Rack App to test middleware class locally.
 class RackApp

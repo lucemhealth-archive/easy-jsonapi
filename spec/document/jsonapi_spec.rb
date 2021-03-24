@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/jsonapi/jsonapi_member'
-require 'rack/jsonapi/document/meta/meta_member'
+require 'easy/jsonapi/document/jsonapi/jsonapi_member'
+require 'easy/jsonapi/document/meta/meta_member'
 require 'shared_examples/document_collections'
 
 describe JSONAPI::Document::Jsonapi do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/name_value_pair_collection'
-require 'rack/jsonapi/name_value_pair'
+require 'easy/jsonapi/name_value_pair_collection'
+require 'easy/jsonapi/name_value_pair'
 require 'shared_examples/name_value_pair_collections'
 
 describe JSONAPI::NameValuePairCollection do

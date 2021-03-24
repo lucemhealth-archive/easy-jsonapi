@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/response'
+require 'easy/jsonapi/response'
 require 'shared_contexts/document_exceptions_shared_context'
 require 'shared_contexts/headers_exceptions_shared_context'
 

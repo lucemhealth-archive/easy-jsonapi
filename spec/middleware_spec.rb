@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/middleware'
+require 'easy/jsonapi/middleware'
 require 'rack_app'
 require 'oj'
 

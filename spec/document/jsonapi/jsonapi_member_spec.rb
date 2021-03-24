@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/jsonapi/jsonapi_member'
+require 'easy/jsonapi/document/jsonapi/jsonapi_member'
 require 'shared_examples/name_value_pair_tests'
 
 describe JSONAPI::Document::Jsonapi::JsonapiMember do

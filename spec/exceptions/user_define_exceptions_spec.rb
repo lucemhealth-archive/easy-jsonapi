@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions/user_defined_exceptions'
-require 'rack/jsonapi/config_manager'
-require 'rack/jsonapi/config_manager/config'
+require 'easy/jsonapi/exceptions/user_defined_exceptions'
+require 'easy/jsonapi/config_manager'
+require 'easy/jsonapi/config_manager/config'
 
 describe JSONAPI::Exceptions::UserDefinedExceptions do
   let(:cm) { JSONAPI::ConfigManager.new }

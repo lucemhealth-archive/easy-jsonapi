@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/request'
-require 'rack/jsonapi/parser'
+require 'easy/jsonapi/request'
+require 'easy/jsonapi/parser'
 
 describe JSONAPI::Request do
 

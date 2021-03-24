@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/request/query_param_collection/fields_param/fieldset'
-require 'rack/jsonapi/field'
+require 'easy/jsonapi/request/query_param_collection/fields_param/fieldset'
+require 'easy/jsonapi/field'
 
 describe JSONAPI::Request::QueryParamCollection::FieldsParam::Fieldset do
 

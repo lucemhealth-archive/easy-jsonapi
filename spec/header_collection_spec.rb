@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/header_collection'
-require 'rack/jsonapi/header_collection/header'
+require 'easy/jsonapi/header_collection'
+require 'easy/jsonapi/header_collection/header'
 require 'shared_examples/name_value_pair_collections'
 
 describe JSONAPI::HeaderCollection do

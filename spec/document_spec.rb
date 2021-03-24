@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document'
-require 'rack/jsonapi/parser/document_parser'
-require 'rack/jsonapi/exceptions/document_exceptions'
+require 'easy/jsonapi/document'
+require 'easy/jsonapi/parser/document_parser'
+require 'easy/jsonapi/exceptions/document_exceptions'
 
 require 'json'
 require 'oj'

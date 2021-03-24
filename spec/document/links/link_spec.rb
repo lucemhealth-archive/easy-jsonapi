@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/links/link'
+require 'easy/jsonapi/document/links/link'
 require 'shared_examples/name_value_pair_tests'
 
 describe JSONAPI::Document::Links::Link do

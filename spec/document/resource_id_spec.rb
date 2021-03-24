@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/resource_id'
+require 'easy/jsonapi/document/resource_id'
 
 describe JSONAPI::Document::ResourceId do
 

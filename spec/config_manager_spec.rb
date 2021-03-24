@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/config_manager'
+require 'easy/jsonapi/config_manager'
 
 class ItemThatRaisesError
 

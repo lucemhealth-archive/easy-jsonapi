@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/collection'
-require 'rack/jsonapi/item'
+require 'easy/jsonapi/collection'
+require 'easy/jsonapi/item'
 require 'shared_examples/collection_like_classes'
 
 describe JSONAPI::Collection do

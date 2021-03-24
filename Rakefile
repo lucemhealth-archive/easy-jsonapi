@@ -10,7 +10,7 @@ RSpec::Core::RakeTask.new(:test) do |t|
 end
 
 task :build do
-  system('gem build rack-jsonapi.gemspec')
+  system('gem build easy-jsonapi.gemspec')
 end
 
 YARD::Rake::YardocTask.new(:document) do |t|

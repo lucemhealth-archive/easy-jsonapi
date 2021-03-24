@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/document/resource/relationships/relationship'
+require 'easy/jsonapi/document/resource/relationships/relationship'
 require 'shared_examples/document_collections'
-require 'rack/jsonapi/parser/document_parser'
+require 'easy/jsonapi/parser/document_parser'
 
 describe JSONAPI::Document::Resource::Relationships do
   let(:item_class) { JSONAPI::Document::Resource::Relationships::Relationship }

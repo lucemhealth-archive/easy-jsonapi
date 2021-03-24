@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/parser'
-require 'rack/jsonapi/parser/headers_parser'
+require 'easy/jsonapi/parser'
+require 'easy/jsonapi/parser/headers_parser'
 
-require 'rack/jsonapi/item'
-require 'rack/jsonapi/header_collection/header'
+require 'easy/jsonapi/item'
+require 'easy/jsonapi/header_collection/header'
 
-require 'rack/jsonapi/collection'
-require 'rack/jsonapi/header_collection'
+require 'easy/jsonapi/collection'
+require 'easy/jsonapi/header_collection'
 
 describe JSONAPI::Parser::HeadersParser do
 

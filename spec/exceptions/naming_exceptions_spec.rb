@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions/naming_exceptions'
+require 'easy/jsonapi/exceptions/naming_exceptions'
 
 describe JSONAPI::Exceptions::NamingExceptions do
 

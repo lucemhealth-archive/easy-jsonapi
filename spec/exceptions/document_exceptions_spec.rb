@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions/document_exceptions'
+require 'easy/jsonapi/exceptions/document_exceptions'
 require 'shared_contexts/document_exceptions_shared_context'
-require 'rack/jsonapi/config_manager'
+require 'easy/jsonapi/config_manager'
 
 TOP_LEVEL_KEYS = %i[data errors meta].freeze
 LINKS_KEYS = %i[self related first prev next last].freeze

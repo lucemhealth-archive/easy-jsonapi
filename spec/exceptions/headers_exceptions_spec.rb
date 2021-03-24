@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions/headers_exceptions'
+require 'easy/jsonapi/exceptions/headers_exceptions'
 require 'shared_contexts/headers_exceptions_shared_context'
 
 describe JSONAPI::Exceptions::HeadersExceptions do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/request/query_param_collection/sort_param'
-require 'rack/jsonapi/field'
+require 'easy/jsonapi/request/query_param_collection/sort_param'
+require 'easy/jsonapi/field'
 require 'shared_examples/query_param_tests'
 
 describe JSONAPI::Request::QueryParamCollection::SortParam do

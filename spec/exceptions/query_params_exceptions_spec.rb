@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/exceptions/query_params_exceptions'
+require 'easy/jsonapi/exceptions/query_params_exceptions'
 
 describe JSONAPI::Exceptions::QueryParamsExceptions do
   

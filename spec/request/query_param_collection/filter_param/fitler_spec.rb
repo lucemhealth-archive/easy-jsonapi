@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/request/query_param_collection/filter_param/filter'
+require 'easy/jsonapi/request/query_param_collection/filter_param/filter'
 
 describe JSONAPI::Request::QueryParamCollection::FilterParam::Filter do
 

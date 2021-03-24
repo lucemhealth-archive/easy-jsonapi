@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/name_value_pair'
+require 'easy/jsonapi/name_value_pair'
 require 'shared_examples/name_value_pair_tests'
 
 describe JSONAPI::NameValuePair do

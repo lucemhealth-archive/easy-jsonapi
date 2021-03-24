@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/field'
+require 'easy/jsonapi/field'
 
 describe JSONAPI::Field do
 

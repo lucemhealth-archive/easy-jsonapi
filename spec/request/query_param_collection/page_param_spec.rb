@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/request/query_param_collection/page_param'
+require 'easy/jsonapi/request/query_param_collection/page_param'
 require 'shared_examples/name_value_pair_tests'
 
 describe JSONAPI::Request::QueryParamCollection::PageParam do

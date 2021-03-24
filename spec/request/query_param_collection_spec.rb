@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
-require 'rack/jsonapi/collection'
-require 'rack/jsonapi/name_value_pair_collection'
-require 'rack/jsonapi/request/query_param_collection'
+require 'easy/jsonapi/collection'
+require 'easy/jsonapi/name_value_pair_collection'
+require 'easy/jsonapi/request/query_param_collection'
 
-require 'rack/jsonapi/request/query_param_collection/include_param'
+require 'easy/jsonapi/request/query_param_collection/include_param'
 
-require 'rack/jsonapi/request/query_param_collection/filter_param'
-require 'rack/jsonapi/request/query_param_collection/filter_param/filter'
+require 'easy/jsonapi/request/query_param_collection/filter_param'
+require 'easy/jsonapi/request/query_param_collection/filter_param/filter'
 
-require 'rack/jsonapi/request/query_param_collection/page_param'
-require 'rack/jsonapi/request/query_param_collection/sort_param'
+require 'easy/jsonapi/request/query_param_collection/page_param'
+require 'easy/jsonapi/request/query_param_collection/sort_param'
 
-require 'rack/jsonapi/request/query_param_collection/fields_param'
-require 'rack/jsonapi/request/query_param_collection/fields_param/fieldset'
+require 'easy/jsonapi/request/query_param_collection/fields_param'
+require 'easy/jsonapi/request/query_param_collection/fields_param/fieldset'
 
-require 'rack/jsonapi/field'
+require 'easy/jsonapi/field'
 
 require 'shared_examples/name_value_pair_collections'
 
