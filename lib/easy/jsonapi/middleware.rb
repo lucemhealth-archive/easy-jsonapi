@@ -12,15 +12,15 @@ module JSONAPI
     # @param app The Rack Application
     def initialize(app, &block)
       @app = app
-
       return unless block_given?
 
       @config_manager = JSONAPI::ConfigManager.new
       block.call(@config_manager)
     end
 
-    # If there is a JSONAPI-compliant body, it checks it for compliance and raises
-    #   and error if it is found to be compliant. It 
+    # If not in maintenance_mode and the request is intended to be JSONAPI, 
+    #   it checks headers, params, and body it for compliance and raises
+    #   and error if any section is found to be non-compliant.
     # @param env The rack envirornment hash
     def call(env)
       if in_maintenance_mode?(env)
@@ -69,8 +69,9 @@ module JSONAPI
     def accept_header_jsonapi?(env)
       return true if env['HTTP_ACCEPT'].nil? # no header means assume any
 
-      accept_arr = env['HTTP_ACCEPT'].split(',')
-      accept_arr.any? { |hdr| hdr.include?('application/vnd.api+json') }
+      env['HTTP_ACCEPT'].split(',').any? do |hdr|
+        ['application/vnd.api+json', '*/*', 'application/*'].include?(hdr.split(';').first)
+      end
     end
 
     # Determines whether there is a request body, and whether the Content-Type is jsonapi compliant.
@@ -142,12 +143,14 @@ module JSONAPI
       [400, {}, []]
     end
 
+    # @param (see #call)
     def post_put_or_patch?(env)
       env['REQUEST_METHOD'] == 'POST' ||
         env['REQUEST_METHOD'] == 'PATCH' ||
         env['REQUEST_METHOD'] == 'PUT'
     end
 
+    # @param (see #call)
     def environment_development?(env)
       env['RACK_ENV'].to_s.downcase == 'development' || env['RACK_ENV'].nil?
     end

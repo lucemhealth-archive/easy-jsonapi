@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Needed so that config.ru can get JSONAPI::Middleware
 require 'easy/jsonapi/middleware'
 require 'easy/jsonapi/parser'
 require 'easy/jsonapi/response'

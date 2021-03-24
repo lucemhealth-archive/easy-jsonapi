@@ -4,12 +4,9 @@ require 'easy/jsonapi/exceptions/naming_exceptions'
 require 'easy/jsonapi/exceptions/user_defined_exceptions'
 
 # TODO: Review document exceptions against jsonapi spec
-# TODO: PATCH -- Updating To One Relationships -- The path request must contain a top level member
+# TODO: PATCH -- Updating To One Relationships -- The patch request must contain a top level member
 #   named data containing either a ResourceID or null
-#   ^ To check, create #relationships_url? and make check based on that
-
-
-# TODO: LET JSON API Know you wrote an implementation of the gem (See #status of https://jsonapi.org/format/#crud)
+#   ^ To check, create #relationships_link? and make check based on that
 
 
 module JSONAPI
@@ -131,11 +128,11 @@ module JSONAPI
         # @raise (see #check_complaince)
         def check_individual_members(document, http_method, path)
           check_data(document[:data], http_method, path) if document.key? :data
-          check_errors(document[:errors]) if document.key? :errors
+          check_included(document[:included]) if document.key? :included
           check_meta(document[:meta]) if document.key? :meta
+          check_errors(document[:errors]) if document.key? :errors
           check_jsonapi(document[:jsonapi]) if document.key? :jsonapi
           check_links(document[:links]) if document.key? :links
-          check_included(document[:included]) if document.key? :included
         end
 
         # -- TOP LEVEL - PRIMARY DATA
@@ -310,36 +307,6 @@ module JSONAPI
           true
         end
 
-        # Checking if document is fully linked
-        # @param document [Hash] The jsonapi document
-        # @param http_method (see #check_for_matching_types)
-        def check_full_linkage(document, http_method)
-          return if http_method
-          
-          ensure!(full_linkage?(document),
-                  'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
-                  'identified by at least one resource identifier object in the same document.')
-        end
-
-        # -- TOP LEVEL - ERRORS
-
-        # @param errors [Array] The array of errors contained in the jsonapi document
-        # @raise (see #check_compliance)
-        def check_errors(errors)
-          ensure!(errors.is_a?(Array),
-                  'Top level errors member MUST be an array')
-          errors.each { |error| check_error(error) }
-        end
-
-        # @param error [Hash] The individual error object
-        # @raise (see check_compliance)
-        def check_error(error)
-          ensure!(error.is_a?(Hash),
-                  'Error objects MUST be objects')
-          check_links(error[:links]) if error.key? :links
-          check_links(error[:meta]) if error.key? :meta
-        end
-
         # -- TOP LEVEL - META
 
         # @param meta [Hash] The meta object
@@ -347,19 +314,6 @@ module JSONAPI
         def check_meta(meta)
           ensure!(meta.is_a?(Hash), 'A meta object MUST be an object')
           # Any members may be specified in a meta obj (all members will be valid json bc string is parsed by oj)
-        end
-
-        # -- TOP LEVEL - JSONAPI
-
-        # @param jsonapi [Hash] The top level jsonapi object
-        # @raise (see check_compliance)
-        def check_jsonapi(jsonapi)
-          ensure!(jsonapi.is_a?(Hash), 'A JSONAPI object MUST be an object')
-          if jsonapi.key?(:version)
-            ensure!(jsonapi[:version].is_a?(String),
-                    "The value of JSONAPI's version member MUST be a string")
-          end
-          check_meta(jsonapi[:meta]) if jsonapi.key?(:meta)
         end
 
         # -- TOP LEVEL - LINKS
@@ -400,6 +354,80 @@ module JSONAPI
             ensure!(false,
                     'A link MUST be represented as either a string or an object')
           end
+        end
+
+        # -- TOP LEVEL - JSONAPI
+
+        # @param jsonapi [Hash] The top level jsonapi object
+        # @raise (see check_compliance)
+        def check_jsonapi(jsonapi)
+          ensure!(jsonapi.is_a?(Hash), 'A JSONAPI object MUST be an object')
+          if jsonapi.key?(:version)
+            ensure!(jsonapi[:version].is_a?(String),
+                    "The value of JSONAPI's version member MUST be a string")
+          end
+          check_meta(jsonapi[:meta]) if jsonapi.key?(:meta)
+        end
+
+        # -- TOP LEVEL - ERRORS
+
+        # @param errors [Array] The array of errors contained in the jsonapi document
+        # @raise (see #check_compliance)
+        def check_errors(errors)
+          ensure!(errors.is_a?(Array),
+                  'Top level errors member MUST be an array')
+          errors.each { |error| check_error(error) }
+        end
+
+        # @param error [Hash] The individual error object
+        # @raise (see check_compliance)
+        def check_error(error)
+          ensure!(error.is_a?(Hash),
+                  'Error objects MUST be objects')
+          check_links(error[:links]) if error.key? :links
+          check_links(error[:meta]) if error.key? :meta
+        end
+
+        # -- TOP LEVEL - Check Full Linkage
+        
+        # Checking if document is fully linked
+        # @param document [Hash] The jsonapi document
+        # @param http_method (see #check_for_matching_types)
+        def check_full_linkage(document, http_method)
+          return if http_method
+          
+          ensure!(full_linkage?(document),
+                  'Compound documents require “full linkage”, meaning that every included resource MUST be ' \
+                  'identified by at least one resource identifier object in the same document.')
+        end
+
+        # **********************************
+        # * CHECK MEMBER NAMES             *
+        # **********************************
+        
+        # Checks all the member names in a document recursively and raises an error saying
+        #   which member did not observe the jsonapi member name rules and which rule
+        # @param obj The entire request document or part of the request document.
+        # @raise (see #check_compliance)
+        def check_member_names(obj)
+          case obj
+          when Hash
+            obj.each do |k, v| 
+              check_name(k)
+              check_member_names(v)
+            end
+          when Array
+            obj.each { |hsh| check_member_names(hsh) }
+          end
+          nil
+        end
+
+        # @param name The invidual member's name that is being checked
+        # @raise (see check_compliance)
+        def check_name(name)
+          msg = JSONAPI::Exceptions::NamingExceptions.check_member_constraints(name)
+          return if msg.nil?
+          raise InvalidDocument, "The member named '#{name}' raised: #{msg}"
         end
 
         # **********************************
@@ -455,35 +483,6 @@ module JSONAPI
                   "When processing a PATCH request, the resource object's type and id MUST " \
                   "match the server's endpoint",
                   status_code: 409)
-        end
-
-        # **********************************
-        # * CHECK MEMBER NAMES             *
-        # **********************************
-        
-        # Checks all the member names in a document recursively and raises an error saying
-        #   which member did not observe the jsonapi member name rules and which rule
-        # @param obj The entire request document or part of the request document.
-        # @raise (see #check_compliance)
-        def check_member_names(obj)
-          case obj
-          when Hash
-            obj.each do |k, v| 
-              check_name(k)
-              check_member_names(v)
-            end
-          when Array
-            obj.each { |hsh| check_member_names(hsh) }
-          end
-          nil
-        end
-
-        # @param name The invidual member's name that is being checked
-        # @raise (see check_compliance)
-        def check_name(name)
-          msg = JSONAPI::Exceptions::NamingExceptions.check_member_constraints(name)
-          return if msg.nil?
-          raise InvalidDocument, "The member named '#{name}' raised: #{msg}"
         end
 
         # ********************************

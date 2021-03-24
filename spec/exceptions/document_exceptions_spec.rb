@@ -544,43 +544,6 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           end
         end
 
-        #  -- TOP LEVEL - ERRORS:
-        context 'when checking top level errors' do
-          it 'should return nil if given valid input' do
-            err =
-              {
-                errors: [
-                  {
-                    status: '422',
-                    source: { pointer: '/data/attributes/firstName' },
-                    title: 'Invalid Attribute',
-                    detail: 'First name must contain at least three characters.'
-                  }
-                ]
-              }
-            expect(f(err)).to be nil
-          end
-
-          it 'should raise if errors not an array' do
-            err = {
-              errors: {}
-            }
-            msg = 'Top level errors member MUST be an array'
-            expect { f(err) }.to raise_error(dec, msg)
-          end
-
-          it 'should raise if any of the errors array values are not hashes' do
-            err = {
-              errors: [
-                { id: '123' },
-                ['string', 'test']
-              ]
-            }
-            msg = 'Error objects MUST be objects'
-            expect { f(err) }.to raise_error(dec, msg)
-          end
-        end
-
         # -- TOP LEVEL - META:
         context 'when checking top level meta' do
           it 'should return nil if top level meta is a hash' do
@@ -599,44 +562,6 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           end
         end
 
-        # -- TOP LEVEL - JSONAPI:
-        context 'when checking top level jsonapi' do
-          it 'should be a hash' do
-            j_not_hash = {
-              data: { type: 't', id: '1' },
-              jsonapi: []
-            }
-            msg = 'A JSONAPI object MUST be an object'
-            expect { f(j_not_hash) }.to raise_error(dec, msg)
-          end
-
-          it 'should raise if it has version and the value of version is not string' do
-            j_v_not_str = {
-              data: { type: 't', id: '1' },
-              jsonapi: { version: [] }
-            }
-            msg = "The value of JSONAPI's version member MUST be a string"
-            expect { f(j_v_not_str) }.to raise_error(dec, msg)
-          end
-
-          it 'should raise if an error with an included meta obj' do
-            j_w_bad_m = {
-              data: { type: 't', id: '1' },
-              jsonapi: { meta: [] }
-            }
-            msg = 'A meta object MUST be an object'
-            expect { f(j_w_bad_m) }.to raise_error(dec, msg)
-          end
-
-          it 'should return nil if given valid input, ignoring extra members if there are any' do
-            j = {
-              data: { type: 't', id: '1' },
-              jsonapi: { version: '1.0', meta: { count: '1' }, extra_member: 'member' }
-            }
-            expect(f(j)).to be nil
-          end
-        end
-        
         # -- TOP LEVEL - LINKS:
         context 'when checking top level links' do
           it 'should return nil if given proper input' do
@@ -718,7 +643,80 @@ describe JSONAPI::Exceptions::DocumentExceptions do
           end
         end
 
+        # -- TOP LEVEL - JSONAPI:
+        context 'when checking top level jsonapi' do
+          it 'should be a hash' do
+            j_not_hash = {
+              data: { type: 't', id: '1' },
+              jsonapi: []
+            }
+            msg = 'A JSONAPI object MUST be an object'
+            expect { f(j_not_hash) }.to raise_error(dec, msg)
+          end
 
+          it 'should raise if it has version and the value of version is not string' do
+            j_v_not_str = {
+              data: { type: 't', id: '1' },
+              jsonapi: { version: [] }
+            }
+            msg = "The value of JSONAPI's version member MUST be a string"
+            expect { f(j_v_not_str) }.to raise_error(dec, msg)
+          end
+
+          it 'should raise if an error with an included meta obj' do
+            j_w_bad_m = {
+              data: { type: 't', id: '1' },
+              jsonapi: { meta: [] }
+            }
+            msg = 'A meta object MUST be an object'
+            expect { f(j_w_bad_m) }.to raise_error(dec, msg)
+          end
+
+          it 'should return nil if given valid input, ignoring extra members if there are any' do
+            j = {
+              data: { type: 't', id: '1' },
+              jsonapi: { version: '1.0', meta: { count: '1' }, extra_member: 'member' }
+            }
+            expect(f(j)).to be nil
+          end
+        end
+
+        #  -- TOP LEVEL - ERRORS:
+        context 'when checking top level errors' do
+          it 'should return nil if given valid input' do
+            err =
+              {
+                errors: [
+                  {
+                    status: '422',
+                    source: { pointer: '/data/attributes/firstName' },
+                    title: 'Invalid Attribute',
+                    detail: 'First name must contain at least three characters.'
+                  }
+                ]
+              }
+            expect(f(err)).to be nil
+          end
+
+          it 'should raise if errors not an array' do
+            err = {
+              errors: {}
+            }
+            msg = 'Top level errors member MUST be an array'
+            expect { f(err) }.to raise_error(dec, msg)
+          end
+
+          it 'should raise if any of the errors array values are not hashes' do
+            err = {
+              errors: [
+                { id: '123' },
+                ['string', 'test']
+              ]
+            }
+            msg = 'Error objects MUST be objects'
+            expect { f(err) }.to raise_error(dec, msg)
+          end
+        end
       end
 
       # -- Checking Full Linkage:

@@ -53,8 +53,6 @@ module JSONAPI
           end
           # To add more user requirement features, add more methods here
           
-          # TODO: has-one foreign keys should not appear as attributes -- user could define
-          #   a set of foreign keys that the middleware could search for to see if they are included as attributes
           JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument.new(err) unless err.nil?
         end
 

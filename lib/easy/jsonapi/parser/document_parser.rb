@@ -6,6 +6,7 @@ require 'oj'
 module JSONAPI
   module Parser
 
+    # TODO: Only parse valid object members, currenlty parses any included members.
     # Document Parsing Logic
     module DocumentParser
 

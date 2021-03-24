@@ -7,29 +7,37 @@ shared_context 'headers exceptions' do
   # Should pass
   let(:env1) do
     {
+      'HTTP_ACCEPT' => 'application/vnd.api+json',
+      'CONTENT_TYPE' => 'application/vnd.api+json'
+    }
+  end
+
+  # Should raise bc neither jsonapi
+  let(:env2) do
+    {
       'HTTP_ACCEPT' => 'text/plain',
       'CONTENT_TYPE' => 'text/plain'
     }
   end
 
-  # Should pass
-  let(:env2) do
+  # Should raise bc accept hdr not jsonapi
+  let(:env3) do
     {
       'HTTP_ACCEPT' => 'text/plain',
       'CONTENT_TYPE' => 'application/vnd.api+json'
     }
   end
-
-  # Should pass
-  let(:env3) do
+  
+  # Should raise bc content-type hdr not jsonapi
+  let(:env4) do
     {
       'HTTP_ACCEPT' => 'application/vnd.api+json',
-      'CONTENT_TYPE' => 'application/vnd.api+json'
+      'CONTENT_TYPE' => 'text/plain'
     }
   end
-  
+
   # Should raise error bc of content type
-  let(:env4) do
+  let(:env5) do
     {
       'HTTP_ACCEPT' => 'text/plain',
       'CONTENT_TYPE' => 'application/vnd.api+json; idk'
@@ -37,7 +45,7 @@ shared_context 'headers exceptions' do
   end
 
   # Should raise error because of HTTP_ACCEPT
-  let(:env5) do
+  let(:env6) do
     {
       'HTTP_ACCEPT' => 'application/vnd.api+json ; q=0.5, text/*, image/* ; q=.3',
       'CONTENT_TYPE' => 'application/vnd.api+json'
@@ -45,7 +53,7 @@ shared_context 'headers exceptions' do
   end
 
   # Should raise error because of both
-  let(:env6) do
+  let(:env7) do
     {
       'HTTP_ACCEPT' => 'application/vnd.api+json ; q=0.5, text/*, image/* ; q=.3',
       'CONTENT_TYPE' => 'application/vnd.api+json ; idk'
@@ -56,18 +64,17 @@ shared_context 'headers exceptions' do
 
   # GET ------------
 
-  # GET w Body
+  # GET - accept, but w body
   # Should raise bc of body
   let(:get_w_body) do
     {
       'REQUEST_METHOD' => 'GET',
       'HTTP_ACCEPT' => 'application/vnd.api+json, text/*',
-      'CONTENT_TYPE' => 'application/vnd.api+json',
       'rack.input' => StringIO.new('I have a body')
     }
   end
 
-  # GET no body, no accept or content-type headers
+  # GET - no body, no accept or content-type headers
   # SHOULD PASS
   let(:get_no_hdrs) do
     {
@@ -75,7 +82,7 @@ shared_context 'headers exceptions' do
     }
   end
 
-  # GET no accept, but has content-type
+  # GET - no accept, but has content-type
   # SHOULD RAISE bc contains content-type header
   let(:get_w_content_type1) do
     {
@@ -84,7 +91,7 @@ shared_context 'headers exceptions' do
     }
   end
 
-  # GET w accept, but has content-type
+  # GET - accept jsonapi, but has content-type
   # SHOULD RAISE bc contains content-type header
   let(:get_w_content_type2) do
     {
@@ -96,7 +103,7 @@ shared_context 'headers exceptions' do
 
   # POST, PATCH, and PUT -------------
 
-  # POST no body
+  # POST - no body
   # SHOULD RAISE bc needs a body
   let(:post_no_body) do
     {
@@ -104,7 +111,7 @@ shared_context 'headers exceptions' do
     }
   end
 
-  # POST no content-type header
+  # POST - no content-type header
   # SHOULD RAISE
   let(:post_no_content_type) do
     {
@@ -113,8 +120,8 @@ shared_context 'headers exceptions' do
     }
   end
 
-  # POST accept header not jsonapi
-  # SHOULD RAISE
+  # POST - accept header not jsonapi
+  # SHOULD RAISE even though middleware wouldn't check for compliance.
   let(:post_accept_not_jsonapi) do
     {
       'REQUEST_METHOD' => 'POST',
@@ -125,7 +132,7 @@ shared_context 'headers exceptions' do
   end
 
   # POST content type not jsonapi
-  # SHOULD PASS
+  # SHOULD RAISE even though middleware wouldn't check for compliance.
   let(:post_content_type_not_jsonapi) do
     {
       'REQUEST_METHOD' => 'POST',
@@ -146,7 +153,7 @@ shared_context 'headers exceptions' do
   end
   
   # POST content-type and accept header jsonapi
-  # SHOULD PASS
+  # SHOULD RAISE even though the middleware wouldn't check for compliance
   let(:post_content_type_jsonapi_but_accept_not_jsonapi) do
     {
       'REQUEST_METHOD' => 'POST',
@@ -180,7 +187,7 @@ shared_context 'headers exceptions' do
   let(:delete_w_content_type) do
     {
       'REQUEST_METHOD' => 'DELETE',
-      'CONTENT_TYPE' => 'text/html'
+      'CONTENT_TYPE' => 'application/vnd.api+json'
     }
   end
 
@@ -194,23 +201,11 @@ shared_context 'headers exceptions' do
   end
   
   # DELETE w accept not jsonapi
-  # SHOULD PASS
+  # SHOULD RAISE even though the middleware wouldn't check for compliance
   let(:delete_not_accept_jsonapi) do
     {
       'REQUEST_METHOD' => 'DELETE',
       'HTTP_ACCEPT' => 'text/html'
     }
   end
-
-
-
-
-
-
-
-
-
-  
-
-
 end
