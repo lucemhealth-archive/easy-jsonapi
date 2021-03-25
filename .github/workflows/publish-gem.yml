@@ -40,7 +40,7 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         run: |
         gem install bundler
-        bundle install
+        bundler install
         gem build easy-jsonapi.gemspec
   
     - name: Publish to GPR
