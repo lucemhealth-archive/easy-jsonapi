@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'easy-jsonapi'
-  spec.version       = '1.0.1'
+  spec.version       = '1.0.2'
   spec.authors       = ['Joshua DeMoss, Joe Viscomi']
   spec.email         = ['demoss.joshua@gmail.com']
 

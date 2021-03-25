@@ -1,0 +1,21 @@
+name: Codecov
+on:
+  push:
+    branches:
+      - production
+  pull_request:
+jobs:
+  build:
+    name: Run rspec to generate code coverage
+    runs-on: ubuntu-latest
+steps:
+    - uses: actions/checkout@master
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        version: 3.0.x
+- name: Run test cases
+      run: |
+        bundle exec rspec
+      env:
+        CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}

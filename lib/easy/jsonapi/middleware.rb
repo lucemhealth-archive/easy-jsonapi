@@ -2,7 +2,7 @@
 
 require 'easy/jsonapi/exceptions'
 require 'easy/jsonapi/config_manager'
-require 'oj'
+require 'easy/jsonapi/parser/json_parser'
 
 module JSONAPI
 
@@ -137,7 +137,7 @@ module JSONAPI
       raise if environment_development?(env)
 
       [e.status_code, {}, []]
-    rescue Oj::ParseError
+    rescue JSONAPI::Exceptions::JSONParseError
       raise if environment_development?(env)
 
       [400, {}, []]

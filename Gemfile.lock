@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    easy-jsonapi (1.0.0)
+    easy-jsonapi (1.0.2)
       oj (~> 3.10)
 
 GEM
@@ -20,9 +20,7 @@ GEM
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
-    mini_portile2 (2.5.0)
-    nokogiri (1.11.2)
-      mini_portile2 (~> 2.5.0)
+    nokogiri (1.11.2-x86_64-darwin)
       racc (~> 1.4)
     oj (3.11.3)
     parallel (1.20.1)
@@ -50,7 +48,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
-    rubocop (1.11.0)
+    rubocop (1.12.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -82,13 +80,13 @@ GEM
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
-    thor (1.0.1)
+    thor (1.1.0)
     tilt (2.0.10)
     unicode-display_width (2.0.0)
     yard (0.9.26)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-19
 
 DEPENDENCIES
   codecov (~> 0.4)

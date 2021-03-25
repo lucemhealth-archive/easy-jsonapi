@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'easy/jsonapi/middleware'
+require 'easy/jsonapi/parser/json_parser'
 require 'rack_app'
-require 'oj'
 
 describe JSONAPI::Middleware do
 
@@ -88,7 +88,7 @@ describe JSONAPI::Middleware do
     }
   end
 
-  let(:body_str) { Oj.dump(body_hash) }
+  let(:body_str) { JSONAPI::Parser::JSONParser.dump(body_hash) }
  
   let(:usr_body_hash) do
     usr_body_hash = {}
@@ -98,7 +98,7 @@ describe JSONAPI::Middleware do
     usr_body_hash
   end
 
-  let(:usr_body_str) { Oj.dump(usr_body_hash) }
+  let(:usr_body_str) { JSONAPI::Parser::JSONParser.dump(usr_body_hash) }
 
   def env(body_str)
     {
@@ -130,9 +130,9 @@ describe JSONAPI::Middleware do
   # Create a document that includes data, but doesn't include a type
   let(:bad_body_str) do
     bad_body_hash = {}
-    bad_body_hash.replace Oj.load(body_str, symbol_key: true)
+    bad_body_hash.replace JSONAPI::Parser::JSONParser.parse(body_str)
     bad_body_hash[:data].delete(:type)
-    Oj.dump(bad_body_hash)
+    JSONAPI::Parser::JSONParser.dump(bad_body_hash)
   end
 
 
@@ -276,7 +276,7 @@ describe JSONAPI::Middleware do
         env_body_malformed = {}
         env_body_malformed.replace(env(body_str))
         env_body_malformed['rack.input'] = StringIO.new("[")
-        expect { m.call(env_body_malformed) }.to raise_error Oj::ParseError
+        expect { m.call(env_body_malformed) }.to raise_error JSONAPI::Exceptions::JSONParseError
       end
     end
   end

@@ -78,7 +78,7 @@ describe JSONAPI::Request do
     }]
   }
 
-  body_str = Oj.dump(body_hash)
+  body_str = JSONAPI::Parser::JSONParser.dump(body_hash)
 
   let(:env) do
     {

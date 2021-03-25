@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'easy/jsonapi/parser'
+require 'easy/jsonapi/parser/json_parser'
 require 'easy/jsonapi/request'
 
-require 'oj'
 
 describe JSONAPI::Parser do
   
@@ -20,7 +20,7 @@ describe JSONAPI::Parser do
       }
     }
 
-    req_body_str = Oj.dump(req_body_hash)
+    req_body_str = JSONAPI::Parser::JSONParser.dump(req_body_hash)
 
     env = 
       {

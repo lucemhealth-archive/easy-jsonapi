@@ -9,7 +9,7 @@
 ![](https://ruby-gem-downloads-badge.herokuapp.com/easy-jsonapi?type=total&color=brightgreen)
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
 [![License](https://img.shields.io/github/license/Curatess/easy-jsonapi)](https://img.shields.io)
-<!-- [![Build Status](https://secure.travis-ci.org/ -->
+[![Build Status](https://img.shields.io/codecov/c/github/curatess/easy-jsonapi)](https://img.shields.io/codecov/c/github/curatess/easy-jsonapi)
 
 The gem that makes using [JSON:API](https://jsonapi.org/) ***EASY***!
 
@@ -128,7 +128,7 @@ When the middleware is in development mode it will raise an exception wherever i
 
 The types of exceptions it will raise are:
 
-- `Oj::ParserError` when an included body is not valid JSON
+- `JSONAPI::Exceptions::JSONParseError` when an included body is not valid JSON
 - `JSONAPI::Exceptions::HeaderExceptions::InvalidHeader` when an included header is non-compliant
 - `JSONAPI::Exceptions::QueryParamExceptions::InvalidQueryParam` when an included query parameter is non-compliant
 - `JSONAPI::Exceptions::DocumentExceptions::InvalidDocument` when the body is included and non-compliant
