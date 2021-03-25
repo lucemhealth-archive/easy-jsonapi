@@ -31,7 +31,7 @@ As a bonus, flexible user configurations can be added to the middleware providin
 
 ## Installation
 
-Add this ine to your applications' Gemfile:
+Add this line to your applications' Gemfile:
 
 ```bash
 # Gemfile
@@ -86,7 +86,7 @@ $ gem install easy-jsonapi
 
 Add the middleware to the stack in order to activate it.
 
-Sintra:
+Sinatra:
 
 ```ruby
 # app.rb
@@ -196,7 +196,7 @@ See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/master) for
 
 ## Releases
 
-See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/CHANGELOG.md).
+See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/blob/master/CHANGELOG.md).
 
 ## License
 
