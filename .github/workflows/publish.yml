@@ -1,16 +1,14 @@
 name: Test, Publish, and Release
 
 on:
-  push:
-    branches: [ production ]
-  pull_request_review:
-    branches: [ production ]
-    types: [submitted]
+  pull_request:
+    branches: [production]
+    types: [closed]
 
 jobs:
   build_and_publish:
-    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
     
     steps:
     - uses: actions/checkout@v2
@@ -20,13 +18,6 @@ jobs:
       with:
         ruby-version: 3.0.X
 
-    steps:
-    - name: Set up Ruby
-    - uses: actions/checkout@v2
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-    
     - name: Build gem
       run: |
         gem install bundler
