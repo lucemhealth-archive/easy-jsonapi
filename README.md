@@ -29,7 +29,7 @@ As a bonus, flexible user configurations can be added to the middleware providin
 
 ## Installation
 
-Add this ine to your applications' Gemfile:
+Add this line to your applications' Gemfile:
 
 ```bash
 # Gemfile
@@ -194,7 +194,7 @@ See the [rubydocs](tbd) for more on the Serialized Response Validator.
 
 ## Releases
 
-See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/CHANGELOG.md).
+See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/blob/master/CHANGELOG.md).
 
 ## License
 
