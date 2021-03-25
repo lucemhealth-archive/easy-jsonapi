@@ -2,14 +2,14 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'easy-jsonapi'
-  spec.version       = '1.0.0'
+  spec.version       = '1.0.2'
   spec.authors       = ['Joshua DeMoss, Joe Viscomi']
   spec.email         = ['demoss.joshua@gmail.com']
 
   spec.summary       = 'Middleware, Parser, and Validator for JSONAPI requests and serialized resopnses'
   spec.description   = 'Middleware to screen non-JSONAPI-compliant requests, a parser to provide Object Oriented access to requests, and a validator for validating JSONAPI Serialized responses.'
   spec.homepage      = 'https://rubygems.org/gems/easy-jsonapi'
-  spec.required_ruby_version = '>= 2.7'
+  spec.required_ruby_version = '>= 2.5'
 
   spec.metadata["source_code_uri"] = "https://github.com/Curatess/easy-jsonapi"
   spec.metadata["changelog_uri"] = "https://github.com/Curatess/easy-jsonapi/CHANGELOG.mg"
@@ -24,13 +24,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Dev Dependencies
-  spec.add_development_dependency 'license_finder', '~> 6.10'
   spec.add_development_dependency 'rack', '~> 2.2'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'redcarpet', '~> 3.5'
   spec.add_development_dependency 'rspec', '~> 3.9'
   spec.add_development_dependency 'rubocop', '~> 1.11'
   spec.add_development_dependency 'solargraph', '~> 0.39'
+  spec.add_development_dependency 'codecov', '~> 0.4'
 
   # Dependencies
   spec.add_dependency 'oj', '~> 3.10'

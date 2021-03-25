@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'easy/jsonapi/document'
-require 'oj'
+require 'easy/jsonapi/parser/json_parser'
 
 module JSONAPI
   module Parser
@@ -16,7 +16,7 @@ module JSONAPI
       # @raise [JSONAPI::Parser::InvalidDocument] if document is invalid.
       def self.parse(req_body)
         return if req_body.nil?
-        document_hash = Oj.load(req_body, symbol_keys: true) # parse json string into hash
+        document_hash = JSONAPI::Parser::JSONParser.parse(req_body) # parse json string into hash
         parse_hash(document_hash)
       end
 

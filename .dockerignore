@@ -1,0 +1,7 @@
+.vscode
+.gitignore
+.rspec
+.rspec_status
+.solargraph.yml
+.travis.yml
+*.md

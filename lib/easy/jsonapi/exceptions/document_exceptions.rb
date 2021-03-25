@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'easy/jsonapi/parser/json_parser'
 require 'easy/jsonapi/exceptions/naming_exceptions'
 require 'easy/jsonapi/exceptions/user_defined_exceptions'
 
@@ -57,7 +58,7 @@ module JSONAPI
       # @param opts [Hash] Includes path, http_method, sparse_fieldsets
       # @raise InvalidDocument if any part of the spec is not observed
       def self.check_compliance(document, config_manager = nil, opts = {})
-        document = Oj.load(document, symbol_keys: true) if document.is_a? String
+        document = JSONAPI::Parser::JSONParser.parse(document) if document.is_a? String
         ensure!(!document.nil?, 'A document cannot be nil')
         
         check_essentials(document, opts[:http_method])

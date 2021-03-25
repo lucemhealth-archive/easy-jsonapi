@@ -49,7 +49,7 @@ module JSONAPI
       return super unless is_a? JSONAPI::Item
       return super unless @item.is_a? Hash
       if should_update_var?(method_name)
-        @item[method_name[..-2].to_sym] = args[0]
+        @item[method_name[0..-2].to_sym] = args[0]
       elsif should_get_var?(method_name)
         @item[method_name]
       else
@@ -75,7 +75,7 @@ module JSONAPI
     #   variable.
     # @param (see #method_missing)
     def should_update_var?(method_name)
-      method_name.to_s[-1] == '=' && @item[method_name[..-2].to_sym].nil? == false
+      method_name.to_s[-1] == '=' && @item[method_name[0..-2].to_sym].nil? == false
     end
     
     # Checks to see if the method has the same name as an existing instance
