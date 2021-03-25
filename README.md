@@ -9,7 +9,7 @@
 ![](https://ruby-gem-downloads-badge.herokuapp.com/easy-jsonapi?type=total&color=brightgreen)
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
 [![License](https://img.shields.io/github/license/Curatess/easy-jsonapi)](https://img.shields.io)
-<!-- [![Build Status](https://secure.travis-ci.org/jsonapi-rb/jsonapi-parser.svg?branch=master)](http://travis-ci.org/jsonapi-rb/parser?branch=master) -->
+<!-- [![Build Status](https://secure.travis-ci.org/ -->
 
 The gem that makes using [JSON:API](https://jsonapi.org/) ***EASY***!
 
@@ -25,7 +25,7 @@ As a bonus, flexible user configurations can be added to the middleware providin
 
 ## Links
 
-- [*Documentation*](https://rubydoc.info/github/Curatess/easy-jsonapi/master)
+- [*Documentation*](https://rubydoc.info/github/Curatess/easy-jsonapi/production)
 
 - [*RubyGems* *Repository*](https://rubygems.org/search?query=easy-jsonapi)
 
@@ -137,7 +137,7 @@ If `ENV['RACK_ENV']` is set to something other than  `:development`, then the mi
 
 ### User Configurations
 
-***easy-jsonapi*** has a fair amount of flexibility when it comes to user configurations and plenty of room for extending the current user configurations to include more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/Curatess/easy-jsonapi/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on [the github repository](https://github.com/Curatess/easy-jsonapi)
+***easy-jsonapi*** has a fair amount of flexibility when it comes to user configurations and plenty of room for extending the current user configurations to include more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/Curatess/easy-jsonapi/blob/production/docs/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on [the github repository](https://github.com/Curatess/easy-jsonapi)
 
 ## Using the Request Parser
 
@@ -169,7 +169,7 @@ require 'easy/jsonapi'
 jsonapi_req = JSONAPI::Parser.parse_request(env)
 ```
 
-This returns a `JSONAPI::Request` object that can be used to access the collection of query params, collection of headers, and the body of the request. To see example usage, see [Using the Request Object](https://github.com/Curatess/easy-jsonapi/UsingTheRequestObject.md).
+This returns a `JSONAPI::Request` object that can be used to access the collection of query params, collection of headers, and the body of the request. To see example usage, see [Using the Request Object](https://github.com/Curatess/easy-jsonapi/blob/production/docs/UsingTheRequestObject.md).
 
 ## Using the Serialized Response Validator
 
@@ -192,11 +192,15 @@ end
 The `headers` param is a hash of `String => String` or `Symbol => String` of the header keys and values.
 The `body` param is either the JSON body or a ruby hash representation of the body.
 
-See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/master) for more on the Serialized Response Validator.
+See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/proudction) for more on the Serialized Response Validator.
+
+## Acknowledgements
+
+The exception checking strategy for `JSONAPI::Exceptions::DocumentExceptions` and some innitial compliance checks are based off [jsonapi-parser](https://github.com/jsonapi-rb/jsonapi-parser). We would like to thank the [jsonapi-rb](https://github.com/jsonapi-rb) team for the document validation work and to all our contributors and users for the continuous support!
 
 ## Releases
 
-See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/blob/master/CHANGELOG.md).
+See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/blob/production/CHANGELOG.md).
 
 ## License
 
@@ -204,8 +208,8 @@ See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/blob/master/C
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Curatess/easy-jsonapi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/Curatess/easy-jsonapi/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome [here on Github](https://github.com/Curatess/easy-jsonapi). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Code of Conduct](https://github.com/Curatess/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
 
 ## Code of Conduct
 
-Everyone interacting in the easy-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/Curatess/easy-jsonapi/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the easy-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [Code of Conduct](https://github.com/Curatess/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
