@@ -3,11 +3,11 @@
 require 'easy/jsonapi/document'
 
 require 'easy/jsonapi/parser'
+require 'easy/jsonapi/parser/json_parser'
 require 'easy/jsonapi/parser/document_parser'
 
 require 'easy/jsonapi/exceptions/document_exceptions'
 
-require 'oj'
 
 describe JSONAPI::Parser::DocumentParser do 
 
@@ -45,7 +45,7 @@ describe JSONAPI::Parser::DocumentParser do
       'links' => { 'self' => 'url' }
     }
 
-  body = Oj.dump(doc_hash)
+  body = JSONAPI::Parser::JSONParser.dump(doc_hash)
 
   let(:document) { JSONAPI::Parser::DocumentParser.parse(body) }
 

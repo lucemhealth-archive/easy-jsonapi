@@ -3,9 +3,9 @@
 require 'easy/jsonapi/document'
 require 'easy/jsonapi/parser/document_parser'
 require 'easy/jsonapi/exceptions/document_exceptions'
+require 'easy/jsonapi/parser/json_parser'
 
 require 'json'
-require 'oj'
 
 describe JSONAPI::Document do
 
@@ -52,15 +52,15 @@ describe JSONAPI::Document do
     }
   }
 
-  let(:body) { Oj.dump(doc_hash) }
-  let(:body2) { Oj.dump(doc_hash2) }
+  let(:body) { JSONAPI::Parser::JSONParser.dump(doc_hash) }
+  let(:body2) { JSONAPI::Parser::JSONParser.dump(doc_hash2) }
 
   
   let(:d) { JSONAPI::Parser::DocumentParser.parse(body) }
   let(:d2) { JSONAPI::Parser::DocumentParser.parse(body2) }
   
-  let(:dh) { JSONAPI::Parser::DocumentParser.parse_hash(Oj.load(body, symbol_keys: true)) }
-  let(:dh2) { JSONAPI::Parser::DocumentParser.parse_hash(Oj.load(body2, symbol_keys: true)) }
+  let(:dh) { JSONAPI::Parser::DocumentParser.parse_hash(JSONAPI::Parser::JSONParser.parse(body)) }
+  let(:dh2) { JSONAPI::Parser::DocumentParser.parse_hash(JSONAPI::Parser::JSONParser.parse(body2)) }
 
   let(:ec) { JSONAPI::Exceptions::DocumentExceptions::InvalidDocument }
 
