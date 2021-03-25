@@ -1,20 +1,25 @@
-name: Codecov
+name: Test
 on:
   push:
-    branches:
-      - production
+    branches: [production, dev]
   pull_request:
+    branches: [production, dev]
 jobs:
-  build:
-    name: Run rspec to generate code coverage
+  test:
+    name: Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.5', '2.6', '2.7', '3.0']
     
     steps:
     - uses: actions/checkout@master
+    
     - name: Set up Ruby
       uses: actions/setup-ruby@v1
       with:
-        ruby-version: 3.0.x
+        ruby-version: ${{ matrix.ruby-version }}
+    
     - name: Run test cases
       run: |
         gem install bundler
