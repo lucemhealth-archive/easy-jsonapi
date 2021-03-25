@@ -23,7 +23,6 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
     - name: Run tests
       run: |
-        gem install bundler
         bundler install
         bundle exec rake test
   build_and_publish:
@@ -38,7 +37,9 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        run: gem build easy-jsonapi.gemspec
+        run: |
+        bundle install
+        gem build easy-jsonapi.gemspec
   
     - name: Publish to GPR
       run: |

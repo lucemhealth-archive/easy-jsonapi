@@ -17,6 +17,7 @@ jobs:
         version: 3.0.x
     - name: Run test cases
       run: |
+        bundle install
         bundle exec rspec
       env:
         CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
