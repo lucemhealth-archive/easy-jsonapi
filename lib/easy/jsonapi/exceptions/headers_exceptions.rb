@@ -130,7 +130,7 @@ module JSONAPI
         # @param accept_hdr [String] The value of the http accept header
         def contains_at_least_one_jsonapi_media_type_without_params?(accept_hdr)
           accept_hdr.split(',').each do |mt|
-            if mt == 'application/vnd.api+json'
+            if JSONAPI_MEDIA_TYPES.include? mt
               return true
             end
           end
