@@ -2,7 +2,7 @@ name: Test
 on:
   push:
     branches: [production, dev]
-  pull_request_review:
+  pull_request:
     branches: [production, dev]
 jobs:
   test:
