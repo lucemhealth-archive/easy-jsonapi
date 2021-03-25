@@ -8,13 +8,14 @@ jobs:
   build:
     name: Run rspec to generate code coverage
     runs-on: ubuntu-latest
-steps:
+    
+    steps:
     - uses: actions/checkout@master
     - name: Set up Ruby
       uses: actions/setup-ruby@v1
       with:
-        version: 3.0.0
-- name: Run test cases
+        version: 3.0.x
+    - name: Run test cases
       run: |
         bundle exec rspec
       env:
