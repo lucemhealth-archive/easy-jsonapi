@@ -55,9 +55,6 @@ jobs:
         release_name: Release ${{ github.ref }}
         body: |
           Changes in this Release
-          - Updated README and fix READE broken links
-          - Reorganization of README files into docs file.
-          - Make easy-jsonapi compatible with ruby versions >= 2.5
-          - Added wrapper around Oj usage so all raised errors are found in the JSONAPI::Exceptions module
+          - Updated JSONAPI::Exceptions::HeadersExceptions to allow wildcard matching for Accept header
         draft: false
         prerelease: false
