@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.3 - 2020-03-25
+
+- Updated JSONAPI::Exceptions::HeadersExceptions to allow wildcard matching for Accept header
+
 ## 1.0.2 - 2020-03-25
 
 - Updated README and fix READE broken links
