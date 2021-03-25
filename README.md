@@ -84,7 +84,7 @@ $ gem install easy-jsonapi
 
 Add the middleware to the stack in order to activate it.
 
-Sintra:
+Sinatra:
 
 ```ruby
 # app.rb
