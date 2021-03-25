@@ -11,11 +11,11 @@
 
 The gem that makes using [JSON:API](https://jsonapi.org/) ***EASY***!
 
-Ever wanted the benefits of using [JSONAPI](https://jsonapi.org/) without the learning curve of the 34-page [spec](https://jsonapi.org/format/)? Well, now you can! Introducing ***EASY-JSONAPI***, a fully-compliant, lightweight, and intuitive ruby gem that currently provides 3 main use cases:
+Ever wanted the benefits of [JSONAPI](https://jsonapi.org/) without the learning curve of the 34-page [spec](https://jsonapi.org/format/)? Well, now you can! Introducing ***easy-jsonapi***, a fully-compliant, lightweight, and intuitive ruby gem that currently provides 3 main use cases:
 
-1. A middleware for filtering out non-compliant HTTP requests
-2. A parser to interact with requests in a typical Object-Oriented Fashion, providing convenient and efficient access to headers, query parameters, and document members.
-3. A validator to check your serialized responses for [JSONAPI](https://jsonapi.org/) compliance.
+1. A `middleware` for filtering out non-compliant HTTP requests
+2. A `parser` to interact with requests in a typical Object-Oriented Fashion, providing convenient and efficient access to headers, query parameters, and document members.
+3. A `validator` to check your serialized responses for [JSONAPI](https://jsonapi.org/) compliance.
 
 With its only gem dependency being [Oj](https://github.com/ohler55/oj), ***easy-jsonapi*** is a lightweight, dependable tool, featuring comprehensive error messages and over 500 unit tests allowing developers to spend less time debugging and more time creating.
 
@@ -135,7 +135,7 @@ If `ENV['RACK_ENV']` is set to something other than  `:development`, then the mi
 
 ### User Configurations
 
-`easy-jsonapi` has a fair amount of flexibility when it comes to user configurations and plenty of room for extending the current user configurations to include more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/Curatess/easy-jsonapi/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on [the github repository](https://github.com/Curatess/easy-jsonapi)
+***easy-jsonapi*** has a fair amount of flexibility when it comes to user configurations and plenty of room for extending the current user configurations to include more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/Curatess/easy-jsonapi/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on [the github repository](https://github.com/Curatess/easy-jsonapi)
 
 ## Using the Request Parser
 
@@ -198,7 +198,7 @@ See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/CHANGELOG.md)
 
 ## License
 
-easy-jsonapi is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+***easy-jsonapi*** is released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
 ## Contributing
 
