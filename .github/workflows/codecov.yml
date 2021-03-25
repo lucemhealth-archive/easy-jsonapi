@@ -8,14 +8,17 @@ jobs:
   build:
     name: Run rspec to generate code coverage
     runs-on: ubuntu-latest
-steps:
+    
+    steps:
     - uses: actions/checkout@master
     - name: Set up Ruby
       uses: actions/setup-ruby@v1
       with:
-        version: 3.0.x
-- name: Run test cases
+        ruby-version: 3.0.x
+    - name: Run test cases
       run: |
+        gem install bundler
+        bundler install
         bundle exec rspec
       env:
         CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
