@@ -2,8 +2,8 @@ name: Test
 on:
   push:
     branches: [production, dev]
-  # pull_request_review:
-    # branches: [production, dev]
+  pull_request_review:
+    branches: [production, dev]
 jobs:
   test:
     name: Run rspec and generate CODECOV
