@@ -20,7 +20,7 @@ module JSONAPI
         h_collection = JSONAPI::HeaderCollection.new
         env.each_key do |k|
           if k.start_with?('HTTP_') && (k != 'HTTP_VERSION')
-            h_collection << JSONAPI::HeaderCollection::Header.new(k[5..], env[k])
+            h_collection << JSONAPI::HeaderCollection::Header.new(k[5..-1], env[k])
           elsif k == 'CONTENT_TYPE'
             h_collection << JSONAPI::HeaderCollection::Header.new(k, env[k])
           end

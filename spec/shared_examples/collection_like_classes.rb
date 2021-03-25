@@ -77,7 +77,7 @@ shared_examples 'collection-like classes' do
       end
 
       it 'should respond to #filter' do
-        expect(c.respond_to?(:filter)).to eq true
+        expect(c.respond_to?(:lazy)).to eq true
       end
 
       it 'should return an Enumerator when no block is passed' do

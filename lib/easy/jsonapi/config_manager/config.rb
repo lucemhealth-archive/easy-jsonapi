@@ -35,8 +35,8 @@ module JSONAPI
       #   dynamically creates accessor methods for instance variables
       #   created in the initialize
       def method_missing(method_name, *args, &block)
-        super unless READER_METHODS.include?(method_name.to_s[..-2].to_sym)
-        instance_variable_set("@#{method_name}"[..-2].to_sym, args[0])
+        super unless READER_METHODS.include?(method_name.to_s[0..-2].to_sym)
+        instance_variable_set("@#{method_name}"[0..-2].to_sym, args[0])
         @default = false 
       end
 

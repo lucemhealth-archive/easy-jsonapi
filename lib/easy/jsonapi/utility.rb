@@ -151,7 +151,7 @@ module JSONAPI
       def all_hash_path?(hash, args)
         return false if (args.size.positive? && !hash.is_a?(Hash)) || hash.nil?
         return true if args.size.zero? && !hash.nil?
-        all_hash_path?(hash[args.first], args[1..])
+        all_hash_path?(hash[args.first], args[1..-1])
       end
     end
   end

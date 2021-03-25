@@ -7,7 +7,9 @@
 
 [![Gem Version](https://badge.fury.io/rb/easy-jsonapi.svg)](https://badge.fury.io/rb/easy-jsonapi)
 ![](https://ruby-gem-downloads-badge.herokuapp.com/easy-jsonapi?type=total&color=brightgreen)
-[![Build Status](https://secure.travis-ci.org/jsonapi-rb/jsonapi-parser.svg?branch=master)](http://travis-ci.org/jsonapi-rb/parser?branch=master)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
+[![License](https://img.shields.io/github/license/Curatess/easy-jsonapi)](https://img.shields.io)
+<!-- [![Build Status](https://secure.travis-ci.org/jsonapi-rb/jsonapi-parser.svg?branch=master)](http://travis-ci.org/jsonapi-rb/parser?branch=master) -->
 
 The gem that makes using [JSON:API](https://jsonapi.org/) ***EASY***!
 
@@ -23,9 +25,9 @@ As a bonus, flexible user configurations can be added to the middleware providin
 
 ## Links
 
-- [*Documentation*](tbd)
+- [*Documentation*](https://rubydoc.info/github/Curatess/easy-jsonapi/master)
 
-- [*RubyGems* *repo*](tbd)
+- [*RubyGems* *Repository*](https://rubygems.org/search?query=easy-jsonapi)
 
 ## Installation
 
@@ -190,7 +192,7 @@ end
 The `headers` param is a hash of `String => String` or `Symbol => String` of the header keys and values.
 The `body` param is either the JSON body or a ruby hash representation of the body.
 
-See the [rubydocs](tbd) for more on the Serialized Response Validator.
+See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/master) for more on the Serialized Response Validator.
 
 ## Releases
 
