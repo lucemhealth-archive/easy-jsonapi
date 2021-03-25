@@ -6,7 +6,7 @@ on:
     branches: [production, dev]
 jobs:
   test:
-    name: Run rspec and generate CODECOV
+    name: Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
