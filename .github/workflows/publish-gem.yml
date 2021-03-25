@@ -26,6 +26,7 @@ jobs:
         gem install bundler
         bundler install
         bundle exec rake test
+
   build_and_publish:
     needs: test
     if: github.event.review.state == 'approved'
@@ -38,7 +39,7 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        run: |
+      run: |
         gem install bundler
         bundler install
         gem build easy-jsonapi.gemspec
