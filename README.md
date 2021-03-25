@@ -25,7 +25,7 @@ As a bonus, flexible user configurations can be added to the middleware providin
 
 ## Links
 
-- [*Documentation*](https://rubydoc.info/github/Curatess/easy-jsonapi/master)
+- [*Documentation*](https://rubydoc.info/github/Curatess/easy-jsonapi/production)
 
 - [*RubyGems* *Repository*](https://rubygems.org/search?query=easy-jsonapi)
 
@@ -192,7 +192,7 @@ end
 The `headers` param is a hash of `String => String` or `Symbol => String` of the header keys and values.
 The `body` param is either the JSON body or a ruby hash representation of the body.
 
-See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/master) for more on the Serialized Response Validator.
+See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/proudction) for more on the Serialized Response Validator.
 
 ## Acknowledgements
 
