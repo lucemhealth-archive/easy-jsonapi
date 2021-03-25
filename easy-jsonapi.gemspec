@@ -6,13 +6,13 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Joshua DeMoss, Joe Viscomi']
   spec.email         = ['demoss.joshua@gmail.com']
 
-  spec.summary       = 'Middleware, Parser, and Validator for JSONAPI requests'
+  spec.summary       = 'Middleware, Parser, and Validator for JSONAPI requests and serialized resopnses'
   spec.description   = 'Middleware to screen non-JSONAPI-compliant requests, a parser to provide Object Oriented access to requests, and a validator for validating JSONAPI Serialized responses.'
   spec.homepage      = 'https://rubygems.org/gems/easy-jsonapi'
   spec.required_ruby_version = '>= 2.7'
 
-  spec.metadata["source_code_uri"] = "https://github.com/joshdemoss/Curatess/easy-jsonapi"
-  spec.metadata["changelog_uri"] = "https://github.com/joshdemoss/Curatess/easy-jsonapi/CHANGELOG.mg"
+  spec.metadata["source_code_uri"] = "https://github.com/Curatess/easy-jsonapi"
+  spec.metadata["changelog_uri"] = "https://github.com/Curatess/easy-jsonapi/CHANGELOG.mg"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

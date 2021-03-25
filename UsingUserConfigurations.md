@@ -73,7 +73,7 @@ To allow for client generated ids, set the method to true.
   config.allow_client_ids = true
 ```
 
-## Header Checking Customization
+### Header Checking Customization
 
 Specify a list of required headers:
 
@@ -81,7 +81,7 @@ Specify a list of required headers:
   config.required_headers = %w[content-type xxx-authentication]
 ```
 
-## Query Param Customization
+### Query Param Customization
 
 Specify a list of required query params:
 

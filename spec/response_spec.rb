@@ -10,15 +10,15 @@ describe JSONAPI::Response do
 
   describe '#validate' do
     it 'should return nil if given a valid body and headers' do
-      expect(JSONAPI::Response.validate(response_doc, env1)).to be nil
+      expect(JSONAPI::Response.validate(env1, response_doc)).to be nil
     end
 
     it 'should raise InvalidHeader if a header is found to be non compliant' do
-      expect { JSONAPI::Response.validate(response_doc, env4) }.to raise_error hec
+      expect { JSONAPI::Response.validate(env4, response_doc) }.to raise_error hec
     end
     
     it 'should raise InvalidDocument if the document is found to be non compliant' do
-      expect { JSONAPI::Response.validate({}, env1) }.to raise_error dec
+      expect { JSONAPI::Response.validate(env1, {}) }.to raise_error dec
     end
   end
 end
