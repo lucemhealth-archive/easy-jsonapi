@@ -196,7 +196,7 @@ See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/master) for
 
 ## Acknowledgements
 
-The screening strategy for `JSONAPI::Exceptions::DocumentExceptions` and some innitial compliance checks are based off [jsonapi-parser](https://github.com/jsonapi-rb/jsonapi-parser). We would like to thank the [jsonapi-rb](https://github.com/jsonapi-rb) team for the document validation work and to all our contributors and users for the continuous support!
+The exception checking strategy for `JSONAPI::Exceptions::DocumentExceptions` and some innitial compliance checks are based off [jsonapi-parser](https://github.com/jsonapi-rb/jsonapi-parser). We would like to thank the [jsonapi-rb](https://github.com/jsonapi-rb) team for the document validation work and to all our contributors and users for the continuous support!
 
 ## Releases
 
@@ -208,8 +208,8 @@ See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/blob/producti
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Curatess/easy-jsonapi. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/Curatess/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome [here on Github](https://github.com/Curatess/easy-jsonapi). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Code of Conduct](https://github.com/Curatess/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
 
 ## Code of Conduct
 
-Everyone interacting in the easy-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/Curatess/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
+Everyone interacting in the easy-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [Code of Conduct](https://github.com/Curatess/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
