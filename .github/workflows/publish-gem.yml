@@ -39,6 +39,8 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
+    
+    - name: Build gem
       run: |
         gem install bundler
         bundler install
