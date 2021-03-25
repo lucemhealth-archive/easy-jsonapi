@@ -194,7 +194,7 @@ See the [rubydocs](tbd) for more on the Serialized Response Validator.
 
 ## Releases
 
-See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/CHANGELOG.md)
+See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/CHANGELOG.md).
 
 ## License
 
