@@ -88,9 +88,12 @@ module JSONAPI
     # @param config_manager [JSONAPI::ConfigManager::Config] The config object to use modify compliance checking
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
     def check_compliance(env, config_manager)
+      # Store separately so you can rewind for next middleware or app
+      body = env['rack.input'].read
+      env['rack.input'].rewind
       opts = { http_method: env['REQUEST_METHOD'], path: env['PATH_INFO'] }
 
-      header_error = check_headers_compliance(env, config_manager, opts)
+      header_error = check_headers_compliance(env, body, config_manager, opts)
       return header_error unless header_error.nil?
 
       req = Rack::Request.new(env)
@@ -99,15 +102,15 @@ module JSONAPI
       
       return unless env['CONTENT_TYPE']
 
-      body_error = check_req_body_compliance(env, config_manager, opts)
+      body_error = check_req_body_compliance(env, body, config_manager, opts)
       return body_error unless body_error.nil?
     end
 
     # Checks whether the http headers are jsonapi compliant
     # @param (see #call)
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_headers_compliance(env, config_manager, opts)
-      JSONAPI::Exceptions::HeadersExceptions.check_request(env, config_manager, opts)
+    def check_headers_compliance(env, body, config_manager, opts)
+      JSONAPI::Exceptions::HeadersExceptions.check_request(env, body, config_manager, opts)
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader || JSONAPI::Exceptions::UserDefinedExceptions::InvalidHeader => e
       raise if environment_development?(env)
 
@@ -128,10 +131,7 @@ module JSONAPI
     # @param env (see #call)
     # @param req (see #check_query_param_compliance)
     # @raise If the document body is not JSONAPI compliant
-    def check_req_body_compliance(env, config_manager, opts)
-      # Store separately so you can rewind for next middleware or app
-      body = env['rack.input'].read
-      env['rack.input'].rewind
+    def check_req_body_compliance(env, body, config_manager, opts)
       JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, config_manager, opts)
     rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument || JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument => e
       raise if environment_development?(env)

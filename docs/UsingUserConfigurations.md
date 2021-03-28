@@ -17,7 +17,7 @@ use JSONAPI::Middleware do |config_manager|
 end
 ```
 
-To add restrictions to ALL requests use default global config included with the Config Manager:
+To add restrictions to ALL requests use the default global config included with the Config Manager:
 
 ```ruby
 use JSONAPI::Middleware do |config_manager|

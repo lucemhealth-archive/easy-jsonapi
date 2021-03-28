@@ -79,19 +79,23 @@ describe JSONAPI::Request::QueryParamCollection do
   describe '#method_missing' do
 
     let(:pc) { JSONAPI::Request::QueryParamCollection.new(item_arr, &:name) }
+
+    let(:epc) { JSONAPI::Request::QueryParamCollection.new }
     
     it 'should allow you to have dynamic methods for special params' do
-      fields = pc.fields
-      filters = pc.filters
-      includes = pc.includes
-      pages = pc.page
-      sorts = pc.sorts
-
-      expect(fields.class).to eq JSONAPI::Request::QueryParamCollection::FieldsParam
-      expect(filters.class).to eq JSONAPI::Request::QueryParamCollection::FilterParam
-      expect(includes.class).to eq JSONAPI::Request::QueryParamCollection::IncludeParam
-      expect(pages.class).to eq JSONAPI::Request::QueryParamCollection::PageParam
-      expect(sorts.class).to eq JSONAPI::Request::QueryParamCollection::SortParam
+      expect(pc.fields.class).to eq JSONAPI::Request::QueryParamCollection::FieldsParam
+      expect(pc.filters.class).to eq JSONAPI::Request::QueryParamCollection::FilterParam
+      expect(pc.includes.class).to eq JSONAPI::Request::QueryParamCollection::IncludeParam
+      expect(pc.page.class).to eq JSONAPI::Request::QueryParamCollection::PageParam
+      expect(pc.sorts.class).to eq JSONAPI::Request::QueryParamCollection::SortParam
+    end
+    
+    it 'should return nil for special params that are not included instead of raising NoMethodError' do
+      expect(epc.fields).to be nil
+      expect(epc.filters).to be nil
+      expect(epc.includes).to be nil
+      expect(epc.page).to be nil
+      expect(epc.sorts).to be nil
     end
   end
 end

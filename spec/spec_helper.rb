@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# require 'simplecov'
-# require 'codecov'
+require 'simplecov'
+require 'codecov'
 
-# SimpleCov.formatter = SimpleCov::Formatter::Codecov
-# SimpleCov.start
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
+SimpleCov.start
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

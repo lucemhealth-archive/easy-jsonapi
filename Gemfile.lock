@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    easy-jsonapi (1.0.2)
+    easy-jsonapi (1.0.3)
       oj (~> 3.10)
 
 GEM

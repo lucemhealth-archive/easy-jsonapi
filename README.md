@@ -5,11 +5,12 @@
 
 # easy-jsonapi
 
-[![Gem Version](https://badge.fury.io/rb/easy-jsonapi.svg)](https://badge.fury.io/rb/easy-jsonapi)
-![](https://ruby-gem-downloads-badge.herokuapp.com/easy-jsonapi?type=total&color=brightgreen)
-[![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
-[![License](https://img.shields.io/github/license/Curatess/easy-jsonapi)](https://img.shields.io)
-[![Build Status](https://img.shields.io/codecov/c/github/curatess/easy-jsonapi)](https://img.shields.io/codecov/c/github/curatess/easy-jsonapi)
+![Gem Version](https://badge.fury.io/rb/easy-jsonapi.svg)
+![Downloads](https://ruby-gem-downloads-badge.herokuapp.com/easy-jsonapi?type=total&color=brightgreen)
+![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)
+![License](https://img.shields.io/github/license/Curatess/easy-jsonapi)
+![Build Status](https://img.shields.io/codecov/c/github/curatess/easy-jsonapi)
+
 
 The gem that makes using [JSON:API](https://jsonapi.org/) ***EASY***!
 
@@ -19,9 +20,9 @@ Ever wanted the benefits of [JSONAPI](https://jsonapi.org/) without the learning
 2. A `parser` to interact with requests in a typical Object-Oriented Fashion, providing convenient and efficient access to headers, query parameters, and document members.
 3. A `validator` to check your serialized responses for [JSONAPI](https://jsonapi.org/) compliance.
 
-With its only gem dependency being [Oj](https://github.com/ohler55/oj), ***easy-jsonapi*** is a lightweight, dependable tool, featuring comprehensive error messages and over 500 unit tests allowing developers to spend less time debugging and more time creating.
+With its only gem dependency being [Oj](https://github.com/ohler55/oj), ***easy-jsonapi*** is a lightweight, dependable tool, featuring comprehensive error messages and over ***500 unit tests*** allowing developers to spend less time debugging and more time creating.
 
-As a bonus, flexible user configurations can be added to the middleware providing custom screening on all requests or individual requests depending on the resource type of the endpoint and the given document, header, or query param restrictions from the user.
+As a bonus, flexible user configurations can be added to the middleware providing custom screening on all requests or individual requests depending on the resource type of the endpoint and the user-defined document, header, or query param restrictions.
 
 ## Links
 
@@ -54,13 +55,15 @@ $ gem install easy-jsonapi
 
 ## Quick Start
 
-1. Set up the middleware
+***easy-jsonapi's*** 3 main use cases can be used together or separately, so to get started quickly, do any of the 3 below to begin enjoying the convenience of the library.
+
+- Set up the middleware
 
     ```ruby
     use JSONAPI::Middleware
     ```
 
-2. Parse the rack environment variable and get access to request components
+- Parse the rack environment variable and get access to request components (assumes valid JSON:API requests -- use with middleware to ensure valid requests)
 
     ```ruby
     j_req = JSONAPI::Parser.parse_request(env)
@@ -70,7 +73,7 @@ $ gem install easy-jsonapi
     j_req.body.data.type         # => "person"
     ```
 
-3. Validate your serialized JSON:API before returning it to your clients.
+- Validate your serialized JSON:API before returning it to your clients.
 
     ```ruby
     begin
@@ -120,9 +123,9 @@ use JSONAPI::Middleware
 
 ### Functionality
 
-The easy-jsonapi middleware can opperate in development or production mode.
+The easy-jsonapi middleware can operate in development or production mode.
 
-If `ENV['RACK_ENV']` is set to `:development` or not set at all, the middleware will be opperating in development mode.
+If `ENV['RACK_ENV']` is set to `:development` or not set at all, the middleware will be operating in development mode.
 
 When the middleware is in development mode it will raise an exception wherever it finds the http request to be non JSONAPI compliant.
 
@@ -137,7 +140,7 @@ If `ENV['RACK_ENV']` is set to something other than  `:development`, then the mi
 
 ### User Configurations
 
-***easy-jsonapi*** has a fair amount of flexibility when it comes to user configurations and plenty of room for extending the current user configurations to include more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/Curatess/easy-jsonapi/blob/production/docs/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on [the github repository](https://github.com/Curatess/easy-jsonapi)
+***easy-jsonapi*** has a fair amount of flexibility when it comes to user configurations but also plenty of room for to add more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/Curatess/easy-jsonapi/blob/production/docs/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on the [dev repository](https://github.com/Curatess/easy-jsonapi/tree/dev).
 
 ## Using the Request Parser
 
@@ -196,7 +199,7 @@ See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/proudction)
 
 ## Acknowledgements
 
-The exception checking strategy for `JSONAPI::Exceptions::DocumentExceptions` and some innitial compliance checks are based off [jsonapi-parser](https://github.com/jsonapi-rb/jsonapi-parser). We would like to thank the [jsonapi-rb](https://github.com/jsonapi-rb) team for the document validation work and to all our contributors and users for the continuous support!
+The exception checking strategy for `JSONAPI::Exceptions::DocumentExceptions` and some initial compliance checks are based off [jsonapi-parser](https://github.com/jsonapi-rb/jsonapi-parser). We would like to thank the [jsonapi-rb](https://github.com/jsonapi-rb) team for the document validation work and to all our contributors and users for the continuous support!
 
 ## Releases
 
