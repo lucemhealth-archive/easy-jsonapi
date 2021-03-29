@@ -8,10 +8,12 @@ module JSONAPI
     # A collection of QueryParam objects 
     class QueryParamCollection < JSONAPI::NameValuePairCollection
 
+      # The special query params defined by the JSON:API specification
+      SPECIAL_QUERY_PARAMS = %i[sorts filters fields page includes].freeze
+
       # @param param_arr [Array<JSONAPI::Request::QueryParamCollection::QueryParam] The
       #   query params to initialize the collection with
       def initialize(param_arr = [])
-        @param_names = []
         super(param_arr, item_type: JSONAPI::Request::QueryParamCollection::QueryParam)
       end
   
@@ -43,8 +45,12 @@ module JSONAPI
       # @param args If any arguments were passed to the method called
       # @param block If a block was passed to the method called
       def method_missing(method_name, *args, &block)
-        super unless include?(method_name)
-        get(method_name)
+        included = include?(method_name)
+        super unless included || SPECIAL_QUERY_PARAMS.include?(method_name)
+        if included
+          return get(method_name)
+        end
+        nil
       end
 
       # Whether or not method missing should be called.

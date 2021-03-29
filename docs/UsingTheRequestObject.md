@@ -69,6 +69,6 @@ j_req.body.jsonapi # The JSONAPI jsonapi member
 j_req.body.to_s # serialized JSONAPI
 j_req.body.to_h # ruby hash representation of JSONAPI 
 
-# NOTE: j_req.body.data returns a resoure or an array of resources depending on the request
+# NOTE: j_req.body.data returns a resource or an array of resources depending on the request
 j_req.body.data # JSONAPI::Document::Resource or [JSONAPI::Document::Resource]
 ```

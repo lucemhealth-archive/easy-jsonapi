@@ -8,13 +8,15 @@ describe JSONAPI::Exceptions::HeadersExceptions do
   include_context 'headers exceptions'
   # envs are located ^
   # hec located ^ as well
+
+  let(:dummy_body) { "this is the body "}
   
   def check_compliance(env)
     JSONAPI::Exceptions::HeadersExceptions.check_compliance(env)
   end
 
-  def check_request(env)
-    JSONAPI::Exceptions::HeadersExceptions.check_request(env)
+  def check_request(env, body)
+    JSONAPI::Exceptions::HeadersExceptions.check_request(env, body)
   end
 
   describe '#check_response_compliance' do
@@ -34,27 +36,27 @@ describe JSONAPI::Exceptions::HeadersExceptions do
 
   describe '#check_request_compliance' do
     it 'should filter appropriately on GET requests' do
-      expect { check_request(get_w_body) }.to raise_error hec
-      expect(check_request(get_no_hdrs)).to be nil
-      expect { check_request(get_w_content_type1) }.to raise_error hec
-      expect { check_request(get_w_content_type2) }.to raise_error hec
+      expect { check_request(get_w_body, dummy_body) }.to raise_error hec
+      expect(check_request(get_no_hdrs, "")).to be nil
+      expect { check_request(get_w_content_type1, "") }.to raise_error hec
+      expect { check_request(get_w_content_type2, "") }.to raise_error hec
     end
     
     it 'should filter appropriately on POST,PATCH, or PUT requests' do
-      expect { check_request(post_no_body) }.to raise_error hec
-      expect { check_request(post_no_content_type) }.to raise_error hec
-      expect { check_request(post_accept_not_jsonapi) }.to raise_error hec
-      expect { check_request(post_content_type_not_jsonapi) }.to raise_error hec
-      expect(check_request(post_content_type_and_accept_jsonapi)).to be nil
-      expect { check_request(post_content_type_jsonapi_but_accept_not_jsonapi) }.to raise_error hec
+      expect { check_request(post_no_body, "") }.to raise_error hec
+      expect { check_request(post_no_content_type, dummy_body) }.to raise_error hec
+      expect { check_request(post_accept_not_jsonapi, dummy_body) }.to raise_error hec
+      expect { check_request(post_content_type_not_jsonapi, dummy_body) }.to raise_error hec
+      expect(check_request(post_content_type_and_accept_jsonapi, dummy_body)).to be nil
+      expect { check_request(post_content_type_jsonapi_but_accept_not_jsonapi, dummy_body) }.to raise_error hec
     end
     
     it 'should filter appropriately on DELETE requests' do
-      expect { check_request(delete_w_body) }.to raise_error hec
-      expect(check_request(delete_no_content_type_or_accept)).to be nil
-      expect { check_request(delete_w_content_type) }.to raise_error hec
-      expect(check_request(delete_accept_jsonapi)).to be nil
-      expect { check_request(delete_not_accept_jsonapi) }.to raise_error hec
+      expect { check_request(delete_w_body, dummy_body) }.to raise_error hec
+      expect(check_request(delete_no_content_type_or_accept, "")).to be nil
+      expect { check_request(delete_w_content_type, "") }.to raise_error hec
+      expect(check_request(delete_accept_jsonapi, "")).to be nil
+      expect { check_request(delete_not_accept_jsonapi, "") }.to raise_error hec
     end
   end
 end

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.4 - 2020-03-28
+
+- Fixed JSONAPI::ExceptionsHeadersExceptions bug
+- Updated README files
+
 ## 1.0.3 - 2020-03-25
 
 - Updated JSONAPI::Exceptions::HeadersExceptions to allow wildcard matching for Accept header
