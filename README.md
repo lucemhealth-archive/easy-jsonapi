@@ -7,9 +7,10 @@
 
 ![Gem Version](https://badge.fury.io/rb/easy-jsonapi.svg)
 ![Downloads](https://ruby-gem-downloads-badge.herokuapp.com/easy-jsonapi?type=total&color=brightgreen)
+![Build Status](https://img.shields.io/travis/Curatess/easy-jsonapi/production)
+![Code Coverage](https://img.shields.io/codecov/c/github/curatess/easy-jsonapi)
 ![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)
 ![License](https://img.shields.io/github/license/Curatess/easy-jsonapi)
-![Build Status](https://img.shields.io/codecov/c/github/curatess/easy-jsonapi)
 
 
 The gem that makes using [JSON:API](https://jsonapi.org/) ***EASY***!
