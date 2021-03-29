@@ -1,9 +1,5 @@
-language: ruby
-cache: bundler
-rvm:
-  - 2.5
-  - 2.6
-  - 2.7
-  - 3.0
-before_install: gem install bundler
-script: bundle exec rake build
+lang: ruby
+
+script: bundle exec rake
+
+rvm: 3.0.0
