@@ -153,7 +153,6 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
       end
     end
 
-    # FIXME: Provide per model checking
     describe 'check_additional_required_members' do
       it 'should return an error msg when a top-level, user-defined, required member is not included' do
         cm.global.required_document_members = req_check_top_level
@@ -193,7 +192,6 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
       end
     end
 
-    # FIXME: Provide per model checking
     describe 'check for client generated ids' do
       it 'should return an error messsage when an id is included when not allowed' do
         doc_w_id = {}
@@ -258,7 +256,6 @@ describe JSONAPI::Exceptions::UserDefinedExceptions do
       }
     end
 
-    # TODO: Per resource
     # TODO: Provide cm option for max include depth -- think DOS attack
     # TODO: Provide cm option for puting limit on page[limit]
     #   per resource and global (undefined defaults out the box)
