@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## 1.0.5 - 2020-03-30
+## 1.0.6 - 2020-03-20
+
+- Fixed bug in JSONAPI::Middleware that was not checking for environment variables properly
+
+## 1.0.5 - 2020-03-20
 
 - Fixed bug in JSONAPI::Exceptions::HeadersExceptions that didn't check for user required headers requirements
 - Fixed bug in JSONAPI::Exceptions::QueryParamExceptions that didn't check for user required query param requirements

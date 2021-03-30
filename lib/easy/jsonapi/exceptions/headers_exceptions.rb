@@ -25,9 +25,11 @@ module JSONAPI
 
       # Check http verb vs included headers
       # @param env [Hash] The rack environment variable
-      def self.check_request(env, body, config_manager = nil, opts = {})
+      # @param config_manager [JSONAPI::ConfigManager] The manager of user configurations
+      # @param opts [Hash] Includes http_method, path, and contains_body values
+      def self.check_request(env, config_manager = nil, opts = {})
         check_compliance(env, config_manager, opts)
-        check_http_method_against_headers(env, body)
+        check_http_method_against_headers(env, opts[:contains_body])
       end
 
       # Check jsonapi compliance
@@ -78,30 +80,30 @@ module JSONAPI
         #   error if the combination doesn't make sense
         # @param (see #compliant?)
         # @raise InvalidHeader the invalid header incombination with the http verb
-        def check_http_method_against_headers(env, body)
+        def check_http_method_against_headers(env, contains_body)
           case env['REQUEST_METHOD']
           when 'GET'
-            check_get_against_hdrs(env, body)
+            check_get_against_hdrs(env, contains_body)
           when 'POST' || 'PATCH' || 'PUT'
-            check_post_against_hdrs(env, body)
+            check_post_against_hdrs(env, contains_body)
           when 'DELETE'
-            check_delete_against_hdrs(env, body)
+            check_delete_against_hdrs(env, contains_body)
           end
         end
 
         # Raise error if a GET request has a body or a content type header
         # @param (see #compliant?)
-        def check_get_against_hdrs(env, body)
-          raise_error('GET requests cannot have a body.') unless body == ""
+        def check_get_against_hdrs(env, contains_body)
+          raise_error('GET requests cannot have a body.') if contains_body
           raise_error("GET request cannot have a 'CONTENT_TYPE' http header.") unless env['CONTENT_TYPE'].nil?
         end
 
         # POST, PUT, and PATCH request must have a content type header,
         #   a body, and a content-type and accept header that accepts jsonapi
         # @param (see #compliant?)
-        def check_post_against_hdrs(env, body)
+        def check_post_against_hdrs(env, contains_body)
           raise_error("POST, PUT, and PATCH requests must have a 'CONTENT_TYPE' header.") unless env['CONTENT_TYPE']
-          raise_error('POST, PUT, and PATCH requests must have a body.') if body == ""
+          raise_error('POST, PUT, and PATCH requests must have a body.') unless contains_body
           
           return if env['CONTENT_TYPE'] == 'application/vnd.api+json' && accepts_jsonapi?(env)
           
@@ -110,8 +112,8 @@ module JSONAPI
         end
 
         # Raise error if DELETE hdr has a body or a content type header
-        def check_delete_against_hdrs(env, body)
-          raise_error('DELETE requests cannot have a body.') unless body == ""
+        def check_delete_against_hdrs(env, contains_body)
+          raise_error('DELETE requests cannot have a body.') if contains_body
           raise_error("DELETE request cannot have a 'CONTENT_TYPE' http header.") unless env['CONTENT_TYPE'].nil?
         end
         
