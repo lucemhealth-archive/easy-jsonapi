@@ -6,6 +6,11 @@ require 'rack_app'
 
 describe JSONAPI::Middleware do
 
+  before(:each) do
+    ENV.delete('RACK_ENV')
+    ENV.delete('MAINTENANCE')
+  end
+
   # Middleware variables
   let(:m) { JSONAPI::Middleware.new(RackApp.new) }
   
@@ -94,10 +99,10 @@ describe JSONAPI::Middleware do
     JSONAPI::Parser::JSONParser.dump(bad_body_hash)
   end
 
-  def env(body_str, rack_env = :development, maintenance: nil)
+  def env(body_str, rack_env = 'development', maintenance: nil)
+    ENV['RACK_ENV'] = rack_env
+    ENV['MAINTENANCE'] = maintenance.to_s unless maintenance.nil?
     {
-      'RACK_ENV' => rack_env,
-      'MAINTENANCE' => maintenance,
       'SERVER_SOFTWARE' => 'thin 1.7.2 codename Bachmanity',
       'SERVER_NAME' => 'localhost',
       'rack.input' => StringIO.new(body_str),
@@ -124,7 +129,7 @@ describe JSONAPI::Middleware do
   end
 
   # Includdoc with the name '***BAD_PARAM***'
-  def env_bad_param(rack_env = :development, maintenance: nil)
+  def env_bad_param(rack_env = 'development', maintenance: nil)
     bad_param_hash = {}
     bad_param_hash.replace(env(body_str, rack_env, maintenance: maintenance))
     bad_param_hash['QUERY_STRING'] = 'include=author,comments&fields[articles]=title,body,author&fields[people]=name&' \
@@ -134,7 +139,7 @@ describe JSONAPI::Middleware do
   end
 
   # Include HTTP_ACCEPT with params
-  def env_bad_header(rack_env = :development, maintenance: nil)
+  def env_bad_header(rack_env = 'development', maintenance: nil)
     bad_header_hash = {}
     bad_header_hash.replace(env(body_str, rack_env, maintenance: maintenance))
     bad_header_hash['HTTP_ACCEPT'] = 'application/vnd.api+json ; q=0.5, text/*, image/* ; q=.3'
@@ -150,12 +155,12 @@ describe JSONAPI::Middleware do
   describe '#call' do
 
     context 'when checking if in MAINTENANCE' do
-      it 'should return 503 without body message if env["MAINTENANCE"] is set and in not in development' do
+      it 'should return 503 without body message if ENV["MAINTENANCE"] is set and in not in development' do
         expect(m.call(env(body_str, maintenance: true))).to eq [503, {}, ['MAINTENANCE envirornment variable set']]
       end
       
-      it 'should return 503 with message if env["MAINTENANCE"] is not set or in development' do
-        expect(m.call(env(body_str, :production, maintenance: true))).to eq [503, {}, []]
+      it 'should return 503 with message if ENV["MAINTENANCE"] is not set or in development' do
+        expect(m.call(env(body_str, 'production', maintenance: true))).to eq [503, {}, []]
       end
   
       it 'should return the right response and instantiate a request object when data is included' do
@@ -172,7 +177,7 @@ describe JSONAPI::Middleware do
         end
   
         it 'should return a 400 level error otherwise' do
-          expect(m.call(env(bad_body_str, :production))).to eq [400, {}, []]
+          expect(m.call(env(bad_body_str, 'production'))).to eq [400, {}, []]
         end
       end
   
@@ -189,10 +194,7 @@ describe JSONAPI::Middleware do
         end
   
         it 'should return a 400 level error otherwise' do
-          env_bad_param_production = {}
-          env_bad_param_production.replace env_bad_param
-          env_bad_param_production['RACK_ENV'] = :production
-          expect(m.call(env_bad_param_production)).to eq [400, {}, []]
+          expect(m.call(env_bad_param('production'))).to eq [400, {}, []]
         end
       end
   
@@ -206,7 +208,7 @@ describe JSONAPI::Middleware do
         it 'should return a 406 error for a Accept Header error' do
           env_bad_header_production = {}
           env_bad_header_production.replace env_bad_header
-          env_bad_header_production["RACK_ENV"] = :production
+          ENV['RACK_ENV'] = 'production'
           expect(m.call(env_bad_header_production)).to eq [406, {}, []]
           env_bad_header_production['HTTP_ACCEPT'] = '*/*; q=5'
           expect(m.call(env_bad_header_production)).to eq [406, {}, []]
@@ -217,7 +219,7 @@ describe JSONAPI::Middleware do
         it 'should return a 415 error if there is a Content-Type error' do
           env_bad_header_production = {}
           env_bad_header_production.replace env_bad_header
-          env_bad_header_production["RACK_ENV"] = :production
+          ENV['RACK_ENV'] = 'production'
           env_bad_header_production["HTTP_ACCEPT"] = 'application/vnd.api+json'
           env_bad_header_production["CONTENT_TYPE"] = 'application/vnd.api+json; q=0.5'
           expect(m.call(env_bad_header_production)).to eq [415, {}, []]
@@ -229,7 +231,7 @@ describe JSONAPI::Middleware do
       it 'should return a 400 level error if in production' do
         env_body_malformed = {}
         env_body_malformed.replace(env(body_str))
-        env_body_malformed["RACK_ENV"] = :production
+        ENV['RACK_ENV'] = 'production'
         env_body_malformed['rack.input'] = StringIO.new("[")
         expect(m.call(env_body_malformed)).to eq [400, {}, []]
       end
@@ -287,7 +289,7 @@ describe JSONAPI::Middleware do
         end
 
         it 'should return 400 when in production and error found' do
-          expect(m_usr_hdr.call(env(usr_body_str, :production))).to eq [400, {}, []]
+          expect(m_usr_hdr.call(env(usr_body_str, 'production'))).to eq [400, {}, []]
         end
       end
 
@@ -297,7 +299,7 @@ describe JSONAPI::Middleware do
         end
 
         it 'should return 400 when in production and error found' do
-          expect(m_usr_param.call(env(usr_body_str, :production))).to eq [400, {}, []]
+          expect(m_usr_param.call(env(usr_body_str, 'production'))).to eq [400, {}, []]
         end
       end
 
@@ -307,7 +309,7 @@ describe JSONAPI::Middleware do
         end
   
         it 'should return 400 when in production and error found' do
-          expect(m_usr_doc.call(env(usr_body_str, :production))).to eq [400, {}, []]
+          expect(m_usr_doc.call(env(usr_body_str, 'production'))).to eq [400, {}, []]
         end
       end
     end

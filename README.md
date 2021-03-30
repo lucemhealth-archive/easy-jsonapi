@@ -126,7 +126,7 @@ use JSONAPI::Middleware
 
 The easy-jsonapi middleware can operate in development or production mode.
 
-If `ENV['RACK_ENV']` is set to `:development` or not set at all, the middleware will be operating in development mode.
+If `ENV['RACK_ENV']` is set to `'development'` or not set at all, the middleware will be operating in development mode.
 
 When the middleware is in development mode it will raise an exception wherever it finds the http request to be non JSONAPI compliant.
 
@@ -137,7 +137,7 @@ The types of exceptions it will raise are:
 - `JSONAPI::Exceptions::QueryParamExceptions::InvalidQueryParam` when an included query parameter is non-compliant
 - `JSONAPI::Exceptions::DocumentExceptions::InvalidDocument` when the body is included and non-compliant
 
-If `ENV['RACK_ENV']` is set to something other than  `:development`, then the middleware will return the appropriate status code error given the JSON:API clause the headers, query params, or document violates.
+If `ENV['RACK_ENV']` is set to something other than  `'development'`, then the middleware will return the appropriate status code error given the JSON:API clause the headers, query params, or document violates.
 
 ### User Configurations
 

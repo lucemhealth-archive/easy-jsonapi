@@ -23,8 +23,8 @@ module JSONAPI
     #   and error if any section is found to be non-compliant.
     # @param env The rack envirornment hash
     def call(env)
-      if in_maintenance_mode?(env)
-        return maintenance_response(env)
+      if in_maintenance_mode?
+        return maintenance_response
       end
 
       if jsonapi_request?(env)
@@ -38,17 +38,15 @@ module JSONAPI
     private
 
     # Checks the 'MAINTENANCE' environment variable
-    # @param (see #call)
     # @return [TrueClass | FalseClass]
-    def in_maintenance_mode?(env)
-      !env['MAINTENANCE'].nil?
+    def in_maintenance_mode?
+      !ENV['MAINTENANCE'].nil?
     end
 
     # Return 503 with or without msg depending on environment
-    # @param (see #call)
     # @return [Array] Http Error Responses
-    def maintenance_response(env)
-      if environment_development?(env)
+    def maintenance_response
+      if environment_development?
         [503, {}, ['MAINTENANCE envirornment variable set']]
       else
         [503, {}, []]
@@ -91,28 +89,28 @@ module JSONAPI
       # Store separately so you can rewind for next middleware or app
       body = env['rack.input'].read
       env['rack.input'].rewind
-      opts = { http_method: env['REQUEST_METHOD'], path: env['PATH_INFO'] }
+      opts = { http_method: env['REQUEST_METHOD'], path: env['PATH_INFO'], contains_body: body != "" }
 
-      header_error = check_headers_compliance(env, body, config_manager, opts)
+      header_error = check_headers_compliance(env, config_manager, opts)
       return header_error unless header_error.nil?
 
       req = Rack::Request.new(env)
-      param_error = check_query_param_compliance(env, req.GET, config_manager, opts)
+      param_error = check_query_param_compliance(req.GET, config_manager, opts)
       return param_error unless param_error.nil?
       
       return unless env['CONTENT_TYPE']
 
-      body_error = check_req_body_compliance(env, body, config_manager, opts)
+      body_error = check_body_compliance(body, config_manager, opts)
       return body_error unless body_error.nil?
     end
 
     # Checks whether the http headers are jsonapi compliant
     # @param (see #call)
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_headers_compliance(env, body, config_manager, opts)
-      JSONAPI::Exceptions::HeadersExceptions.check_request(env, body, config_manager, opts)
+    def check_headers_compliance(env, config_manager, opts)
+      JSONAPI::Exceptions::HeadersExceptions.check_request(env, config_manager, opts)
     rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader, JSONAPI::Exceptions::UserDefinedExceptions::InvalidHeader => e
-      raise if environment_development?(env)
+      raise if environment_development?
 
       [e.status_code, {}, []]
     end
@@ -120,10 +118,10 @@ module JSONAPI
     # @param query_params [Hash] The rack request query_param hash
     # @raise If the query parameters are not JSONAPI compliant
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
-    def check_query_param_compliance(env, query_params, config_manager, opts)
+    def check_query_param_compliance(query_params, config_manager, opts)
       JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(query_params, config_manager, opts)
     rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter, JSONAPI::Exceptions::UserDefinedExceptions::InvalidQueryParam => e
-      raise if environment_development?(env)
+      raise if environment_development?
       
       [e.status_code, {}, []]
     end
@@ -131,14 +129,14 @@ module JSONAPI
     # @param env (see #call)
     # @param req (see #check_query_param_compliance)
     # @raise If the document body is not JSONAPI compliant
-    def check_req_body_compliance(env, body, config_manager, opts)
+    def check_body_compliance(body, config_manager, opts)
       JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, config_manager, opts)
     rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument, JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument => e
-      raise if environment_development?(env)
+      raise if environment_development?
 
       [e.status_code, {}, []]
     rescue JSONAPI::Exceptions::JSONParseError
-      raise if environment_development?(env)
+      raise if environment_development?
 
       [400, {}, []]
     end
@@ -151,8 +149,8 @@ module JSONAPI
     end
 
     # @param (see #call)
-    def environment_development?(env)
-      env['RACK_ENV'].to_s.downcase == 'development' || env['RACK_ENV'].nil?
+    def environment_development?
+      ENV['RACK_ENV'].to_s.downcase == 'development' || ENV['RACK_ENV'].nil?
     end
   end
 end
