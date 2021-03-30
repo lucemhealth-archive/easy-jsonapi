@@ -33,7 +33,7 @@ module JSONAPI
         end
         
         err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_query_param_requirements(rack_req_params, config_manager, opts)
-        return err_msg unless err_msg.nil?
+        raise err_msg unless err_msg.nil?
 
         nil
       end

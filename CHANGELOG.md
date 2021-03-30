@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.0.5 - 2020-03-30
+
+- Fixed bug in JSONAPI::Exceptions::HeadersExceptions that didn't check for user required headers requirements
+- Fixed bug in JSONAPI::Exceptions::QueryParamExceptions that didn't check for user required query param requirements
+- Added more tests to the middleware
+- Updated Documentation
+
 ## 1.0.4 - 2020-03-28
 
 - Fixed JSONAPI::ExceptionsHeadersExceptions bug

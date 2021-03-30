@@ -62,8 +62,10 @@ module JSONAPI
         #   with underscores instead of dashes.
         # @param config (see #check_user_document_requirements)
         def check_user_header_requirements(headers, config_manager, opts)
-          return if config_manager.nil? || config_manager.default?
+          return if config_manager.nil?
+          
           config = get_config(config_manager, opts[:http_method], opts[:path])
+          return if config.default? && config_manager.size.positive?
 
           err = 
             check_for_required_headers(headers, config.required_headers)
@@ -77,8 +79,10 @@ module JSONAPI
         # @param rack_req_params [Hash]  The hash of the query parameters given by Rack::Request
         # @param config (see #check_user_document_requirements)
         def check_user_query_param_requirements(rack_req_params, config_manager, opts)
-          return if config_manager.nil? || config_manager.default?
+          return if config_manager.nil?
+          
           config = get_config(config_manager, opts[:http_method], opts[:path])
+          return if config.default? && config_manager.size.positive?
 
           err = 
             check_for_required_params(rack_req_params, config.required_query_params)

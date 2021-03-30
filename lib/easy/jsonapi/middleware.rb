@@ -111,7 +111,7 @@ module JSONAPI
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
     def check_headers_compliance(env, body, config_manager, opts)
       JSONAPI::Exceptions::HeadersExceptions.check_request(env, body, config_manager, opts)
-    rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader || JSONAPI::Exceptions::UserDefinedExceptions::InvalidHeader => e
+    rescue JSONAPI::Exceptions::HeadersExceptions::InvalidHeader, JSONAPI::Exceptions::UserDefinedExceptions::InvalidHeader => e
       raise if environment_development?(env)
 
       [e.status_code, {}, []]
@@ -122,7 +122,7 @@ module JSONAPI
     # @return [NilClass | Array] Nil meaning no error or a 400 level http response
     def check_query_param_compliance(env, query_params, config_manager, opts)
       JSONAPI::Exceptions::QueryParamsExceptions.check_compliance(query_params, config_manager, opts)
-    rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter || JSONAPI::Exceptions::UserDefinedExceptions::InvalidQueryParam => e
+    rescue JSONAPI::Exceptions::QueryParamsExceptions::InvalidQueryParameter, JSONAPI::Exceptions::UserDefinedExceptions::InvalidQueryParam => e
       raise if environment_development?(env)
       
       [e.status_code, {}, []]
@@ -133,7 +133,7 @@ module JSONAPI
     # @raise If the document body is not JSONAPI compliant
     def check_req_body_compliance(env, body, config_manager, opts)
       JSONAPI::Exceptions::DocumentExceptions.check_compliance(body, config_manager, opts)
-    rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument || JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument => e
+    rescue JSONAPI::Exceptions::DocumentExceptions::InvalidDocument, JSONAPI::Exceptions::UserDefinedExceptions::InvalidDocument => e
       raise if environment_development?(env)
 
       [e.status_code, {}, []]

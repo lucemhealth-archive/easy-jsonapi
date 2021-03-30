@@ -21,7 +21,7 @@ Ever wanted the benefits of [JSONAPI](https://jsonapi.org/) without the learning
 2. A `parser` to interact with requests in a typical Object-Oriented Fashion, providing convenient and efficient access to headers, query parameters, and document members.
 3. A `validator` to check your serialized responses for [JSONAPI](https://jsonapi.org/) compliance.
 
-With its only gem dependency being [Oj](https://github.com/ohler55/oj), ***easy-jsonapi*** is a lightweight, dependable tool, featuring comprehensive error messages and over ***500 unit tests*** allowing developers to spend less time debugging and more time creating.
+With its only gem dependency being [Oj](https://github.com/ohler55/oj), ***easy-jsonapi*** is a lightweight, dependable tool, featuring comprehensive error messages and over ***525 unit tests*** allowing developers to spend less time debugging and more time creating.
 
 As a bonus, flexible user configurations can be added to the middleware providing custom screening on all requests or individual requests depending on the resource type of the endpoint and the user-defined document, header, or query param restrictions.
 

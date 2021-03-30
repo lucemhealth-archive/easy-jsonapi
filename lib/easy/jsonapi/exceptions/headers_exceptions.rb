@@ -39,7 +39,7 @@ module JSONAPI
         hdrs = JSONAPI::Parser::HeadersParser.parse(env)
         usr_opts = { http_method: opts[:http_method], path: opts[:path] }
         err_msg = JSONAPI::Exceptions::UserDefinedExceptions.check_user_header_requirements(hdrs, config_manager, usr_opts)
-        return err_msg unless err_msg.nil?
+        raise err_msg unless err_msg.nil?
       end
 
       class << self
