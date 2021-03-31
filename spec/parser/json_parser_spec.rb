@@ -22,7 +22,7 @@ describe JSONAPI::Parser::JSONParser do
 
   describe '#dump' do
     it 'should return valid JSON from a given ruby hash' do
-      expect(JSONAPI::Parser::JSONParser.dump(hash1)).to eq Oj.dump(hash1)
+      expect(JSONAPI::Parser::JSONParser.dump(hash1)).to eq Oj.dump(hash1, mode: :compat)
     end
   end
   

@@ -21,7 +21,7 @@ module JSONAPI
       # Convert ruby hash into JSON
       # @param ruby_hash [Hash] THe hash to convert into JSON
       def self.dump(ruby_hash)
-        Oj.dump(ruby_hash)
+        Oj.dump(ruby_hash, mode: :compat)
       end
 
     end
