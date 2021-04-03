@@ -31,6 +31,8 @@ As a bonus, flexible user configurations can be added to the middleware providin
 
 - [*RubyGems* *Repository*](https://rubygems.org/search?query=easy-jsonapi)
 
+- [*Class Diagram*](https://lucid.app/lucidchart/invitations/accept/3d543b29-4171-43cb-94db-9aeb346cdcac)
+
 ## Installation
 
 Add this line to your applications' Gemfile:
