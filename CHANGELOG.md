@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.9 - 2020-05-04
+
+- Updated dependencies to fix security vulnerability in rexml
+
 ## 1.0.8 - 2020-05-04
 
 - Updated dependencies to fix security vulnerability in rexml
