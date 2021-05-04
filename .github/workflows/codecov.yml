@@ -19,7 +19,7 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      run: |
+    - run: |
         bundle exec rspec
         bash <(curl -s https://codecov.io/bash)
       env:
