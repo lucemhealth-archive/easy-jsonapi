@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.8 - 2020-05-04
+
+- Updated dependencies to fix security vulnerability in rexml
+
 ## 1.0.7 - 2020-03-31
 
 - Fixed bug in JSONAPI::Parser::JSONParser that would serialize hashes with symbol key values instead of string

@@ -1,6 +1,6 @@
 AllCops:
   NewCops: enable
-  TargetRubyVersion: '3.0.0'
+  TargetRubyVersion: '3.0.1'
   SuggestExtensions: false
 
 Metrics/AbcSize:
