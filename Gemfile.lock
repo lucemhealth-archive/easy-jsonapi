@@ -22,6 +22,8 @@ GEM
       kramdown (~> 2.0)
     nokogiri (1.11.2-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.11.2-x86_64-linux)
+      racc (~> 1.4)
     oj (3.11.5)
     parallel (1.20.1)
     parser (3.0.0.0)
@@ -34,7 +36,7 @@ GEM
     regexp_parser (2.1.1)
     reverse_markdown (2.0.0)
       nokogiri
-    rexml (3.2.4)
+    rexml (3.2.5)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -87,6 +89,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-19
+  x86_64-linux
 
 DEPENDENCIES
   codecov (~> 0.4)
