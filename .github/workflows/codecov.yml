@@ -14,13 +14,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     
     steps:
-    - uses: actions/checkout@master
-    
     - name: Set up Ruby
-      uses: actions/setup-ruby@v1
+    - uses: actions/checkout@master
+    - uses: actions/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     
     - name: Run test cases
       run: |
