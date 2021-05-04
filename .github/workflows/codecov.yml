@@ -7,23 +7,20 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.5', '2.6', '2.7', '3.0']
+        os: [ubuntu-latest, macos-latest]
+        ruby: ['2.5', '2.6', '2.7', '3.0']
+    runs-on: ${{ matrix.os }}
     
     steps:
     - uses: actions/checkout@master
-    
-    - name: Set up Ruby
-      uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby-version }}
-    
-    - name: Run test cases
-      run: |
+        ruby-version: ${{ matrix.ruby }}
+    - run: |
         gem install bundler
-        bundler install
+        bundle install
         bundle exec rspec
         bash <(curl -s https://codecov.io/bash)
       env:
