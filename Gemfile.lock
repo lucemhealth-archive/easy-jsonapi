@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    easy-jsonapi (1.0.7)
+    easy-jsonapi (1.0.8)
       oj (~> 3.10)
 
 GEM
@@ -22,7 +22,7 @@ GEM
       kramdown (~> 2.0)
     nokogiri (1.11.2-x86_64-darwin)
       racc (~> 1.4)
-    oj (3.11.3)
+    oj (3.11.5)
     parallel (1.20.1)
     parser (3.0.0.0)
       ast (~> 2.4.1)
