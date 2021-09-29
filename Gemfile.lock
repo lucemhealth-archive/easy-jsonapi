@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    easy-jsonapi (1.0.9)
+    easy-jsonapi (1.0.10)
       oj (~> 3.10)
 
 GEM
@@ -87,7 +87,6 @@ GEM
     yard (0.9.26)
 
 PLATFORMS
-  x86_64-darwin-19
   x86_64-darwin-20
 
 DEPENDENCIES
