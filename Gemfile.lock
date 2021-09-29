@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     easy-jsonapi (1.0.10)
-      oj (~> 3.10)
+    oj (~> 3.10)
 
 GEM
   remote: https://rubygems.org/
