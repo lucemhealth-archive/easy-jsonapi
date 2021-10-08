@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.0.11 - 2021-10-8
+- Updated dependencies to fix security vulnerability
+
 ## 1.0.10 - 2021-09-29
 - Updated dependencies to fix security vulnerability
 
