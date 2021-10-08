@@ -7,10 +7,10 @@
 
 ![Gem Version](https://badge.fury.io/rb/easy-jsonapi.svg)
 ![Downloads](https://ruby-gem-downloads-badge.herokuapp.com/easy-jsonapi?type=total&color=brightgreen)
-![Build Status](https://img.shields.io/travis/Curatess/easy-jsonapi/production)
-![Code Coverage](https://img.shields.io/codecov/c/github/curatess/easy-jsonapi)
+![Build Status](https://img.shields.io/travis/lucemhealth-archive/easy-jsonapi/production)
+![Code Coverage](https://img.shields.io/codecov/c/github/lucemhealth-archive/easy-jsonapi)
 ![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)
-![License](https://img.shields.io/github/license/Curatess/easy-jsonapi)
+![License](https://img.shields.io/github/license/lucemhealth-archive/easy-jsonapi)
 
 
 The gem that makes using [JSON:API](https://jsonapi.org/) ***EASY***!
@@ -27,7 +27,7 @@ As a bonus, flexible user configurations can be added to the middleware providin
 
 ## Links
 
-- [*Documentation*](https://rubydoc.info/github/Curatess/easy-jsonapi/production)
+- [*Documentation*](https://rubydoc.info/github/lucemhealth-archive/easy-jsonapi/production)
 
 - [*RubyGems* *Repository*](https://rubygems.org/search?query=easy-jsonapi)
 
@@ -143,7 +143,7 @@ If `ENV['RACK_ENV']` is set to something other than  `'development'`, then the m
 
 ### User Configurations
 
-***easy-jsonapi*** has a fair amount of flexibility when it comes to user configurations but also plenty of room for to add more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/Curatess/easy-jsonapi/blob/production/docs/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on the [dev repository](https://github.com/Curatess/easy-jsonapi/tree/dev).
+***easy-jsonapi*** has a fair amount of flexibility when it comes to user configurations but also plenty of room for to add more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/lucemhealth-archive/easy-jsonapi/blob/production/docs/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on the [dev repository](https://github.com/lucemhealth-archive/easy-jsonapi/tree/dev).
 
 ## Using the Request Parser
 
@@ -175,7 +175,7 @@ require 'easy/jsonapi'
 jsonapi_req = JSONAPI::Parser.parse_request(env)
 ```
 
-This returns a `JSONAPI::Request` object that can be used to access the collection of query params, collection of headers, and the body of the request. To see example usage, see [Using the Request Object](https://github.com/Curatess/easy-jsonapi/blob/production/docs/UsingTheRequestObject.md).
+This returns a `JSONAPI::Request` object that can be used to access the collection of query params, collection of headers, and the body of the request. To see example usage, see [Using the Request Object](https://github.com/lucemhealth-archive/easy-jsonapi/blob/production/docs/UsingTheRequestObject.md).
 
 ## Using the Serialized Response Validator
 
@@ -198,7 +198,7 @@ end
 The `headers` param is a hash of `String => String` or `Symbol => String` of the header keys and values.
 The `body` param is either the JSON body or a ruby hash representation of the body.
 
-See the [rubydocs](https://rubydoc.info/github/Curatess/easy-jsonapi/proudction) for more on the Serialized Response Validator.
+See the [rubydocs](https://rubydoc.info/github/lucemhealth-archive/easy-jsonapi/proudction) for more on the Serialized Response Validator.
 
 ## Acknowledgements
 
@@ -206,7 +206,7 @@ The exception checking strategy for `JSONAPI::Exceptions::DocumentExceptions` an
 
 ## Releases
 
-See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/blob/production/CHANGELOG.md).
+See [{file:CHANGELOG.md}](https://github.com/lucemhealth-archive/easy-jsonapi/blob/production/CHANGELOG.md).
 
 ## License
 
@@ -214,8 +214,8 @@ See [{file:CHANGELOG.md}](https://github.com/Curatess/easy-jsonapi/blob/producti
 
 ## Contributing
 
-Bug reports and pull requests are welcome [here on Github](https://github.com/Curatess/easy-jsonapi). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Code of Conduct](https://github.com/Curatess/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome [here on Github](https://github.com/lucemhealth-archive/easy-jsonapi). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Code of Conduct](https://github.com/lucemhealth-archive/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
 
 ## Code of Conduct
 
-Everyone interacting in the easy-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [Code of Conduct](https://github.com/Curatess/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
+Everyone interacting in the easy-jsonapi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [Code of Conduct](https://github.com/lucemhealth-archive/easy-jsonapi/blob/production/CODE_OF_CONDUCT.md).
