@@ -7,7 +7,7 @@
 
 ![Gem Version](https://badge.fury.io/rb/easy-jsonapi.svg)
 ![Downloads](https://img.shields.io/gem/dt/easy-jsonapi)
-![Build Status](https://img.shields.io/travis/lucemhealth-archive/easy-jsonapi/production)
+![Build Status](https://img.shields.io/github/actions/workflow/status/lucemhealth-archive/easy-jsonapi/publish.yml)
 ![License](https://img.shields.io/github/license/lucemhealth-archive/easy-jsonapi)
 
 The gem that makes using [JSON:API](https://jsonapi.org/) **_EASY_**!
