@@ -6,32 +6,29 @@
 # easy-jsonapi
 
 ![Gem Version](https://badge.fury.io/rb/easy-jsonapi.svg)
-![Downloads](https://ruby-gem-downloads-badge.herokuapp.com/easy-jsonapi?type=total&color=brightgreen)
-![Build Status](https://img.shields.io/travis/lucemhealth-archive/easy-jsonapi/production)
-![Code Coverage](https://img.shields.io/codecov/c/github/lucemhealth-archive/easy-jsonapi)
-![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)
+![Downloads](https://img.shields.io/gem/dt/easy-jsonapi)
+![Build Status](https://img.shields.io/github/actions/workflow/status/lucemhealth-archive/easy-jsonapi/publish.yml)
 ![License](https://img.shields.io/github/license/lucemhealth-archive/easy-jsonapi)
 
+The gem that makes using [JSON:API](https://jsonapi.org/) **_EASY_**!
 
-The gem that makes using [JSON:API](https://jsonapi.org/) ***EASY***!
-
-Ever wanted the benefits of [JSONAPI](https://jsonapi.org/) without the learning curve of the 34-page [spec](https://jsonapi.org/format/)? Well, now you can! Introducing ***easy-jsonapi***, a fully-compliant, lightweight, and intuitive ruby gem that currently provides 3 main use cases:
+Ever wanted the benefits of [JSONAPI](https://jsonapi.org/) without the learning curve of the 34-page [spec](https://jsonapi.org/format/)? Well, now you can! Introducing **_easy-jsonapi_**, a fully-compliant, lightweight, and intuitive ruby gem that currently provides 3 main use cases:
 
 1. A `middleware` for filtering out non-compliant HTTP requests
 2. A `parser` to interact with requests in a typical Object-Oriented Fashion, providing convenient and efficient access to headers, query parameters, and document members.
 3. A `validator` to check your serialized responses for [JSONAPI](https://jsonapi.org/) compliance.
 
-With its only gem dependency being [Oj](https://github.com/ohler55/oj), ***easy-jsonapi*** is a lightweight, dependable tool, featuring comprehensive error messages and over ***525 unit tests*** allowing developers to spend less time debugging and more time creating.
+With its only gem dependency being [Oj](https://github.com/ohler55/oj), **_easy-jsonapi_** is a lightweight, dependable tool, featuring comprehensive error messages and over **_525 unit tests_** allowing developers to spend less time debugging and more time creating.
 
 As a bonus, flexible user configurations can be added to the middleware providing custom screening on all requests or individual requests depending on the resource type of the endpoint and the user-defined document, header, or query param restrictions.
 
 ## Links
 
-- [*Documentation*](https://rubydoc.info/github/lucemhealth-archive/easy-jsonapi/production)
+- [_Documentation_](https://rubydoc.info/github/lucemhealth-archive/easy-jsonapi/production)
 
-- [*RubyGems* *Repository*](https://rubygems.org/search?query=easy-jsonapi)
+- [_RubyGems_ _Repository_](https://rubygems.org/search?query=easy-jsonapi)
 
-- [*Class Diagram*](https://lucid.app/lucidchart/invitations/accept/3d543b29-4171-43cb-94db-9aeb346cdcac)
+- [_Class Diagram_](https://lucid.app/lucidchart/invitations/accept/3d543b29-4171-43cb-94db-9aeb346cdcac)
 
 ## Installation
 
@@ -58,33 +55,33 @@ $ gem install easy-jsonapi
 
 ## Quick Start
 
-***easy-jsonapi's*** 3 main use cases can be used together or separately, so to get started quickly, do any of the 3 below to begin enjoying the convenience of the library.
+**_easy-jsonapi's_** 3 main use cases can be used together or separately, so to get started quickly, do any of the 3 below to begin enjoying the convenience of the library.
 
 - Set up the middleware
 
-    ```ruby
-    use JSONAPI::Middleware
-    ```
+  ```ruby
+  use JSONAPI::Middleware
+  ```
 
 - Parse the rack environment variable and get access to request components (assumes valid JSON:API requests -- use with middleware to ensure valid requests)
 
-    ```ruby
-    j_req = JSONAPI::Parser.parse_request(env)
+  ```ruby
+  j_req = JSONAPI::Parser.parse_request(env)
 
-    j_req.headers.content_type   # => "application/vnd.api+json"
-    j_req.params.page.offset     # => "1"
-    j_req.body.data.type         # => "person"
-    ```
+  j_req.headers.content_type   # => "application/vnd.api+json"
+  j_req.params.page.offset     # => "1"
+  j_req.body.data.type         # => "person"
+  ```
 
 - Validate your serialized JSON:API before returning it to your clients.
 
-    ```ruby
-    begin
-      JSONAPI::Response.validate(headers, body)
-    rescue => error
-      # ...
-    end
-    ```
+  ```ruby
+  begin
+    JSONAPI::Response.validate(headers, body)
+  rescue => error
+    # ...
+  end
+  ```
 
 ## Using The Middleware
 
@@ -139,11 +136,11 @@ The types of exceptions it will raise are:
 - `JSONAPI::Exceptions::QueryParamExceptions::InvalidQueryParam` when an included query parameter is non-compliant
 - `JSONAPI::Exceptions::DocumentExceptions::InvalidDocument` when the body is included and non-compliant
 
-If `ENV['RACK_ENV']` is set to something other than  `'development'`, then the middleware will return the appropriate status code error given the JSON:API clause the headers, query params, or document violates.
+If `ENV['RACK_ENV']` is set to something other than `'development'`, then the middleware will return the appropriate status code error given the JSON:API clause the headers, query params, or document violates.
 
 ### User Configurations
 
-***easy-jsonapi*** has a fair amount of flexibility when it comes to user configurations but also plenty of room for to add more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/lucemhealth-archive/easy-jsonapi/blob/production/docs/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on the [dev repository](https://github.com/lucemhealth-archive/easy-jsonapi/tree/dev).
+**_easy-jsonapi_** has a fair amount of flexibility when it comes to user configurations but also plenty of room for to add more features. To see the currently available configurations see [UsingUserConfigurations](https://github.com/lucemhealth-archive/easy-jsonapi/blob/production/docs/UsingUserConfigurations.md) and to propose a new feature create a pull request or ticket on the [dev repository](https://github.com/lucemhealth-archive/easy-jsonapi/tree/dev).
 
 ## Using the Request Parser
 
@@ -210,7 +207,7 @@ See [{file:CHANGELOG.md}](https://github.com/lucemhealth-archive/easy-jsonapi/bl
 
 ## License
 
-***easy-jsonapi*** is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+**_easy-jsonapi_** is released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
 ## Contributing
 
